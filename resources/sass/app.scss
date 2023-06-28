@@ -1,0 +1,15 @@
+@use 'three-dots';
+
+$dot-color: #fff !important;
+$dot-bg-color: $dot-color;
+$dot-before-color: $dot-color;
+$dot-after-color: $dot-color;
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;600&display=swap');
+
+//// Variables
+//@import 'variables';
+
+// Bootstrap
+@import '~bootstrap';
+@import 'sentech';
