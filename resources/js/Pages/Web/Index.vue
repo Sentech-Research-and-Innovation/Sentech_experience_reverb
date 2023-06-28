@@ -58,12 +58,14 @@
 
                                 </div>
 
-                                    <div class="pull-r">
-                                        <div class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
-                                            <span>Get Started</span>
-                                            <img src="arrow-right-grey.png">
+                                        <div class="float-end" >
+                                            <div class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
+                                                <span>Get Started</span>
+                                                <img src="arrow-right-grey.png">
+                                            </div>
                                         </div>
-                                    </div>
+
+
 
 
 
@@ -171,6 +173,17 @@
         background-color: #144f9f;
         color:#fff;
     }
+    .small-info-block.d-flex.justify-content-center.align-items-center:hover {
+        color: #144f9f;
+        cursor: pointer;
+        background-color: #fff;
+        -webkit-transition: background-color 1000ms ease;
+        transition: background-color 1000ms ease;
+
+
+    }
+
+
     @media only screen and (max-width: 1440px) {
 
         .advert-section-text {
