@@ -51,6 +51,22 @@
                             <div class="col-md-6">
                                 <div class="advert-section">
 
+                                <div class="advert-section-div">
+                                    Introducing our
+                                    NEW Streaming App
+                                    Sentech Plus
+
+                                </div>
+
+                                    <div class="pull-r">
+                                        <div class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
+                                            <span>Get Started</span>
+                                            <img src="arrow-right-grey.png">
+                                        </div>
+                                    </div>
+
+
+
                                 </div>
 
                             </div>
@@ -115,6 +131,28 @@
         border-radius: 50px;
         margin-right: 50px;
     }
+    .advert-section-div-button{
+        color: #706F6F;
+        font-size: 25px;
+        border: solid 1px #706F6F;
+        font-weight: normal;
+        width: 100%;
+        border-right:8px ;
+        background: #fff;
+        height: 70px;
+        border-radius: 8px;
+
+
+
+
+    }
+    .advert-section-div{
+        color: #706F6F;
+        padding: 50px;
+        font-size: 35px;
+        width: 75%;
+        font-weight: normal;
+    }
 
     .small-info-block {
         background: #4372B2;
@@ -129,7 +167,10 @@
     }
 
 
-
+    .btn:hover {
+        background-color: #144f9f;
+        color:#fff;
+    }
     @media only screen and (max-width: 1440px) {
 
         .advert-section-text {
