@@ -135,14 +135,14 @@
     }
     .advert-section-div-button{
         color: #706F6F;
-        font-size: 25px;
-        border: solid 1px #706F6F;
-        font-weight: normal;
-        width: 100%;
-        border-right:8px ;
+        font-size: 15px;
+        border: solid 2px #706F6F;
+        font-weight: bold;
         background: #fff;
         height: 70px;
-        border-radius: 8px;
+        border-radius: 15px;
+        width: 300px;
+        margin: 0 30px 30px 0;
 
 
 
