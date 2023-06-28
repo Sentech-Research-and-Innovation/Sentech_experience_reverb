@@ -215,6 +215,11 @@
             font-size: 20px;
             font-weight: normal;
         }
+        .advert-section-div {
+            font-size: 30px;
+        }
+
+
     }
 
     @media only screen and (max-width: 1400px) {
@@ -224,7 +229,9 @@
         .welcome-text {
             font-size: 50px;
         }
-
+        .advert-section-div {
+            font-size: 28px;
+        }
     }
     @media only screen and (max-width: 1199px) {
         .advert-section-text {
@@ -240,7 +247,13 @@
             height: 280px;
         }
 
-
+        .advert-section-div-button {
+            width: 200px;
+            height: 60px;
+        }
+        .advert-section-div {
+            font-size: 21px;
+        }
     }
     @media only screen and (max-width: 991px) {
         .advert-section-text {
@@ -258,6 +271,9 @@
         .advert-section-span {
             font-size: 10px;
 
+        }
+        .advert-section-div {
+            font-size: 13px;
         }
 
     }
