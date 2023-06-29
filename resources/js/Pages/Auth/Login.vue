@@ -72,12 +72,8 @@
                 this.showPassword = !this.showPassword;
             },
             login() {
-
-                // this.$recaptcha("submit").then((token) => {
-
                 let vue = this;
                 vue.form.source = 'login';
-                // this.form.g_recaptcha_response =token;
 
                 vue.loading = true;
 
@@ -89,28 +85,13 @@
 
                         if (this.response.success) {
                             this.response.errorBag = false;
-                            if (!this.response.data.locked_out.status) {
-                                this.$inertia.visit('/dashboard', {
-                                    method: 'get',
-                                });
-                            } else {
-                                this.$inertia.visit('/dashboard', {
-                                    method: 'get',
-                                });
-                            }
+                            this.$inertia.visit('/dashboard', {
+                                method: 'get',
+                            });
                         } else {
                             this.response.errorBag = res.data.errorBag;
                             vue.loading = false;
                             document.body.classList.remove("page-processing");
-                            if (this.response.errorBag.locked_out) {
-                                this.$inertia.visit('/otp', {
-                                    method: 'post',
-                                    data: {
-                                        message: this.response.errorBag.email,
-                                        locked_out: this.response.errorBag.locked_out
-                                    }
-                                });
-                            }
                         }
                     }).catch(function (e) {
                     document.body.classList.remove("page-processing");

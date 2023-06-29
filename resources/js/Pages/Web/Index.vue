@@ -108,7 +108,6 @@
 <style scoped lang="scss">
     .sentech-index-page {
         margin-top: 50px;
-
     }
 
     .home-pills {
@@ -162,7 +161,6 @@
         border-radius: 25px;
         width: 100%;
         height: 200px;
-
     }
 
     .advert-section-span {
@@ -183,7 +181,6 @@
         background-color: #fff;
         -webkit-transition: background-color 1000ms ease;
         transition: background-color 1000ms ease;
-
     }
 
 
@@ -280,6 +277,5 @@
         .advert-section-div {
             font-size: 13px;
         }
-
     }
 </style>

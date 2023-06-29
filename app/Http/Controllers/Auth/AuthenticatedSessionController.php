@@ -47,7 +47,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
 
-    public function store(LoginRequest $request)
+    public function store(Request $request)
 //    public function store(LoginRequest $request): RedirectResponse
     {
 
@@ -61,9 +61,19 @@ class AuthenticatedSessionController extends Controller
         if (count($this->errorBag)) {
             return ActionResponse::error('Please ensure all required fields have been filled.', $this->errorBag);
         } else {
-            $request->authenticate();
-            $request->session()->regenerate();
-            $this->errorBag['locked_out']['status'] = false;
+
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+
+
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return ActionResponse::success('Successfully Authenticated','');
+            }else{
+                return ActionResponse::success('These credentials do not match our records.','');
+            }
         }
 
     }

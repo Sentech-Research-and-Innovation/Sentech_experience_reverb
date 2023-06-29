@@ -29,10 +29,7 @@ class DashboardController extends Controller
         $this->errorBag =[];
     }
 
-    public function dashboard()
-    {
-
-
+    public function dashboard(){
         $response =[];
         return Inertia::render('Admin/Dashboard', compact('response'));
     }
