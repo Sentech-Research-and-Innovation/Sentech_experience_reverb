@@ -1,9 +1,10 @@
 <template>
+    <Head :title="'Login'"><title>Login</title></Head>
     <div class="login-wrapper">
         <div class="inner-wrapper ">
-            <!--            <div class="cm-logo">-->
-            <!--                <img src="/images/credit-mate-logo.svg" alt="CreditMate Logo">-->
-            <!--            </div>-->
+            <div class="cm-logo">
+                <img src="white-logo.png" alt="CreditMate Logo">
+            </div>
             <div class="login-container shadow">
                 <h1 class="h1-login">Login</h1>
                 <form @submit.prevent="submit">
@@ -23,7 +24,8 @@
                         <div class="mb-3">
 
                             <div
-                                class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center">
+                                class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
+                                @click="login">
                                 <span>Login</span>
                                 <img src="arrow-right.png">
                             </div>
@@ -43,12 +45,13 @@
 </template>
 
 <script>
-    import {Link} from '@inertiajs/vue3'
+    import {Head, Link} from '@inertiajs/inertia-vue3';
 
     export default {
         layout: null,
         components: {
-            Link
+            Link,
+            Head,
         },
         data() {
             return {
@@ -67,7 +70,56 @@
         methods: {
             toggleShow() {
                 this.showPassword = !this.showPassword;
-            }
+            },
+            login() {
+
+                // this.$recaptcha("submit").then((token) => {
+
+                let vue = this;
+                vue.form.source = 'login';
+                // this.form.g_recaptcha_response =token;
+
+                vue.loading = true;
+
+                document.body.classList.add("page-processing");
+
+                axios.post(route('login'), this.form)
+                    .then(res => {
+                        this.response = res.data;
+
+                        if (this.response.success) {
+                            this.response.errorBag = false;
+                            if (!this.response.data.locked_out.status) {
+                                this.$inertia.visit('/dashboard', {
+                                    method: 'get',
+                                });
+                            } else {
+                                this.$inertia.visit('/dashboard', {
+                                    method: 'get',
+                                });
+                            }
+                        } else {
+                            this.response.errorBag = res.data.errorBag;
+                            vue.loading = false;
+                            document.body.classList.remove("page-processing");
+                            if (this.response.errorBag.locked_out) {
+                                this.$inertia.visit('/otp', {
+                                    method: 'post',
+                                    data: {
+                                        message: this.response.errorBag.email,
+                                        locked_out: this.response.errorBag.locked_out
+                                    }
+                                });
+                            }
+                        }
+                    }).catch(function (e) {
+                    document.body.classList.remove("page-processing");
+                    vue.response.errorBag = ['These credentials do not match our records.'];
+                })
+                // });
+
+
+            },
         }
 
     }
@@ -79,6 +131,7 @@
         font-size: 30px;
         margin: 20px;
     }
+
     label {
         color: #706F6F;
         font-size: 20px;

@@ -31,6 +31,8 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
+
+
         $response =[];
         return Inertia::render('Admin/Dashboard', compact('response'));
     }

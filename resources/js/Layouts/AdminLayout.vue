@@ -1,13 +1,36 @@
 <template>
-    <div class="admin-layout bg-white">
-        <side-nav></side-nav>
-        <AdminHeader />
-        <main class="admin-content">
-            <div class="container">
+
+<!--    <div class="container-fluid">-->
+<!--        <div class="row">-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="admin-layout bg-white">-->
+<!--        <side-nav></side-nav>-->
+<!--        <AdminHeader />-->
+<!--        <main class="admin-content">-->
+<!--            <div class="container">-->
+<!--                <slot></slot>-->
+<!--            </div>-->
+<!--        </main>-->
+<!--    </div>-->
+
+    <div class="sentech-admin">
+    <div class="container-fluid">
+        <div class="row">
+            <SideNav></SideNav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" >
+                <AdminHeader/>
                 <slot></slot>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
+    </div>
+
+
+
+
 </template>
 
 <script>
@@ -28,6 +51,9 @@
     }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+    .sentech-admin{
+        background-color: #ffffff;
+        height: 100vh;
+    }
 </style>

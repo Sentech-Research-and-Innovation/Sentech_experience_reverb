@@ -11,5 +11,10 @@ $dot-after-color: $dot-color;
 //@import 'variables';
 
 // Bootstrap
-@import '~bootstrap';
 @import 'sentech';
+@import '~bootstrap';
+@import 'admin-header';
+@import 'admin-sidebar';
+@import 'main';
+@import 'modal';
+

@@ -134,7 +134,7 @@
                     // padding: 10px 15px;
                     // NEST
                     a {
-                        background-color: #F7F7F7;
+                        background-color: #fff;
                         padding: 10px 15px;
                     }
 

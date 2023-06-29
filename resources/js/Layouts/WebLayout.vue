@@ -3,9 +3,11 @@
     <SideModal :content="content" :showing="showing"  @modal="updateModal">
 <!--        <Login :formData="formData" :data="data" :editData="false" @modal="updateModal"></Login>-->
     </SideModal>
+    <div class="sentech-web">
+    <div class="container ">
+            <slot></slot>
+        </div>
 
-    <div class="container">
-        <slot></slot>
     </div>
 </template>
 
@@ -47,4 +49,8 @@
 
 <style lang="scss" scoped>
 
+    .sentech-web{
+        background-color: #144f9f;
+       color: #fff;
+    }
 </style>

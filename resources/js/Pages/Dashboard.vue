@@ -1,7 +1,9 @@
 <template>
 <AdminLayout>
-    <div>
-        <h1>Dashboard KPIs</h1>
+    <div class="row">
+        <h1 style="color: black !important;">Dashboard KPIsasdeswa</h1>
+        <div class="col-md-6">1uyqregwuifhcisoxjo[p</div>
+        <div class="col-md-6">1</div>
     </div>
 </AdminLayout>
 
@@ -10,7 +12,7 @@
 <script>
     import AdminLayout from '@/Layouts/AdminLayout.vue';
     export default {
-        layout: AdminLayout,
+        components: {AdminLayout},
 
     }
 </script>

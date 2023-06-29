@@ -305,7 +305,7 @@
         left: 0;
         width: 425px;
         min-height: 100vh;
-        background-color: #F7F7F7;
+        background-color: #fff;
         padding: 50px;
         // NEST
         .cm-logo {
@@ -357,8 +357,8 @@
             // NEST
             a {
                 font-size: 12px;
-                font-weight: 600;
-                display: block;
+                font-weight: normal;
+                /*display: block;*/
                 padding: 10px 0;
                 border-bottom: 1px solid #707070;
                 display: flex;

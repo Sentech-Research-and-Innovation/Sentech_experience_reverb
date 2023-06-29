@@ -1,0 +1,144 @@
+
+
+.main-wrapper{
+    // border:1px solid #000;
+    .nav-breadcrumb{
+        ol{
+            li{
+                a{
+                    font-size: 20pt;
+                    color: #707070;
+                    // font-family: 'Manrope', ui-sans-serif;
+                }
+            }
+        }
+
+    }
+
+    .company-link{
+        z-index: 999;
+        left: 16px;
+        width: 10rem;
+        border-radius: 1.5rem;
+        position: relative;
+        top: 31px;
+        background: #707070;
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+    }
+    hr{
+        color: black;
+        border: 2px solid ;
+        color: black;
+        border: 1px solid #707070;
+    }
+
+
+
+    .table-responsive{
+        .table-main{
+            width:100%;
+            thead{
+                font-size: 14px;
+            }
+            tbody{
+                tr{
+                    background: #fff;
+                    border: 0.5em solid #fff;
+                    // font-family: 'Manrope', ui-sans-serif;
+                    font-size:12pt;
+                }
+                td, th{
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    .owner-wrapper{
+        background: #fff;
+        border: none;
+        .header{
+            border-top-right-radius: 1.5rem;
+            border-top-left-radius: 1.5rem;
+            background-color: #707070;
+            color: #fff;
+            padding: 15px 15px;
+        }
+
+        ul li{
+            border-bottom:1px solid #707070;
+            background: #fff;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+        .owner-info-wrapper{
+
+        }
+
+     }
+
+
+}
+
+  //form
+  .form-label{
+    font-size: 14px;
+    font-weight: 600;
+  }
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    border: 2px solid #707070;
+    // padding: 1rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 16px;
+    font-weight: 600;
+    color: #707070;
+    background-color: #f8fafc;
+    height: 50px !important;
+}
+
+select {
+    width: 100%;
+    border: 2px solid #707070;
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: 600;
+    color: #707070;
+    background-color: #f8fafc;
+}
+
+ul li{
+    list-style: none;
+}
+
+//buttons
+.button{
+    color: #fff;
+    // font-family: 'Manrope', ui-sans-serif;
+    font-size:16pt;
+    font-weight: 600;
+    padding: 8px 15px;
+    border: none;
+    &.action-btn{
+        font-size: 14px;
+        min-width: 100px;
+    }
+}
+
+.button-dark{
+    background: #000;
+    color:white !important;
+}
+
+.button-sec{
+    background: #707070;
+
+ }
+.bg-sec{
+    background: #707070;
+
+ }
+

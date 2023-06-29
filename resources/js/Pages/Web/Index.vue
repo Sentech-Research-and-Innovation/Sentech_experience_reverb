@@ -35,7 +35,7 @@
 
 
 <template>
-    <Head :title="'Home'"/>
+    <Head :title="'Home'"><title>Home</title></Head>
     <WebLayout>
         <div class="sentech-index-page">
             <div class="row">
@@ -51,23 +51,20 @@
                             <div class="col-md-6">
                                 <div class="advert-section">
 
-                                <div class="advert-section-div">
-                                    Introducing our
-                                    NEW Streaming App
-                                    Sentech Plus
+                                    <div class="advert-section-div">
+                                        Introducing our
+                                        NEW Streaming App
+                                        Sentech Plus
 
-                                </div>
+                                    </div>
 
-                                        <div class="float-end" >
-                                            <div class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
-                                                <span>Get Started</span>
-                                                <img src="arrow-right-grey.png">
-                                            </div>
+                                    <div class="float-end">
+                                        <div
+                                            class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
+                                            <span>Get Started</span>
+                                            <img src="arrow-right-grey.png">
                                         </div>
-
-
-
-
+                                    </div>
 
                                 </div>
 
@@ -111,16 +108,19 @@
 <style scoped lang="scss">
     .sentech-index-page {
         margin-top: 50px;
+
     }
 
     .home-pills {
         margin-top: 50px;
     }
-    .advert-section-text{
+
+    .advert-section-text {
         font-size: 25px;
         font-weight: normal;
         margin-bottom: 50px;
     }
+
     .welcome-text {
         font-size: 58px;
         font-weight: bolder;
@@ -132,8 +132,10 @@
         background: #fff;
         border-radius: 50px;
         margin-right: 50px;
+        display: block !important;
     }
-    .advert-section-div-button{
+
+    .advert-section-div-button {
         color: #706F6F;
         font-size: 15px;
         border: solid 2px #706F6F;
@@ -145,10 +147,9 @@
         margin: 0 30px 30px 0;
 
 
-
-
     }
-    .advert-section-div{
+
+    .advert-section-div {
         color: #706F6F;
         padding: 50px;
         font-size: 35px;
@@ -163,23 +164,25 @@
         height: 200px;
 
     }
-    .advert-section-span{
-        font-size: 20px ;
+
+    .advert-section-span {
+        font-size: 20px;
         font-weight: normal;
     }
 
 
     .btn:hover {
         background-color: #144f9f;
-        color:#fff;
+        color: #fff;
+        border: solid 1px #4372B2;
     }
+
     .small-info-block.d-flex.justify-content-center.align-items-center:hover {
         color: #144f9f;
         cursor: pointer;
         background-color: #fff;
         -webkit-transition: background-color 1000ms ease;
         transition: background-color 1000ms ease;
-
 
     }
 
@@ -233,6 +236,7 @@
             font-size: 28px;
         }
     }
+
     @media only screen and (max-width: 1199px) {
         .advert-section-text {
             font-size: 18px;
@@ -240,7 +244,7 @@
         .welcome-text {
             font-size: 42px;
         }
-        .small-info-block{
+        .small-info-block {
             height: 150px;
         }
         .advert-section {
@@ -255,6 +259,7 @@
             font-size: 21px;
         }
     }
+
     @media only screen and (max-width: 991px) {
         .advert-section-text {
             font-size: 13px;
@@ -262,7 +267,7 @@
         .welcome-text {
             font-size: 32px;
         }
-        .small-info-block{
+        .small-info-block {
             height: 120px;
         }
         .advert-section {

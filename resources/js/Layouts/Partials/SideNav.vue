@@ -1,45 +1,36 @@
 <template>
-    <aside id="sidebarMenu" class="sidebar">
-        <div class="cm-logo">
-            <img src="/images/credit-mate-logo.svg" alt="CreditMate Logo">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+            <div class="cm-logo">
+                <img src="sentech-logo2.png" alt="Sentech Logo">
+            </div>
+
+            <ul class="nav flex-column">
+                <li class="nav-item sidebar-links">
+                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/dashboard' }">
+                        <span class="nav-link-item">Home</span>
+                    </Link>
+                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/sentiment-analysis' }">
+                        <span class="nav-link-item">Sentiment Analysis</span>
+                    </Link>
+                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/predictive-maintenance' }">
+                        <span class="nav-link-item">Predictive Maintenance </span>
+                    </Link>
+
+                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/reporting' }">
+                        <span class="nav-link-item">Reporting </span>
+                    </Link>
+
+                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/feedback' }">
+                        <span class="nav-link-item">Feedback </span>
+                    </Link>
+                </li>
+            </ul>
+
         </div>
+    </nav>
 
-        <div class="dashboard-main">
-            <h4>Dashboard</h4>
-            <div class="dash-role">Super admin / {{$page.props.user_roles}}</div>
-        </div>
 
-        <div class="sidebar-links">
-            <Link class="nav-link " aria-current="page" href="/dashboard"
-                  :class="{ 'active': $page.url === '/dashboard' }">
-                Dashboard home
-            </Link>
-
-            <Link class="nav-link " aria-current="page" href="/companies" :class="{ 'active': $page.url === '/companies' }">
-                Companies
-            </Link>
-            <Link class="nav-link" href="/dashboard"
-                  v-if="$page.props.user_roles === 'admin' || $page.props.user_roles === 'owner'">
-                Referrals
-            </Link>
-
-            <Link class="nav-link" href="/users"  :class="{ 'active': $page.url === '/users' ||  $page.url === '/user'}">
-                Users
-            </Link>
-
-            <Link class="nav-link" href="/roles" :class="{ 'active': $page.url === '/roles'}">
-                Roles
-            </Link>
-            <Link class="nav-link" href="/system-settings" :class="{ 'active': $page.url === '/system-settings'}">
-                System settings
-            </Link>
-
-<!--            <Link class="nav-link" href="/permissions" :class="{ 'active': $page.url === '/permissions'}">-->
-<!--                Permission-->
-<!--            </Link>-->
-        </div>
-
-    </aside>
 
 </template>
 
@@ -57,19 +48,27 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .nav-link.active {
+        background: #144f9f;
+        color: #fff !important;
+        border-radius: 8px;
+    }
+    .nav-link-item {
+        margin: 20px;
+    }
     .sidebar {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 385px;
-        min-height: 100vh;
-        background-color: #F7F7F7;
-        padding: 50px;
+        padding: 40px;
+        background-color: #fff !important;
         // NEST
         .cm-logo {
             font-size: 30px;
-            margin-bottom: 35px;
+            margin-bottom: 45px;
             // NEST
+            img{
+                width: 100%;
+            }
             span {
                 display: block;
                 font-weight: 600;
@@ -93,8 +92,8 @@
 
             .dash-role {
                 padding: 10px 15px;
-                background-color: #FA501E;
-                border-radius: 35px;
+                background-color: #144F9F;
+                border-radius: 15px;
                 color: #fff;
                 text-align: center;
                 font-weight: 600;
@@ -104,15 +103,20 @@
         .sidebar-links {
             // NEST
             a {
-                font-weight: 600;
+                font-weight: normal;
                 display: block;
                 padding: 10px 0;
-                border-bottom: 1px solid #707070;
+                border-bottom: 1px solid #144F9F;
 
                 &.active {
-                    color: #FA501E;
+                    color: #144F9F;
                 }
             }
         }
     }
+    .nav-link {
+        color: #707070;
+    }
+
+
 </style>

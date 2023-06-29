@@ -1,0 +1,36 @@
+
+  //admin header
+  .admin-header{
+    .admin-nav{
+     
+       
+        .admin-dropdown{
+          ul{
+            li{
+              .login-name{
+                font-size: 20pt;
+                font-family: R;
+                font-weight: 600;
+                .firstChar{
+                  background: #9922ae;
+                  color: #fff;
+                  padding: 10px 14px;
+                  border-radius: 2em;
+                  font-size: 20px;
+                  font-family: Helvetica Neue;
+                }
+              }
+            }
+          }
+          .dropdown-menu{
+           li{
+            link:hover{
+              background-color: #707070;
+              color: #fff;
+            }
+           }
+          }
+        }
+      
+    }
+  }
