@@ -1,0 +1,267 @@
+National Site ;;;;
+Operation Centre;Region;Provence;Type TX;Site Name
+Durban(DBN);Eastern Region;Kwazulu Natal;High Power;DONNYBROOK
+;Eastern Region;Kwazulu Natal;High Power;DONNYBROOK
+;Eastern Region;Kwazulu Natal;High Power;DURBAN
+;Eastern Region;Kwazulu Natal;High Power;DURBAN
+;Eastern Region;Kwazulu Natal;Gap Filler;EMPANGENI
+;Eastern Region;Kwazulu Natal;Gap Filler;EMPANGENI
+;Eastern Region;Kwazulu Natal;High Power;ESHOWE
+;Eastern Region;Kwazulu Natal;High Power;ESHOWE
+;Eastern Region;Kwazulu Natal;High Power;GREYTOWN
+;Eastern Region;Kwazulu Natal;High Power;GREYTOWN
+;Eastern Region;Kwazulu Natal;High Power;GREYTOWN DORP
+;Eastern Region;Kwazulu Natal;Gap Filler;HOWICK
+;Eastern Region;Kwazulu Natal;High Power;MOOI RIVER
+;Eastern Region;Kwazulu Natal;High Power;MOOI RIVER
+;Eastern Region;Kwazulu Natal;High Power;OVERPORT
+;Eastern Region;Kwazulu Natal;High Power;OVERPORT
+;Eastern Region;Kwazulu Natal;High Power;PIETERMARITZBURG
+;Eastern Region;Kwazulu Natal;High Power;PIETERMARITZBURG
+;Eastern Region;Kwazulu Natal;High Power;PORT SHEPSTONE
+;Eastern Region;Kwazulu Natal;High Power;PORT SHEPSTONE
+;Eastern Region;Kwazulu Natal;High Power;STRAALHOEK
+;Eastern Region;Kwazulu Natal;Gap Filler;THE BLUFF
+;Eastern Region;Kwazulu Natal;Gap Filler;THE BLUFF
+;Eastern Region;Kwazulu Natal;Gap Filler;VERULAM
+;Eastern Region;Kwazulu Natal;Gap Filler;VERULAM
+;;;;
+East London;Eastern Region;Eastern Cape;High Power;BUTTERWORTH
+;Eastern Region;Eastern Cape;High Power;BUTTERWORTH
+;Eastern Region;Eastern Cape;High Power;EAST LONDON
+;Eastern Region;Eastern Cape;High Power;EAST LONDON
+;Eastern Region;Eastern Cape;High Power;ENTSHATSHONGO
+;Eastern Region;Eastern Cape;High Power;KING WILLIAMS TOWN
+;Eastern Region;Eastern Cape;High Power;KING WILLIAMS TOWN
+;;;;
+Middlebug;Eastern Region;Eastern Cape;High Power;ALIWAL NORTH
+;Eastern Region;Eastern Cape;Gap Filler;BARKLY EAST
+;Eastern Region;Eastern Cape;Gap Filler;BURGERSDORP
+;Eastern Region;Northern Cape;Gap Filler;COLESBERG
+;Eastern Region;Eastern Cape;High Power;CRADOCK
+;Eastern Region;Northern Cape;High Power;DE AAR
+;Eastern Region;Eastern Cape;High Power;GRAAFF-REINET
+;Eastern Region;Eastern Cape;High Power;NOUPOORT
+;Eastern Region;Eastern Cape;High Power;QUEENSTOWN
+;Eastern Region;Eastern Cape;High Power;STERKSPRUIT
+;Eastern Region;Northern Cape;Gap Filler;VICTORIA WEST
+;;;;
+Mthata;Eastern Region;Eastern Cape;High Power;CALA
+;Eastern Region;Eastern Cape;High Power;ELANDS HEIGHT
+;Eastern Region;Eastern Cape;Gap Filler;ELLIOT
+;Eastern Region;Eastern Cape;High Power;HOLY CROSS
+;Eastern Region;Kwazulu Natal;Gap Filler;KOKSTAD
+;Eastern Region;Kwazulu Natal;Gap Filler;KOKSTAD
+;Eastern Region;Eastern Cape;High Power;MATATIELE
+;Eastern Region;Eastern Cape;High Power;MATATIELE
+;Eastern Region;Eastern Cape;High Power;MOUNT AYLIFF
+;Eastern Region;Eastern Cape;High Power;MOUNT AYLIFF
+;Eastern Region;Eastern Cape;High Power;MTHATHA
+;Eastern Region;Eastern Cape;High Power;MTHATHA
+;Eastern Region;Eastern Cape;Gap Filler;NGANGELIZWE
+;Eastern Region;Eastern Cape;Gap Filler;NGANGELIZWE
+;Eastern Region;Eastern Cape;High Power;NGQELENI
+;Eastern Region;Eastern Cape;Gap Filler;PORT ST JOHNS
+;Eastern Region;Eastern Cape;Gap Filler;PORT ST JOHNS
+;Eastern Region;Eastern Cape;Gap Filler;UGIE
+;;;;
+Port Elizabeth ;Eastern Region;Eastern Cape;Gap Filler;ANDRIESKRAAL
+;Eastern Region;Eastern Cape;High Power;BEDFORD
+;Eastern Region;Eastern Cape;Gap Filler;DESPATCH
+;Eastern Region;Eastern Cape;Gap Filler;DESPATCH
+;Eastern Region;Eastern Cape;High Power;GRAHAMSTOWN
+;Eastern Region;Eastern Cape;High Power;GRAHAMSTOWN
+;Eastern Region;Eastern Cape;Gap Filler;HANKEY
+;Eastern Region;Eastern Cape;Gap Filler;KAREEDOUW
+;Eastern Region;Eastern Cape;Low Power;PATENSIE
+;Eastern Region;Eastern Cape;Gap Filler;PAUL SAUER DAM
+;Eastern Region;Eastern Cape;High Power;PORT ELIZABETH
+;Eastern Region;Eastern Cape;High Power;PORT ELIZABETH
+;Eastern Region;Eastern Cape;Gap Filler;PORT ELIZABETH CITY
+;Eastern Region;Eastern Cape;Gap Filler;PORT ELIZABETH CITY
+;Eastern Region;Eastern Cape;Gap Filler;SOMERSET EAST
+;Eastern Region;Eastern Cape;High Power;SUURBERG
+;Eastern Region;Eastern Cape;High Power;SUURBERG
+;;;;
+Vryheid;Eastern Region;Kwazulu Natal;High Power;GLENCOE
+;Eastern Region;Kwazulu Natal;High Power;GLENCOE
+;Eastern Region;Kwazulu Natal;Gap Filler;LADYSMITH
+;Eastern Region;Kwazulu Natal;Gap Filler;LADYSMITH
+;Eastern Region;Kwazulu Natal;Low Power;LOSKOP
+;Eastern Region;Kwazulu Natal;High Power;LOUWSBURG
+;Eastern Region;Kwazulu Natal;Gap Filler;NEWCASTLE
+;Eastern Region;Kwazulu Natal;Gap Filler;NEWCASTLE
+;Eastern Region;Kwazulu Natal;High Power;NONGOMA
+;Eastern Region;Kwazulu Natal;High Power;NONGOMA
+;Eastern Region;Kwazulu Natal;High Power;NQUTU
+;Eastern Region;Kwazulu Natal;Low Power;PONGOLA
+;Eastern Region;Kwazulu Natal;Low Power;PONGOLA
+;Eastern Region;Kwazulu Natal;High Power;QUDENI
+;Eastern Region;Kwazulu Natal;High Power;UBOMBO
+;Eastern Region;Kwazulu Natal;High Power;UBOMBO
+;Eastern Region;Kwazulu Natal;High Power;ULUNDI
+;Eastern Region;Kwazulu Natal;High Power;VRYHEID
+;Eastern Region;Kwazulu Natal;High Power;VRYHEID
+;;;;
+Bloemfontein;Northern Region;Free State;High Power;BETHLEHEM
+;Northern Region;Free State;High Power;BETHLEHEM
+;Northern Region;Free State;High Power;BLOEMFONTEIN
+;Northern Region;Free State;High Power;BLOEMFONTEIN
+;Northern Region;Free State;High Power;BOESMANSKOP
+;Northern Region;Free State;High Power;BOESMANSKOP
+;Northern Region;Free State;Gap Filler;DEWETSDORP
+;Northern Region;Free State;Gap Filler;FICKSBURG TOWN
+;Northern Region;Free State;High Power;HARRISMITH
+;Northern Region;Free State;High Power;KIMBERLEY
+;Northern Region;Free State;High Power;KIMBERLEY
+;Northern Region;Free State;High Power;KROONSTAD
+;Northern Region;Free State;High Power;KROONSTAD
+;Northern Region;Free State;High Power;LADYBRAND
+;Northern Region;Free State;High Power;LADYBRAND
+;Northern Region;Free State;High Power;PETRUS STEYN
+;Northern Region;Free State;High Power;PETRUS STEYN
+;Northern Region;Free State;High Power;SENEKAL
+;Northern Region;Free State;High Power;SENEKAL
+;Northern Region;Free State;High Power;SPRINGFONTEIN
+;Northern Region;Free State;Gap Filler;SUIDRAND
+;Northern Region;Free State;Gap Filler;SUIDRAND
+;Northern Region;Free State;High Power;THEUNISSEN
+;Northern Region;Free State;High Power;THEUNISSEN
+;Northern Region;Free State;High Power;WITSIESHOEK
+;Northern Region;Free State;High Power;WITSIESHOEK
+;;;;
+Ermelo;Northern Region;Mpumalanga;High Power;CAROLINA
+;Northern Region;Mpumalanga;High Power;DAVEL
+;Northern Region;Mpumalanga;High Power;DAVEL
+;Northern Region;Mpumalanga;High Power;MIDDELBURG
+;Northern Region;Mpumalanga;High Power;MIDDELBURG
+;Northern Region;Mpumalanga;High Power;PIET RETIEF
+;Northern Region;Mpumalanga;High Power;PIET RETIEF
+;Northern Region;Mpumalanga;High Power;VOLKSRUST
+;Northern Region;Mpumalanga;High Power;VOLKSRUST
+;;;;
+Johannesburg;Northern Region;Gauteng;Gap Filler;HEIDELBERG
+;Northern Region;Gauteng;Gap Filler;HEIDELBERG
+;Northern Region;Gauteng;High Power;HELDERKRUIN
+;Northern Region;Gauteng;High Power;HELDERKRUIN
+;Northern Region;Gauteng;High Power;JOHANNESBURG
+;Northern Region;Gauteng;High Power;JOHANNESBURG
+;Northern Region;North West;High Power;KLERKSDORP
+;Northern Region;North West;High Power;KLERKSDORP
+;Northern Region;Gauteng;Gap Filler;LINMEYER
+;Northern Region;Gauteng;Gap Filler;LINMEYER
+;Northern Region;Gauteng;Gap Filler;MENLO PARK
+;Northern Region;Gauteng;Gap Filler;MENLO PARK
+;Northern Region;Gauteng;Gap Filler;MONDEOR
+;Northern Region;Gauteng;Gap Filler;MONDEOR
+;Northern Region;Gauteng;Gap Filler;MULBARTON
+;Northern Region;Gauteng;Gap Filler;MULBARTON
+;Northern Region;Gauteng;High Power;PRETORIA
+;Northern Region;Gauteng;High Power;PRETORIA
+;Northern Region;Gauteng;Gap Filler;PRETORIA NORTH
+;Northern Region;Gauteng;Gap Filler;PRETORIA NORTH
+;Northern Region;North West;High Power;RUSTENBURG
+;Northern Region;North West;High Power;RUSTENBURG
+;Northern Region;Gauteng;Gap Filler;SUNNYSIDE
+;Northern Region;Gauteng;Gap Filler;SUNNYSIDE
+;Northern Region;Gauteng;High Power;WELVERDIEND
+;Northern Region;Gauteng;High Power;WELVERDIEND
+;;;;
+Nelspruit;Northern Region;Mpumalanga;Gap Filler;LYDENBURG
+;Northern Region;Mpumalanga;High Power;NELSPRUIT
+;Northern Region;Mpumalanga;High Power;NELSPRUIT
+;Northern Region;Mpumalanga;Low Power;SABIE
+;;;;
+Polokwane;Northern Region;Mpumalanga;High Power;HOEDSPRUIT
+;Northern Region;Mpumalanga;High Power;HOEDSPRUIT
+;Northern Region;Limpopo;High Power;LOUIS TRICHARDT
+;Northern Region;Limpopo;High Power;LOUIS TRICHARDT
+;Northern Region;Limpopo;Gap Filler;NYLSTROOM
+;Northern Region;Limpopo;High Power;POTGIETERSRUS
+;Northern Region;Limpopo;High Power;POTGIETERSRUS
+;Northern Region;Limpopo;High Power;SIBASA
+;Northern Region;Limpopo;High Power;SIBASA
+;Northern Region;Limpopo;High Power;THABAZIMBI
+;Northern Region;Limpopo;High Power;THABAZIMBI
+;Northern Region;Limpopo;High Power;TOLWE
+;Northern Region;Limpopo;High Power;TSHAMAVUDZI
+;Northern Region;Limpopo;High Power;TZANEEN
+;Northern Region;Limpopo;High Power;TZANEEN
+;;;;
+Cape Town;Western Region;Western Cape;Gap Filler;AURORA
+;Western Region;Western Cape;Gap Filler;AURORA
+;Western Region;Western Cape;Gap Filler;CERES
+;Western Region;Western Cape;Gap Filler;CLIFTON
+;Western Region;Western Cape;Gap Filler;CLIFTON
+;Western Region;Western Cape;High Power;CONSTANTIABERG
+;Western Region;Western Cape;High Power;CONSTANTIABERG
+;Western Region;Western Cape;Gap Filler;FISHHOEK
+;Western Region;Western Cape;Gap Filler;FISHHOEK
+;Western Region;Western Cape;Gap Filler;GRABOUW
+;Western Region;Western Cape;Gap Filler;GRABOUW
+;Western Region;Western Cape;Low Power;HERMANUS
+;Western Region;Western Cape;Gap Filler;HEXRIVIER
+;Western Region;Western Cape;Gap Filler;HOUT BAY
+;Western Region;Western Cape;Gap Filler;HOUT BAY
+;Western Region;Western Cape;Gap Filler;KLEINMOND
+;Western Region;Western Cape;High Power;MATJIESFONTEIN
+;Western Region;Western Cape;Gap Filler;MONTAGU
+;Western Region;Western Cape;High Power;NAPIER
+;Western Region;Western Cape;High Power;PAARL
+;Western Region;Western Cape;High Power;PAARL
+;Western Region;Western Cape;High Power;PIKETBERG
+;Western Region;Western Cape;High Power;PIKETBERG
+;Western Region;Western Cape;Gap Filler;SEA POINT
+;Western Region;Western Cape;Gap Filler;SEA POINT
+;Western Region;Western Cape;Gap Filler;SIMONSTOWN
+;Western Region;Western Cape;Gap Filler;SIMONSTOWN
+;Western Region;Western Cape;Gap Filler;STELLENBOSCH
+;Western Region;Western Cape;Gap Filler;STELLENBOSCH
+;Western Region;Western Cape;Gap Filler;TABLE MOUNTAIN
+;Western Region;Western Cape;Gap Filler;TABLE MOUNTAIN
+;Western Region;Western Cape;Gap Filler;TOUWSRIVIER
+;Western Region;Western Cape;High Power;TYGERBERG
+;Western Region;Western Cape;High Power;TYGERBERG
+;Western Region;Western Cape;High Power;VILLIERSDORP
+;Western Region;Western Cape;High Power;VILLIERSDORP
+;;;;
+George;Western Region;Western Cape;High Power;GEORGE
+;Western Region;Western Cape;High Power;GEORGE
+;Western Region;Western Cape;Low Power;GROOT BRAKRIVIER
+;Western Region;Western Cape;Gap Filler;KNYSNA
+;Western Region;Western Cape;High Power;LADISMITH CAPE
+;Western Region;Western Cape;High Power;OUDTSHOORN
+;Western Region;Western Cape;High Power;OUDTSHOORN
+;Western Region;Western Cape;Low Power;PLETTENBERG BAY
+;Western Region;Western Cape;Low Power;PLETTENBERG BAY
+;Western Region;Western Cape;High Power;RIVERSDALE
+;;;;
+upington;Western Region;Northern Cape;High Power;DOUGLAS
+;Western Region;Northern Cape;Low Power;KURUMAN
+;Western Region;Northern Cape;High Power;KURUMAN HILLS
+;Western Region;Northern Cape;High Power;KURUMAN HILLS
+;Western Region;Northern Cape;High Power;POFADDER
+;Western Region;Northern Cape;Gap Filler;UPINGTON TOWN
+;;;;
+Vredendal;Western Region;Northern Cape;Low Power;ALEXANDER BAY
+;Western Region;Northern Cape;Low Power;ALEXANDER BAY
+;Western Region;Northern Cape;High Power;GARIES
+;Western Region;Northern Cape;High Power;SPRINGBOK
+;Western Region;Western Cape;High Power;VANRHYNSDORP
+;;;;
+Vryburg;Western Region;North West;High Power;CHRISTIANA
+;Western Region;North West;Gap Filler;ENZELSBERG
+;Western Region;North West;High Power;GANYESA
+;Western Region;North West;Gap Filler;GROOT MARICO
+;Western Region;North West;Low Power;MADIBOGO
+;Western Region;North West;Low Power;MOTSWEDI
+;Western Region;North West;High Power;PIET PLESSIS
+;Western Region;North West;High Power;PIET PLESSIS
+;Western Region;North West;High Power;POMFRET
+;Western Region;North West;High Power;SCHWEIZER RENEKE
+;Western Region;North West;High Power;SCHWEIZER RENEKE
+;Western Region;North West;Low Power;SUPINGSTAD
+;Western Region;North West;Gap Filler;SWARTRUGGENS
+;Western Region;North West;Low Power;TAUNG
+;Western Region;North West;High Power;ZEERUST
+;Western Region;North West;High Power;ZEERUST

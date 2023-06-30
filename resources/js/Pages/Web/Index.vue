@@ -49,7 +49,7 @@
                     <div class="home-pills">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="advert-section">
+                                <div class="advert-section-page">
 
                                     <div class="advert-section-div">
                                         Introducing our
@@ -57,7 +57,6 @@
                                         Sentech Plus
 
                                     </div>
-
                                     <div class="float-end">
                                         <div
                                             class="btn btn-primary advert-section-div-button d-flex justify-content-between align-items-center">
@@ -126,12 +125,11 @@
         max-width: 75%;
     }
 
-    .advert-section {
+    .advert-section-page {
         height: 365px;
         background: #fff;
         border-radius: 50px;
         margin-right: 50px;
-        display: block !important;
     }
 
     .advert-section-div-button {
@@ -197,7 +195,7 @@
             max-width: 75%;
         }
 
-        .advert-section {
+     .advert-section-page {
             height: 330px;
             background: #fff;
             border-radius: 50px;
@@ -244,7 +242,7 @@
         .small-info-block {
             height: 150px;
         }
-        .advert-section {
+     .advert-section-page {
             height: 280px;
         }
 
@@ -267,7 +265,7 @@
         .small-info-block {
             height: 120px;
         }
-        .advert-section {
+     .advert-section-page {
             height: 230px;
         }
         .advert-section-span {

@@ -50,8 +50,6 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request)
 //    public function store(LoginRequest $request): RedirectResponse
     {
-
-//        Auth::login($user, $remember);
         $required = [
             'email' => $request->email,
             'password' => $request->password,

@@ -10,14 +10,14 @@
                     <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/dashboard' }">
                         <span class="nav-link-item">Home</span>
                     </Link>
-                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/sentiment-analysis' }">
+                    <Link class="nav-link " aria-current="page" href="/sentiment-analysis" :class="{ 'active': $page.url === '/sentiment-analysis' }">
                         <span class="nav-link-item">Sentiment Analysis</span>
                     </Link>
-                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/predictive-maintenance' }">
+                    <Link class="nav-link " aria-current="page" href="/predictive-maintenance" :class="{ 'active': $page.url === '/predictive-maintenance' }">
                         <span class="nav-link-item">Predictive Maintenance </span>
                     </Link>
 
-                    <Link class="nav-link " aria-current="page" href="/dashboard" :class="{ 'active': $page.url === '/reporting' }">
+                    <Link class="nav-link " aria-current="page" href="/reporting" :class="{ 'active': $page.url === '/reporting' }">
                         <span class="nav-link-item">Reporting </span>
                     </Link>
 
@@ -53,13 +53,20 @@
         background: #144f9f;
         color: #fff !important;
         border-radius: 8px;
+        -webkit-transition: background-color 1000ms ease;
+        transition: background-color 1000ms ease;
     }
+    .nav-link a:hover {
+        -webkit-transition: background-color 1000ms ease;
+        transition: background-color 1000ms ease;
+    }
+
     .nav-link-item {
         margin: 20px;
     }
     .sidebar {
         position: fixed;
-        padding: 40px;
+        padding: 35px;
         background-color: #fff !important;
         // NEST
         .cm-logo {
@@ -73,7 +80,6 @@
                 display: block;
                 font-weight: 600;
                 line-height: 1.2;
-
                 &:first-child {
                     font-size: 18px;
                 }
@@ -106,7 +112,7 @@
                 font-weight: normal;
                 display: block;
                 padding: 10px 0;
-                border-bottom: 1px solid #144F9F;
+                /*border-bottom: 1px solid #144F9F;*/
 
                 &.active {
                     color: #144F9F;
@@ -115,7 +121,10 @@
         }
     }
     .nav-link {
-        color: #707070;
+        background: rgba(20, 79, 159, 0.08);
+        color: #706F6F !important;
+        border-radius: 8px;
+        margin-bottom: 5px;
     }
 
 
