@@ -9,7 +9,9 @@
     import AdminLayout from '@/Layouts/AdminLayout.vue';
     export default {
         layout: AdminLayout,
-        component
+        components:{
+
+        }
 
     }
 </script>
