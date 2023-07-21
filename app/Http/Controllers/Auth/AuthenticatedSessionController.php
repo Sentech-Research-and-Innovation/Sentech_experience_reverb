@@ -48,7 +48,7 @@ class AuthenticatedSessionController extends Controller
      */
 
     public function store(Request $request)
-//    public function store(LoginRequest $request): RedirectResponse
+    //    public function store(LoginRequest $request): RedirectResponse
     {
         $required = [
             'email' => $request->email,
@@ -68,12 +68,11 @@ class AuthenticatedSessionController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                return ActionResponse::success('Successfully Authenticated','');
-            }else{
-                return ActionResponse::success('These credentials do not match our records.','');
+                return ActionResponse::success('Successfully Authenticated', '');
+            } else {
+                return ActionResponse::success('These credentials do not match our records.', '');
             }
         }
-
     }
 
     /**

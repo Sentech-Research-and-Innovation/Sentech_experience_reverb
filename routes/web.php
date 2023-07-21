@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\System\MenuItem;
+use App\Http\Controllers\Admin\RolesController;
+use App\Http\Controllers\Admin\PersmissionsController;
+use  App\Http\Controllers\Admin\AsignRolesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +34,34 @@ use App\Models\System\MenuItem;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'role:Admin'])->name('dashboard');
+
+
+
+Route::get('/admin/roles', [RolesController::class, 'index'])->name('roles.index')->middleware('role_has_permission:roles-read');
+
+Route::post('/admin/roles/create', [RolesController::class, 'store'])->name('roles.create')->middleware('role_has_permission:roles-create');
+
+Route::post('/admin/roles/show', [RolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
+
+Route::post('/admin/roles/update', [RolesController::class, 'update'])->name('roles.update')->middleware('role_has_permission:roles-update');
+
+Route::get('/admin/roles/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
+
+Route::get('/admin/user/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
+
+
+Route::post('/admin/user/role/update/{userId}', [AsignRolesController::class, 'update'])->name('roles.user.update');
+
+Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->name('permissions.index');
+
+Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('roles.getUsers');
+
+
+// Route::get('/das', function () {
+//     return Inertia::render('admin.index');
+// })->middleware(['auth',  'verified', 'role:Admin'])->name('admin.index');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,8 +70,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 MenuItem::inertia();
-
-

@@ -1,50 +1,83 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
-use App\Models\System\ActionResponse;
-use App\Models\System\CRUD;
-use App\Models\System\DataStorage;
-use App\Models\UserModels\Role;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Http\Resources\PermisionsResources;
+
 class RolesController extends Controller
 {
-
-
-    public  function index(){
-
-        $roles = Role::paginate(10);
-        $data['roles'] = $roles;
-       // dd($data);
-        return Inertia::render('Admin/Roles/Index', compact('data'));
+    public function index()
+    {
+        $roles = Role::orderBy('id', 'Desc')->get();
+        return Inertia::render('Admin/Roles/Index', compact('roles'));
     }
 
-    public  function  action(Request $request){
+    public function store()
+    {
+        $this->validate(request(), [
+            'name' => 'required|min:4',
+        ]);
+        $role = Role::create(['name' => request()->name]);
 
-        if($request['action']==='edit' || $request['action']==='create') {
-            $roleArr = [
-              'role_name'=>$request['role_name']
-            ];
-            if ($request['action'] === 'edit') {
-                $role = CRUD::update($roleArr, config('system_config.models.role'), 'roles', 'id', $request['id']);
+        foreach (request()->permissions as $perm) {
+            if ($role->hasPermissionTo($perm)) {
+                return request()->json(['message' => "permission already exists"], 422);
             } else {
-                $role = CRUD::create($roleArr, config('system_config.models.role'), 'roles');
+                $role->givePermissionTo($perm);
             }
+        }
+        return request()->json([], 200);
+    }
 
-            if($role['success']){
-                return ActionResponse::success('Role successfully updated', $role['data']);
+    public function show()
+    {
+        $rolesPermissons = Role::findByName(request()->name)->permissions;
+
+        return response()->json(new PermisionsResources($rolesPermissons));
+    }
+
+    public function update()
+    {
+        $permissions = request()->permissions;
+        $roleName = request()->roleName;
+
+        // Retrieve the role from the database
+        $role = Role::where('name', $roleName)->first();
+
+        // Assign new permissions from the request
+
+        foreach ($permissions as $perm) {
+            $hasNoPermission = !$role->hasPermissionTo($perm);
+
+            if ($hasNoPermission) {
+                $role->givePermissionTo($perm);
             }
+        }
 
+        // Revoke permissions that are not in the request
+        foreach ($role->permissions as $permission) {
+            if (!in_array($permission->name, $permissions)) {
+                $role->revokePermissionTo($permission);
+            }
         }
-        if($request['action']==='_role_edit'){
-            $data = [];
-            $data['form'] = DataStorage::dataByID($request['id'], config('system_config.models.role'));
-            return ActionResponse::success('Role successfully retrieved',$data);
-        }
+
+        return request()->json([], 200);
+    }
+
+
+    public function delete()
+    {
+    }
+
+    public function getRoles()
+    {
+        $roles = Role::orderBy('id', 'Desc')->get();
+        return request()->json(200, $roles);
     }
 }

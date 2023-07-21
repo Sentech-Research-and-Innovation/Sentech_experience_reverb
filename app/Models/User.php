@@ -16,6 +16,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 class User extends Authenticatable
 {
@@ -24,6 +26,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
+    use LaravelPermissionToVueJS;
 
     /**
      * The attributes that are mass assignable.
@@ -72,24 +76,24 @@ class User extends Authenticatable
         $owners = UserRole::where('role_id', 2)->get();
         if (count($owners)) {
             foreach ($owners as $key => $owner) {
-                if(!is_null($owner->owner))
-                $response[] = $owner->owner;
+                if (!is_null($owner->owner))
+                    $response[] = $owner->owner;
             }
         } else {
             $response = false;
         }
 
-//        dd($response);
+        //        dd($response);
         return $response;
     }
 
     public function staff()
     {
         $response = [];
-        $owners = UserRole::where('role_id','!=', 2)->get();
+        $owners = UserRole::where('role_id', '!=', 2)->get();
         if (count($owners)) {
             foreach ($owners as $key => $owner) {
-                if(!is_null($owner->owner))
+                if (!is_null($owner->owner))
                     $response[] = $owner->owner;
             }
         } else {
@@ -106,14 +110,14 @@ class User extends Authenticatable
         if (count($companyUsers)) {
             foreach ($companyUsers as $key => $value) {
                 if ($value->role->role_id == 2) {
-                    if(!is_null($value->owner))
-                    $response[] = $value->owner;
+                    if (!is_null($value->owner))
+                        $response[] = $value->owner;
                 }
             }
         } else {
             $response = [];
         }
-//        dd($response);
+        //        dd($response);
         return $response;
     }
     public function assignedStaff($id)
@@ -122,23 +126,22 @@ class User extends Authenticatable
         $companyUsers = CompanyStaff::where('branch_id', $id)->get();
         if (count($companyUsers)) {
             foreach ($companyUsers as $key => $value) {
-                    if(!is_null($value->staff))
+                if (!is_null($value->staff))
                     $response[] = $value->staff;
-
             }
         } else {
             $response = [];
         }
-//        dd($response);
+        //        dd($response);
         return $response;
     }
-    public function role(){
-        return self::HasOne(UserRole::class,'user_id','id');
+    public function role()
+    {
+        return self::HasOne(UserRole::class, 'user_id', 'id');
     }
 
-    public function permissions(){
-        return self::HasMany(UserPermissions::class,'user_id','id');
+    public function permissions()
+    {
+        return self::HasMany(UserPermissions::class, 'user_id', 'id');
     }
-
-
 }

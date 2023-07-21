@@ -13,10 +13,11 @@ class SentimentAnalysisController extends Controller
 
     public function index()
     {
-
+        return 1;
         $analysis = (new SentimentAnalysis)->analysis(['size' => 100]);
         $data = ['analysis' => $analysis];
-//        dd($data);
+
+        //        dd($data);
         return Inertia::render('Admin/SentimentAnalysis/Index', compact('data'));
     }
 }
