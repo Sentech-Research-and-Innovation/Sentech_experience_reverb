@@ -51,7 +51,7 @@ import axios from "axios";
 import SideModal from "@/Layouts/SideModal.vue";
 
 export default defineComponent({
-    name: "view-role",
+    name: "edit-role",
     props: {
         userId: {
             type: Number,

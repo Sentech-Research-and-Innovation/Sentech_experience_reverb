@@ -9,6 +9,8 @@ use App\Models\System\MenuItem;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\PersmissionsController;
 use  App\Http\Controllers\Admin\AsignRolesController;
+use  App\Http\Controllers\Admin\UserController;
+
 
 
 /*
@@ -57,17 +59,16 @@ Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->name
 
 Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('roles.getUsers');
 
+Route::post('/admin/user/create', [UserController::class, 'create'])->name('roles.user.create');
+
+
+
+
+
 
 // Route::get('/das', function () {
 //     return Inertia::render('admin.index');
 // })->middleware(['auth',  'verified', 'role:Admin'])->name('admin.index');
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 
 require __DIR__ . '/auth.php';

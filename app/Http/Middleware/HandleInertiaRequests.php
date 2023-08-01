@@ -6,22 +6,10 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
+
 class HandleInertiaRequests extends Middleware
 {
-    /**
-     * The root template that is loaded on the first page visit.
-     *
-     * @var string
-     */
-    protected $rootView = 'app';
-
-    /**
-     * Determine the current asset version.
-     */
-    public function version(Request $request): string|null
-    {
-        return parent::version($request);
-    }
+    // ...
 
     /**
      * Define the props that are shared by default.
@@ -30,7 +18,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
+        $sharedProps = parent::share($request);
+
+        // Check if the request comes from the mobile app based on the X-Mobile-App header
+        if ($request->header('X-Mobile-App') === 'true') {
+            // Use JSON responses for mobile app
+            return array_merge($sharedProps, [
+                'authenticated' => fn () => $request->user() ? true : false,
+                'user' => fn () => $request->user() ? $request->user()->only('id', 'name', 'email') : null,
+            ]);
+        }
+
+        // For web, return regular response
+        return array_merge($sharedProps, [
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

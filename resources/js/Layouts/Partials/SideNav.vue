@@ -11,7 +11,6 @@
             <ul class="nav flex-column">
                 <li class="nav-item sidebar-links">
                     <Link
-                        v-if="is('AdmiN')"
                         class="nav-link"
                         aria-current="page"
                         href="/dashboard"
@@ -59,7 +58,6 @@
                     </Link>
 
                     <Link
-                        v-if="can('roles-read')"
                         class="nav-link"
                         aria-current="page"
                         href="/admin/roles"

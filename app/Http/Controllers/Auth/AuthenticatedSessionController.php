@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\ClientRepository;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -48,29 +50,42 @@ class AuthenticatedSessionController extends Controller
      */
 
     public function store(Request $request)
-    //    public function store(LoginRequest $request): RedirectResponse
     {
         $required = [
             'email' => $request->email,
             'password' => $request->password,
         ];
+
         $validate = new DataValidation();
         $this->errorBag = $validate->required($required);
-        if (count($this->errorBag)) {
-            return ActionResponse::error('Please ensure all required fields have been filled.', $this->errorBag);
-        } else {
 
+        if (count($this->errorBag)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please ensure all required fields have been filled.',
+                'errors' => $this->errorBag,
+            ], 422);
+        } else {
             $credentials = $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required'],
             ]);
 
-
             if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
-                return ActionResponse::success('Successfully Authenticated', '');
+                $user = Auth::user();
+                return $token = $user->createToken('MobileAppToken')->accessToken;
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Successfully Authenticated',
+                    'access_token' => $token,
+                ]);
             } else {
-                return ActionResponse::success('These credentials do not match our records.', '');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'These credentials do not match our records.',
+                    'errors' => ['email' => 'Incorrect email or password']
+                ], 500);
             }
         }
     }
@@ -78,11 +93,31 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    // public function destroy(Request $request): RedirectResponse
+    // {
+    //     Auth::guard('web')->logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return redirect('/');
+    // }
+
+    public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully logged out.',
+        ], 200);
+    }
+
+
+    public function user()
+    {
+        $user = auth()->user();
+
+        return $user;
     }
 }
