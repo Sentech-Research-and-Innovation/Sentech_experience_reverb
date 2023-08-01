@@ -24,7 +24,7 @@
                             {{ role.name }}
                         </td>
                         <td>
-                            <EditRole />
+                            <EditRole :userId="user.id" />
                             | delete
                         </td>
                     </tr>
