@@ -20,7 +20,7 @@
                         <td>{{ role.name }}</td>
                         <td>{{ role.created_at }}</td>
                         <td>
-                            <DeleteRole />
+                            <DeleteRole :roleId="role.id" />
 
                             |
                             <ViewRole

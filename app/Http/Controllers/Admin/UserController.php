@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
-
 use App\Http\Requests\CreateUserRequest;
 
+use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordEmail;
 
 
 class UserController extends Controller
@@ -40,6 +40,22 @@ class UserController extends Controller
 
         $user->assignRole($data['role']);
 
-        return response()->json([], 200);
+        return request()->json([], 200);
+    }
+
+
+    public function sendResetLinkEmail($email)
+    {
+        $user = User::where('email', $email)->first();
+
+
+        $token = Str::random(60);
+        $user->password_reset_token = $token;
+        $user->save();
+
+        // Send the password reset email
+        Mail::to($user->email)->send(new ResetPasswordEmail($user));
+
+        //return redirect()->back()->with('success', 'Password reset link sent. Please check your email.');
     }
 }

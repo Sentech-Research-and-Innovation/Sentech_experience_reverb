@@ -103,6 +103,16 @@ class RolesController extends Controller
 
     public function delete()
     {
+        $roles_has_users = User::with("roles")->whereHas("roles", function ($q) {
+            $q->where("id", request()->roleId);
+        })->pluck("first_name");
+
+        if (count($roles_has_users) > 0) {
+            return response()->json($roles_has_users, 401);
+        } else {
+            Role::find(request()->roleId)->delete();
+            return response()->json([], 200);
+        }
     }
 
     public function getRoles()

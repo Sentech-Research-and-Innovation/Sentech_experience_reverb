@@ -73,7 +73,7 @@ class AuthenticatedSessionController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
-                return $token = $user->createToken('MobileAppToken')->accessToken;
+                return   $token = $user->createToken('MobileAppToken')->accessToken;
 
                 return response()->json([
                     'success' => true,
@@ -116,8 +116,14 @@ class AuthenticatedSessionController extends Controller
 
     public function user()
     {
-        $user = auth()->user();
+        //return $user = Auth::user()->permissions();
 
-        return $user;
+        $authsUer = User::where('id', auth()->user()->id)->with('roles.permissions')->first();
+
+
+        $company = $authsUer->company;
+
+
+        return array_merge([$authsUer, $company->company_name]);
     }
 }

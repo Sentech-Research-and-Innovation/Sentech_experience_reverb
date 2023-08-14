@@ -73,6 +73,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function scopeVerified($query)
+    {
+        return $query->whereNotNull('email_verified_at');
+    }
+
     public function owners()
     {
         $response = [];

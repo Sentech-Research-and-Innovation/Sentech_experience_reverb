@@ -73,6 +73,14 @@
                     >
                         <span class="nav-link-item">Users </span>
                     </Link>
+                    <Link
+                        class="nav-link"
+                        aria-current="page"
+                        href="/organizantions"
+                        :class="{ active: $page.url === '/Roles' }"
+                    >
+                        <span class="nav-link-item">Organizations </span>
+                    </Link>
                 </li>
             </ul>
         </div>
