@@ -25,7 +25,6 @@
                         </td>
                         <td>
                             <EditRole :userId="user.id" />
-                            | delete
                         </td>
                     </tr>
                 </tbody>

@@ -1,18 +1,20 @@
 <template>
-    <div class="side-modal" :class="{ 'showing-modal': showing }">
-        <div class="dialog" role="document">
-            <button
-                type="button"
-                class="close close-btn"
-                data-dismiss="modal"
-                @click="$emit('hideModal')"
-            >
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h1>{{ content.create.title }}</h1>
-            <div class="content">
-                <div class="body">
-                    <slot></slot>
+    <div class="col-12 mt-5 pt-5">
+        <div class="side-modal mt-5" :class="{ 'showing-modal': showing }">
+            <div class="dialog" role="document">
+                <button
+                    type="button"
+                    class="close close-btn"
+                    data-dismiss="modal"
+                    @click="$emit('hideModal')"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1>{{ content.create.title }}</h1>
+                <div class="content">
+                    <div class="body">
+                        <slot></slot>
+                    </div>
                 </div>
             </div>
         </div>

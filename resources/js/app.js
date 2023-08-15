@@ -1,5 +1,7 @@
 import "./bootstrap";
-import "../css/app.css";
+import "./assets/styles.css";
+import "./assets/bundleStyles.css";
+import "./assets/typicons.css";
 
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
