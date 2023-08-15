@@ -60,6 +60,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-12 pt-3">
                             <div class="text-right add-company-btn">
                                 <button
