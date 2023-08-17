@@ -34,11 +34,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    //     'company_id'
+    // 
+
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -69,6 +72,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function scopeVerified($query)
+    {
+        return $query->whereNotNull('email_verified_at');
+    }
 
     public function owners()
     {
@@ -143,5 +151,10 @@ class User extends Authenticatable
     public function permissions()
     {
         return self::HasMany(UserPermissions::class, 'user_id', 'id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }

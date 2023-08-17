@@ -1,12 +1,8 @@
 <template>
     <div>
         <div class="col-12 text-end">
-            <button
-                type="button"
-                class="button button-dark"
-                @click="showing = true"
-            >
-                Create Role
+            <button type="button" class="button button-dark" @click="getRoles">
+                Create User
             </button>
         </div>
         <SideModal
@@ -14,6 +10,71 @@
             :showing="showing"
             @hideModal="showing = false"
         >
+            <div class="col-12 pb-5 pt-4">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="pb-2">First Name</label>
+                        <input
+                            type="text"
+                            v-model="form.first_name"
+                            class
+                            placeholder="First Name"
+                        />
+                        <div class="error">
+                            {{ errors.first_name }}
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label class="pb-2">Last Name</label>
+                        <input
+                            type="text"
+                            v-model="form.last_name"
+                            class
+                            placeholder="Last Name"
+                        />
+                        <div class="error">
+                            {{ errors.last_name }}
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label class="pb-2">Email</label>
+                        <input
+                            type="text"
+                            v-model="form.email"
+                            class
+                            placeholder="Email"
+                        />
+                        <div class="error">
+                            {{ errors.email }}
+                        </div>
+                    </div>
+                    <div class="col-4 pt-4">
+                        <label class="form-label" for="password"
+                            >User role</label
+                        >
+                        <select v-if="roles" v-model="form.role">
+                            <option
+                                v-for="role in roles"
+                                :value="role.id"
+                                :key="role.id"
+                            >
+                                {{ role.name }}
+                            </option>
+                        </select>
+                        <div class="error">
+                            {{ errors.role }}
+                        </div>
+                    </div>
+                    <div class="col-12 pt-5">
+                        <button
+                            @click="createUser()"
+                            class="btn btn-dark button button-dark btn-block"
+                        >
+                            Create User
+                        </button>
+                    </div>
+                </div>
+            </div>
         </SideModal>
     </div>
 </template>
@@ -32,23 +93,70 @@ export default defineComponent({
     setup() {
         const content = ref({
             create: {
-                title: "Create new role",
+                title: "Create new user",
             },
         });
 
+        const errors = ref({});
+
+        const form = ref({});
+
         const showing = ref(false);
+
+        const roles = ref([]);
 
         const closeModal = () => {
             showing.value = false;
         };
 
+        const createUser = async () => {
+            errors.value = {};
+            try {
+                const data = form.value;
+                await axios.post(`/admin/user/create`, {
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    email: data.email,
+                    role: data.role,
+                });
+                errors.value = {};
+                showing.value = false;
+            } catch (err) {
+                const res = err.response.data.errors;
+
+                errors.value = {
+                    first_name: res?.first_name?.[0] || "",
+                    last_name: res?.last_name?.[0] || "",
+                    email: res?.email?.[0] || "",
+                    role: res?.role?.[0] || "",
+                };
+            }
+        };
+
+        const getRoles = async () => {
+            showing.value = true;
+            const response = await axios.get("/admin/roles/getRoles");
+            roles.value = response.data;
+        };
+
         return {
+            getRoles,
             content,
             showing,
             closeModal,
+            roles,
+            createUser,
+            errors,
+            form,
         };
     },
 });
 </script>
 
-<style></style>
+<style scoped>
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+</style>

@@ -20,13 +20,17 @@
                         <td>{{ role.name }}</td>
                         <td>{{ role.created_at }}</td>
                         <td>
-                            <DeleteRole />
+                            <div class="d-flex">
+                                <DeleteRole :roleId="role.id" />
 
-                            |
-                            <ViewRole
-                                v-if="can('roles-update')"
-                                :roleName="role.name"
-                            />
+|
+                                <ViewRole
+                                    v-if="can('roles-update')"
+                                    :roleName="role.name"
+
+                                />
+                            </div>
+
                         </td>
                     </tr>
                 </tbody>

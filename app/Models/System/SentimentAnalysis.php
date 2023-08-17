@@ -12,12 +12,12 @@ class SentimentAnalysis
     private $password;
     private $content_type;
     public function __construct(){
-        $this->uri ='http://13.244.109.152:9200/twitter/';
+        $this->uri ='http://13.244.120.32:9200/twitter/';
         $this->content_type ='application/json';
         $this->usr ='test';
         $this->password ='test123';
     }
-
+//13.244.120.32
     public  function analysis($request){
 
         $response =[];

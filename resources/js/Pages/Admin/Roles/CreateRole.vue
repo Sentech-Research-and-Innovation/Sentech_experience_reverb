@@ -44,6 +44,7 @@
                                             v-for="perm in group"
                                             :key="perm.id"
                                         >
+
                                             <input
                                                 class="form-check-input mx-2"
                                                 type="checkbox"
@@ -148,8 +149,9 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="scss">
 .form-control-error {
-    border-radius: 1px solid #ff1744 !important;
+    border-radius: solid 1px #ff1744 !important;
 }
+
 </style>

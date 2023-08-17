@@ -19,12 +19,12 @@
                                 v-model="form.email"
                                 id="email"
                             />
-                            <div
-                                v-if="response.errorBag.email"
-                                class="text-danger"
-                            >
-                                {{ response.errorBag.email }}
-                            </div>
+<!--                            <div-->
+<!--                                v-if="response.errorBag.email"-->
+<!--                                class="text-danger"-->
+<!--                            >-->
+<!--                                {{ response.errorBag.email }}-->
+<!--                            </div>-->
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label"
@@ -106,6 +106,10 @@ export default {
                 .post(route("login"), this.form)
                 .then((res) => {
                     this.response = res.data;
+
+                    this.$inertia.visit("/dashboard", {
+                        method: "get",
+                    });
 
                     if (this.response.success) {
                         this.response.errorBag = false;

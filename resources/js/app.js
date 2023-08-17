@@ -12,9 +12,10 @@ import { createVuetify } from "vuetify";
 import { VDataTable } from "vuetify/labs/VDataTable";
 import { VToolbar } from "vuetify/components/VToolbar";
 import { VBtn } from "vuetify/components/VBtn";
+
 import { VDialog } from "vuetify/components/VDialog";
 import { VDivider } from "vuetify/components/VDivider";
-import { VCard } from "vuetify/components/VCard";
+import { VCard, VCardText } from "vuetify/components/VCard";
 import { VProgressLinear } from "vuetify/components/VProgressLinear";
 import { VSelect } from "vuetify/components/VSelect";
 import LaravelPermissionToVueJS from "laravel-permission-to-vuejs";
@@ -34,6 +35,7 @@ const vuetify = createVuetify({
         VCard,
         VProgressLinear,
         VSelect,
+        VCardText,
     },
     directives,
     theme: { defaultTheme: "light" },

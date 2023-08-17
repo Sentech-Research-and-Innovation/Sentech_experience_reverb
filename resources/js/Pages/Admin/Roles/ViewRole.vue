@@ -1,5 +1,5 @@
 <template>
-    <v-btn color="#90CAF9" @click="queryPermissions"> Edit Permissions </v-btn>
+    <button type="button" class="btn btn-dark"  @click="queryPermissions"> Edit Permissions </button>
 
     <div>
         <div class="text-end">

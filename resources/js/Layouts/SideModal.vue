@@ -9,7 +9,7 @@
             >
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h1>{{ content.create.title }} {{ showing }}</h1>
+            <h1>{{ content.create.title }}</h1>
             <div class="content">
                 <div class="body">
                     <slot></slot>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Users</h1>
-        <div class="col-12 text-end px-4"><CreateRole /></div>
+        <div class="col-12 px-4"><CreateUser /></div>
         <div class="col-12">
             <table class="table">
                 <thead>
@@ -24,11 +24,9 @@
                             {{ role.name }}
                         </td>
                         <td>
-                            <EditRole
-                                v-if="can('roles-update')"
-                                :userId="user.id"
-                            />
-                            | delete
+                            <div class="d-flex">
+                                <EditRole :userId="user.id" />
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -42,12 +40,13 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import { defineComponent } from "vue";
 import EditRole from "./EditRole.vue";
+import CreateUser from "./CreateUser.vue";
 
 export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole },
+    components: { EditRole, CreateUser },
 
     props: {
         users: {

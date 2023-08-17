@@ -9,6 +9,10 @@ use App\Models\System\MenuItem;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\PersmissionsController;
 use  App\Http\Controllers\Admin\AsignRolesController;
+use  App\Http\Controllers\Admin\UserController;
+use  App\Http\Controllers\Organizations\OrganizationsController;
+
+
 
 
 /*
@@ -45,10 +49,12 @@ Route::post('/admin/roles/create', [RolesController::class, 'store'])->name('rol
 Route::post('/admin/roles/show', [RolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
 
 Route::post('/admin/roles/update', [RolesController::class, 'update'])->name('roles.update')->middleware('role_has_permission:roles-update');
+Route::post('/admin/roles/delete', [RolesController::class, 'delete'])->name('roles.delete')->middleware('role_has_permission:roles-delete');
+
 
 Route::get('/admin/roles/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
 
-Route::get('/admin/user/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
+Route::get('/admin/user/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show.user')->middleware('role_has_permission:roles-read');
 
 
 Route::post('/admin/user/role/update/{userId}', [AsignRolesController::class, 'update'])->name('roles.user.update');
@@ -57,17 +63,17 @@ Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->name
 
 Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('roles.getUsers');
 
+Route::post('/admin/user/create', [UserController::class, 'create'])->name('roles.user.create');
+
+Route::get('/organizantions', [OrganizationsController::class, 'index']);
+Route::post('/organizantions/create', [OrganizationsController::class, 'create']);
+
+
+
 
 // Route::get('/das', function () {
 //     return Inertia::render('admin.index');
 // })->middleware(['auth',  'verified', 'role:Admin'])->name('admin.index');
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 
 require __DIR__ . '/auth.php';
