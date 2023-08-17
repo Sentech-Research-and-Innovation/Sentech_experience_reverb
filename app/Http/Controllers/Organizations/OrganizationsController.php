@@ -9,6 +9,8 @@ use App\Models\Company;
 use App\Models\User;
 use App\Http\Requests\CreateUserRequest;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+
 
 class OrganizationsController extends Controller
 {
@@ -42,6 +44,10 @@ class OrganizationsController extends Controller
 
         $company->contactPerson()->associate($user);
         $company->save();
+
+
+        $role = Role::create(['guard_name' => $company->company_name, 'name' => "Super Admin", 'company_id' => $company->id]);
+        $user->assignRole("Super Admin");
 
         return $user;
     }

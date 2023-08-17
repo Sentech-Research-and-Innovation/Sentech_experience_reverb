@@ -19211,21 +19211,6 @@
     }
   }
   
-  .chartjs-legend ul {
-    margin-bottom: 0;
-    list-style: none;
-    padding-left: 0;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-justify-content: start;
-    justify-content: start;
-  }
   
   .chartjs-legend ul li {
     margin-right: 8%;

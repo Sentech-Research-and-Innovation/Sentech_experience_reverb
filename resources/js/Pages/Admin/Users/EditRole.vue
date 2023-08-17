@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-12">
+        <div class="col-12=">
             <button type="button" class="btn btn-sm btn-dark" @click="getRoles">
                 Edit Role
             </button>

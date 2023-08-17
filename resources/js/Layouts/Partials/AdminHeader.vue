@@ -188,6 +188,7 @@
                         <a class="nav-link" href="../../index-2.html">
                             <i class="fa-solid fa-business-time menu-icon"></i>
                             <span class="menu-title">Companies</span>
+                            {{ company_type }}
                         </a>
                     </li>
                 </ul>
@@ -222,9 +223,13 @@ export default defineComponent({
 
     setup() {
         const userdata = ref([]);
+        const company_type = ref([]);
+
         const getuser = async () => {
             const response = await axios.get("/user");
             userdata.value = response.data;
+            company_type.value = userdata.value;
+            console.log(userdata.value);
         };
 
         const getRoleNames = (roles) => {
@@ -240,8 +245,10 @@ export default defineComponent({
         });
 
         return {
+            getuser,
             userdata,
             getRoleNames,
+            company_type,
         };
     },
 });

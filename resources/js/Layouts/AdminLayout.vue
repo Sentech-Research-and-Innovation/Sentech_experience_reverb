@@ -252,7 +252,8 @@
                             <span class="menu-title">Users</span>
                         </Link>
                     </li>
-                    <li class="nav-item">
+
+                    <li class="nav-item" v-if="company_type == 'super_company'">
                         <Link
                             class="nav-link"
                             aria-current="page"
@@ -298,10 +299,13 @@ export default defineComponent({
     components: { Link },
 
     setup() {
+        const company_type = ref([]);
         const userdata = ref([]);
+
         const getuser = async () => {
             const response = await axios.get("/user");
             userdata.value = response.data;
+            company_type.value = response.data[0].company.companyType;
         };
 
         const getRoleNames = (roles) => {
@@ -319,6 +323,7 @@ export default defineComponent({
         return {
             userdata,
             getRoleNames,
+            company_type,
         };
     },
 });
