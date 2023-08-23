@@ -61,7 +61,7 @@ Route::post('/admin/user/role/update/{userId}', [AsignRolesController::class, 'u
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->name('permissions.index');
 
-Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('roles.getUsers');
+Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('roles.getUsers')->middleware('auth');
 
 Route::post('/admin/user/create', [UserController::class, 'create'])->name('roles.user.create');
 

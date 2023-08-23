@@ -23,7 +23,6 @@
                             <div class="d-flex">
                                 <DeleteRole :roleId="role.id" />
 
-|
                                 <ViewRole
                                     v-if="can('roles-update')"
                                     :roleName="role.name"

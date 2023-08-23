@@ -31,23 +31,35 @@
                                                 v-for="perm in group"
                                                 :key="perm.id"
                                             >
-                                                <input
-                                                    class="form-check-input mx-2"
-                                                    type="checkbox"
-                                                    :value="perm.name"
-                                                    :checked="
-                                                        isSelected(perm.name)
-                                                    "
-                                                    v-model="
-                                                        selectedPermissions
-                                                    "
-                                                />
                                                 <label
                                                     class="form-check-label"
                                                     :for="perm.name"
                                                 >
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        :value="perm.name"
+                                                        :checked="
+                                                            isSelected(
+                                                                perm.name
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            selectedPermissions
+                                                        "
+                                                    />
+
                                                     {{ perm.label }}
+                                                    <i class="input-helper"></i>
                                                 </label>
+
+                                                <!-- <label class="form-check-label">
+                                                    <input
+                                                        type="checkbox"
+                                                        class="form-check-input"
+                                                    />
+                                                    Default
+                                                </label> -->
                                             </div>
                                         </div>
                                     </div>
