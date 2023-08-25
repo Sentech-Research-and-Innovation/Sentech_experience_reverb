@@ -19,7 +19,16 @@
                                 v-model="form.email"
                                 id="email"
                             />
+                            <<<<<<< HEAD
                             <div class="text-danger">{{ errors.email }}</div>
+                            =======
+                            <!--                            <div-->
+                            <!--                                v-if="response.errorBag.email"-->
+                            <!--                                class="text-danger"-->
+                            <!--                            >-->
+                            <!--                                {{ response.errorBag.email }}-->
+                            <!--                            </div>-->
+                            >>>>>>> aab1ebaee27dda81c4096867942166aebe458420
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label"

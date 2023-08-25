@@ -1,5 +1,5 @@
 <template>
-    <v-btn color="#FFCDD2" id="ffg" @click="dialog1 = true"> Delete </v-btn>
+    <button type="button" class="btn btn-dark"  id="ffg" @click="dialog1 = true"> Delete </button>
     <div>
         <v-dialog v-model="dialog1" activator="parent" persistent width="30%">
             <v-card>

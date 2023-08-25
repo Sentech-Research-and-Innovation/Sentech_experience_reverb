@@ -44,6 +44,12 @@
                                             v-for="perm in group"
                                             :key="perm.id"
                                         >
+                                            <input
+                                                class="form-check-input mx-2"
+                                                type="checkbox"
+                                                v-model="SelectedPermissions"
+                                                :value="perm.name"
+                                            />
                                             <label
                                                 class="form-check-label"
                                                 :for="perm.name"
@@ -65,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-12 pt-3">
                             <div class="text-right add-company-btn">
                                 <button
@@ -152,12 +159,8 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="scss">
 .form-control-error {
-    border-radius: 1px solid #ff1744 !important;
-}
-
-.form-check-input {
-    border: 1px solid #808080 !important;
+    border-radius: solid 1px #ff1744 !important;
 }
 </style>

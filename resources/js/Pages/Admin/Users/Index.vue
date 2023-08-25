@@ -24,7 +24,9 @@
                             {{ role.name }}
                         </td>
                         <td>
-                            <EditRole :userId="user.id" />
+                            <div class="d-flex">
+                                <EditRole :userId="user.id" />
+                            </div>
                         </td>
                     </tr>
                 </tbody>
