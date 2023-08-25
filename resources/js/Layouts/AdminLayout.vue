@@ -1,61 +1,39 @@
 <template>
     <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div
-                class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
-            >
-                <a class="navbar-brand brand-logo" href="../../index-2.html">
-                    <img
-                        src="sentech-logo2.png"
-                        alt="Sentech Logo"
-                        width="50px"
-                    />
-                </a>
-                <a
-                    class="navbar-brand brand-logo-mini"
-                    href="../../index-2.html"
-                >
-                    <img
-                        src="sentech-logo2.png"
-                        alt="Sentech Logo"
-                        width="50px"
-                    />
-                </a>
-                <button
-                    class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex"
-                    type="button"
-                    data-toggle="minimize"
-                >
-                    <span class="fa-solid fa-bars"></span>
-                </button>
-            </div>
 
-            <div
-                class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
-            >
-                <ul class="navbar-nav mr-lg-2">
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link" href="#"> Calendar </a>
-                    </li>
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link active" href="#"> Statistic </a>
-                    </li>
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link" href="#"> Employee </a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown d-flex">
-                        <a
-                            class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
-                            id="notificationDropdown"
-                            href="#"
-                            data-toggle="dropdown"
+        <!-- partial -->
+        <div
+            class="container-fluid page-body-wrapper"
+            style="min-height: 100vh"
+        >
+            <nav class="sidebar sidebar-light-theme">
+                <div class="col-12 text-start pt-4 pb-5 mb-3">
+                    <img :src="Logo" alt="Sentech Logo" height="40" />
+                </div>
+                <ul class="nav mx-4">
+                    <li
+                        class="nav-item"
+                        :class="{ active: $page.url === '/dashboard' }"
+                    >
+                        <Link
+                            class="nav-link mb-2"
+                            href="/dashboard"
+                            aria-current="page"
                         >
-                            <i class="fa-solid fa-bell mr-0"></i>
-                            <span class="count bg-danger mr-3">2</span>
+                            <span class="menu-title">Home </span>
+                        </Link>
+                    </li>
+                    <li
+                        class="nav-item mb-2"
+                        :class="{
+                            active:
+                                $page.url === '/admin/sentiments/overview' ||
+                                $page.url === '/admin/sentiments/timelines',
+                        }"
+                    >
+                        <a class="nav-link" @click="toggleCollapse">
+                            <span class="menu-title">Sentiment Analysis </span>
                         </a>
                         <div
                             :class="['collapse', { show: isCollapsed }]"
@@ -307,6 +285,7 @@
                                     >Help</Link
                                 >
                                 <Link
+                                    style="cursor: pointer"
                                     href="/logout"
                                     method="post"
                                     as="link"
