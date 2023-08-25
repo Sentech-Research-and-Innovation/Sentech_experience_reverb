@@ -119,6 +119,7 @@ export default defineComponent({
                 });
                 errors.value = {};
                 showing.value = false;
+                location.reload();
             } catch (err) {
                 const res = err.response.data.errors;
 

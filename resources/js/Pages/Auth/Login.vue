@@ -19,12 +19,7 @@
                                 v-model="form.email"
                                 id="email"
                             />
-                            <div
-                                v-if="response.errorBag.email"
-                                class="text-danger"
-                            >
-                                {{ response.errorBag.email }}
-                            </div>
+                            <div class="text-danger">{{ errors.email }}</div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label"
@@ -32,16 +27,11 @@
                             >
                             <input
                                 class="form-control"
-                                v-if="showPassword"
-                                type="text"
-                                v-model="form.password"
-                            />
-                            <input
-                                class="form-control login-form-inputs"
-                                v-else
                                 type="password"
                                 v-model="form.password"
                             />
+
+                            <div class="text-danger">{{ errors.password }}</div>
                         </div>
                         <div class="mb-3">
                             <div
@@ -53,7 +43,7 @@
                             </div>
 
                             <Link
-                                :href="'/forget-password'"
+                                href="/forgot-password"
                                 class="m-2 text-primary float-end forgot-password-text"
                             >
                                 Forgot your password?
@@ -69,62 +59,42 @@
 <script>
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import axios from "axios";
+import ForgotPasswordComponent from "./ForgotPassword.vue";
 
 export default {
     layout: null,
     components: {
         Link,
         Head,
+        ForgotPasswordComponent,
     },
     data() {
         return {
-            showPassword: false,
-            form: {
-                processing: false,
-                password: false,
-            },
-            response: {
-                errorBag: {
-                    email: false,
-                },
+            form: {},
+
+            errors: {
+                email: "",
+                password: "",
             },
         };
     },
     methods: {
-        toggleShow() {
-            this.showPassword = !this.showPassword;
-        },
-        login() {
-            let vue = this;
-            vue.form.source = "login";
+        async login() {
+            try {
+                const response = await axios.post("/login", this.form);
 
-            vue.loading = true;
-
-            document.body.classList.add("page-processing");
-
-            axios
-                .post(route("login"), this.form)
-                .then((res) => {
-                    this.response = res.data;
-
-                    if (this.response.success) {
-                        this.response.errorBag = false;
-                        this.$inertia.visit("/dashboard", {
-                            method: "get",
-                        });
-                    } else {
-                        this.response.errorBag = res.data.errorBag;
-                        vue.loading = false;
-                        document.body.classList.remove("page-processing");
-                    }
-                })
-                .catch(function (e) {
-                    document.body.classList.remove("page-processing");
-                    vue.response.errorBag = [
-                        "These credentials do not match our records.",
-                    ];
-                });
-            // });
+                if (response.data.success) {
+                    this.$inertia.visit("/dashboard", {
+                        method: "get",
+                    });
+                }
+            } catch (err) {
+                const res = err.response.data.errors;
+                this.errors = {
+                    email: res?.email || "",
+                    password: res?.password || "",
+                };
+            }
         },
     },
 };

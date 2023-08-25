@@ -19,6 +19,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
+use App\Notifications\ResetPasswordNotification;
+
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -156,5 +159,13 @@ class User extends Authenticatable
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $front_url = config('app.url');
+        $url = $front_url . '/change_password' . '/token?=' . $token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

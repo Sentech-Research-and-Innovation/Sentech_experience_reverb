@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="col-12">
         <h1>Users</h1>
         <div class="col-12 px-4"><CreateUser /></div>
         <div class="col-12">

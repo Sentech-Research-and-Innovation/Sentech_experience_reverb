@@ -23062,7 +23062,6 @@
     flex-direction: row;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 64px;
   }
   
   .page-body-wrapper.full-page-wrapper {
@@ -23089,7 +23088,7 @@
   }
   
   .content-wrapper {
-    background: #e8eff9;
+    background: #fff;
     padding: 1.875rem 1.875rem 0 1.875rem;
     width: 100%;
     -webkit-flex-grow: 1;
@@ -23107,18 +23106,11 @@
     min-height: calc(100vh - 64px);
     background: #ffffff;
     font-family: "Roboto", sans-serif;
-    font-weight: 300;
     padding: 0;
-    width: 255px;
+    width: 350px;
     z-index: 11;
-    transition: width 0.25s ease, background 0.25s ease;
-    -webkit-transition: width 0.25s ease, background 0.25s ease;
-    -moz-transition: width 0.25s ease, background 0.25s ease;
-    -ms-transition: width 0.25s ease, background 0.25s ease;
-    box-shadow: 6px 16px 31px -18px #b7bcd1;
-    -webkit-box-shadow: 6px 16px 31px -18px #b7bcd1;
-    -moz-box-shadow: 6px 16px 31px -18px #b7bcd1;
-    -ms-box-shadow: 6px 16px 31px -18px #b7bcd1;
+    border-right: 2px solid #e3e2e2;
+  
   }
   
   .sidebar .sidebar-profile {
@@ -23228,7 +23220,7 @@
     align-items: center;
     white-space: nowrap;
     padding: 0.75rem 1.75rem 0.75rem 1.75rem;
-    color: black;
+    color: red;
     -webkit-transition-duration: 0.45s;
     -moz-transition-duration: 0.45s;
     -o-transition-duration: 0.45s;
@@ -23286,12 +23278,12 @@
   }
   
   .sidebar .nav .nav-item .nav-link .menu-title {
-    color: inherit;
+    color: #737272;
     display: inline-block;
-    font-size: 0.875rem;
+    font-size: 15px;
     line-height: 1;
     vertical-align: middle;
-    font-weight: bold;
+    font-weight:500
   }
   
   .sidebar .nav .nav-item .nav-link .badge {
@@ -23312,8 +23304,12 @@
   }
   
   .sidebar .nav .nav-item.active > .nav-link {
-    background: #414147;
+    background: #144f9f;
     position: relative;
+    padding-top:20px;
+    padding-bottom:20px;
+    border-radius:15px
+
   }
   
   .sidebar .nav .nav-item.active > .nav-link .menu-title,
@@ -23322,7 +23318,7 @@
   }
   
   .sidebar .nav .nav-item.active > .nav-link i {
-    color: #2b80ff;
+    color: red;
   }
   
   .sidebar .nav:not(.sub-menu) {
@@ -23338,8 +23334,12 @@
   }
   
   .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
-    background: #414147;
-    color: #fff;
+    background: #144f9f;
+    position: relative;
+    padding-top:20px;
+    padding-bottom:20px;
+    border-radius:15px;
+    color:red !important
   }
   
   .sidebar .nav.sub-menu {
@@ -23600,11 +23600,7 @@
   }
   
   .navbar .navbar-menu-wrapper {
-    background: #ffffff;
-    transition: width 0.25s ease;
-    -webkit-transition: width 0.25s ease;
-    -moz-transition: width 0.25s ease;
-    -ms-transition: width 0.25s ease;
+    background: blue;
     color: #000000;
     padding-left: 2.5rem;
     padding-right: 2.5rem;

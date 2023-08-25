@@ -1,283 +1,302 @@
 <template>
     <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div
-                class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
-            >
-                <a class="navbar-brand brand-logo" href="../../index-2.html">
-                    <img
-                        src="sentech-logo2.png"
-                        alt="Sentech Logo"
-                        width="50px"
-                    />
-                </a>
-                <a
-                    class="navbar-brand brand-logo-mini"
-                    href="../../index-2.html"
-                >
-                    <img
-                        src="sentech-logo2.png"
-                        alt="Sentech Logo"
-                        width="50px"
-                    />
-                </a>
-                <button
-                    class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex"
-                    type="button"
-                    data-toggle="minimize"
-                >
-                    <span class="fa-solid fa-bars"></span>
-                </button>
-            </div>
 
-            <div
-                class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
-            >
-                <ul class="navbar-nav mr-lg-2">
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link" href="#"> Calendar </a>
-                    </li>
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link active" href="#"> Statistic </a>
-                    </li>
-                    <li class="nav-item d-none d-lg-flex">
-                        <a class="nav-link" href="#"> Employee </a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown d-flex">
-                        <a
-                            class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
-                            id="notificationDropdown"
-                            href="#"
-                            data-toggle="dropdown"
-                        >
-                            <i class="fa-solid fa-bell mr-0"></i>
-                            <span class="count bg-danger mr-3">2</span>
-                        </a>
-                    </li>
-                    <li class="nav-item nav-profile dropdown">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item dropdown">
-                                <a
-                                    class="nav-link dropdown-toggle login-name"
-                                    href="#"
-                                    id="navbarDropdownMenuLink"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    {{ $page.props.auth.user.name }}
-                                    <span class="initials-background"
-                                        ><strong>{{
-                                            $page.props.auth.user.name
-                                                .charAt(0)
-                                                .toUpperCase()
-                                        }}</strong></span
-                                    >
-                                </a>
-                                <ul
-                                    class="dropdown-menu"
-                                    aria-labelledby="navbarDropdownMenuLink"
-                                >
-                                    <li>
-                                        <Link
-                                            href="/dashboard"
-                                            method="post"
-                                            as="link"
-                                            class="nav-link px-3"
-                                            >Dashboard</Link
-                                        >
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href="/profile"
-                                            method="post"
-                                            as="link"
-                                            class="nav-link px-3"
-                                            >Profile</Link
-                                        >
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href="/help"
-                                            method="post"
-                                            as="link"
-                                            class="nav-link px-3"
-                                            >Help</Link
-                                        >
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href="/logout"
-                                            method="post"
-                                            as="link"
-                                            class="nav-link px-3"
-                                            >Logout</Link
-                                        >
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <button
-                    class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-                    type="button"
-                    data-toggle="offcanvas"
-                >
-                    <span class="typcn typcn-th-menu"></span>
-                </button>
-            </div>
-        </nav>
         <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            <!-- partial:../../partials/_settings-panel.html -->
-            <div class="theme-setting-wrapper">
-                <div id="settings-trigger">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-            </div>
-            <!-- partial -->
-            <!-- partial:../../partials/_sidebar.html -->
+        <div
+            class="container-fluid page-body-wrapper"
+            style="min-height: 100vh"
+        >
             <nav class="sidebar sidebar-light-theme">
-                <ul class="nav">
-                    <div class="nav-item">
-                        <div class="d-flex sidebar-profile col-12 text-start">
-                            <div
-                                class="sidebar-profile-image initials-background mx-1"
-                            >
-                                <i class="fa-solid fa-landmark"></i>
-                            </div>
-                            <div class="sidebar-profile-name text-center">
-                                <p class="sidebar-name">
-                                    {{ userdata[1] }}
-                                </p>
-                                <div class="sidebar-designation">
-                                    <li
-                                        v-for="(user, index) in userdata"
-                                        :key="index"
-                                    >
-                                        {{ getRoleNames(user.roles) }}
-                                    </li>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <li class="nav-item">
+                <div class="col-12 text-start pt-4 pb-5 mb-3">
+                    <img :src="Logo" alt="Sentech Logo" height="40" />
+                </div>
+                <ul class="nav mx-4">
+                    <li
+                        class="nav-item"
+                        :class="{ active: $page.url === '/dashboard' }"
+                    >
                         <Link
-                            class="nav-link"
+                            class="nav-link mb-2"
                             href="/dashboard"
                             aria-current="page"
-                            :class="{ active: $page.url === '/dashboard' }"
                         >
-                            <i class="menu-icon fa-solid fa-house"></i>
-                            <span class="menu-title">Dashboard </span>
+                            <span class="menu-title">Home </span>
                         </Link>
                     </li>
-                    <li class="nav-item">
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/sentiment-analysis"
-                            :class="{
-                                active: $page.url === '/sentiment-analysis',
-                            }"
-                        >
-                            <i class="fa-solid fa-chart-simple menu-icon"></i>
+                    <li
+                        class="nav-item mb-2"
+                        :class="{
+                            active:
+                                $page.url === '/admin/sentiments/overview' ||
+                                $page.url === '/admin/sentiments/timelines',
+                        }"
+                    >
+                        <a class="nav-link" @click="toggleCollapse">
                             <span class="menu-title">Sentiment Analysis </span>
-                        </Link>
-                    </li>
-                    <li class="nav-item">
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/predictive-maintenance"
-                            :class="{
-                                active: $page.url === '/predictive-maintenance',
-                            }"
+                        </a>
+                        <div
+                            :class="['collapse', { show: isCollapsed }]"
+                            id="ui-basic"
+                            style=""
                         >
-                            <i class="fa-solid fa-sliders menu-icon"></i>
-                            <span class="menu-title"
-                                >Predictive Maintenance</span
-                            >
-                        </Link>
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/sentiments/overview"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/sentiments/overview',
+                                        }"
+                                    >
+                                        Overview</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/sentiments/timelines"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/sentiments/timelines',
+                                        }"
+                                        >Time Lines</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/sentiment-analysis/trends"
+                                        >Trends</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/sentiment-analysis/others"
+                                        >Others</Link
+                                    >
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item">
+
+                    <li
+                        class="nav-item mb-2"
+                        :class="{
+                            active:
+                                $page.url ===
+                                    '/admin/predictive-maintenance/national-sites' ||
+                                $page.url ===
+                                    '/admin/predictive-maintenance/predictions' ||
+                                $page.url ===
+                                    '/admin/predictive-maintenance/device-config' ||
+                                $page.url ===
+                                    '/admin/predictive-maintenance/alarm-list',
+                        }"
+                    >
+                        <a class="nav-link" @click="toggleCollapse_pm">
+                            <span class="menu-title"
+                                >Predictive Maintenance
+                            </span>
+                        </a>
+                        <div
+                            :class="['collapse', { show: isCollapsed_pm }]"
+                            id="ui-basic"
+                            style=""
+                        >
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/predictive-maintenance/national-sites"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/predictive-maintenance/national-sites',
+                                        }"
+                                    >
+                                        National Sites</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/predictive-maintenance/predictions"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/predictive-maintenance/predictions',
+                                        }"
+                                        >Prediction</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/predictive-maintenance/device-config"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/predictive-maintenance/device-config',
+                                        }"
+                                        >Device Config</Link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <Link
+                                        class="nav-link"
+                                        href="/admin/predictive-maintenance/alarm-list"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/predictive-maintenance/alarm-list',
+                                        }"
+                                        >Alarm List</Link
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item mb-2">
                         <Link
                             class="nav-link"
                             aria-current="page"
                             href="/reporting"
                             :class="{ active: $page.url === '/reporting' }"
                         >
-                            <i class="fa-solid fa-clipboard menu-icon"></i>
                             <span class="menu-title">Reporting</span>
                         </Link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mb-2">
                         <Link
                             class="nav-link"
                             aria-current="page"
                             href="/dashboard"
                             :class="{ active: $page.url === '/feedback' }"
                         >
-                            <i class="fa-solid fa-comments menu-icon"></i>
                             <span class="menu-title">Feedback</span>
                         </Link>
                     </li>
 
-                    <li class="nav-item">
+                    <li
+                        class="nav-item mb-2"
+                        :class="{ active: $page.url === '/admin/roles' }"
+                    >
                         <Link
                             class="nav-link"
                             aria-current="page"
                             href="/admin/roles"
-                            :class="{ active: $page.url === '/Roles' }"
                         >
-                            <i class="fa-solid fa-lock menu-icon"></i>
                             <span class="menu-title"
                                 >Roles and permissions</span
                             >
                         </Link>
                     </li>
-                    <li class="nav-item">
+                    <li
+                        class="nav-item mb-2"
+                        :class="{ active: $page.url === '/admin/getUsers' }"
+                    >
                         <Link
                             class="nav-link"
                             aria-current="page"
                             href="/admin/getUsers"
                             :class="{ active: $page.url === '/Users' }"
                         >
-                            <i class="fa-solid fa-users-gear menu-icon"></i>
-                            <span class="menu-title">Users</span>
+                            <span class="menu-title">Users </span>
                         </Link>
                     </li>
 
-                    <li class="nav-item" v-if="company_type == 'super_company'">
+                    <li
+                        class="nav-item"
+                        :class="{ active: $page.url === '/organizantions' }"
+                        v-if="company_type == 'super_company'"
+                    >
                         <Link
                             class="nav-link"
                             aria-current="page"
                             href="/organizantions"
-                            :class="{ active: $page.url === '/Companies' }"
                         >
-                            <i class="fa-solid fa-business-time menu-icon"></i>
-                            <span class="menu-title">Companies</span>
+                            <span class="menu-title">Companies </span>
                         </Link>
                     </li>
                 </ul>
             </nav>
             <!-- partial -->
+
             <div class="main-panel">
-                <div class="content-wrapper">
-                    <div class="row">
-                        <div class="col-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="row">
-                                    <div class="card-body">
-                                        <slot></slot>
-                                    </div>
-                                </div>
+                <div
+                    class="content-wrapper"
+                    style="background-color: #f8f8f8 !important"
+                >
+                    <div class="col-12 text-end mb-4">
+                        <a
+                            class="nav-link dropdown-toggle pl-0 pr-0"
+                            @click="toggleCollapse_user"
+                            href="#"
+                            data-toggle="dropdown"
+                            id="profileDropdown"
+                        >
+                            <span class="nav-profile-name"
+                                >{{ $page.props.auth.user.name }}
+                            </span>
+                            <span
+                                class="initials-background"
+                                style="padding: 20px"
+                                ><strong>{{
+                                    $page.props.auth.user.name
+                                        .charAt(0)
+                                        .toUpperCase()
+                                }}</strong></span
+                            >
+                        </a>
+                        <div class="d-flex justify-content-end">
+                            <div
+                                style="background-color: #ffff"
+                                class="navbar-dropdown shadow col-2 py-4"
+                                :class="[
+                                    'collapse',
+                                    { hideUser: isCollapsed_user },
+                                ]"
+                            >
+                                <Link
+                                    href="/dashboard"
+                                    method="get"
+                                    as="link"
+                                    class="nav-link px-3"
+                                    >Dashboard</Link
+                                >
+
+                                <Link
+                                    href="/profile"
+                                    method="post"
+                                    as="link"
+                                    class="nav-link px-3"
+                                    >Profile</Link
+                                >
+                                <Link
+                                    href="/help"
+                                    method="post"
+                                    as="link"
+                                    class="nav-link px-3"
+                                    >Help</Link
+                                >
+                                <Link
+                                    href="/logout"
+                                    method="post"
+                                    as="link"
+                                    class="nav-link px-3"
+                                    >Logout</Link
+                                >
                             </div>
+                        </div>
+                    </div>
+                    <div class="row px-2">
+                        <div class="col-12 grid-margin stretch-card">
+                            <slot></slot>
                         </div>
                     </div>
                 </div>
@@ -293,6 +312,8 @@
 import { Link } from "@inertiajs/vue3";
 
 import { defineComponent, onMounted, ref } from "vue";
+
+import Logo from "../assets/sentech-logo2.jpg";
 
 export default defineComponent({
     name: "navigation",
@@ -316,6 +337,24 @@ export default defineComponent({
             }
         };
 
+        const isCollapsed = ref(false);
+
+        const toggleCollapse = () => {
+            isCollapsed.value = !isCollapsed.value;
+        };
+
+        const isCollapsed_pm = ref(false);
+
+        const toggleCollapse_pm = () => {
+            isCollapsed_pm.value = !isCollapsed_pm.value;
+        };
+
+        const isCollapsed_user = ref(false);
+
+        const toggleCollapse_user = () => {
+            isCollapsed_user.value = !isCollapsed_user.value;
+        };
+
         onMounted(() => {
             getuser();
         });
@@ -324,6 +363,13 @@ export default defineComponent({
             userdata,
             getRoleNames,
             company_type,
+            Logo,
+            toggleCollapse,
+            isCollapsed,
+            toggleCollapse_pm,
+            isCollapsed_pm,
+            toggleCollapse_user,
+            isCollapsed_user,
         };
     },
 });
@@ -350,7 +396,18 @@ export default defineComponent({
 .sidebar-name {
     color: #144f9f !important;
 }
+
 // .menu-title {
 //     color: black !important;
 // }
+.activeSub {
+    color: #144f9f !important;
+    font-weight: bold;
+}
+
+.hideUser {
+    display: inline !important;
+    position: absolute;
+    z-index: 1000;
+}
 </style>

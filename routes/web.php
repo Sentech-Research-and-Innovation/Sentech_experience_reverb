@@ -25,16 +25,7 @@ use  App\Http\Controllers\Organizations\OrganizationsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//$x=Hash::make('Password');
-//dd($x);
-/* Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-}); */
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -51,7 +42,6 @@ Route::post('/admin/roles/show', [RolesController::class, 'show'])->name('roles.
 Route::post('/admin/roles/update', [RolesController::class, 'update'])->name('roles.update')->middleware('role_has_permission:roles-update');
 Route::post('/admin/roles/delete', [RolesController::class, 'delete'])->name('roles.delete')->middleware('role_has_permission:roles-delete');
 
-
 Route::get('/admin/roles/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
 
 Route::get('/admin/user/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show.user')->middleware('role_has_permission:roles-read');
@@ -65,17 +55,12 @@ Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->name('rol
 
 Route::post('/admin/user/create', [UserController::class, 'create'])->name('roles.user.create');
 
-Route::get('/organizantions', [OrganizationsController::class, 'index']);
-Route::post('/organizantions/create', [OrganizationsController::class, 'create']);
-
-
-
-
-// Route::get('/das', function () {
-//     return Inertia::render('admin.index');
-// })->middleware(['auth',  'verified', 'role:Admin'])->name('admin.index');
+Route::get('/organizantions', [OrganizationsController::class, 'index'])->middleware(['auth']);
+Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware(['auth']);
 
 
 require __DIR__ . '/auth.php';
 
-MenuItem::inertia();
+require __DIR__ . '/groupe-routes/sentiments-Analysis.php';
+
+require __DIR__ . '/groupe-routes/predictive-maintenance.php';

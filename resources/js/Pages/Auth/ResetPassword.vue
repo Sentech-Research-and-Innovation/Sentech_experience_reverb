@@ -1,85 +1,155 @@
-<script setup>
-import { Head, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+<template>
+    <Head :title="'Login'"><title>Reset Password</title></Head>
+    <div class="login-wrapper">
+        <div class="inner-wrapper">
+            <div class="cm-logo">
+                <img src="white-logo.png" alt="CreditMate Logo" />
+            </div>
+            <div class="login-container shadow">
+                <h5 class="h1-login">Reset Password</h5>
 
-const props = defineProps({
-    email: String,
-    token: String,
-});
+                <form @submit.prevent="submit">
+                    <div class="row" v-if="!loading">
+                        <div class="mb-3">
+                            <label for="email" class="form-label"
+                                >Email address</label
+                            >
+                            <input
+                                type="email"
+                                class="form-control login-form-inputs"
+                                v-model="form.email"
+                                id="email"
+                            />
+                        </div>
 
-const form = useForm({
-    token: props.token,
-    email: props.email,
-    password: '',
-    password_confirmation: '',
-});
+                        <div class="mb-3">
+                            <label for="email" class="form-label"
+                                >New Password</label
+                            >
+                            <input
+                                type="email"
+                                class="form-control login-form-inputs"
+                                v-model="form.password"
+                            />
+                        </div>
 
-const submit = () => {
-    form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+                        <div class="mb-3">
+                            <label for="email" class="form-label"
+                                >Confirm Password</label
+                            >
+                            <input
+                                type="email"
+                                class="form-control login-form-inputs"
+                                v-model="form.password_confirmation"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <div
+                                class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
+                                @click="suibmit"
+                            >
+                                <span>Submit</span>
+                                <img src="arrow-right.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" v-else>
+                        <div class="d-flex justify-content-center">
+                            <div class="col-1">
+                                <img :src="LoadingGif" height="50" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { Head, Link } from "@inertiajs/inertia-vue3";
+import axios from "axios";
+
+import LoadingGif from "../../assets/loading.gif";
+
+export default {
+    layout: null,
+    components: {
+        Link,
+        Head,
+    },
+    data() {
+        return {
+            LoadingGif,
+            form: {},
+        };
+    },
+    methods: {
+        suibmit() {
+            this.loading = true;
+            const values = this.form;
+            axios
+                .post("/change-password", {
+                    email: values.email,
+                    token: this.form.token,
+                    password: values.password,
+                    password_confirmation: values.password_confirmation,
+                })
+                .then((res) => {
+                    if (res.status == 200) {
+                    }
+                })
+                .catch((err) => {});
+        },
+    },
+
+    created() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("");
+        this.form.token = token;
+    },
 };
 </script>
 
-<template>
-    <Head title="Reset Password" />
+<style lang="scss" scoped>
+span {
+    font-size: 30px;
+    margin: 20px;
+}
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
+label {
+    color: #706f6f;
+    font-size: 20px;
+}
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: #144f9f;
+    // NEST
+    .login-container {
+        width: 650px;
+        max-width: 100%;
+        background-color: #fff;
+        padding: 40px;
+    }
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+    h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
-</template>
+    .cm-logo {
+        text-align: center;
+        // NEST
+        img {
+            width: 350px;
+        }
+    }
+}
+</style>

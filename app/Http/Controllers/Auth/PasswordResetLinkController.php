@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\System\ActionResponse;
-use App\Models\System\DataValidation;
-use App\Models\Web\PersonalDetail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
+
 
 class PasswordResetLinkController extends Controller
 {
@@ -22,7 +22,7 @@ class PasswordResetLinkController extends Controller
     private $errorBag;
     public function __construct()
     {
-        $this->errorBag =[];
+        $this->errorBag = [];
     }
 
     public function create(): Response
@@ -39,38 +39,78 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request)
     {
-//        dd('dskoko');
-        $required = [
-            'id_number' => $request->id_number,
-        ];
-        $validate = new DataValidation();
-        $this->errorBag = $validate->required($required);
-
-        if (count($this->errorBag)) {
-            return ActionResponse::error('Please ensure all required fields have been filled.', $this->errorBag, false);
-        }
-
-        $personalDetails  = PersonalDetail::where('id_number',$request->id_number)->latest()->first();
-        if(is_null($personalDetails)){
-            $this->errorBag['id_number'] = 'Sorry it looks like you have entered a wrong ID Number, please check and try again, if the problem persists please contact customer support.';
-            return ActionResponse::error('Sorry it looks like you have entered the wrong ID Number, please check and try again, if the problem persists please contact customer support.', $this->errorBag, false);
-        }else{
-//            if
-        }
-
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
+        $validateEmail = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email',
+            ]
         );
 
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+        if ($validateEmail->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Email address is required',
+            ], 422);
         }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
+        $status = Password::sendResetLink(
+            $request->only('email'),
+
+        );
+
+        $status = Password::sendResetLink(
+            $request->only('email'),
+
+        );
+
+        if ($status == "passwords.throttled") {
+            return response()->json([
+                'status' => true,
+                'message' => 'link sent',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
+    }
+
+    public function reset(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+            'token' => 'required'
         ]);
+
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                $user->tokens()->delete();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+
+        if ($status == Password::PASSWORD_RESET) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Password reset successful',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Password reset expired, send another password reset request',
+            ], 404);
+        }
     }
 }

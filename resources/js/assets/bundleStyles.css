@@ -1,6 +1,10 @@
 /*
  * Container style
  */
+
+ .text-grey{
+  color:#737272
+ }
  .ps {
     overflow: hidden !important;
     overflow-anchor: none;

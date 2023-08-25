@@ -16,7 +16,7 @@ class OrganizationsController extends Controller
 {
     public function index()
     {
-        $companies = Company::with('contactPerson')->get();
+        $companies = Company::with('contactPerson')->OrderBy('id', 'DESC')->get();
         return Inertia::render('Companies/Index', compact('companies'));
     }
 

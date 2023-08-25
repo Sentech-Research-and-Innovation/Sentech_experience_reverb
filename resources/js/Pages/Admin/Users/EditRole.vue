@@ -2,7 +2,7 @@
     <div>
         <div class="col-12=">
             <button type="button" class="btn btn-sm btn-dark" @click="getRoles">
-                Edit Role
+                Change role
             </button>
 
             <SideModal
@@ -17,14 +17,30 @@
                             v-for="role in roles"
                             :key="role.id"
                         >
+                            <!-- <label class="form-check-label" :for="role.name">
+                                <input
+                                    class="form-check-input mx-2"
+                                    type="radio"
+                                    v-model="selectedRole"
+                                    :value="role.name"
+                                    :checked="isSelected(role.name)"
+                                />
+
+                                {{ role.name }}
+                                <i class="input-helper"></i>
+                            </label> -->
+
                             <input
-                                class="form-check-input mx-2"
+                                class="form-check-input"
                                 type="radio"
                                 v-model="selectedRole"
                                 :value="role.name"
                                 :checked="isSelected(role.name)"
                             />
-                            <label class="form-check-label" :for="role.name">
+                            <label
+                                class="form-check-label pt-1"
+                                :for="role.name"
+                            >
                                 {{ role.name }}
                             </label>
                         </div>
@@ -73,7 +89,7 @@ export default defineComponent({
 
         const content = ref({
             create: {
-                title: "Create new role",
+                title: "Change role for user",
             },
         });
 

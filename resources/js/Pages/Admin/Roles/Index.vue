@@ -1,5 +1,5 @@
 <template>
-    <div class="main-wrapper mb-2">
+    <div class="col-12">
         <h1>Roles</h1>
         <div class="col-12 px-4">
             <CreateRole v-if="can('roles-create')" />

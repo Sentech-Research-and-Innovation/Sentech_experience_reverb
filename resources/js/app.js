@@ -25,6 +25,8 @@ import LaravelPermissionToVueJS from "laravel-permission-to-vuejs";
 import * as directives from "vuetify/directives";
 import { createPinia } from "pinia";
 
+import VueApexCharts from "vue3-apexcharts";
+
 const pinia = createPinia();
 
 const vuetify = createVuetify({
@@ -62,6 +64,7 @@ createInertiaApp({
                 .use(ZiggyVue, Ziggy)
                 .use(pinia)
                 .use(LaravelPermissionToVueJS)
+                .use(VueApexCharts)
                 // .use(JSONView)
                 .mount(el)
         );

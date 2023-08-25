@@ -73,7 +73,8 @@ class AuthenticatedSessionController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
-                return   $token = $user->createToken('MobileAppToken')->accessToken;
+
+                $token = $user->createToken('MobileAppToken')->accessToken;
 
                 return response()->json([
                     'success' => true,
@@ -106,7 +107,7 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+        return redirect('/');
         return response()->json([
             'success' => true,
             'message' => 'Successfully logged out.',
