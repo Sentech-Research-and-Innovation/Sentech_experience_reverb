@@ -32,6 +32,7 @@
         "vue-json-component": "^0.4.1",
         "vue3-apexcharts": "^1.4.4",
         "vue3-select2-component": "^0.1.7",
-        "vuetify": "^3.1.15"
+        "vuetify": "^3.1.15",
+        "vueye-datepicker": "^0.1.7"
     }
 }

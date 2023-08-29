@@ -1,8 +1,4 @@
 <template>
-    <div class="row mx-0">
-        <div class="col-12"><h2>Analytics Overview</h2></div>
-    </div>
-
     <div class="d-flex justify-content-around">
         <div class="col-9 pt-4 mx-0 px-0">
             <div class="d-flex justify-content-between">
@@ -22,7 +18,7 @@
                     <h1 class="text-danger">
                         {{ overallData.negativeTweets }}
                     </h1>
-                    <p class="text-grey">Negavite Tweets</p>
+                    <p class="text-grey">Negative Tweets</p>
                 </div>
             </div>
         </div>

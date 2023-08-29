@@ -1,9 +1,7 @@
 <template>
     <div class="col-12 shadow">
         <div class="col-12">
-            <h2 class="text-primary py-4">
-                Number of Tweets By Hour and Sentiments
-            </h2>
+            <h2 class="py-4">Number of Tweets By Hour and Sentiments</h2>
         </div>
         <apexchart
             :options="chartOptions"

@@ -1,10 +1,12 @@
 <script>
 import { Link } from "@inertiajs/vue3";
+import Login from "../../Pages/Auth/Login.vue";
 
 export default {
     props: ["showing"],
     components: {
         Link,
+        Login,
     },
     data: function () {
         return {};
@@ -57,9 +59,10 @@ export default {
             </button>
             <div class="collapse navbar-collapse" id="sentech-nav">
                 <div class="navbar-nav ms-auto">
-                    <Link class="nav-link" href="/login"
+                    <Login />
+                    <!-- <Link class="nav-link" href="/login"
                         ><i class="fa fa-user"></i>Login
-                    </Link>
+                    </Link> -->
                     <Link class="nav-link" aria-current="page" href="/login"
                         ><span class="request-an-account-button"
                             >Request and Account</span

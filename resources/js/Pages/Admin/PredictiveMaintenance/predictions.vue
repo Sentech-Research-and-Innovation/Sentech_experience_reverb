@@ -1,6 +1,6 @@
 <template>
     <div class="col-12">
-        <h1>National Site Data</h1>
+        <h1>Predictions</h1>
         <table class="table">
             <thead>
                 <tr>

@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 shadow py-4 px-0 mx-0">
         <div class="col-12">
-            <h2 class="text-primary">Number Of Tweets By Location</h2>
+            <h2 class="">Number Of Tweets By Location</h2>
         </div>
         <div
             class="col-12 text-center"

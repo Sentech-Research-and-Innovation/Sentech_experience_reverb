@@ -1,9 +1,7 @@
 <template>
     <div class="col-12 shadow mx-0">
         <div class="col-12">
-            <h2 class="text-primary py-4">
-                Number Of Tweets By Date And Sentiments
-            </h2>
+            <h2 class="py-4">Number Of Tweets By Date And Sentiments</h2>
         </div>
         <div
             class="col-12 text-center"

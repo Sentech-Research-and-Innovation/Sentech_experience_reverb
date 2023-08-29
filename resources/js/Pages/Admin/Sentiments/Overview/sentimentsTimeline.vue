@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 shadow mx-0">
         <div class="col-12">
-            <h2 class="text-primary py-4">Sentiments Timeline (cumulative)</h2>
+            <h2 class="py-4">Sentiments Timeline (cumulative)</h2>
         </div>
         <div
             class="col-12 text-center"

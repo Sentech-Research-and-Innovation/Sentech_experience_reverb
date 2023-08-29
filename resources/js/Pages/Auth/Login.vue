@@ -1,66 +1,84 @@
 <template>
     <Head :title="'Login'"><title>Login</title></Head>
-    <div class="login-wrapper">
-        <div class="inner-wrapper">
-            <div class="cm-logo">
-                <img src="white-logo.png" alt="CreditMate Logo" />
-            </div>
-            <div class="login-container shadow">
-                <h1 class="h1-login">Login</h1>
-                <form @submit.prevent="submit">
-                    <div class="row">
-                        <div class="mb-3">
-                            <label for="email" class="form-label"
-                                >Email address</label
-                            >
-                            <input
-                                type="email"
-                                class="form-control login-form-inputs"
-                                v-model="form.email"
-                                id="email"
-                            />
+    <!-- <button type="button" class="button button-dark" @click="showing = true">
+        Create {{ showing }}
+    </button> -->
+    <a
+        class="nav-link"
+        @click="showing = true"
+        style="cursor: pointer !important"
+    >
+        <i class="fa fa-user"></i>Login
+    </a>
+    <SideModal
+        :content="content"
+        :showing="showing"
+        @hideModal="showing = false"
+    >
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <div class="col-6 mt-5 pt-5">
+                    <div class="h1-login">Login</div>
+                    <form @submit.prevent="submit">
+                        <div class="row pt-4">
+                            <div class="mb-3">
+                                <label for="email" class="form-label"
+                                    >Email address</label
+                                >
+                                <input
+                                    type="email"
+                                    class="form-control login-form-inputs"
+                                    v-model="form.email"
+                                    id="email"
+                                />
 
-                            <div class="text-danger">{{ errors.email }}</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label"
-                                >Password</label
-                            >
-                            <input
-                                class="form-control"
-                                type="password"
-                                v-model="form.password"
-                            />
-
-                            <div class="text-danger">{{ errors.password }}</div>
-                        </div>
-                        <div class="mb-3">
-                            <div
-                                class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
-                                @click="login"
-                            >
-                                <span>Login</span>
-                                <img src="arrow-right.png" />
+                                <div class="text-danger">
+                                    {{ errors.email }}
+                                </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label"
+                                    >Password</label
+                                >
+                                <input
+                                    class="form-control login-form-inputs"
+                                    type="password"
+                                    v-model="form.password"
+                                />
 
-                            <Link
-                                href="/forgot-password"
-                                class="m-2 text-primary float-end forgot-password-text"
-                            >
-                                Forgot your password?
-                            </Link>
+                                <div class="text-danger">
+                                    {{ errors.password }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div
+                                    class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
+                                    @click="login"
+                                >
+                                    <span>Login</span>
+                                    <img src="arrow-right.png" />
+                                </div>
+
+                                <Link
+                                    href="/forgot-password"
+                                    class="m-2 text-primary float-end forgot-password-text"
+                                >
+                                    Forgot your password?
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </SideModal>
 </template>
 
 <script>
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import ForgotPasswordComponent from "./ForgotPassword.vue";
+import SideModal from "@/Layouts/SideModal.vue";
 
 export default {
     layout: null,
@@ -68,9 +86,16 @@ export default {
         Link,
         Head,
         ForgotPasswordComponent,
+        SideModal,
     },
     data() {
         return {
+            showing: false,
+            content: {
+                create: {
+                    title: "",
+                },
+            },
             form: {},
 
             errors: {
@@ -140,5 +165,18 @@ label {
             width: 350px;
         }
     }
+}
+.nav-link {
+    color: #fff !important;
+    .fa.fa-user {
+        padding-right: 10px !important;
+    }
+}
+.form-label {
+    font-size: 15px !important;
+    font-weight: 100 !important;
+}
+.login-form-inputs {
+    border: 1px solid #707070;
 }
 </style>

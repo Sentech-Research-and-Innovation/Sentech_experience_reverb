@@ -1,5 +1,5 @@
 <template>
-    <div class="side-modal mt-5" :class="{ 'showing-modal': showing }">
+    <div class="side-modal" :class="{ 'showing-modal': showing }">
         <div class="dialog" role="document">
             <button
                 type="button"

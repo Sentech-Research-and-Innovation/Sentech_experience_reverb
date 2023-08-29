@@ -1,5 +1,11 @@
 <template>
     <div class="col-12">
+        <div class="row mt-4">
+            <div class="col-7">
+                <div class="col-12"><h2>Analytics Overview</h2></div>
+            </div>
+            <div class="col-5 mx-0"></div>
+        </div>
         <OverallSentiments />
         <div class="row mt-4">
             <div class="col-7">
@@ -21,7 +27,7 @@ import OverallSentiments from "./overallSentiments.vue";
 
 import { defineComponent, ref } from "vue";
 
-export default defineComponent({
+export default {
     name: "sentiment-analysis-over-index",
     layout: AdminLayout,
 
@@ -30,5 +36,5 @@ export default defineComponent({
         tweetsLocation,
         OverallSentiments,
     },
-});
+};
 </script>
