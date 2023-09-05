@@ -26,10 +26,14 @@ use  App\Http\Controllers\Organizations\OrganizationsController;
 |
 */
 
+Route::get('/', function () {
+    return Inertia::render('Web/Index');
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'role:Admin'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 
 
@@ -57,6 +61,8 @@ Route::post('/admin/user/create', [UserController::class, 'create'])->name('role
 
 Route::get('/organizantions', [OrganizationsController::class, 'index'])->middleware(['auth']);
 Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware(['auth']);
+
+//MenuItem::inertia();
 
 
 require __DIR__ . '/auth.php';

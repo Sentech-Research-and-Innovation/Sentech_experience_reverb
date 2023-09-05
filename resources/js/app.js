@@ -26,6 +26,8 @@ import * as directives from "vuetify/directives";
 import { createPinia } from "pinia";
 
 import VueApexCharts from "vue3-apexcharts";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 const pinia = createPinia();
 
@@ -65,6 +67,7 @@ createInertiaApp({
                 .use(pinia)
                 .use(LaravelPermissionToVueJS)
                 .use(VueApexCharts)
+                .use(VueDatePicker)
                 // .use(JSONView)
                 .mount(el)
         );

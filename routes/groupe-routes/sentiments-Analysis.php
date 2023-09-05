@@ -8,9 +8,9 @@ use App\Http\Controllers\Admin\SentimentsAnalysis\TimeLinesController;
 
 
 Route::get('/admin/sentiments/overview', [OverViewController::class, 'index']);
-Route::get('/admin/sentiments/overview/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline']);
-Route::get('/admin/sentiments/overview/tweets-by-location', [OverViewController::class, 'tweetsByLocation']);
-Route::get('/admin/sentiments/overview/overall-sentiments', [OverViewController::class, 'overallSentiments']);
+Route::post('/admin/sentiments/overview/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline']);
+Route::post('/admin/sentiments/overview/tweets-by-location', [OverViewController::class, 'tweetsByLocation']);
+Route::post('/admin/sentiments/overview/overall-sentiments', [OverViewController::class, 'overallSentiments']);
 
 
 Route::get('/admin/sentiments/timelines', [TimeLinesController::class, 'index']);

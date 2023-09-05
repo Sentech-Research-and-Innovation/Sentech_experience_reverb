@@ -24,9 +24,7 @@ class OverViewController extends Controller
 
     public function overallSentiments()
     {
-
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=2000');
-
+        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
         $data = json_decode($jsonData, true);
 
         $positiveTweets = 0;
@@ -35,28 +33,66 @@ class OverViewController extends Controller
 
         $total = count($data['hits']['hits']);
 
+        $filterDate = request()->searchFilter['date'];
+        $keyword = request()->searchFilter['keywords'];
+
         foreach ($data['hits']['hits'] as $hit) {
+            $dateStr = $hit['_source']['date'];
+            $date = new DateTime($dateStr);
+            $month = $date->format('Y-m-d');
 
-            $sentiment = $hit['_source']['sentiment'];
+            if ($filterDate !== null) {
+                $filterDateObj = new DateTime($filterDate);
+                $filterMonth = $filterDateObj->format('Y-m-d');
 
-            if ($sentiment === 'positive') {
-                $positiveTweets++;
-            } else if ($sentiment === 'negative') {
-                $negativeTweets++;
-            } else if ($sentiment == 'neutral') {
-                $neutralTweets++;
+                if ($month !== $filterMonth) {
+                    continue; // Skip this iteration if the months don't match
+                }
+            }
+
+            if ($keyword !== null) {
+                // Check if keywords are set and the tweet contains them
+                if (stripos($hit['_source']['text'], $keyword) !== false) {
+                    $sentiment = $hit['_source']['sentiment'];
+
+                    if ($sentiment === 'positive') {
+                        $positiveTweets++;
+                    } else if ($sentiment === 'negative') {
+                        $negativeTweets++;
+                    } else if ($sentiment == 'neutral') {
+                        $neutralTweets++;
+                    }
+                }
+            } else {
+                // If no keyword filter is set, count all tweets
+                $sentiment = $hit['_source']['sentiment'];
+
+                if ($sentiment === 'positive') {
+                    $positiveTweets++;
+                } else if ($sentiment === 'negative') {
+                    $negativeTweets++;
+                } else if ($sentiment == 'neutral') {
+                    $neutralTweets++;
+                }
             }
         }
 
-        $response = ["positiveTweets" => $positiveTweets, "negativeTweets" => $negativeTweets, "neutralTweets" => $neutralTweets, "totalTweets" => $total];
+        $response = [
+            "positiveTweets" => $positiveTweets,
+            "negativeTweets" => $negativeTweets,
+            "neutralTweets" => $neutralTweets,
+            "totalTweets" => $total,
+        ];
 
-        return request()->json(200, $response);
+        return response()->json($response, 200);
     }
+
+
 
     public function sentimentsTimeline()
     {
 
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=2000');
+        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
 
         $data = json_decode($jsonData, true);
 
@@ -64,15 +100,26 @@ class OverViewController extends Controller
         $hits = $data['hits']['hits'];
 
         $dateMonthGroups = [];
+        $filterDate = request()->searchFilter['date'];
+        $keyword = request()->searchFilter['keywords'];
 
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
-            $month = $date->format('Y-m');
+            $formattedDate = $date->format('Y-m');
 
-            if (!isset($dateMonthGroups[$month])) {
-                $dateMonthGroups[$month] = [
+            if ($filterDate !== null) {
+                $formattedFilterDate = new DateTime($filterDate);
+                $filterMonth = $formattedFilterDate->format('Y-m');
+
+                if ($formattedDate !== $filterMonth) {
+                    continue; // Skip this iteration if the months don't match
+                }
+            }
+
+            if (!isset($dateMonthGroups[$formattedDate])) {
+                $dateMonthGroups[$formattedDate] = [
                     'year' => $date->format('Y'),
                     'month' => $date->format('F'),
                     'sentiments' => [
@@ -82,7 +129,9 @@ class OverViewController extends Controller
                     ],
                 ];
             }
-            $dateMonthGroups[$month]['sentiments'][$sentiment]++;
+
+
+            $dateMonthGroups[$formattedDate]['sentiments'][$sentiment]++;
         }
 
         return request()->json(200, $dateMonthGroups);
@@ -90,18 +139,38 @@ class OverViewController extends Controller
 
     public function tweetsByLocation()
     {
-
         $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-
         $data = json_decode($jsonData, true);
 
         $hits = $data['hits']['hits'];
 
         $placeTweetCounts = [];
+        $filterDate = request()->searchFilter['date'];
+        $keyword = request()->searchFilter['keywords'];
 
         foreach ($hits as $hit) {
-            // Assuming the location information is under 'place'
-            $place = $hit['_source']['place']; // You may need to adjust this based on your data structure
+            $place = $hit['_source']['place'];
+            $dateStr = $hit['_source']['date'];
+            $date = new DateTime($dateStr);
+            $formattedDate = $date->format('Y-m-d');
+
+            if ($filterDate !== null) {
+                $formattedFilterDate = new DateTime($filterDate);
+                $filterMonth = $formattedFilterDate->format('Y-m-d');
+
+                if ($formattedDate !== $filterMonth) {
+                    continue; // Skip this iteration if the months don't match
+                }
+            }
+
+            // Keyword filtering
+            if ($keyword !== null) {
+                $tweetText = $hit['_source']['text'];
+
+                if (stripos($tweetText, $keyword) === false) {
+                    continue; // Skip this iteration if the keyword is not found in the tweet text
+                }
+            }
 
             // Count tweets per place
             if (!isset($placeTweetCounts[$place])) {

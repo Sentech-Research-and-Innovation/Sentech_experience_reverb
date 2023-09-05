@@ -11,7 +11,6 @@
             <img :src="LoadingGif" width="50" />
         </div>
         <apexchart
-            v-else
             class="py-5"
             type="donut"
             :options="chartOptions"
@@ -21,18 +20,21 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
 
 export default defineComponent({
     name: "sentiment-analysis-over-tweets-by-location",
-
+    props: ["filter"],
     components: {},
-
-    setup() {
+    setup(props) {
         const loading = ref(true);
+        const searchFilter = ref({
+            date: "",
+            keywords: "",
+        });
 
-        const places = ref([]);
+        const labels = ref([]);
         const values = ref([]);
 
         const chartOptions = ref({
@@ -43,26 +45,30 @@ export default defineComponent({
             tooltip: {
                 enabled: true,
             },
-            labels: places.value,
+            labels: [],
             legend: {
                 position: "right",
             },
         });
 
         const getData = async () => {
-            const res = await axios.get(
-                `/admin/sentiments/overview/tweets-by-location`
+            const res = await axios.post(
+                `/admin/sentiments/overview/tweets-by-location`,
+                { searchFilter: searchFilter.value }
             );
 
             if (res.status === 200) {
-                let isFirstValue = true;
+                //  let isFirstValue = true;
+
                 for (const place in res.data) {
                     if (res.data.hasOwnProperty(place)) {
-                        if (isFirstValue) {
-                            isFirstValue = false;
-                            continue;
-                        }
-                        places.value.push(place);
+                        // if (isFirstValue) {
+                        //     isFirstValue = false;
+                        //     continue;
+                        // }
+                        // places.value.push(place);
+
+                        chartOptions.value.labels.push(place);
                         values.value.push(res.data[place]);
                     }
                 }
@@ -73,11 +79,23 @@ export default defineComponent({
         onMounted(async () => {
             getData();
         });
+
+        watch(
+            () => props.filter,
+            (first, second) => {
+                searchFilter.value = first;
+                chartOptions.value.labels.length = 0;
+                //  location.reload();
+                values.value = [];
+                getData();
+            }
+        );
         return {
             chartOptions,
             values,
             loading,
             LoadingGif,
+            searchFilter,
         };
     },
 });
