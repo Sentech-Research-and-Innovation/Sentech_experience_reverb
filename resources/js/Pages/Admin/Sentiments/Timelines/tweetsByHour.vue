@@ -155,7 +155,6 @@ export default defineComponent({
             if (res.status === 200) {
                 const responseData = await res.data;
                 hours.value = await responseData.hours;
-                console.log(hours.value);
                 for await (const sentiment of responseData.data) {
                     series.value[0].data.push(sentiment.positive);
                     series.value[1].data.push(sentiment.neutral);

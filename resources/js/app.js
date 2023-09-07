@@ -34,9 +34,9 @@ import "vuevectormap/src/scss/vuevectormap.scss";
 import jsVectorMap from "jsvectormap";
 window.jsVectorMap = jsVectorMap;
 
-// require("jsvectormap/dist/maps/world");
-
 import "jsvectormap/dist/maps/world";
+
+import vuescroll from "vuescroll";
 
 const pinia = createPinia();
 
@@ -67,22 +67,58 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, App, props, plugin }) {
-        return (
-            createApp({ render: () => h(App, props) })
-                .use(plugin)
-                .use(bootstrap)
-                .use(vuetify)
-                .use(ZiggyVue, Ziggy)
-                .use(pinia)
-                .use(LaravelPermissionToVueJS)
-                .use(VueApexCharts)
-                .use(VueDatePicker)
-                .use(VueVectorMap, {
-                    backgroundColor: "#f6f6f6",
-                })
-                // .use(JSONView)
-                .mount(el)
-        );
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(bootstrap)
+            .use(vuetify)
+            .use(ZiggyVue, Ziggy)
+            .use(pinia)
+            .use(LaravelPermissionToVueJS)
+            .use(VueApexCharts)
+            .use(VueDatePicker)
+            .use(VueVectorMap, {
+                backgroundColor: "#f6f6f6",
+            })
+            .use(vuescroll, {
+                ops: {
+                    // The global config
+                    vuescroll: {
+                        checkShiftKey: true,
+                        locking: false,
+                        // deltaPercent: 0.75
+                    },
+                    scrollButton: {
+                        enable: true,
+                        background: "rgb(3, 185, 118)",
+                        opacity: 1,
+                        step: 180,
+                        mousedownStep: 30,
+                    },
+                    bar: {
+                        opacity: "0.5",
+                        background: "blue",
+                    },
+                    scrollPanel: {
+                        initialScrollY: true,
+                        initialScrollX: true,
+                        scrollingX: true,
+                        scrollingY: true,
+                        speed: 300,
+                        easing: undefined,
+                        verticalNativeBarPos: "right",
+                    },
+                    rail: {
+                        background: "#A3ACBC",
+                        opacity: 0.3,
+                        size: "1%",
+                        specifyBorderRadius: "1%",
+                        gutterOfEnds: "0",
+                        gutterOfSide: "0",
+                        keepShow: false,
+                    },
+                },
+            })
+            .mount(el);
     },
     progress: {
         color: "#4B5563",

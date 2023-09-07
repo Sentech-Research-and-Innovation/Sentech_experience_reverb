@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Overview'"><title>Overview</title></Head>
+
     <div class="col-12">
         <div class="row mt-4">
             <div class="col-5">
@@ -47,12 +49,15 @@ import OverallSentiments from "./overallSentiments.vue";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     name: "sentiment-analysis-over-index",
     layout: AdminLayout,
 
     components: {
+        Link,
+        Head,
         timelineChart,
         tweetsLocation,
         OverallSentiments,

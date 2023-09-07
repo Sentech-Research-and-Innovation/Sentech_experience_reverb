@@ -32,8 +32,11 @@
         "three-dots": "^0.3.2",
         "vue-apexcharts": "^1.6.2",
         "vue-json-component": "^0.4.1",
+        "vue-weather-widget": "^4.3.1",
         "vue3-apexcharts": "^1.4.4",
+        "vue3-open-weather-widget": "^0.1.7",
         "vue3-select2-component": "^0.1.7",
+        "vuescroll": "^5.1.1",
         "vuetify": "^3.1.15",
         "vuevectormap": "^2.0.1",
         "vueye-datepicker": "^0.1.7"

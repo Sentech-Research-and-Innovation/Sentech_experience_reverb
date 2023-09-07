@@ -11,8 +11,7 @@ use App\Http\Controllers\Admin\PersmissionsController;
 use  App\Http\Controllers\Admin\AsignRolesController;
 use  App\Http\Controllers\Admin\UserController;
 use  App\Http\Controllers\Organizations\OrganizationsController;
-
-
+use App\Http\Controllers\Web\WeatherController;
 
 
 /*
@@ -61,6 +60,9 @@ Route::post('/admin/user/create', [UserController::class, 'create'])->name('role
 
 Route::get('/organizantions', [OrganizationsController::class, 'index'])->middleware(['auth']);
 Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware(['auth']);
+
+Route::post('/web/weather', [WeatherController::class, 'create']);
+
 
 //MenuItem::inertia();
 

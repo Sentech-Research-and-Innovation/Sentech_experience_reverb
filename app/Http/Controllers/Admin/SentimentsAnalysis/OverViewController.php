@@ -91,17 +91,13 @@ class OverViewController extends Controller
 
     public function sentimentsTimeline()
     {
-
         $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-
         $data = json_decode($jsonData, true);
-
-
         $hits = $data['hits']['hits'];
 
         $dateMonthGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keyword = request()->searchFilter['keywords'];
+        $keywords = request()->searchFilter['keywords']; // Get the keywords parameter
 
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
@@ -118,6 +114,11 @@ class OverViewController extends Controller
                 }
             }
 
+            // Check if keywords are provided and the hit contains them
+            if (!empty($keywords) && stripos($hit['_source']['text'], $keywords) === false) {
+                continue; // Skip this iteration if keywords don't match
+            }
+
             if (!isset($dateMonthGroups[$formattedDate])) {
                 $dateMonthGroups[$formattedDate] = [
                     'year' => $date->format('Y'),
@@ -130,12 +131,14 @@ class OverViewController extends Controller
                 ];
             }
 
+            ksort($dateMonthGroups);
 
             $dateMonthGroups[$formattedDate]['sentiments'][$sentiment]++;
         }
 
-        return request()->json(200, $dateMonthGroups);
+        return response()->json($dateMonthGroups, 200); // Updated response() method
     }
+
 
     public function tweetsByLocation()
     {

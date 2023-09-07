@@ -5,54 +5,65 @@
 
             <div class="col-12 pt-4 shadow-sm pb-4 mt-4">
                 <div class="row" v-if="!loading">
-                    <div class="col-9">
-                        <div class="row pb-3">
-                            <div class="col-2">
-                                <strong>Sentiments</strong>
-                            </div>
-                            <div class="col-1"><strong>Likes</strong></div>
-                            <div class="col-9">
-                                <strong>Tweet Content</strong>
-                            </div>
-                        </div>
-                        <div v-if="tweets.tweetsContent.length !== 0">
-                            <div
-                                class="col-12 tweets-wrapper1"
-                                v-for="(tweet, index) in tweets.tweetsContent"
-                                :key="index"
-                            >
-                                <div class="row tweets-container">
-                                    <div
-                                        class="col-2 sentiment py-2"
-                                        :class="{
-                                            'tweets-container-negative':
-                                                tweet.sentiment === 'negative',
-                                            'tweets-container-neutral':
-                                                tweet.sentiment === 'neutral',
-                                            'tweets-container-positive':
-                                                tweet.sentiment === 'positive',
-                                        }"
-                                    >
-                                        {{ tweet.sentiment }}
-                                    </div>
-                                    <div class="col-1 py-2 likes text-center">
-                                        1
-                                    </div>
-
-                                    <div
-                                        class="col-9 py-2"
-                                        v-html="highlightKeywords(tweet.tweet)"
-                                    ></div>
+                    <div class="col-9" style="height: 500px">
+                        <vue-scroll>
+                            <div class="row pb-3">
+                                <div class="col-2">
+                                    <strong>Sentiments</strong>
+                                </div>
+                                <div class="col-1"><strong>Likes</strong></div>
+                                <div class="col-9">
+                                    <strong>Tweet Content</strong>
                                 </div>
                             </div>
-                        </div>
-                        <div v-else>
-                            <div
-                                class="col-12 tweets-wrapper1 text-center py-5"
-                            >
-                                No Results found
+                            <div v-if="tweets.tweetsContent.length !== 0">
+                                <div
+                                    class="col-12 tweets-wrapper1"
+                                    v-for="(
+                                        tweet, index
+                                    ) in tweets.tweetsContent"
+                                    :key="index"
+                                >
+                                    <div class="row tweets-container">
+                                        <div
+                                            class="col-2 sentiment py-2"
+                                            :class="{
+                                                'tweets-container-negative':
+                                                    tweet.sentiment ===
+                                                    'negative',
+                                                'tweets-container-neutral':
+                                                    tweet.sentiment ===
+                                                    'neutral',
+                                                'tweets-container-positive':
+                                                    tweet.sentiment ===
+                                                    'positive',
+                                            }"
+                                        >
+                                            {{ tweet.sentiment }}
+                                        </div>
+                                        <div
+                                            class="col-1 py-2 likes text-center"
+                                        >
+                                            1
+                                        </div>
+
+                                        <div
+                                            class="col-9 py-2"
+                                            v-html="
+                                                highlightKeywords(tweet.tweet)
+                                            "
+                                        ></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div v-else>
+                                <div
+                                    class="col-12 tweets-wrapper1 text-center py-5"
+                                >
+                                    No Results found
+                                </div>
+                            </div>
+                        </vue-scroll>
                     </div>
                     <div class="col-3">
                         <div class="col-12 sentiments-counts">

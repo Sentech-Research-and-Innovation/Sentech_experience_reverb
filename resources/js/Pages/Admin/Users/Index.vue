@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Users'"><title>Users</title></Head>
+
     <div class="col-12">
         <h1>Users</h1>
         <div class="col-12 px-4"><CreateUser /></div>
@@ -42,11 +44,13 @@ import { defineComponent } from "vue";
 import EditRole from "./EditRole.vue";
 import CreateUser from "./CreateUser.vue";
 
+import { Head, Link } from "@inertiajs/inertia-vue3";
+
 export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser },
+    components: { EditRole, CreateUser, Head, Link },
 
     props: {
         users: {

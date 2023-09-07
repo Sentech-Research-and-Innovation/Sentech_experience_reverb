@@ -20,13 +20,13 @@ class TimeLinesController extends Controller
 
     public function tweetsByHour()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=2000');
+        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
         $data = json_decode($jsonData, true);
 
         $hits = $data['hits']['hits'];
         $hourGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keyword = request()->searchFilter['keywords'];
+        $keywords = request()->searchFilter['keywords'];
 
 
         foreach ($hits as $hit) {
@@ -41,6 +41,10 @@ class TimeLinesController extends Controller
                 if ($date->format('Y-m-d') != $filterDateTime->format('Y-m-d')) {
                     continue; // Skip this tweet if the dates don't match
                 }
+            }
+
+            if (!empty($keywords) && stripos($hit['_source']['text'], $keywords) === false) {
+                continue; // Skip this iteration if keywords don't match
             }
 
             if (!isset($hourGroups[$hour])) {

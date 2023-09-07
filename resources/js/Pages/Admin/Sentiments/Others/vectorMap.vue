@@ -17,11 +17,15 @@
             }"
         >
         </vuevectormap>
+        <div v-else class="col-12 text-center">
+            <img :src="LoadingGif" width="50" />
+        </div>
     </div>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted, watch } from "vue";
+import LoadingGif from "../../../../assets/loading.gif";
 
 export default defineComponent({
     name: "sentiment-analysis-trends-vectorMap",
@@ -65,7 +69,6 @@ export default defineComponent({
                     //     markers.value.push(item);
                     // });
                     markers.value = res.data;
-                    console.log(markers.value);
 
                     dataLoaded.value = true;
                 }
@@ -93,6 +96,7 @@ export default defineComponent({
             markerStyle,
             dataLoaded,
             searchFilter,
+            LoadingGif,
         };
     },
 });

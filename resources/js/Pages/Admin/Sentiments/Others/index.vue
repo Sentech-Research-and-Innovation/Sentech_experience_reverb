@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Others'"><title>Others</title></Head>
+
     <div class="col-12">
         <div class="row pb-5">
             <div class="col-5">
@@ -42,12 +44,15 @@ import Map from "./vectorMap.vue";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     name: "sentiment-analysis-timelines-index",
     layout: AdminLayout,
 
     components: {
+        Link,
+        Head,
         Map,
         VueDatePicker,
     },

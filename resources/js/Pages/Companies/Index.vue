@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Companies'"><title>Companies</title></Head>
+
     <div class="col-12">
         <h1>Companies</h1>
         <div class="col-12 px-4"><CreateCompany /></div>
@@ -38,11 +40,13 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import { defineComponent } from "vue";
 import CreateCompany from "./CreateCompany.vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
+
 export default defineComponent({
     name: "company-list",
     layout: AdminLayout,
 
-    components: { CreateCompany },
+    components: { CreateCompany, Link, Head },
 
     props: {
         companies: {

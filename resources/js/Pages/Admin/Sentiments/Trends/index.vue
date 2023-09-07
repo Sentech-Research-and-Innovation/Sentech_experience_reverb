@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Trends'"><title>Trends</title></Head>
+
     <div class="col-12">
         <div class="row pb-5">
             <div class="col-5">
@@ -27,7 +29,7 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <TweetsByDate />
+                <TweetsByDate :filter="searchFilter" />
             </div>
             <div class="col-6">
                 <div class="col-12 shadow-sm mx-0 py-4">
@@ -64,11 +66,15 @@ import TweetsByDate from "./tweetsByDate.vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
+import { Head, Link } from "@inertiajs/inertia-vue3";
+
 export default defineComponent({
     name: "sentiment-analysis-timelines-index",
     layout: AdminLayout,
 
     components: {
+        Link,
+        Head,
         VueDatePicker,
         TweetAnalysisTable,
         TweetsByDate,

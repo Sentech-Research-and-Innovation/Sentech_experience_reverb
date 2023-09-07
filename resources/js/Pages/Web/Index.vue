@@ -2,6 +2,7 @@
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import WebLayout from "@/Layouts/WebLayout.vue";
 import SideModal from "../../Layouts/SideModal.vue";
+import WeatherWidgetVue from "./WeatherWidget.vue";
 
 export default {
     props: ["x"],
@@ -13,6 +14,7 @@ export default {
         WebLayout,
         Head,
         Link,
+        WeatherWidgetVue,
     },
     data: function () {
         return {
@@ -66,31 +68,41 @@ export default {
                                             et dolore magna aliqua.
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="small-info-block d-flex justify-content-center align-items-center"
-                                        >
-                                            <span class="advert-section-span"
-                                                >Feedback</span
+                                    <div class="col-md-6 weather-widget">
+                                        <WeatherWidgetVue />
+                                    </div>
+                                    <div class="col-md-6 mx-0 px-0">
+                                        <div class="col-md-12 pb-2">
+                                            <div
+                                                class="small-info-block py-3 d-flex justify-content-center align-items-center"
                                             >
+                                                <span
+                                                    class="advert-section-span"
+                                                    >Feedback</span
+                                                >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="small-info-block d-flex justify-content-center align-items-center"
-                                        >
-                                            <span class="advert-section-span">
-                                                Public Stats
-                                            </span>
+                                        <div class="col-md-12 pb-2">
+                                            <div
+                                                class="small-info-block py-3 d-flex justify-content-center align-items-center"
+                                            >
+                                                <span
+                                                    class="advert-section-span"
+                                                >
+                                                    Public Stats
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div
-                                            class="small-info-block d-flex justify-content-center align-items-center"
-                                        >
-                                            <span class="advert-section-span">
-                                                Promotions
-                                            </span>
+                                        <div class="col-md-12 pb-2">
+                                            <div
+                                                class="small-info-block py-3 d-flex justify-content-center align-items-center"
+                                            >
+                                                <span
+                                                    class="advert-section-span"
+                                                >
+                                                    Promotions
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -153,14 +165,19 @@ export default {
 
 .small-info-block {
     background: #4372b2;
-    border-radius: 25px;
+    border-radius: 10px;
     width: 100%;
-    height: 200px;
 }
 
 .advert-section-span {
-    font-size: 20px;
-    font-weight: normal;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.weather-widget {
+    background-color: #0c368b;
+    border-radius: 10px;
+    color: #fff !important;
 }
 
 .btn:hover {

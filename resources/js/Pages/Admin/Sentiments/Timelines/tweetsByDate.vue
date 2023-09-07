@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import chartUtil from "../../../../utils/sentimentsTimelineChart";
 import LoadingGif from "../../../../assets/loading.gif";
 
@@ -30,19 +30,23 @@ export default defineComponent({
     name: "sentiment-analysis-over-sentimentsTimelineChart",
 
     components: {},
-
-    setup() {
+    props: ["filter"],
+    setup(props) {
+        const searchFilter = ref({
+            date: "",
+            keywords: "",
+        });
         const loading = ref(true);
         const chartData = ref({
             negative: [],
             positive: [],
             neutral: [],
         });
-        const seriesData = [
+        const seriesData = ref([
             {
                 type: "line",
                 name: "Negative",
-                data: chartData.value.negative,
+                data: [],
                 fill: {
                     type: "gradient",
                     gradient: {
@@ -67,7 +71,7 @@ export default defineComponent({
                         opacity: 0.9,
                     },
                 },
-                data: chartData.value.positive,
+                data: [],
             },
             {
                 type: "line",
@@ -83,27 +87,32 @@ export default defineComponent({
                         opacity: 0.2,
                     },
                 },
-                data: chartData.value.neutral,
+                data: [],
             },
-        ];
+        ]);
 
         const getData = async () => {
             const res = await axios.post(
                 `/admin/sentiments/overview/sentimentsTimeline`,
-                { searchFilter: { date: null, keywords: null } }
+                { searchFilter: searchFilter.value }
             );
             if (res.status === 200) {
                 for (const key in res.data) {
                     const monthData = res.data[key];
-                    chartData.value["negative"].push({
+                    seriesData.value[0].data.push({
                         x: monthData.month + " " + monthData.year,
                         y: monthData.sentiments.negative,
                     });
-                    chartData.value["positive"].push({
+
+                    // chartData.value["negative"].push({
+                    //     x: monthData.month + " " + monthData.year,
+                    //     y: monthData.sentiments.negative,
+                    // });
+                    seriesData.value[1].data.push({
                         x: monthData.month + " " + monthData.year,
                         y: monthData.sentiments.positive,
                     });
-                    chartData.value["neutral"].push({
+                    seriesData.value[2].data.push({
                         x: monthData.month + " " + monthData.year,
                         y: monthData.sentiments.neutral,
                     });
@@ -111,6 +120,22 @@ export default defineComponent({
                 loading.value = false;
             }
         };
+
+        watch(
+            () => props.filter,
+            (first, second) => {
+                loading.value = true;
+                searchFilter.value = first;
+                seriesData.value[0].data = [];
+                seriesData.value[0].type = "bar";
+                seriesData.value[1].data = [];
+                seriesData.value[1].type = "bar";
+                seriesData.value[2].data = [];
+                seriesData.value[2].type = "bar";
+
+                getData();
+            }
+        );
 
         onMounted(async () => {
             getData();
@@ -123,6 +148,7 @@ export default defineComponent({
             chartUtil,
             loading,
             LoadingGif,
+            searchFilter,
         };
     },
 });

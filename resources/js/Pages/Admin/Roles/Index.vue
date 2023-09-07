@@ -1,4 +1,6 @@
 <template>
+    <Head :title="'Roles'"><title>Roles</title></Head>
+
     <div class="col-12">
         <h1>Roles</h1>
         <div class="col-12 px-4">
@@ -26,10 +28,8 @@
                                 <ViewRole
                                     v-if="can('roles-update')"
                                     :roleName="role.name"
-
                                 />
                             </div>
-
                         </td>
                     </tr>
                 </tbody>
@@ -45,6 +45,7 @@ import DeleteRole from "./DeleteRole.vue";
 import ViewRole from "./ViewRole.vue";
 
 import { defineComponent } from "vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     name: "list-roles",
@@ -54,6 +55,8 @@ export default defineComponent({
         CreateRole,
         DeleteRole,
         ViewRole,
+        Head,
+        Link,
     },
 
     props: {
