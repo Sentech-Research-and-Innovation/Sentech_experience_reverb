@@ -29,6 +29,15 @@ import VueApexCharts from "vue3-apexcharts";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
+import VueVectorMap from "vuevectormap";
+import "vuevectormap/src/scss/vuevectormap.scss";
+import jsVectorMap from "jsvectormap";
+window.jsVectorMap = jsVectorMap;
+
+// require("jsvectormap/dist/maps/world");
+
+import "jsvectormap/dist/maps/world";
+
 const pinia = createPinia();
 
 const vuetify = createVuetify({
@@ -68,6 +77,9 @@ createInertiaApp({
                 .use(LaravelPermissionToVueJS)
                 .use(VueApexCharts)
                 .use(VueDatePicker)
+                .use(VueVectorMap, {
+                    backgroundColor: "#f6f6f6",
+                })
                 // .use(JSONView)
                 .mount(el)
         );

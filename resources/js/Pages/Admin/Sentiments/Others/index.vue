@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="row pb-5">
             <div class="col-5">
-                <div><h2>Time Lines</h2></div>
+                <div><h2>Other</h2></div>
             </div>
 
             <div class="col-2 mx-0">
@@ -26,14 +26,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <TweetsHour :filter="searchFilter" />
-            </div>
-            <div class="col-6 px-0 mx-0">
-                <TweetsAndLikes />
-            </div>
-            <div class="col-12 mt-4">
-                <TweetsByDate />
+            <div class="col-12">
+                <Map :filter="searchFilter" />
             </div>
         </div>
     </div>
@@ -44,9 +38,8 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import { defineComponent, ref } from "vue";
 
-import TweetsHour from "./tweetsByHour.vue";
-import TweetsAndLikes from "./tweetsAndLikes.vue";
-import TweetsByDate from "./tweetsByDate.vue";
+import Map from "./vectorMap.vue";
+
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
@@ -55,9 +48,7 @@ export default defineComponent({
     layout: AdminLayout,
 
     components: {
-        TweetsHour,
-        TweetsAndLikes,
-        TweetsByDate,
+        Map,
         VueDatePicker,
     },
     setup() {

@@ -25,6 +25,9 @@ class TimeLinesController extends Controller
 
         $hits = $data['hits']['hits'];
         $hourGroups = [];
+        $filterDate = request()->searchFilter['date'];
+        $keyword = request()->searchFilter['keywords'];
+
 
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
@@ -32,9 +35,17 @@ class TimeLinesController extends Controller
             $date = new DateTime($dateStr);
             $hour = $date->format('H'); // Get the hour component
 
+            if ($filterDate !== null) {
+                // Check if the date matches the filter date
+                $filterDateTime = new DateTime($filterDate);
+                if ($date->format('Y-m-d') != $filterDateTime->format('Y-m-d')) {
+                    continue; // Skip this tweet if the dates don't match
+                }
+            }
+
             if (!isset($hourGroups[$hour])) {
                 $hourGroups[$hour] = [
-                    'hour' => $hour,
+                    'hour' => intval($hour),
                     'sentiments' => [
                         'positive' => 0,
                         'neutral' => 0,
@@ -62,6 +73,7 @@ class TimeLinesController extends Controller
 
         return response()->json($response, 200);
     }
+
 
     public function tweetsLikes()
     {

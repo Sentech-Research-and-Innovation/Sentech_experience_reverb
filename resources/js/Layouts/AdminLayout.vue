@@ -29,7 +29,9 @@
                         :class="{
                             active:
                                 $page.url === '/admin/sentiments/overview' ||
-                                $page.url === '/admin/sentiments/timelines',
+                                $page.url === '/admin/sentiments/timelines' ||
+                                $page.url === '/admin/sentiments/trends' ||
+                                $page.url === '/admin/sentiments/others',
                         }"
                     >
                         <a class="nav-link" @click="toggleCollapse">
@@ -69,14 +71,24 @@
                                 <li class="nav-item">
                                     <Link
                                         class="nav-link"
-                                        href="/sentiment-analysis/trends"
+                                        href="/admin/sentiments/trends"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/sentiments/trends',
+                                        }"
                                         >Trends</Link
                                     >
                                 </li>
                                 <li class="nav-item">
                                     <Link
                                         class="nav-link"
-                                        href="/sentiment-analysis/others"
+                                        :class="{
+                                            activeSub:
+                                                $page.url ===
+                                                '/admin/sentiments/others',
+                                        }"
+                                        href="/admin/sentiments/others"
                                         >Others</Link
                                     >
                                 </li>

@@ -13,12 +13,19 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 
 export default defineComponent({
     components: {},
-    setup() {
+    props: ["filter"],
+
+    setup(props) {
         const hours = ref([]);
+
+        const searchFilter = ref({
+            date: "",
+            keywords: "",
+        });
         const series = ref([
             {
                 name: "Positive",
@@ -43,9 +50,7 @@ export default defineComponent({
                 type: "bar",
                 height: 350,
                 stacked: true,
-                toolbar: {
-                    show: true,
-                },
+
                 toolbar: {
                     show: true,
                     tools: {
@@ -79,6 +84,8 @@ export default defineComponent({
                     lines: {
                         show: true,
                     },
+                    min: 0,
+                    max: 23,
                 },
                 yaxis: {
                     lines: {
@@ -120,9 +127,17 @@ export default defineComponent({
                 },
             },
             xaxis: {
-                type: "time",
-                categories: hours.value,
+                type: "numeric",
+
+                tickAmount: hours.value.length - 1,
+                labels: {
+                    formatter: function (val) {
+                        return hours.value[val - 1];
+                    },
+                },
             },
+            categories: hours.value,
+
             legend: {
                 position: "top",
                 offsetY: 40,
@@ -133,20 +148,36 @@ export default defineComponent({
         });
 
         const getData = async () => {
-            const res = await axios.get(
-                `/admin/sentiments/timelines/tweets-by-hour`
+            const res = await axios.post(
+                `/admin/sentiments/timelines/tweets-by-hour`,
+                { searchFilter: searchFilter.value }
             );
             if (res.status === 200) {
-                const responseData = res.data;
-                hours.value = responseData.hours;
+                const responseData = await res.data;
+                hours.value = await responseData.hours;
                 console.log(hours.value);
-                for (const sentiment of responseData.data) {
+                for await (const sentiment of responseData.data) {
                     series.value[0].data.push(sentiment.positive);
                     series.value[1].data.push(sentiment.neutral);
                     series.value[2].data.push(sentiment.negative);
                 }
             }
         };
+
+        watch(
+            () => props.filter,
+            (first, second) => {
+                searchFilter.value = first;
+                hours.value = [];
+                series.value[0].data = [];
+
+                series.value[1].data = [];
+
+                series.value[2].data = [];
+
+                getData();
+            }
+        );
         onMounted(async () => {
             getData();
         });
@@ -155,6 +186,7 @@ export default defineComponent({
             series,
             chartOptions,
             getData,
+            searchFilter,
         };
     },
 });
