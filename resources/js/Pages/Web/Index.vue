@@ -68,10 +68,10 @@ export default {
                                             et dolore magna aliqua.
                                         </div>
                                     </div>
-                                    <div class="col-md-6 weather-widget">
+                                    <div class="col-md-7 weather-widget">
                                         <WeatherWidgetVue />
                                     </div>
-                                    <div class="col-md-6 mx-0 px-0">
+                                    <div class="col-md-5 mx-0 px-0">
                                         <div class="col-md-12 pb-2">
                                             <div
                                                 class="small-info-block py-3 d-flex justify-content-center align-items-center"
@@ -137,9 +137,9 @@ export default {
 }
 
 .advert-section-page {
-    height: 365px;
+    height: 320px;
     background: #fff;
-    border-radius: 50px;
+    border-radius: 10px;
     margin-right: 50px;
 }
 
@@ -158,6 +158,9 @@ export default {
 .advert-section-div {
     color: #706f6f;
     padding: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
     font-size: 35px;
     width: 75%;
     font-weight: normal;
@@ -209,7 +212,7 @@ export default {
     .advert-section-page {
         height: 330px;
         background: #fff;
-        border-radius: 50px;
+        border-radius: 20px;
         margin-right: 50px;
     }
 

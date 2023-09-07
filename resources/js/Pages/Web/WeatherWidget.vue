@@ -11,7 +11,7 @@
                             {{ temp }}
                         </div>
                     </div>
-                    <div class="col-7">
+                    <div class="col-7 mx-0 px-0">
                         <div class="col-12 px-0 mx-0 pt-2">
                             <div class="degree rounded-circle"></div>
                         </div>
