@@ -1,8 +1,31 @@
 <template>
     <div class="col-12">
-        <h1>Dashboard KPIs</h1>
+        <p class="text-grey">Welcome Back,</p>
+        <!-- {{ userdata[0].first_name }} -->
+        <h1><strong>Dashboard</strong></h1>
 
-        <div class="justify-content-center col-12 text-center">
+        <div class="col-12 tweets-report-wrapper rounded mt-5">
+            <div class="d-flex justify-content-between pr-4 py-4">
+                <div class="col-3 total-tweets rounded py-4 tweet-box">
+                    <div class="tweets-label">Total tweets</div>
+                    <div class="tweets-value"><strong>321</strong></div>
+                </div>
+                <div class="col-3 total-engagement rounded py-4 tweet-box">
+                    <div class="tweets-label">Engament</div>
+                    <div class="tweets-value"><strong>48%</strong></div>
+                </div>
+                <div class="col-3 total-tweets2 rounded py-4 tweet-box">
+                    <div class="tweets-label">Total tweets</div>
+                    <div class="tweets-value"><strong>321</strong></div>
+                </div>
+                <div class="col-3 total-tweets3 rounded py-4 tweet-box">
+                    <div class="tweets-label">Total tweets</div>
+                    <div class="tweets-value"><strong>321</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="justify-content-center col-12 text-center">
             <div class="col-12 text-center pt-5 mt-5">
                 <div
                     class="sidebar-profile-image initials-background mx-1 shadow"
@@ -20,7 +43,7 @@
                     </h3>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -80,5 +103,40 @@ export default defineComponent({
 
 .sidebar-name {
     color: #144f9f !important;
+}
+
+.grey-text {
+    color: #737272;
+}
+
+.tweets-report-wrapper {
+    background-color: #eeeeee;
+    color: #fff;
+}
+
+.total-tweets {
+    background-color: #f7a623;
+}
+
+.total-tweets2 {
+    background-color: #209cbe;
+}
+
+.total-tweets3 {
+    background-color: #c51616;
+}
+
+.total-engagement {
+    background-color: #93ad24;
+}
+
+.tweets-value {
+    font-size: 40px;
+}
+.tweets-label {
+    font-size: 20px;
+}
+.tweet-box {
+    margin-right: 8px; /* Add margin-right to create space between divs */
 }
 </style>

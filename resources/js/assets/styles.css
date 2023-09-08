@@ -23177,7 +23177,6 @@
     align-items: center;
     white-space: nowrap;
     padding: 0.75rem 1.75rem 0.75rem 1.75rem;
-    color: red;
     -webkit-transition-duration: 0.45s;
     -moz-transition-duration: 0.45s;
     -o-transition-duration: 0.45s;
@@ -23220,19 +23219,7 @@
     margin-right: auto;
   }
 
-  .sidebar .nav .nav-item .nav-link i.menu-arrow:before {
-    content: "\e049";
-    font-family: "typicons";
-    font-style: normal;
-    display: block;
-    font-size: 1rem;
-    line-height: 10px;
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -ms-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-  }
+
 
   .sidebar .nav .nav-item .nav-link .menu-title {
     color: #737272;
@@ -23242,6 +23229,7 @@
     vertical-align: middle;
     font-weight:500
   }
+
 
   .sidebar .nav .nav-item .nav-link .badge {
     margin-left: auto;
@@ -23274,9 +23262,6 @@
     color: #fff;
   }
 
-  .sidebar .nav .nav-item.active > .nav-link i {
-    color: red;
-  }
 
   .sidebar .nav:not(.sub-menu) {
     margin-top: 0rem;
@@ -23291,9 +23276,16 @@
   }
 
   .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
-    background: #144f9f;
-    color: #fff;
+    /* border-radius:15px;
+    color:red !important */
+    cursor: pointer;
   }
+
+  .sub-menu > .nav-item:hover > .nav-link {
+    color: #144f9f !important;
+  font-weight: bold !important;
+  }
+
 
   .sidebar .nav.sub-menu {
     margin-bottom: 0;
@@ -23446,12 +23438,8 @@
     color: #2b80ff;
   }
 
-  .sidebar-light .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
-    background: #333;
-    color: #d0cfcf;
-  }
 
-  .sidebar-light .sidebar .nav.sub-menu .nav-item .nav-link {
+ .sidebar .nav.sub-menu .nav-item .nav-link {
     color: #939393;
   }
 
@@ -23464,9 +23452,6 @@
     background: transparent;
   }
 
-  .sidebar-light .sidebar .nav.sub-menu .nav-item .nav-link:hover {
-    color: #9a94a7;
-  }
 
   .sidebar-light .sidebar .nav.sub-menu .nav-item:hover {
     background: transparent;
@@ -24341,12 +24326,7 @@
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title:after {
       display: none;
     }
-    .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link:hover .menu-title {
-      background: red;
-    }
-    .sidebar-light.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link:hover .menu-title {
-      background: #fff;
-    }
+   
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse,
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
       display: block;

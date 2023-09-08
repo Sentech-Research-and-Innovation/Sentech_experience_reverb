@@ -18,7 +18,7 @@ class WeatherController extends Controller
         $lon = request()->lon;
 
         $weather = Http::acceptJson()
-            ->get("https://api.openweathermap.org/data/2.5/weather?lat=" . $lat . "&lon=" . $lon . "&mode=json&units=metric&appid=45aee2ef715cfa91ed7957e8cfd37a70");
+            ->get("https://api.openweathermap.org/data/2.5/weather?lat=" . $lat . "&lon=" . $lon . "&mode=json&units=metric&appid=e695570b6f7c7b11ff6b8dd74c8f7865");
 
         return $weather;
     }
