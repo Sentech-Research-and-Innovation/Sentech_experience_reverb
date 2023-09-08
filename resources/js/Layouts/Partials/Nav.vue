@@ -41,10 +41,10 @@ export default {
 }
 </style>
 <template>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand">
         <div class="container">
-            <a class="navbar-brand" href="#"
-                ><img src="../../assets/white-logo.png"
+            <a class="navbar-brand pt-4" href="#"
+                ><img src="../../assets/white-logo.png" width="200"
             /></a>
             <button
                 class="navbar-toggler"
@@ -60,10 +60,10 @@ export default {
             <div class="collapse navbar-collapse" id="sentech-nav">
                 <div class="navbar-nav ms-auto">
                     <Login />
-                    <!-- <Link class="nav-link" href="/login"
-                        ><i class="fa fa-user"></i>Login
-                    </Link> -->
-                    <Link class="nav-link" aria-current="page" href="/login"
+                    <Link
+                        class="register nav-link"
+                        aria-current="page"
+                        href="/login"
                         ><span class="request-an-account-button"
                             >Request and Account</span
                         >
@@ -73,3 +73,16 @@ export default {
         </div>
     </nav>
 </template>
+
+<style scoped>
+@media screen and (max-width: 600px) {
+    .register {
+        visibility: hidden;
+        clear: both;
+        float: left;
+        margin: 10px auto 5px 20px;
+        width: 28%;
+        display: none;
+    }
+}
+</style>

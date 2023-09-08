@@ -1,6 +1,6 @@
 <template>
     <div class="side-modal" :class="{ 'showing-modal': showing }">
-        <div class="dialog" role="document">
+        <div class="dialog col-lg-7 col-10" role="document">
             <button
                 type="button"
                 class="close close-btn"
@@ -65,14 +65,13 @@ export default {
 
     .dialog {
         border: none;
-        padding: 50px;
-        width: 70%;
+        width: 100%;
         min-height: 100vh;
         border-top-left-radius: 1.25em;
         box-shadow: -2px -2px 3px #b6b5b5;
         position: absolute;
-        top: 15px;
         right: 0;
+        padding: 0px !important;
         z-index: 15;
         z-index: 999;
         background-color: #fff;
@@ -167,19 +166,19 @@ export default {
     .close-btn {
         position: absolute;
         top: 0;
-        left: -65px;
+        left: -50px;
         z-index: 999;
         background: #fff;
         border-radius: 50px;
         border: none;
         font-size: 26px;
-        font-weight: bold;
         box-shadow: -2px 0px 8px #e6dcdc;
         width: 50px;
         height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 1000;
     }
 }
 </style>

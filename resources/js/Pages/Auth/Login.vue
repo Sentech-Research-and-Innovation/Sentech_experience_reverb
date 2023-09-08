@@ -17,7 +17,7 @@
     >
         <div class="col-12">
             <div class="d-flex justify-content-center">
-                <div class="col-6 mt-5 pt-5">
+                <div class="col-lg-6 col-md-8 col-12 mt-5 pt-5">
                     <div class="h1-login">Login</div>
                     <form @submit.prevent="submit">
                         <div class="row pt-4">
