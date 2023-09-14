@@ -48,12 +48,12 @@ export default {
                                 <div
                                     class="advert-section-div pt-lg-5 mx-4 pt-3"
                                 >
-                                    Introducing our NEW Streaming App Sentech
-                                    Plus
+                                    Introducing our <br />
+                                    NEW Streaming App Sentech Plus
                                 </div>
 
                                 <div
-                                    class="d-flex justify-content-end mt-5 col-12 py-4"
+                                    class="d-flex justify-content-end mt-5 col-12 py-2"
                                 >
                                     <div
                                         class="btn advert-section-div-button my-4"
@@ -85,7 +85,7 @@ export default {
                                             <WeatherWidgetVue />
                                         </div>
                                         <div
-                                            class="col-md-12 col-lg-5 col-12 mx-0 px-lg-2 px-0 py-4 py-lg-0"
+                                            class="col-md-12 col-lg-5 col-12 mx-lg-3 px-0 py-4 py-lg-0"
                                         >
                                             <div
                                                 class="col-md-12 small-info-block py-3 text-center"
@@ -152,6 +152,7 @@ export default {
     color: #9f9e9e;
     font-size: 15px;
     border: solid 2px #9f9e9e;
+    border-radius: 10px;
     font-weight: bold;
     background: #fff;
 }

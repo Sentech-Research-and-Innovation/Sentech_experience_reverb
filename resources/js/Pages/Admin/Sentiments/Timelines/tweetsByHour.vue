@@ -1,9 +1,20 @@
 <template>
-    <div class="col-12 shadow">
+    <div class="col-12 shadow-border">
         <div class="col-12">
-            <h2 class="py-4">Number of Tweets By Hour and Sentiments</h2>
+            <h3 class="py-4" style="color: #000">
+                Number of Tweets By Hour and Sentiments
+            </h3>
         </div>
+        <div
+            class="col-12 text-center"
+            v-if="loading"
+            style="height: 300px; padding-top: 100px"
+        >
+            <img :src="LoadingGif" width="50" />
+        </div>
+
         <apexchart
+            v-else
             :options="chartOptions"
             :series="series"
             type="bar"
@@ -13,16 +24,21 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
+import LoadingGif from "../../../../assets/loading.gif";
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     components: {},
-    props: ["filter"],
 
-    setup(props) {
+    setup() {
+        const loading = ref(true);
+
         const hours = ref([]);
+        const filterStore = useFilterStore();
+        const searchFilter = computed(() => filterStore.searchFilter);
 
-        const searchFilter = ref({
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -62,7 +78,7 @@ export default defineComponent({
                     },
                 },
             },
-            colors: ["#118dff", "#00c83c", "#ec1c24"],
+            colors: ["#00e396", "#775dd0", "#ff4560"],
             dataLabels: {
                 enabled: false,
                 name: {
@@ -72,6 +88,7 @@ export default defineComponent({
                     show: false,
                 },
             },
+
             grid: {
                 border: true,
                 strokeDashArray: 3,
@@ -142,15 +159,12 @@ export default defineComponent({
                 position: "top",
                 offsetY: 40,
             },
-            fill: {
-                opacity: 1,
-            },
         });
 
         const getData = async () => {
             const res = await axios.post(
                 `/admin/sentiments/timelines/tweets-by-hour`,
-                { searchFilter: searchFilter.value }
+                { searchFilter: search.value }
             );
             if (res.status === 200) {
                 const responseData = await res.data;
@@ -160,23 +174,26 @@ export default defineComponent({
                     series.value[1].data.push(sentiment.neutral);
                     series.value[2].data.push(sentiment.negative);
                 }
+                loading.value = false;
             }
         };
 
-        watch(
-            () => props.filter,
-            (first, second) => {
-                searchFilter.value = first;
-                hours.value = [];
-                series.value[0].data = [];
+        watch(searchFilter, (newFilter, oldFilter) => {
+            const { date, keywords } = newFilter;
+            search.value = {
+                date: date,
+                keywords: keywords,
+            };
+            hours.value = [];
+            series.value[0].data = [];
 
-                series.value[1].data = [];
+            series.value[1].data = [];
 
-                series.value[2].data = [];
+            series.value[2].data = [];
+            loading.value = true;
 
-                getData();
-            }
-        );
+            getData();
+        });
         onMounted(async () => {
             getData();
         });
@@ -186,6 +203,8 @@ export default defineComponent({
             chartOptions,
             getData,
             searchFilter,
+            loading,
+            LoadingGif,
         };
     },
 });

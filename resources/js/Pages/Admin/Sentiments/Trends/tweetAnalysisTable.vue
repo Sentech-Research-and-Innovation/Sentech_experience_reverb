@@ -3,7 +3,7 @@
         <div class="col-12">
             <div><h2>Tweet Content</h2></div>
 
-            <div class="col-12 pt-4 shadow-sm pb-4 mt-4">
+            <div class="col-12 pt-4 shadow-border pb-4 mt-4">
                 <div class="row" v-if="!loading">
                     <div class="col-9" style="height: 500px">
                         <vue-scroll>
@@ -112,18 +112,21 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-tweets-analysis-table",
 
     components: {},
-    props: ["filter"],
-    setup(props) {
-        const tweets = ref([]);
+    setup() {
+        const filterStore = useFilterStore();
+
         const loading = ref(true);
-        const searchFilter = ref({
+        const tweets = ref([]);
+        const searchFilter = computed(() => filterStore.searchFilter);
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -131,7 +134,7 @@ export default defineComponent({
             loading.value = true;
             const res = await axios.post(
                 `/admin/sentiments/trends/tweetsContent`,
-                { searchFilter: searchFilter.value }
+                { searchFilter: search.value }
             );
             if (res.status === 200) {
                 tweets.value = res.data;
@@ -141,9 +144,7 @@ export default defineComponent({
 
         const highlightKeywords = (tweetText) => {
             // Get the keywords from the filter
-            const keywords = searchFilter.value.keywords
-                .toLowerCase()
-                .split(" ");
+            const keywords = search.value.keywords.toLowerCase().split(" ");
 
             // Create a regular expression to match the keywords
             const keywordRegex = new RegExp(keywords.join("|"), "gi");
@@ -154,15 +155,16 @@ export default defineComponent({
             });
         };
 
-        watch(
-            () => props.filter,
-            (first, second) => {
-                searchFilter.value = first;
+        watch(searchFilter, (newFilter, oldFilter) => {
+            const { date, keywords } = newFilter;
+            search.value = {
+                date: date,
+                keywords: keywords,
+            };
 
-                tweets.value = [];
-                getData();
-            }
-        );
+            tweets.value = [];
+            getData();
+        });
         onMounted(async () => {
             getData();
         });
@@ -172,6 +174,7 @@ export default defineComponent({
             highlightKeywords,
             LoadingGif,
             loading,
+            search,
         };
     },
 });

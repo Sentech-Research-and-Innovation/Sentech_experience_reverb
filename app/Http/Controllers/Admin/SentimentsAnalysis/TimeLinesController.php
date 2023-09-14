@@ -26,14 +26,17 @@ class TimeLinesController extends Controller
         $hits = $data['hits']['hits'];
         $hourGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keywords = request()->searchFilter['keywords'];
+        $keywords = (array)request()->searchFilter['keywords']; // Ensure keywords is an array
 
+        // Initialize an array to count occurrences of each hour
+        $hourCounts = array_fill(0, 24, 0);
 
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
             $dateStr = $hit['_source']['date'];
+            $tweetText = $hit['_source']['text'];
             $date = new DateTime($dateStr);
-            $hour = $date->format('H'); // Get the hour component
+            $hour = (int)$date->format('H'); // Get the hour component
 
             if ($filterDate !== null) {
                 // Check if the date matches the filter date
@@ -43,24 +46,47 @@ class TimeLinesController extends Controller
                 }
             }
 
-            if (!empty($keywords) && stripos($hit['_source']['text'], $keywords) === false) {
-                continue; // Skip this iteration if keywords don't match
+            // Keyword filtering logic
+            $keywordFound = false;
+            foreach ($keywords as $keyword) {
+                if (stripos($tweetText, $keyword) !== false) {
+                    $keywordFound = true;
+                    break; // Exit the loop if at least one keyword is found
+                }
             }
 
-            if (!isset($hourGroups[$hour])) {
-                $hourGroups[$hour] = [
-                    'hour' => intval($hour),
-                    'sentiments' => [
-                        'positive' => 0,
-                        'neutral' => 0,
-                        'negative' => 0,
-                    ],
-                ];
+            if (!empty($keywords) && !$keywordFound) {
+                continue; // Skip this iteration if no keyword is found
             }
-            $hourGroups[$hour]['sentiments'][$sentiment]++;
+
+            // Count the occurrence of each hour
+            $hourCounts[$hour]++;
         }
 
-        ksort($hourGroups);
+        // Create hourGroups based on the counts
+        for ($hour = 0; $hour < 24; $hour++) {
+            $hourGroups[] = [
+                'hour' => $hour,
+                'sentiments' => [
+                    'positive' => 0,
+                    'neutral' => 0,
+                    'negative' => 0,
+                ],
+            ];
+        }
+
+        // Fill sentiments based on counts
+        foreach ($hits as $hit) {
+            $sentiment = $hit['_source']['sentiment'];
+            $dateStr = $hit['_source']['date'];
+            $date = new DateTime($dateStr);
+            $hour = (int)$date->format('H'); // Get the hour component
+
+            if (isset($hourGroups[$hour])) {
+                $hourGroups[$hour]['sentiments'][$sentiment]++;
+            }
+        }
+
         // Separate hours and data
         $hours = [];
         $dataByHour = [];
@@ -77,6 +103,7 @@ class TimeLinesController extends Controller
 
         return response()->json($response, 200);
     }
+
 
 
     public function tweetsLikes()

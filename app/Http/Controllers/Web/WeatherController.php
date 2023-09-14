@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use GeoIP as GeoIP;
 
 
 class WeatherController extends Controller
@@ -14,12 +15,35 @@ class WeatherController extends Controller
     public function create()
     {
 
-        $lat = request()->lat;
-        $lon = request()->lon;
+        //  $location  = GeoIP::getLocation('105.22.37.114');
 
-        $weather = Http::acceptJson()
-            ->get("https://api.openweathermap.org/data/2.5/weather?lat=" . $lat . "&lon=" . $lon . "&mode=json&units=metric&appid=e695570b6f7c7b11ff6b8dd74c8f7865");
+        //  $locationData = [
+        //     'ip' => $location->ip,
+        //     'country_code' => $location->country_code,
+        //     'country' => $location->country,
+        //     'city' => $location->city,
+        //     'lon' =>  $location->lon,
+        //     'lat' =>  $location->lat,
 
-        return $weather;
+        //     // Add other properties you want to include in the response
+        // ];
+
+        $clientIP = $_SERVER['REMOTE_ADDR'];
+
+        // Check if the IP address is coming through a proxy
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            $clientIP = $_SERVER['HTTP_CLIENT_IP'];
+        }
+
+        $location  = GeoIP::getLocation($clientIP);
+
+        $lat =  $location->lat;
+        $lon =  $location->lon;
+        $city = ["city" => $location->city];
+        $weather = Http::get("https://api.openweathermap.org/data/2.5/weather?lat=" . $lat . "&lon=" . $lon . "&mode=json&units=metric&appid=e695570b6f7c7b11ff6b8dd74c8f7865");
+
+        return   $data = [json_decode($weather), $city];
     }
 }

@@ -28,72 +28,20 @@
                         class="nav-item mb-2"
                         :class="{
                             active:
+                                $page.url === '/admin/sentiments/all' ||
                                 $page.url === '/admin/sentiments/overview' ||
                                 $page.url === '/admin/sentiments/timelines' ||
                                 $page.url === '/admin/sentiments/trends' ||
                                 $page.url === '/admin/sentiments/others',
                         }"
                     >
-                        <a class="nav-link" @click="toggleCollapse">
-                            <span class="menu-title">Sentiment Analysis </span>
-                        </a>
-                        <div
-                            :class="['collapse', { show: isCollapsed }]"
-                            id="ui-basic"
-                            style=""
+                        <Link
+                            class="nav-link mb-2"
+                            href="/admin/sentiments/all"
+                            aria-current="page"
                         >
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/sentiments/overview"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/sentiments/overview',
-                                        }"
-                                    >
-                                        Overview</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/sentiments/timelines"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/sentiments/timelines',
-                                        }"
-                                        >Time Lines</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/sentiments/trends"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/sentiments/trends',
-                                        }"
-                                        >Trends</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/sentiments/others',
-                                        }"
-                                        href="/admin/sentiments/others"
-                                        >Others</Link
-                                    >
-                                </li>
-                            </ul>
-                        </div>
+                            <span class="menu-title">Sentiment Analysis </span>
+                        </Link>
                     </li>
 
                     <li
@@ -242,9 +190,15 @@
             <div class="main-panel">
                 <div
                     class="content-wrapper"
-                    style="background-color: #f8f8f8 !important"
+                    style="background-color: #ebedf0 !important"
                 >
-                    <div class="col-12 text-end mb-4">
+                    <div
+                        class="col-12 text-end py-2"
+                        style="
+                            background-color: #ffff;
+                            border-bottom: 1px solid #c7cdd2;
+                        "
+                    >
                         <a
                             class="nav-link dropdown-toggle pl-0 pr-0"
                             @click="toggleCollapse_user"
@@ -307,8 +261,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row px-2">
-                        <div class="col-12 grid-margin stretch-card">
+                    <div>
+                        <div>
                             <slot></slot>
                         </div>
                     </div>
@@ -328,9 +282,11 @@ import { defineComponent, onMounted, ref } from "vue";
 
 import Logo from "../assets/sentech-logo2.jpg";
 
+import Weather from "../Pages/Web/WeatherWidget.vue";
+
 export default defineComponent({
     name: "navigation",
-    components: { Link },
+    components: { Link, Weather },
 
     setup() {
         const company_type = ref([]);
@@ -383,6 +339,7 @@ export default defineComponent({
             isCollapsed_pm,
             toggleCollapse_user,
             isCollapsed_user,
+            Weather,
         };
     },
 });

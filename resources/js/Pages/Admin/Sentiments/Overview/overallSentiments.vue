@@ -1,45 +1,105 @@
 <template>
-    <div class="d-flex justify-content-around">
-        <div class="col-9 pt-4 mx-0 px-0">
-            <div v-if="overallData" class="d-flex justify-content-between">
-                <div class="col-4 shadow text-center py-4">
-                    <h1 class="text-secondary">
-                        {{ overallData.totalTweets }}
-                    </h1>
-                    <p class="text-grey">Total Tweets</p>
-                </div>
-                <div class="col-4 shadow text-center py-4">
-                    <h1 class="text-success">
-                        {{ overallData.positiveTweets }}
-                    </h1>
-                    <p class="text-grey">Positive Tweets</p>
-                </div>
-                <div class="col-4 shadow text-center py-4">
-                    <h1 class="text-danger">
-                        {{ overallData.negativeTweets }}
-                    </h1>
-                    <p class="text-grey">Negative Tweets</p>
+    <div class="col-12 pt-1 mx-0 px-4">
+        <div class="d-flex justify-content-between">
+            <div v-if="loading" class="col-2 px-0 mx-0">
+                <div class="col-12 shadow-border text-center py-5">
+                    <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div v-else><img :src="LoadingGif" width="50" /></div>
-        </div>
-        <div class="col-3 mx-0 px-0">
-            <apexchart :options="chartOptions" :series="series" type="pie" />
+            <div v-else class="col-2 px-0 mx-0">
+                <div class="col-12 shadow-border text-center py-5">
+                    <h1 class="text-dark-bold">
+                        {{ overallData.totalTweets }}
+                    </h1>
+                    <p class="text-total">Total Tweets</p>
+                </div>
+            </div>
+
+            <div class="col-2 px-0 mx-0" v-if="!loading">
+                <div class="col-12 shadow-border text-center py-5">
+                    <h1 class="text-dark-bold">
+                        {{ overallData.positiveTweets }}
+                    </h1>
+                    <p class="text-positive">Positive Tweets</p>
+                </div>
+            </div>
+            <div v-else class="col-2 px-0 mx-0">
+                <div class="col-12 shadow-border text-center py-5">
+                    <img :src="LoadingGif" width="50" />
+                </div>
+            </div>
+            <div class="col-2 px-0 mx-0" v-if="!loading">
+                <div class="col-12 px-0 mx-0 shadow-border text-center py-5">
+                    <h1 class="text-dark-bold">
+                        {{ overallData.neutralTweets }}
+                    </h1>
+                    <p class="text-neutral">Neutral Tweets</p>
+                </div>
+            </div>
+            <div v-else class="col-2 px-0 mx-0">
+                <div class="col-12 shadow-border text-center py-5">
+                    <img :src="LoadingGif" width="50" />
+                </div>
+            </div>
+            <div class="col-2 px-0 mx-0" v-if="!loading">
+                <div class="col-12 px-0 mx-0 shadow-border text-center py-5">
+                    <h1 class="text-dark-bold">
+                        {{ overallData.negativeTweets }}
+                    </h1>
+                    <p class="text-negative">Negative Tweets</p>
+                </div>
+            </div>
+            <div v-else class="col-2 px-0 mx-0">
+                <div class="col-12 shadow-border text-center py-5">
+                    <img :src="LoadingGif" width="50" />
+                </div>
+            </div>
+            <div class="col-3">
+                <div
+                    class="col-12 py-1 px-2 mx-0 shadow-border"
+                    v-if="!loading && overallData.totalTweets > 0"
+                >
+                    <apexchart
+                        :options="chartOptions"
+                        :series="series"
+                        type="pie"
+                    />
+                </div>
+                <div v-if="loading" class="col-12 px-0 mx-0">
+                    <div class="col-12 shadow-border text-center py-5">
+                        <img :src="LoadingGif" width="50" />
+                    </div>
+                </div>
+                <div
+                    v-if="!loading && overallData.totalTweets == 0"
+                    class="col-12 px-0 mx-0"
+                >
+                    <div class="col-12 shadow-border text-center py-5">
+                        <div class="py-4 fs-5">No results Found</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
+
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-overall-sentiments",
 
     components: {},
-    props: ["filter"],
-    setup(props) {
-        const searchFilter = ref({
+    setup() {
+        const filterStore = useFilterStore();
+
+        const loading = ref(true);
+
+        const searchFilter = computed(() => filterStore.searchFilter);
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -48,7 +108,7 @@ export default defineComponent({
             chart: {
                 type: "pie",
             },
-            colors: ["#00c83c", "#118dff", "#ec1c24"],
+            colors: ["#00e396", "#775dd0", "#ff4560"],
             labels: ["Positive", "Neutral", "Negative"],
             legend: {
                 position: "bottom",
@@ -60,7 +120,7 @@ export default defineComponent({
         const getData = async () => {
             const res = await axios.post(
                 `/admin/sentiments/overview/overall-sentiments`,
-                { searchFilter: searchFilter.value }
+                { searchFilter: search.value }
             );
 
             if (res.status === 200) {
@@ -76,6 +136,7 @@ export default defineComponent({
                     overallData.value.neutralTweets,
                     overallData.value.negativeTweets,
                 ];
+                loading.value = false;
             }
         };
 
@@ -84,15 +145,14 @@ export default defineComponent({
         });
 
         watch(
-            () => props.filter,
-            (first, second) => {
-                // console.log(
-                //     "Watch props.selected function called with args:",
-                //     first,
-                //     second
-                // )
+            searchFilter,
+            (newFilter, oldFilter) => {
+                const { date, keywords } = newFilter;
+                search.value = {
+                    date: date,
+                    keywords: keywords,
+                };
 
-                searchFilter.value = first;
                 overallData.value.totalTweets = null;
                 overallData.value.positiveTweets = null;
                 overallData.value.neutralTweets = null;
@@ -102,9 +162,10 @@ export default defineComponent({
                     overallData.value.neutralTweets,
                     overallData.value.negativeTweets,
                 ];
-
+                loading.value = true;
                 getData();
-            }
+            },
+            { deep: true }
         );
         return {
             overallData,
@@ -112,6 +173,8 @@ export default defineComponent({
             series,
             searchFilter,
             LoadingGif,
+            search,
+            loading,
         };
     },
 });

@@ -1,35 +1,39 @@
 <template>
-    <div class="col-12 shadow py-4 px-0 mx-0">
-        <div class="col-12">
-            <h2 class="">Number Of Tweets By Location</h2>
+    <div class="col-12 px-0 mx-0">
+        <div class="col-12 shadow-border py-4">
+            <h3 style="color: #000">Number Of Tweets By Location</h3>
+            <div
+                class="col-12 text-center"
+                v-if="loading"
+                style="padding-top: 10px"
+            >
+                <img :src="LoadingGif" width="50" />
+            </div>
+            <apexchart
+                class="py-2"
+                type="donut"
+                :options="chartOptions"
+                :series="values"
+            ></apexchart>
         </div>
-        <div
-            class="col-12 text-center"
-            v-if="loading"
-            style="height: 300px; padding-top: 100px"
-        >
-            <img :src="LoadingGif" width="50" />
-        </div>
-        <apexchart
-            class="py-5"
-            type="donut"
-            :options="chartOptions"
-            :series="values"
-        ></apexchart>
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-over-tweets-by-location",
-    props: ["filter"],
     components: {},
-    setup(props) {
+    setup() {
+        const filterStore = useFilterStore();
+
         const loading = ref(true);
-        const searchFilter = ref({
+
+        const searchFilter = computed(() => filterStore.searchFilter);
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -40,12 +44,14 @@ export default defineComponent({
         const chartOptions = ref({
             chart: {
                 type: "donut",
-                width: 300,
+                width: 350,
+                height: 350,
             },
             tooltip: {
                 enabled: true,
             },
             labels: [],
+
             legend: {
                 position: "right",
             },
@@ -54,7 +60,7 @@ export default defineComponent({
         const getData = async () => {
             const res = await axios.post(
                 `/admin/sentiments/overview/tweets-by-location`,
-                { searchFilter: searchFilter.value }
+                { searchFilter: search.value }
             );
 
             if (res.status === 200) {
@@ -80,22 +86,26 @@ export default defineComponent({
             getData();
         });
 
-        watch(
-            () => props.filter,
-            (first, second) => {
-                searchFilter.value = first;
-                chartOptions.value.labels.length = 0;
-                //  location.reload();
-                values.value = [];
-                getData();
-            }
-        );
+        watch(searchFilter, (newFilter, oldFilter) => {
+            const { date, keywords } = newFilter;
+            search.value = {
+                date: date,
+                keywords: keywords,
+            };
+            chartOptions.value.labels.length = 0;
+            //  location.reload();
+            values.value = [];
+            loading.value = true;
+
+            getData();
+        });
         return {
             chartOptions,
             values,
             loading,
             LoadingGif,
             searchFilter,
+            search,
         };
     },
 });

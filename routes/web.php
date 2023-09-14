@@ -61,7 +61,7 @@ Route::post('/admin/user/create', [UserController::class, 'create'])->name('role
 Route::get('/organizantions', [OrganizationsController::class, 'index'])->middleware(['auth']);
 Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware(['auth']);
 
-Route::post('/web/weather', [WeatherController::class, 'create']);
+Route::get('/web/weather', [WeatherController::class, 'create']);
 
 
 //MenuItem::inertia();

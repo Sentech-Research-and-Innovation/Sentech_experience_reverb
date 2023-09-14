@@ -23046,7 +23046,6 @@
 
   .content-wrapper {
     background: #fff;
-    padding: 1.875rem 1.875rem 0 1.875rem;
     width: 100%;
     -webkit-flex-grow: 1;
     flex-grow: 1;
@@ -24809,8 +24808,8 @@
     position: fixed;
     bottom: 40px;
     right: 30px;
-    height: 45px;
-    width: 45px;
+    height: 100px;
+    width:200px;
     background: #f2125e;
     z-index: 99;
     display: -webkit-flex;

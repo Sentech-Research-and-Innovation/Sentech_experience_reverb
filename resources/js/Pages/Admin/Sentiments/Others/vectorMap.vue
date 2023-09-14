@@ -2,7 +2,7 @@
     <!-- <div class="col-12 shadow mx-0">
         Count Of Location by Location and Label
     </div> -->
-    <div class="col-12 mx-0 ox-0 shadow-sm py-5">
+    <div class="col-12 mx-0 ox-0 shadow-border py-5">
         <vuevectormap
             v-if="dataLoaded"
             width="100%"
@@ -24,17 +24,19 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-trends-vectorMap",
 
     components: {},
-    props: ["filter"],
 
-    setup(props) {
-        const searchFilter = ref({
+    setup() {
+        const filterStore = useFilterStore();
+        const searchFilter = computed(() => filterStore.searchFilter);
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -62,7 +64,7 @@ export default defineComponent({
             try {
                 const res = await axios.post(
                     `/admin/sentiments/mapCoorddinates`,
-                    { searchFilter: searchFilter.value }
+                    { searchFilter: search.value }
                 );
                 if (res.status === 200) {
                     // res.data.forEach((item) => {
@@ -77,15 +79,16 @@ export default defineComponent({
             }
         };
 
-        watch(
-            () => props.filter,
-            (first, second) => {
-                searchFilter.value = first;
-                dataLoaded.value = false;
+        watch(searchFilter, (newFilter, oldFilter) => {
+            const { date, keywords } = newFilter;
+            search.value = {
+                date: date,
+                keywords: keywords,
+            };
+            dataLoaded.value = false;
 
-                getData();
-            }
-        );
+            getData();
+        });
 
         onMounted(async () => {
             getData();
@@ -97,6 +100,7 @@ export default defineComponent({
             dataLoaded,
             searchFilter,
             LoadingGif,
+            search,
         };
     },
 });

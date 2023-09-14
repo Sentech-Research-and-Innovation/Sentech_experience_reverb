@@ -1,40 +1,45 @@
 <template>
-    <div class="col-12 shadow mx-0">
-        <div class="col-12">
-            <h2 class="py-4">Sentiments Timeline (cumulative)</h2>
-        </div>
-        <div
-            class="col-12 text-center"
-            v-if="loading"
-            style="height: 300px; padding-top: 100px"
-        >
-            <img :src="LoadingGif" width="50" />
-        </div>
+    <div class="col-12 px-0 mx-0">
+        <div class="col-12 shadow-border">
+            <h3 class="py-4" style="color: #000">
+                Sentiments Timeline (cumulative)
+            </h3>
+            <div
+                class="col-12 text-center"
+                v-if="loading"
+                style="height: 300px; padding-top: 100px"
+            >
+                <img :src="LoadingGif" width="50" />
+            </div>
 
-        <apexchart
-            v-else
-            style="height: 200px !important"
-            type="line"
-            :options="chartUtil.chartOptions"
-            :series="seriesData"
-        ></apexchart>
+            <apexchart
+                v-else
+                style="height: 200px !important"
+                type="line"
+                :options="chartUtil.chartOptions"
+                :series="seriesData"
+            ></apexchart>
+        </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import chartUtil from "../../../../utils/sentimentsTimelineChart";
 import LoadingGif from "../../../../assets/loading.gif";
+
+import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-over-sentimentsTimelineChart",
 
     components: {},
-    props: ["filter"],
 
-    setup(props) {
+    setup() {
         const loading = ref(true);
-        const searchFilter = ref({
+        const filterStore = useFilterStore();
+        const searchFilter = computed(() => filterStore.searchFilter);
+        const search = ref({
             date: "",
             keywords: "",
         });
@@ -91,7 +96,7 @@ export default defineComponent({
         const getData = async () => {
             const res = await axios.post(
                 `/admin/sentiments/overview/sentimentsTimeline`,
-                { searchFilter: searchFilter.value }
+                { searchFilter: search.value }
             );
             if (res.status === 200) {
                 for (const key in res.data) {
@@ -115,24 +120,26 @@ export default defineComponent({
             }
         };
 
-        watch(
-            () => props.filter,
-            (first, second) => {
-                searchFilter.value = first;
-                //  chartData.value.length = 0;
+        watch(searchFilter, (newFilter, oldFilter) => {
+            const { date, keywords } = newFilter;
+            search.value = {
+                date: date,
+                keywords: keywords,
+            };
+            //  chartData.value.length = 0;
 
-                seriesData.value[0].data = [];
-                seriesData.value[0].type = "bar";
+            seriesData.value[0].data = [];
+            seriesData.value[0].type = "bar";
 
-                seriesData.value[1].data = [];
-                seriesData.value[1].type = "bar";
+            seriesData.value[1].data = [];
+            seriesData.value[1].type = "bar";
 
-                seriesData.value[2].data = [];
-                seriesData.value[2].type = "bar";
+            seriesData.value[2].data = [];
+            seriesData.value[2].type = "bar";
+            loading.value = true;
 
-                getData();
-            }
-        );
+            getData();
+        });
 
         onMounted(async () => {
             getData();

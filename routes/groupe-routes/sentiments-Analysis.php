@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
 
 use App\Http\Controllers\Admin\SentimentsAnalysis\OverViewController;
 use App\Http\Controllers\Admin\SentimentsAnalysis\TimeLinesController;
@@ -10,6 +12,9 @@ use App\Http\Controllers\Admin\SentimentsAnalysis\TrendsController;
 use App\Http\Controllers\Admin\SentimentsAnalysis\OtherController;
 
 
+Route::get('/admin/sentiments/all', function () {
+    return Inertia::render('Admin/Sentiments/All');
+});
 
 
 Route::get('/admin/sentiments/overview', [OverViewController::class, 'index']);

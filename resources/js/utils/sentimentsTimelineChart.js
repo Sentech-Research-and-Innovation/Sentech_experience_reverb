@@ -9,7 +9,7 @@ export default {
             },
             offsetX: 0,
             toolbar: {
-                show: true,
+                show: false,
                 tools: {
                     download: false,
                     zoom: false,
@@ -19,7 +19,7 @@ export default {
                 },
             },
         },
-        colors: ["#ec1c24", "#00c83c", "#118dff"],
+        colors: ["#ff4560", "#00e396", "#775dd0"],
         dataLabels: {
             enabled: false,
             name: {
@@ -29,17 +29,28 @@ export default {
                 show: false,
             },
         },
+        stroke: {
+            curve: "smooth",
+        },
+
+        // fill: {
+        //     type: "gradient",
+        //     gradient: {
+        //         opacityFrom: 0.6,
+        //         opacityTo: 0.8,
+        //     },
+        // },
         grid: {
-            border: true,
+            border: false,
             strokeDashArray: 3,
-            show: false,
+            show: true,
             padding: {
                 left: -16,
                 right: 0,
             },
             xaxis: {
                 lines: {
-                    show: true,
+                    show: false,
                 },
             },
             yaxis: {
@@ -56,9 +67,7 @@ export default {
                 opacity: 0.1,
             },
         },
-        stroke: {
-            width: [2, 2, 2],
-        },
+
         xaxis: {
             axisTicks: {
                 show: true,
