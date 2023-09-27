@@ -63,7 +63,7 @@ export default defineComponent({
         const getData = async () => {
             try {
                 const res = await axios.post(
-                    `/admin/sentiments/mapCoorddinates`,
+                    `/admin/sentiments/others/mapCoorddinates`,
                     { searchFilter: search.value }
                 );
                 if (res.status === 200) {
@@ -91,7 +91,12 @@ export default defineComponent({
         });
 
         onMounted(async () => {
-            getData();
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+            };
+
+            await getData();
         });
 
         return {

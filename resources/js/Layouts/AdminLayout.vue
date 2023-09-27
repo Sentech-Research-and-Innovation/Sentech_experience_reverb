@@ -1,8 +1,5 @@
 <template>
     <div class="container-scroller">
-        <!-- partial:../../partials/_navbar.html -->
-
-        <!-- partial -->
         <div
             class="container-fluid page-body-wrapper"
             style="min-height: 100vh"
@@ -49,78 +46,20 @@
                         :class="{
                             active:
                                 $page.url ===
-                                    '/admin/predictive-maintenance/national-sites' ||
-                                $page.url ===
-                                    '/admin/predictive-maintenance/predictions' ||
-                                $page.url ===
-                                    '/admin/predictive-maintenance/device-config' ||
-                                $page.url ===
-                                    '/admin/predictive-maintenance/alarm-list',
+                                '/admin/predictive-maintenance/index',
                         }"
                     >
-                        <a class="nav-link" @click="toggleCollapse_pm">
+                        <Link
+                            class="nav-link mb-2"
+                            href="/admin/predictive-maintenance/index"
+                            aria-current="page"
+                        >
                             <span class="menu-title"
                                 >Predictive Maintenance
                             </span>
-                        </a>
-                        <div
-                            :class="['collapse', { show: isCollapsed_pm }]"
-                            id="ui-basic"
-                            style=""
-                        >
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/predictive-maintenance/national-sites"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/predictive-maintenance/national-sites',
-                                        }"
-                                    >
-                                        National Sites</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/predictive-maintenance/predictions"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/predictive-maintenance/predictions',
-                                        }"
-                                        >Prediction</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/predictive-maintenance/device-config"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/predictive-maintenance/device-config',
-                                        }"
-                                        >Device Config</Link
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        class="nav-link"
-                                        href="/admin/predictive-maintenance/alarm-list"
-                                        :class="{
-                                            activeSub:
-                                                $page.url ===
-                                                '/admin/predictive-maintenance/alarm-list',
-                                        }"
-                                        >Alarm List</Link
-                                    >
-                                </li>
-                            </ul>
-                        </div>
+                        </Link>
                     </li>
+
                     <li class="nav-item mb-2">
                         <Link
                             class="nav-link"
@@ -183,6 +122,20 @@
                             <span class="menu-title">Companies </span>
                         </Link>
                     </li>
+                    <li
+                        class="nav-item"
+                        :class="{
+                            active: $page.url === '/admin/weather/forcast',
+                        }"
+                    >
+                        <Link
+                            class="nav-link"
+                            aria-current="page"
+                            href="/admin/weather/forcast"
+                        >
+                            <span class="menu-title">Weather </span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             <!-- partial -->
@@ -195,30 +148,38 @@
                     <div
                         class="col-12 text-end py-2"
                         style="
-                            background-color: #ffff;
+                            background-color: #ffff !important;
                             border-bottom: 1px solid #c7cdd2;
                         "
                     >
-                        <a
-                            class="nav-link dropdown-toggle pl-0 pr-0"
-                            @click="toggleCollapse_user"
-                            href="#"
-                            data-toggle="dropdown"
-                            id="profileDropdown"
-                        >
-                            <span class="nav-profile-name"
-                                >{{ $page.props.auth.user.name }}
-                            </span>
-                            <span
-                                class="initials-background"
-                                style="padding: 20px"
-                                ><strong>{{
-                                    $page.props.auth.user.name
-                                        .charAt(0)
-                                        .toUpperCase()
-                                }}</strong></span
+                        <div class="d-flex justify-content-end">
+                            <div class="col-6 mx-0 px-0">
+                                <Link href="/admin/weather/forcast">
+                                    <Weather />
+                                </Link>
+                            </div>
+
+                            <div
+                                class="col-6 dropdown-toggle pl-0 pr-0 pt-2"
+                                @click="toggleCollapse_user"
+                                href="#"
+                                data-toggle="dropdown"
+                                id="profileDropdown"
                             >
-                        </a>
+                                <span class="nav-profile-name"
+                                    >{{ $page.props.auth.user.name }}
+                                </span>
+                                <span
+                                    class="initials-background"
+                                    style="padding: 20px"
+                                    ><strong>{{
+                                        $page.props.auth.user.name
+                                            .charAt(0)
+                                            .toUpperCase()
+                                    }}</strong></span
+                                >
+                            </div>
+                        </div>
                         <div class="d-flex justify-content-end">
                             <div
                                 style="background-color: #ffff"
@@ -282,7 +243,7 @@ import { defineComponent, onMounted, ref } from "vue";
 
 import Logo from "../assets/sentech-logo2.jpg";
 
-import Weather from "../Pages/Web/WeatherWidget.vue";
+import Weather from "./WeatherWidget.vue";
 
 export default defineComponent({
     name: "navigation",
@@ -349,6 +310,9 @@ export default defineComponent({
 .nav-link:hover,
 .nav-link:focus {
     color: #144f9f;
+}
+.dropdown-toggle {
+    cursor: pointer;
 }
 .initials-background {
     display: inline-flex;

@@ -31,25 +31,41 @@ class TrendsController extends Controller
         $filterDate = request()->searchFilter['date'];
         $keyword = request()->searchFilter['keywords'];
 
+        $startDate = null;
+        $endDate = null;
+
+        if ($filterDate !== null) {
+            $startDate = new DateTime($filterDate[0]);
+            $endDate = new DateTime($filterDate[1]);
+        }
+
         foreach ($data['hits']['hits'] as $hit) {
 
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
-            $month = $date->format('Y-m-d');
 
-            if ($filterDate !== null) {
-                $filterDateObj = new DateTime($filterDate);
-                $filterMonth = $filterDateObj->format('Y-m-d');
+            // Check if the tweet's date falls within the specified date range (if not null)
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
+                if ($keyword !== null) {
+                    // Check if keywords are set and the tweet contains them
+                    if (stripos($hit['_source']['text'], $keyword) !== false) {
+                        $sentiment = $hit['_source']['sentiment'];
 
-                if ($month !== $filterMonth) {
-                    continue; // Skip this iteration if the months don't match
-                }
-            }
+                        if ($sentiment === 'positive') {
+                            $positiveTweets++;
+                        } else if ($sentiment === 'negative') {
+                            $negativeTweets++;
+                        } else if ($sentiment == 'neutral') {
+                            $neutralTweets++;
+                        }
 
-
-            if ($keyword !== null) {
-                // Check if keywords are set and the tweet contains them
-                if (stripos($hit['_source']['text'], $keyword) !== false) {
+                        $tweetsContent[] = [
+                            "tweet" => $hit['_source']["text"],
+                            "sentiment" => $hit['_source']["sentiment"],
+                        ];
+                    }
+                } else {
+                    // If no keyword filter is set, count all tweets
                     $sentiment = $hit['_source']['sentiment'];
 
                     if ($sentiment === 'positive') {
@@ -59,27 +75,11 @@ class TrendsController extends Controller
                     } else if ($sentiment == 'neutral') {
                         $neutralTweets++;
                     }
-
                     $tweetsContent[] = [
                         "tweet" => $hit['_source']["text"],
                         "sentiment" => $hit['_source']["sentiment"],
                     ];
                 }
-            } else {
-                // If no keyword filter is set, count all tweets
-                $sentiment = $hit['_source']['sentiment'];
-
-                if ($sentiment === 'positive') {
-                    $positiveTweets++;
-                } else if ($sentiment === 'negative') {
-                    $negativeTweets++;
-                } else if ($sentiment == 'neutral') {
-                    $neutralTweets++;
-                }
-                $tweetsContent[] = [
-                    "tweet" => $hit['_source']["text"],
-                    "sentiment" => $hit['_source']["sentiment"],
-                ];
             }
         }
 

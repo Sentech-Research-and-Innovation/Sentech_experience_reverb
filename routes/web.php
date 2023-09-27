@@ -26,8 +26,12 @@ use App\Http\Controllers\Web\WeatherController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Web/Index');
-});
+    return Inertia::render('Web/Index', [
+        'canResetPassword' => Route::has('password.request'),
+        'status' => session('status'),
+    ]);
+})->name('landing');
+
 
 
 Route::get('/dashboard', function () {
@@ -36,16 +40,16 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/admin/roles', [RolesController::class, 'index'])->name('roles.index')->middleware('role_has_permission:roles-read');
 
-Route::post('/admin/roles/create', [RolesController::class, 'store'])->name('roles.create')->middleware('role_has_permission:roles-create');
+Route::group(['prefix' => '/admin/roles'], function () {
+    Route::get('/', [RolesController::class, 'index'])->name('roles.index')->middleware('role_has_permission:roles-read');
+    Route::post('/create', [RolesController::class, 'store'])->name('roles.create')->middleware('role_has_permission:roles-create');
+    Route::post('/show', [RolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
+    Route::post('/update', [RolesController::class, 'update'])->name('roles.update')->middleware('role_has_permission:roles-update');
+    Route::post('/delete', [RolesController::class, 'delete'])->name('roles.delete')->middleware('role_has_permission:roles-delete');
+    Route::get('/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
+});
 
-Route::post('/admin/roles/show', [RolesController::class, 'show'])->name('roles.show')->middleware('role_has_permission:roles-read');
-
-Route::post('/admin/roles/update', [RolesController::class, 'update'])->name('roles.update')->middleware('role_has_permission:roles-update');
-Route::post('/admin/roles/delete', [RolesController::class, 'delete'])->name('roles.delete')->middleware('role_has_permission:roles-delete');
-
-Route::get('/admin/roles/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
 
 Route::get('/admin/user/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show.user')->middleware('role_has_permission:roles-read');
 
@@ -62,6 +66,9 @@ Route::get('/organizantions', [OrganizationsController::class, 'index'])->middle
 Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware(['auth']);
 
 Route::get('/web/weather', [WeatherController::class, 'create']);
+Route::get('/admin/weather/forcast', [WeatherController::class, 'forecast']);
+
+
 
 
 //MenuItem::inertia();

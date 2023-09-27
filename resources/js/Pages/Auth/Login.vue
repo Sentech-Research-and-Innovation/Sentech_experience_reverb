@@ -80,6 +80,8 @@ import axios from "axios";
 import ForgotPasswordComponent from "./ForgotPassword.vue";
 import SideModal from "@/Layouts/SideModal.vue";
 
+import { useFilterStore } from "../../stores/filter";
+
 export default {
     layout: null,
     components: {
@@ -122,6 +124,18 @@ export default {
                 };
             }
         },
+    },
+
+    created() {
+        const filterStore = useFilterStore();
+        const newDate = [
+            "2023-02-01T08:54:00.000Z",
+            "2023-02-26T08:54:00.000Z",
+        ];
+
+        filterStore.date = newDate;
+
+        console.log(filterStore.date);
     },
 };
 </script>

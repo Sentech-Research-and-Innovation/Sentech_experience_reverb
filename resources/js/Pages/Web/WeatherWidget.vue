@@ -111,7 +111,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .colored-icon {
     filter: brightness(100%) contrast(120%);
     width: 130px;

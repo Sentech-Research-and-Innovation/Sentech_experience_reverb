@@ -141,6 +141,11 @@ export default defineComponent({
         };
 
         onMounted(async () => {
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+            };
+
             getData();
         });
 

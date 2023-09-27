@@ -14,4 +14,5 @@ export const useFilterStore = defineStore("filter", {
     actions: {
         // ...
     },
+    persist: true,
 });

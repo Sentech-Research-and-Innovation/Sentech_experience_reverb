@@ -33,46 +33,48 @@ class OverViewController extends Controller
 
         $total = count($data['hits']['hits']);
 
-        $filterDate = request()->searchFilter['date'];
+        $dateRange = request()->searchFilter['date']; // Assuming date range is in the format ["start_date", "end_date"]
+        $startDate = null;
+        $endDate = null;
+
+        if ($dateRange !== null) {
+            $startDate = new DateTime($dateRange[0]);
+            $endDate = new DateTime($dateRange[1]);
+        }
+
         $keyword = request()->searchFilter['keywords'];
 
         foreach ($data['hits']['hits'] as $hit) {
             $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-            $month = $date->format('Y-m-d');
+            $tweetDate = new DateTime($dateStr);
 
-            if ($filterDate !== null) {
-                $filterDateObj = new DateTime($filterDate);
-                $filterMonth = $filterDateObj->format('Y-m-d');
+            // Check if the tweet's date falls within the specified date range (if not null)
+            if (($startDate === null || $tweetDate >= $startDate) && ($endDate === null || $tweetDate <= $endDate)) {
+                // if ($tweetDate >= $startDate && $tweetDate <= $endDate) {
+                if ($keyword !== null) {
+                    // Check if keywords are set and the tweet contains them
+                    if (stripos($hit['_source']['text'], $keyword) !== false) {
+                        $sentiment = $hit['_source']['sentiment'];
 
-                if ($month !== $filterMonth) {
-                    continue; // Skip this iteration if the months don't match
-                }
-            }
-
-            if ($keyword !== null) {
-                // Check if keywords are set and the tweet contains them
-                if (stripos($hit['_source']['text'], $keyword) !== false) {
+                        if ($sentiment === 'positive') {
+                            $positiveTweets++;
+                        } elseif ($sentiment === 'negative') {
+                            $negativeTweets++;
+                        } elseif ($sentiment == 'neutral') {
+                            $neutralTweets++;
+                        }
+                    }
+                } else {
+                    // If no keyword filter is set, count all tweets
                     $sentiment = $hit['_source']['sentiment'];
 
                     if ($sentiment === 'positive') {
                         $positiveTweets++;
-                    } else if ($sentiment === 'negative') {
+                    } elseif ($sentiment === 'negative') {
                         $negativeTweets++;
-                    } else if ($sentiment == 'neutral') {
+                    } elseif ($sentiment == 'neutral') {
                         $neutralTweets++;
                     }
-                }
-            } else {
-                // If no keyword filter is set, count all tweets
-                $sentiment = $hit['_source']['sentiment'];
-
-                if ($sentiment === 'positive') {
-                    $positiveTweets++;
-                } else if ($sentiment === 'negative') {
-                    $negativeTweets++;
-                } else if ($sentiment == 'neutral') {
-                    $neutralTweets++;
                 }
             }
         }
@@ -99,45 +101,49 @@ class OverViewController extends Controller
         $filterDate = request()->searchFilter['date'];
         $keywords = request()->searchFilter['keywords']; // Get the keywords parameter
 
+        $startDate = null;
+        $endDate = null;
+
+        if ($filterDate !== null) {
+            $startDate = new DateTime($filterDate[0]);
+            $endDate = new DateTime($filterDate[1]);
+        }
+
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
-            $formattedDate = $date->format('Y-m');
 
-            if ($filterDate !== null) {
-                $formattedFilterDate = new DateTime($filterDate);
-                $filterMonth = $formattedFilterDate->format('Y-m');
-
-                if ($formattedDate !== $filterMonth) {
-                    continue; // Skip this iteration if the months don't match
+            // Check if the tweet's date falls within the specified date range (if not null)
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
+                // Check if keywords are provided and the hit contains them
+                if (!empty($keywords) && stripos($hit['_source']['text'], $keywords) === false) {
+                    continue; // Skip this iteration if keywords don't match
                 }
+
+                $formattedDate = $date->format('Y-m');
+
+                if (!isset($dateMonthGroups[$formattedDate])) {
+                    $dateMonthGroups[$formattedDate] = [
+                        'year' => $date->format('Y'),
+                        'month' => $date->format('F'),
+                        'sentiments' => [
+                            'positive' => 0,
+                            'neutral' => 0,
+                            'negative' => 0,
+                        ],
+                    ];
+                }
+
+                ksort($dateMonthGroups);
+
+                $dateMonthGroups[$formattedDate]['sentiments'][$sentiment]++;
             }
-
-            // Check if keywords are provided and the hit contains them
-            if (!empty($keywords) && stripos($hit['_source']['text'], $keywords) === false) {
-                continue; // Skip this iteration if keywords don't match
-            }
-
-            if (!isset($dateMonthGroups[$formattedDate])) {
-                $dateMonthGroups[$formattedDate] = [
-                    'year' => $date->format('Y'),
-                    'month' => $date->format('F'),
-                    'sentiments' => [
-                        'positive' => 0,
-                        'neutral' => 0,
-                        'negative' => 0,
-                    ],
-                ];
-            }
-
-            ksort($dateMonthGroups);
-
-            $dateMonthGroups[$formattedDate]['sentiments'][$sentiment]++;
         }
 
         return response()->json($dateMonthGroups, 200); // Updated response() method
     }
+
 
 
     public function tweetsByLocation()
@@ -151,35 +157,36 @@ class OverViewController extends Controller
         $filterDate = request()->searchFilter['date'];
         $keyword = request()->searchFilter['keywords'];
 
+        $startDate = null;
+        $endDate = null;
+
+        if ($filterDate !== null) {
+            $startDate = new DateTime($filterDate[0]);
+            $endDate = new DateTime($filterDate[1]);
+        }
+
         foreach ($hits as $hit) {
             $place = $hit['_source']['place'];
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
-            $formattedDate = $date->format('Y-m-d');
 
-            if ($filterDate !== null) {
-                $formattedFilterDate = new DateTime($filterDate);
-                $filterMonth = $formattedFilterDate->format('Y-m-d');
+            // Check if the tweet's date falls within the specified date range (if not null)
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
+                // Keyword filtering
+                if ($keyword !== null) {
+                    $tweetText = $hit['_source']['text'];
 
-                if ($formattedDate !== $filterMonth) {
-                    continue; // Skip this iteration if the months don't match
+                    if (stripos($tweetText, $keyword) === false) {
+                        continue; // Skip this iteration if the keyword is not found in the tweet text
+                    }
                 }
-            }
 
-            // Keyword filtering
-            if ($keyword !== null) {
-                $tweetText = $hit['_source']['text'];
-
-                if (stripos($tweetText, $keyword) === false) {
-                    continue; // Skip this iteration if the keyword is not found in the tweet text
+                // Count tweets per place
+                if (!isset($placeTweetCounts[$place])) {
+                    $placeTweetCounts[$place] = 1;
+                } else {
+                    $placeTweetCounts[$place]++;
                 }
-            }
-
-            // Count tweets per place
-            if (!isset($placeTweetCounts[$place])) {
-                $placeTweetCounts[$place] = 1;
-            } else {
-                $placeTweetCounts[$place]++;
             }
         }
 

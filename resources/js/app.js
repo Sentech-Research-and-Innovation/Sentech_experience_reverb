@@ -24,21 +24,27 @@ import LaravelPermissionToVueJS from "laravel-permission-to-vuejs";
 
 import * as directives from "vuetify/directives";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import VueApexCharts from "vue3-apexcharts";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-
 import VueVectorMap from "vuevectormap";
 import "vuevectormap/src/scss/vuevectormap.scss";
 import jsVectorMap from "jsvectormap";
 window.jsVectorMap = jsVectorMap;
 
-import "jsvectormap/dist/maps/world";
+import "./assets/world-merc";
 
 import vuescroll from "vuescroll";
 
+import VueBlocksTree from "vue3-blocks-tree";
+import "vue3-blocks-tree/dist/vue3-blocks-tree.css";
+
+let defaultoptions = { treeName: "blocks-tree" };
+
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 const vuetify = createVuetify({
     components: {
@@ -77,8 +83,10 @@ createInertiaApp({
             .use(VueApexCharts)
             .use(VueDatePicker)
             .use(VueVectorMap, {
-                backgroundColor: "#f6f6f6",
+                backgroundColor: "#fffff",
+                map: "south_africa",
             })
+            .use(VueBlocksTree, defaultoptions)
             .use(vuescroll, {
                 ops: {
                     // The global config

@@ -38,11 +38,12 @@ class TimeLinesController extends Controller
             $date = new DateTime($dateStr);
             $hour = (int)$date->format('H'); // Get the hour component
 
+            // Check if the tweet's date falls within the specified date range (if not null)
             if ($filterDate !== null) {
-                // Check if the date matches the filter date
-                $filterDateTime = new DateTime($filterDate);
-                if ($date->format('Y-m-d') != $filterDateTime->format('Y-m-d')) {
-                    continue; // Skip this tweet if the dates don't match
+                $startDate = new DateTime($filterDate[0]);
+                $endDate = new DateTime($filterDate[1]);
+                if ($date < $startDate || $date > $endDate) {
+                    continue; // Skip this tweet if it's outside the date range
                 }
             }
 
@@ -54,6 +55,7 @@ class TimeLinesController extends Controller
                     break; // Exit the loop if at least one keyword is found
                 }
             }
+
 
             if (!empty($keywords) && !$keywordFound) {
                 continue; // Skip this iteration if no keyword is found
@@ -114,25 +116,38 @@ class TimeLinesController extends Controller
         $hits = $data['hits']['hits'];
 
         $dateTotals = [];
+        $filterDate = request()->searchFilter['date'];
+
+        $startDate = null;
+        $endDate = null;
+
+        if ($filterDate !== null) {
+            $startDate = new DateTime($filterDate[0]);
+            $endDate = new DateTime($filterDate[1]);
+        }
 
         foreach ($hits as $hit) {
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
-            $formattedDate = $date->format('Y-m-d');
 
-            if (!isset($dateTotals[$formattedDate])) {
-                $dateTotals[$formattedDate] = [
-                    'totalTweets' => 0,
-                    'totalLikes' => 0,
-                ];
+            // Check if the tweet's date falls within the specified date range (if not null)
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
+                $formattedDate = $date->format('Y-m-d');
+
+                if (!isset($dateTotals[$formattedDate])) {
+                    $dateTotals[$formattedDate] = [
+                        'totalTweets' => 0,
+                        'totalLikes' => 0,
+                    ];
+                }
+
+                // Increment total tweets
+                $dateTotals[$formattedDate]['totalTweets']++;
+
+                // Increment total likes
+                $totalLikes = $hit['_source']['likes'];
+                $dateTotals[$formattedDate]['totalLikes'] += $totalLikes;
             }
-
-            // Increment total tweets
-            $dateTotals[$formattedDate]['totalTweets']++;
-
-            // Increment total likes
-            $totalLikes = $hit['_source']['likes'];
-            $dateTotals[$formattedDate]['totalLikes'] += $totalLikes;
         }
 
         return response()->json($dateTotals);

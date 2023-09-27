@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="navbar navbar-expand-lg navbar-light py-3 mb-4"
+        class="navbar navbar-expand-lg navbar-light py-3 mb-2"
         style="border-bottom: 1px solid #c7cdd2; background-color: #ffffff"
     >
         <button
@@ -74,9 +74,11 @@
                         v-model="inputdate"
                         :enable-time-picker="false"
                         dark
+                        range
                     ></VueDatePicker>
                     <!-- :format="format" -->
                 </div>
+
                 <div class="col-5 mx-0 px-0 d-flex justify-content-left">
                     <input
                         type="text"
@@ -114,17 +116,21 @@ export default defineComponent({
     setup() {
         const filterStore = useFilterStore();
 
-        const inputdate = ref(null);
-        const keywords = ref(null);
+        const inputdate = ref(filterStore.date);
+        const keywords = ref(filterStore.keywords);
+
+        //
 
         const changePropValue = () => {
             filterStore.date = inputdate.value;
             filterStore.keywords = keywords.value;
         };
+
         return {
             keywords,
             inputdate,
             changePropValue,
+            filterStore,
         };
     },
 });

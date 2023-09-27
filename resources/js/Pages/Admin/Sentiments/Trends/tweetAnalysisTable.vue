@@ -166,7 +166,12 @@ export default defineComponent({
             getData();
         });
         onMounted(async () => {
-            getData();
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+            };
+
+            await getData();
         });
         return {
             tweets,

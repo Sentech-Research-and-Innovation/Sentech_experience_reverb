@@ -121,6 +121,15 @@ export default defineComponent({
             }
         };
 
+        onMounted(async () => {
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+            };
+
+            await getData();
+        });
+
         watch(searchFilter, (newFilter, oldFilter) => {
             const { date, keywords } = newFilter;
             search.value = {
@@ -140,9 +149,9 @@ export default defineComponent({
             getData();
         });
 
-        onMounted(async () => {
-            getData();
-        });
+        // onMounted(async () => {
+        //     getData();
+        // });
 
         return {
             getData,

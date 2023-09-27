@@ -4,23 +4,13 @@
     <div class="col-12 px-0">
         <div class="col-12 px-0"><navigationSearchBar /></div>
 
-        <OverallSentiments :filter="searchFilter"></OverallSentiments>
+        <OverallSentiments></OverallSentiments>
         <div class="row mt-4 mx-3">
             <div class="col-6">
-                <timelineChart :filter="searchFilter" />
+                <timelineChart />
             </div>
             <div class="col-6">
-                <tweetsLocation :filter="searchFilter"></tweetsLocation>
-            </div>
-            <div class="col-12 pt-4">
-                <TweetsByHour :filter="searchFilter" />
-            </div>
-            <div class="col-12 pt-3">
-                <tweetContent :filter="searchFilter" />
-            </div>
-
-            <div class="col-12 pt-3">
-                <vectorMap :filter="searchFilter" />
+                <tweetsLocation></tweetsLocation>
             </div>
         </div>
     </div>
@@ -33,10 +23,6 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import timelineChart from "./sentimentsTimeline.vue";
 import tweetsLocation from "./tweetsByLocation.vue";
 import OverallSentiments from "./overallSentiments.vue";
-import TweetsByHour from "../../Sentiments/Timelines/tweetsByHour.vue";
-import tweetContent from "../../Sentiments/Trends/tweetAnalysisTable.vue";
-
-import vectorMap from "../../Sentiments/Others/vectorMap.vue";
 
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import navigationSearchBar from "../../../../Layouts/sentiments/navigationSearchBar.vue";
@@ -51,24 +37,10 @@ export default defineComponent({
         timelineChart,
         tweetsLocation,
         OverallSentiments,
-        TweetsByHour,
-        tweetContent,
-        vectorMap,
         navigationSearchBar,
     },
     setup() {
-        const searchFilter = ref({
-            date: null,
-            keywords: "",
-        });
-        const inputdate = ref(null);
-        const keywords = ref(null);
-
-        return {
-            inputdate,
-            searchFilter,
-            keywords,
-        };
+        return {};
     },
 });
 </script>

@@ -17,20 +17,30 @@ Route::get('/admin/sentiments/all', function () {
 });
 
 
-Route::get('/admin/sentiments/overview', [OverViewController::class, 'index']);
-Route::post('/admin/sentiments/overview/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline']);
-Route::post('/admin/sentiments/overview/tweets-by-location', [OverViewController::class, 'tweetsByLocation']);
-Route::post('/admin/sentiments/overview/overall-sentiments', [OverViewController::class, 'overallSentiments']);
+
+Route::group(['prefix' => '/admin/sentiments/overview'], function () {
+    Route::get('/', [OverViewController::class, 'index']);
+    Route::post('/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline']);
+    Route::post('/tweets-by-location', [OverViewController::class, 'tweetsByLocation']);
+    Route::post('/overall-sentiments', [OverViewController::class, 'overallSentiments']);
+});
 
 
-Route::get('/admin/sentiments/timelines', [TimeLinesController::class, 'index']);
-Route::post('/admin/sentiments/timelines/tweets-by-hour', [TimeLinesController::class, 'tweetsByHour']);
-Route::get('/admin/sentiments/timelines/tweets-and-likes', [TimeLinesController::class, 'tweetsLikes']);
-
-Route::get('/admin/sentiments/trends', [TrendsController::class, 'index']);
-Route::post('/admin/sentiments/trends/tweetsContent', [TrendsController::class, 'tweetsContent']);
-Route::get('/admin/sentiments/trends/wordclouds', [TrendsController::class, 'wordCloudList']);
+Route::group(['prefix' => '/admin/sentiments/timelines'], function () {
+    Route::get('/', [TimeLinesController::class, 'index']);
+    Route::post('/tweets-by-hour', [TimeLinesController::class, 'tweetsByHour']);
+    Route::get('/tweets-and-likes', [TimeLinesController::class, 'tweetsLikes']);
+});
 
 
-Route::get('/admin/sentiments/others', [OtherController::class, 'index']);
-Route::post('/admin/sentiments/mapCoorddinates', [OtherController::class, 'map']);
+Route::group(['prefix' => '/admin/sentiments/trends'], function () {
+    Route::get('/', [TrendsController::class, 'index']);
+    Route::post('/tweetsContent', [TrendsController::class, 'tweetsContent']);
+    Route::get('/wordclouds', [TrendsController::class, 'wordCloudList']);
+});
+
+
+Route::group(['prefix' => '/admin/sentiments/others'], function () {
+    Route::get('/', [OtherController::class, 'index']);
+    Route::post('/mapCoorddinates', [OtherController::class, 'map']);
+});

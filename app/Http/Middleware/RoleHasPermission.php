@@ -11,7 +11,7 @@ class RoleHasPermission
     {
         // Check if the user is authenticated.
         if (!Auth::check()) {
-            return redirect()->route('login'); // Redirect to the login page or return an error response.
+            return redirect()->route('landing'); // Redirect to the login page or return an error response.
         }
 
         // Check if the user has the specified permission for any of their roles.
