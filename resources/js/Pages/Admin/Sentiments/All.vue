@@ -5,21 +5,21 @@
         <div class="col-12 px-0"><navigationSearchBar /></div>
 
         <OverallSentiments></OverallSentiments>
-        <div class="row mt-4 mx-3">
-            <div class="col-6">
+        <div class="row mt-3 mx-3">
+            <div class="col-lg-6 col-12 pr-lg-0 pl-lg-3 px-0">
                 <timelineChart />
             </div>
-            <div class="col-6">
+            <div class="col-lg-6 col-12 pt-lg-0 pt-3 px-lg-3 px-0">
                 <tweetsLocation></tweetsLocation>
             </div>
-            <div class="col-12 pt-4">
+            <div class="col-12 pt-3 px-lg-3 px-0">
                 <TweetsByHour />
             </div>
-            <div class="col-12 pt-3">
+            <div class="col-12 px-lg-3 px-0">
                 <tweetContent />
             </div>
 
-            <div class="col-12 pt-3">
+            <div class="col-12 pt-3 px-lg-3 px-0">
                 <vectorMap />
             </div>
         </div>

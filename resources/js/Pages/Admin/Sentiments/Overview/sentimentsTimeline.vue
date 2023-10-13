@@ -1,9 +1,7 @@
 <template>
     <div class="col-12 px-0 mx-0">
-        <div class="col-12 shadow-border">
-            <h3 class="py-4" style="color: #000">
-                Sentiments Timeline (cumulative)
-            </h3>
+        <div class="col-12 shadow-border mx-0" style="min-height: 500px">
+            <h3 class="py-4">Sentiments Timeline (cumulative)</h3>
             <div
                 class="col-12 text-center"
                 v-if="loading"
@@ -14,7 +12,7 @@
 
             <apexchart
                 v-else
-                style="height: 200px !important"
+                height="400"
                 type="line"
                 :options="chartUtil.chartOptions"
                 :series="seriesData"

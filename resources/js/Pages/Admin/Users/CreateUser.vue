@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="col-12 text-end">
-            <button type="button" class="button button-dark" @click="getRoles">
+            <el-button type="button" class="button-dark" @click="getRoles">
                 Create User
-            </button>
+            </el-button>
         </div>
         <SideModal
             :content="content"

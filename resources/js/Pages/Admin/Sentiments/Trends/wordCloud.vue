@@ -1,6 +1,10 @@
 <template>
     <div class="col-12 px-0">
-        <div v-if="!loading" class="col-12 shadow-border mx-0 py-4">
+        <div
+            v-if="!loading"
+            class="col-12 shadow-border mx-0 py-4"
+            style="min-height: 292px"
+        >
             <ul class="cloud" role="navigation" aria-label="Webdev tag cloud">
                 <li v-for="(word, index) in words" :key="index">
                     <a
@@ -26,12 +30,15 @@
 import { defineComponent, ref, onMounted } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
 
+import { useFilterStore } from "../../../../stores/filter";
+
 export default defineComponent({
     name: "sentiment-analysis-timelines-index",
 
     components: {},
     setup() {
-        const keywords = ref(null);
+        const filterStore = useFilterStore();
+
         const loading = ref(true);
 
         const words = ref([]);
@@ -47,14 +54,13 @@ export default defineComponent({
         };
 
         const selectedWord = (word) => {
-            keywords.value = word;
+            filterStore.keywords = word;
         };
 
         onMounted(async () => {
             getData();
         });
         return {
-            keywords,
             words,
             RandomWeight,
             selectedWord,

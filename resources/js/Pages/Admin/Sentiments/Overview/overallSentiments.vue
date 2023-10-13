@@ -1,12 +1,12 @@
 <template>
-    <div class="col-12 pt-1 mx-0 px-4">
-        <div class="d-flex justify-content-between">
-            <div v-if="loading" class="col-2 px-0 mx-0">
+    <div class="col-12 mx-lg-3 mt-3">
+        <div class="row">
+            <div v-if="loading" class="col-lg-2 col-6 mb-lg-0 mb-3 pr-0">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div v-else class="col-2 px-0 mx-0">
+            <div v-else class="col-lg-2 col-6 pr-0 mb-lg-0 mb-3">
                 <div class="col-12 shadow-border text-center py-5">
                     <h1 class="text-dark-bold">
                         {{ overallData.totalTweets }}
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="col-2 px-0 mx-0" v-if="!loading">
+            <div class="col-lg-2 col-6 pr-lg-0 mb-lg-0 mb-3" v-if="!loading">
                 <div class="col-12 shadow-border text-center py-5">
                     <h1 class="text-dark-bold">
                         {{ overallData.positiveTweets }}
@@ -23,25 +23,25 @@
                     <p class="text-positive">Positive Tweets</p>
                 </div>
             </div>
-            <div v-else class="col-2 px-0 mx-0">
+            <div v-else class="col-lg-2 col-6 mb-lg-0 mb-3">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div class="col-2 px-0 mx-0" v-if="!loading">
-                <div class="col-12 px-0 mx-0 shadow-border text-center py-5">
+            <div class="col-lg-2 col-6 pr-0 mb-lg-0 mb-3" v-if="!loading">
+                <div class="col-12 shadow-border text-center py-5">
                     <h1 class="text-dark-bold">
                         {{ overallData.neutralTweets }}
                     </h1>
                     <p class="text-neutral">Neutral Tweets</p>
                 </div>
             </div>
-            <div v-else class="col-2 px-0 mx-0">
+            <div v-else class="col-lg-2 col-6 pr-0 mb-lg-0 mb-3">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div class="col-2 px-0 mx-0" v-if="!loading">
+            <div class="col-lg-2 col-6 pr-lg-0 mb-lg-0 mb-3" v-if="!loading">
                 <div class="col-12 px-0 mx-0 shadow-border text-center py-5">
                     <h1 class="text-dark-bold">
                         {{ overallData.negativeTweets }}
@@ -49,21 +49,24 @@
                     <p class="text-negative">Negative Tweets</p>
                 </div>
             </div>
-            <div v-else class="col-2 px-0 mx-0">
+            <div v-else class="col-lg-2 col-6 pr-lg-0 mb-lg-0 mb-3">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-4 pr-lg-5">
                 <div
                     class="col-12 py-1 px-2 mx-0 shadow-border"
                     v-if="!loading && overallData.totalTweets > 0"
                 >
-                    <apexchart
-                        :options="chartOptions"
-                        :series="series"
-                        type="pie"
-                    />
+                    <div>
+                        <apexchart
+                            :options="chartOptions"
+                            :series="series"
+                            type="pie"
+                            height="200"
+                        />
+                    </div>
                 </div>
                 <div v-if="loading" class="col-12 px-0 mx-0">
                     <div class="col-12 shadow-border text-center py-5">

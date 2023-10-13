@@ -94,7 +94,7 @@ export default defineComponent({
                 strokeDashArray: 3,
                 show: false,
                 padding: {
-                    left: -16,
+                    left: 0,
                     right: 0,
                 },
                 xaxis: {

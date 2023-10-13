@@ -1,17 +1,52 @@
-<template>
-    <div class="row py-5">
-        <div class="col-12">
-            <div><h2>Tweet Content</h2></div>
+app-54837d4d.js:7 TypeError: Cannot read properties of null (reading
+'toLowerCase')
 
-            <div class="col-12 pt-4 shadow-border pb-4 mt-4">
-                <div class="row" v-if="!loading">
-                    <div class="col-9" style="height: 500px">
+<template>
+    <div class="row">
+        <div class="col-12">
+            <div class="col-12 pt-4 shadow-border pb-4 mt-3">
+                <div><h2>Tweet Content</h2></div>
+                <div class="row pt-3" v-if="!loading">
+                    <div class="col-12 mt-3 mb-5 px-4">
+                        <div class="row">
+                            <div class="col-4 sentiments-counts">
+                                <div class="sentiments-labels">
+                                    <strong> Postive </strong>
+                                </div>
+                                <div class="py-2">
+                                    <strong>
+                                        {{ tweets.positiveTweets }}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="col-4 sentiments-counts">
+                                <div class="sentiments-labels">
+                                    <strong> Neutral </strong>
+                                </div>
+                                <div class="py-2">
+                                    <strong>
+                                        {{ tweets.neutralTweets }}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="col-4 sentiments-counts">
+                                <div class="sentiments-labels">
+                                    <strong> Negative </strong>
+                                </div>
+                                <div class="py-2">
+                                    <strong>
+                                        {{ tweets.negativeTweets }}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" style="height: 500px">
                         <vue-scroll>
                             <div class="row pb-3">
-                                <div class="col-2">
+                                <div class="col-3">
                                     <strong>Sentiments</strong>
                                 </div>
-                                <div class="col-1"><strong>Likes</strong></div>
                                 <div class="col-9">
                                     <strong>Tweet Content</strong>
                                 </div>
@@ -26,7 +61,7 @@
                                 >
                                     <div class="row tweets-container">
                                         <div
-                                            class="col-2 sentiment py-2"
+                                            class="col-3 sentiment py-2"
                                             :class="{
                                                 'tweets-container-negative':
                                                     tweet.sentiment ===
@@ -41,18 +76,20 @@
                                         >
                                             {{ tweet.sentiment }}
                                         </div>
-                                        <div
-                                            class="col-1 py-2 likes text-center"
-                                        >
-                                            1
-                                        </div>
 
                                         <div
-                                            class="col-9 py-2"
+                                            v-if="search.keywords"
+                                            class="col-9 py-2 tweetsColor"
                                             v-html="
                                                 highlightKeywords(tweet.tweet)
                                             "
                                         ></div>
+                                        <div
+                                            v-else
+                                            class="col-9 py-2 tweetsColor"
+                                        >
+                                            {{ tweet.tweet }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -64,41 +101,6 @@
                                 </div>
                             </div>
                         </vue-scroll>
-                    </div>
-                    <div class="col-3">
-                        <div class="col-12 sentiments-counts">
-                            <div class="sentiments-labels">
-                                <strong> Postive </strong>
-                            </div>
-                            <div class="py-2">
-                                <strong>
-                                    {{ tweets.positiveTweets }}
-                                </strong>
-                            </div>
-                            <div>Number Of Tweets</div>
-                        </div>
-                        <div class="col-12 sentiments-counts mt-4">
-                            <div class="sentiments-labels">
-                                <strong> Neutral </strong>
-                            </div>
-                            <div class="py-2">
-                                <strong>
-                                    {{ tweets.neutralTweets }}
-                                </strong>
-                            </div>
-                            <div>Number Of Tweets</div>
-                        </div>
-                        <div class="col-12 sentiments-counts mt-4">
-                            <div class="sentiments-labels">
-                                <strong> Negative </strong>
-                            </div>
-                            <div class="py-2">
-                                <strong>
-                                    {{ tweets.negativeTweets }}
-                                </strong>
-                            </div>
-                            <div>Number Of Tweets</div>
-                        </div>
                     </div>
                 </div>
                 <div v-else class="row">
@@ -141,14 +143,15 @@ export default defineComponent({
                 loading.value = false;
             }
         };
-
         const highlightKeywords = (tweetText) => {
-            // Get the keywords from the filter
-            const keywords = search.value.keywords.toLowerCase().split(" ");
+            // Get the keywords from the filter or use an empty string if null/undefined
+            const keywords = (search.value.keywords || "")
+                .toLowerCase()
+                .split(" ");
 
             // Create a regular expression to match the keywords
             const keywordRegex = new RegExp(keywords.join("|"), "gi");
-
+            console.log(tweetText);
             // Use replace with a custom function to highlight keywords
             return tweetText.replace(keywordRegex, (match) => {
                 return `<span style="background-color:yellow!important">${match}</span>`;

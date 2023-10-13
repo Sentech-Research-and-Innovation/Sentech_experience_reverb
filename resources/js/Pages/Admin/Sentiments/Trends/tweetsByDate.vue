@@ -14,7 +14,7 @@
 
             <apexchart
                 v-else
-                style="height: 200px !important"
+                height="200"
                 type="line"
                 :options="chartUtil.chartOptions"
                 :series="seriesData"

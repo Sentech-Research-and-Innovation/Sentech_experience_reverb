@@ -6,8 +6,18 @@ html {
 
     font-family: 'Manrope', sans-serif !important;
     body{
-        background: #144f9f;
+        background: inherit;
         color:#144f9f;
+    }
+}
+.dark{
+    html {
+
+        font-family: 'Manrope', sans-serif !important;
+        body{
+            background: #144f9f;
+            color:red !important;
+        }
     }
 }
 main{

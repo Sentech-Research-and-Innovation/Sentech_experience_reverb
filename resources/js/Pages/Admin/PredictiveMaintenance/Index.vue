@@ -1,28 +1,43 @@
 <template>
-    <div class="row mx-0 px-0">
-        <div class="col-6 mx-0 px-0">
+    <navigationTabsVue />
+    <div class="col-12 mt-3">
+        <filtersVue />
+    </div>
+    <div class="col-12 mt-3">
+        <sensorKPIsVue />
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-12 pr-lg-0">
             <alarmSiteLocation :predictions="predictions" />
         </div>
-        <div class="col-6 px-0 mx-0">
+        <div class="col-lg-6 col-12 pr-lg-4 pl-lg-0 px-4">
             <alarmState :predictions="predictions" />
         </div>
     </div>
+
     <predictionsVue :predictions="predictions" />
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import navigationTabsVue from "../../../Layouts/predictions/navigationTabs.vue";
+
 import predictionsVue from "./predictions.vue";
 
 import alarmState from "./alarmStateByDate.vue";
 import alarmSiteLocation from "./alarmSiteLocation.vue";
+import filtersVue from "../../../Layouts/predictions/filter.vue";
+import sensorKPIsVue from "./sensorKPIs.vue";
 export default defineComponent({
     layout: AdminLayout,
     components: {
         predictionsVue,
         alarmState,
         alarmSiteLocation,
+        filtersVue,
+        sensorKPIsVue,
+        navigationTabsVue,
     },
     props: {
         predictions: {

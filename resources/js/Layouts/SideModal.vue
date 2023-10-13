@@ -9,7 +9,7 @@
             >
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h1>{{ content.create.title }}</h1>
+            <h1 class="mt-5 px-4">{{ content.create.title }}</h1>
             <div class="content">
                 <div class="body">
                     <slot></slot>
@@ -34,7 +34,7 @@ export default {
     right: 0;
     z-index: 999;
     width: 100%;
-    padding-top: 10px;
+    padding-top: 0px;
     overflow: auto;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
@@ -166,7 +166,7 @@ export default {
     .close-btn {
         position: absolute;
         top: 0;
-        left: -50px;
+        left: -54px;
         z-index: 999;
         background: #fff;
         border-radius: 50px;

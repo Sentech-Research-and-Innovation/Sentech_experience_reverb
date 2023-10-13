@@ -82,6 +82,8 @@ import SideModal from "@/Layouts/SideModal.vue";
 
 import { useFilterStore } from "../../stores/filter";
 
+import { predictionsFilterStore } from "../../stores/predictionsFilter";
+
 export default {
     layout: null,
     components: {
@@ -135,7 +137,15 @@ export default {
 
         filterStore.date = newDate;
 
-        console.log(filterStore.date);
+        const filterSitenames = predictionsFilterStore();
+
+        const siteNames = ["PORT ELIZABETH", "CONSTANTIABERG", "JOHANNESBURG"];
+        filterSitenames.siteNames = siteNames;
+
+        filterSitenames.date = [
+            "2023-01-01T08:54:00.000Z",
+            "2023-08-26T08:54:00.000Z",
+        ];
     },
 };
 </script>

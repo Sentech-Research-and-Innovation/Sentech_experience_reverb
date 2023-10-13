@@ -8,10 +8,10 @@ use App\Http\Controllers\Admin\PredictiveMaintenance\PredictiveMaintenanceContro
 
 
 Route::group(['prefix' => '/admin/predictive-maintenance'], function () {
-    Route::get('/national-sites', [PredictiveMaintenanceController::class, 'nationalSites']);
-    Route::get('/predictions', [PredictiveMaintenanceController::class, 'predictions']);
-    Route::get('/device-config', [PredictiveMaintenanceController::class, 'deviceConfig']);
-    Route::get('/alarm-list', [PredictiveMaintenanceController::class, 'alarmList']);
     Route::get('/index', [PredictiveMaintenanceController::class, 'index']);
-    Route::get('/main', [PredictiveMaintenanceController::class, 'predictive_main']);
+    Route::post('/predictions', [PredictiveMaintenanceController::class, 'getPredictions']);
+
+    Route::get('/predictions/detailed-view', [PredictiveMaintenanceController::class, 'detailedView']);
+
+    Route::post('/predictions/detailed-view-data', [PredictiveMaintenanceController::class, 'detailedViewData']);
 });

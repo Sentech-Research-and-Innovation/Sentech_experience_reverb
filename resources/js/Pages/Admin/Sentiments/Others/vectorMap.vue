@@ -6,7 +6,7 @@
         <vuevectormap
             v-if="dataLoaded"
             width="100%"
-            height="450"
+            height="200"
             :options="{
                 markers,
                 markerStyle,

@@ -2,7 +2,7 @@
     <div class="col-12 mx-0 px-0">
         <div class="row pt-1 px-0" v-if="temp">
             <div
-                class="col-2 col-lg-4 px-0 mx-0 pt-lg-4 pt-3 d-flex justify-content-start"
+                class="col-2 col-lg-4 px-0 mx-0 pt-lg-5 pt-4 d-flex justify-content-center"
             >
                 <img :src="weatherIconUrl" class="colored-icon" />
             </div>
@@ -21,20 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-7 col-2 mx-0 px-0">
-                        <div class="row mx-0 px-0">
-                            <div class="col-12 px-0 mx-0 pt-2">
-                                <div class="degree rounded-circle"></div>
-                            </div>
-                            <div
-                                class="col-12 mx-0 px-0 pt-lg-3 pt-2 description"
-                            >
-                                {{ description }}
-                            </div>
-                            <div class="col-12 fs-6 pt-2">Today {{ date }}</div>
-                            <div class="col-12 fs-5">{{ city }}</div>
-                        </div>
-                    </div> -->
+
                     <div class="col-lg-12 col-9">
                         <div class="col-12 fs-6 pt-2 px-4 px-lg-0 mx-0 date">
                             Today {{ date }}
@@ -54,6 +41,19 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
+
+import brokenClouds from "../../assets/weatherIconsWhite/brokenClouds.png";
+
+import clearSky from "../../assets/weatherIconsWhite/clearSky.png";
+
+import fewClouds from "../../assets/weatherIconsWhite/fewClouds.png";
+import mist from "../../assets/weatherIconsWhite/mist.png";
+import rain from "../../assets/weatherIconsWhite/rain.png";
+import scatteredClouds from "../../assets/weatherIconsWhite/scatteredClouds.png";
+import showerRain from "../../assets/weatherIconsWhite/showerRain.png";
+import snow from "../../assets/weatherIconsWhite/snow.png";
+import thunderstorm from "../../assets/weatherIconsWhite/thunderstorm.png";
+
 export default defineComponent({
     components: {},
 
@@ -63,13 +63,37 @@ export default defineComponent({
         const city = ref("");
         const temp = ref("");
         const date = ref("");
+
+        const weatherIcons = {
+            "01n": clearSky,
+            "01d": clearSky,
+            "02n": fewClouds,
+            "02d": fewClouds,
+            "03n": scatteredClouds,
+            "03d": scatteredClouds,
+            "04n": brokenClouds,
+            "04d": brokenClouds,
+            "09n": showerRain,
+            "09d": showerRain,
+            "10n": rain,
+            "10d": rain,
+            "11n": thunderstorm,
+            "11d": thunderstorm,
+            "13n": snow,
+            "13d": snow,
+            "50n": mist,
+            "50d": mist,
+        };
+
+        const defaultIconUrl = "http://openweathermap.org/img/wn/";
+
         const success = async () => {
             const res = await axios.get(`/web/weather`);
             if (res.status === 200) {
                 let data = res.data[0];
                 const icon = data.weather[0].icon;
 
-                weatherIconUrl.value = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+                weatherIconUrl.value = weatherIcons[icon];
                 description.value = data.weather[0].main;
                 city.value = res.data[1].city;
                 temp.value = data.main.temp.toFixed();
@@ -113,9 +137,8 @@ export default defineComponent({
 
 <style scoped>
 .colored-icon {
-    filter: brightness(100%) contrast(120%);
-    width: 130px;
-    height: 130px;
+    width: 80px;
+    height: 80px;
 }
 .temp {
     font-size: 60px;
@@ -130,9 +153,8 @@ export default defineComponent({
 
 @media only screen and (max-width: 991px) {
     .colored-icon {
-        filter: brightness(100%) contrast(120%);
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
 
     .temp {

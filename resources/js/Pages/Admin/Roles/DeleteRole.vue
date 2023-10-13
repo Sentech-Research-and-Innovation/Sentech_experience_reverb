@@ -1,6 +1,9 @@
 <template>
-    <button type="button" class="btn btn-dark"  id="ffg" @click="dialog1 = true"> Delete </button>
-    <div>
+    <!-- <button type="button" class="btn btn-dark" id="ffg" @click="dialog1 = true">
+        Delete
+    </button> -->
+    <el-button @click="open">Delete Role</el-button>
+    <!-- <div>
         <v-dialog v-model="dialog1" activator="parent" persistent width="30%">
             <v-card>
                 <div class="col-12 text-center border py-4">
@@ -22,11 +25,12 @@
                 </div>
             </v-card>
         </v-dialog>
-    </div>
+    </div> -->
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 export default defineComponent({
     name: "delete-roles",
@@ -36,6 +40,8 @@ export default defineComponent({
             required: true,
         },
     },
+
+    components: { ElMessage, ElMessageBox },
 
     setup(props) {
         const { roleId } = props;
@@ -63,11 +69,36 @@ export default defineComponent({
             }
         };
 
+        const open = () => {
+            ElMessageBox.confirm(
+                "proxy will permanently delete the Role. Continue?",
+                "Warning",
+                {
+                    confirmButtonText: "OK",
+                    cancelButtonText: "Cancel",
+                    type: "warning",
+                }
+            )
+                .then(() => {
+                    ElMessage({
+                        type: "success",
+                        message: "Delete completed",
+                    });
+                })
+                .catch(() => {
+                    ElMessage({
+                        type: "info",
+                        message: "Delete canceled",
+                    });
+                });
+        };
+
         return {
             deleteRole,
             dialog1,
             roleId,
             errMessage,
+            open,
         };
     },
 });

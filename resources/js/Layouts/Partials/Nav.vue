@@ -65,7 +65,7 @@ export default {
                         aria-current="page"
                         href="/login"
                         ><span class="request-an-account-button"
-                            >Request and Account</span
+                            >Request an Account</span
                         >
                     </Link>
                 </div>

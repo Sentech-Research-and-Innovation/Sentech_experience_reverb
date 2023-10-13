@@ -1,63 +1,43 @@
 <template>
     <div>
-        <div class="col-12=">
-            <button type="button" class="btn btn-sm btn-dark" @click="getRoles">
-                Change role
-            </button>
+        <el-button type="primary" :icon="Edit" plain circle @click="getRoles" />
 
-            <SideModal
-                :content="content"
-                :showing="showing"
-                @hideModal="showing = false"
-            >
-                <div class="col-12 py-4 px-4 border">
-                    <div class="row">
-                        <div
-                            class="col-3 py-2"
-                            v-for="role in roles"
-                            :key="role.id"
-                        >
-                            <!-- <label class="form-check-label" :for="role.name">
-                                <input
-                                    class="form-check-input mx-2"
-                                    type="radio"
-                                    v-model="selectedRole"
-                                    :value="role.name"
-                                    :checked="isSelected(role.name)"
-                                />
-
-                                {{ role.name }}
-                                <i class="input-helper"></i>
-                            </label> -->
-
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                v-model="selectedRole"
-                                :value="role.name"
-                                :checked="isSelected(role.name)"
-                            />
-                            <label
-                                class="form-check-label pt-1"
-                                :for="role.name"
-                            >
-                                {{ role.name }}
-                            </label>
-                        </div>
+        <SideModal
+            :content="content"
+            :showing="showing"
+            @hideModal="showing = false"
+        >
+            <div class="col-12 py-4 px-4 border mx-2">
+                <div class="row">
+                    <div
+                        class="col-3 py-2"
+                        v-for="role in roles"
+                        :key="role.id"
+                    >
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            v-model="selectedRole"
+                            :value="role.name"
+                            :checked="isSelected(role.name)"
+                        />
+                        <label class="form-check-label pt-1" :for="role.name">
+                            {{ role.name }}
+                        </label>
                     </div>
                 </div>
-                <div class="col-md-12 pt-3">
-                    <div class="text-right add-company-btn">
-                        <button
-                            @click="EditRole()"
-                            class="btn btn-dark button button-dark"
-                        >
-                            Save Role
-                        </button>
-                    </div>
+            </div>
+            <div class="col-md-12 pt-3">
+                <div class="text-right add-company-btn">
+                    <button
+                        @click="EditRole()"
+                        class="btn btn-dark button button-dark"
+                    >
+                        Save Role
+                    </button>
                 </div>
-            </SideModal>
-        </div>
+            </div>
+        </SideModal>
     </div>
 </template>
 
@@ -65,6 +45,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
 import SideModal from "@/Layouts/SideModal.vue";
+import { Edit } from "@element-plus/icons-vue";
 
 export default defineComponent({
     name: "edit-role",
@@ -147,6 +128,7 @@ export default defineComponent({
             content,
             closeModal,
             showing,
+            Edit,
         };
     },
 });

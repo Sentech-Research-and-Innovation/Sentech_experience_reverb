@@ -1,89 +1,82 @@
 <template>
-    <button type="button" class="btn btn-dark"  @click="queryPermissions"> Edit Permissions </button>
+    <el-button class="button-dark" @click="queryPermissions">
+        Edit Permissions
+    </el-button>
 
-    <div>
-        <div class="text-end">
-            <v-dialog
-                v-model="dialog"
-                activator="parent"
-                persistent
-                width="70%"
-            >
-                <v-card>
-                    <v-card-text>
-                        <div class="col-12 pt-4 pb-2 px-4">
-                            <h5>Edit Permissions for {{ roleName }} Role</h5>
-                        </div>
-                        <div class="col-12 py-4 px-4 border">
-                            <div
-                                class="col-12 pt-2"
-                                v-for="(group, groupName) in groupedData"
-                                :key="groupName"
-                            >
+    <el-drawer
+        v-model="dialog"
+        title="I am the title"
+        size="80%"
+        :with-header="false"
+    >
+        <div>
+            <div>
+                <div class="col-12 pt-4 pb-2 text-start">
+                    <h5>Edit Permissions for {{ roleName }} Role</h5>
+                </div>
+                <div class="col-12 py-4 px-lg-4 border text-start">
+                    <div
+                        class="col-12 pt-lg-2 pt-5"
+                        v-for="(group, groupName) in groupedData"
+                        :key="groupName"
+                    >
+                        <div class="row">
+                            <div class="col-lg-3 col-12">
+                                <h5>{{ groupName }}</h5>
+                            </div>
+                            <div class="col-lg-9 col-12">
                                 <div class="row">
-                                    <div class="col-4">
-                                        <h6>{{ groupName }}</h6>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="row">
-                                            <div
-                                                class="col-3"
-                                                v-for="perm in group"
-                                                :key="perm.id"
-                                            >
-                                                <label
-                                                    class="form-check-label"
-                                                    :for="perm.name"
-                                                >
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="checkbox"
-                                                        :value="perm.name"
-                                                        :checked="
-                                                            isSelected(
-                                                                perm.name
-                                                            )
-                                                        "
-                                                        v-model="
-                                                            selectedPermissions
-                                                        "
-                                                    />
+                                    <div
+                                        class="col-lg-3 col-8 text-lg-start text-end"
+                                        v-for="perm in group"
+                                        :key="perm.id"
+                                    >
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            :value="perm.name"
+                                            :checked="isSelected(perm.name)"
+                                            v-model="selectedPermissions"
+                                        />
 
-                                                    {{ perm.label }}
-                                                    <i class="input-helper"></i>
-                                                </label>
-
-                                                <!-- <label class="form-check-label">
-                                                    <input
-                                                        type="checkbox"
-                                                        class="form-check-input"
-                                                    />
-                                                    Default
-                                                </label> -->
-                                            </div>
-                                        </div>
+                                        <label
+                                            class="form-check-label pt-1 pr-4"
+                                            :for="perm.name"
+                                        >
+                                            {{ perm.label }}
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </v-card-text>
-                    <v-card-actions>
-                        <div class="row px-4 py-4">
-                            <div class="col-6">
-                                <v-btn block class="btn-dark" @click="saveRole"
-                                    >Save</v-btn
-                                >
-                            </div>
-                            <div class="col-6">
-                                <v-btn block @click="dialog = false"
-                                    >Cancel</v-btn
-                                >
-                            </div>
-                        </div>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="d-flex justiify-content-end py-4">
+                    <div class="px-2">
+                        <el-button @click="dialog = false">Cancel</el-button>
+                    </div>
+                    <div class="">
+                        <el-button type="primary" @click="saveRole"
+                            >Save
+                        </el-button>
+                    </div>
+                </div>
+            </div>
         </div>
+    </el-drawer>
+    <div>
+        <!-- <div class="text-end">
+            <v-dialog
+                v-model="dialog1"
+                activator="parent"
+                persistent
+                width="70%"
+            >
+               
+            </v-dialog>
+        </div> -->
     </div>
 </template>
 

@@ -1,255 +1,150 @@
 <template>
-    <div class="container-scroller">
-        <div
-            class="container-fluid page-body-wrapper"
-            style="min-height: 100vh"
-        >
-            <nav class="sidebar sidebar-light-theme">
-                <div class="col-12 text-start pt-4 pb-5 mb-3">
-                    <img :src="Logo" alt="Sentech Logo" height="40" />
-                </div>
-                <ul class="nav mx-4">
-                    <li
-                        class="nav-item"
-                        :class="{ active: $page.url === '/dashboard' }"
-                    >
-                        <Link
-                            class="nav-link mb-2"
-                            href="/dashboard"
-                            aria-current="page"
-                        >
-                            <span class="menu-title">Home </span>
-                        </Link>
-                    </li>
-                    <li
-                        class="nav-item mb-2"
-                        :class="{
-                            active:
-                                $page.url === '/admin/sentiments/all' ||
-                                $page.url === '/admin/sentiments/overview' ||
-                                $page.url === '/admin/sentiments/timelines' ||
-                                $page.url === '/admin/sentiments/trends' ||
-                                $page.url === '/admin/sentiments/others',
-                        }"
-                    >
-                        <Link
-                            class="nav-link mb-2"
-                            href="/admin/sentiments/all"
-                            aria-current="page"
-                        >
-                            <span class="menu-title">Sentiment Analysis </span>
-                        </Link>
-                    </li>
+    <div class="container-fluid page-body-wrapper" style="min-height: 100vh">
+        <nav class="sidebar d-none d-lg-block d-xl-block" style="">
+            <AdminHeaderVue />
+        </nav>
+        <!-- partial -->
 
-                    <li
-                        class="nav-item mb-2"
-                        :class="{
-                            active:
-                                $page.url ===
-                                '/admin/predictive-maintenance/index',
-                        }"
-                    >
-                        <Link
-                            class="nav-link mb-2"
-                            href="/admin/predictive-maintenance/index"
-                            aria-current="page"
-                        >
-                            <span class="menu-title"
-                                >Predictive Maintenance
-                            </span>
-                        </Link>
-                    </li>
+        <div class="main-panel">
+            <div class="col-12 px-0">
+                <div class="col-12 py-3">
+                    <div class="row">
+                        <div class="col-6 mx-0 px-0">
+                            <div class="d-xl-none d-xxl-block d-lg-none">
+                                <el-button
+                                    type="primary"
+                                    style="margin-left: 16px"
+                                    @click="drawer = true"
+                                    class="py-0"
+                                >
+                                    <i class="fa-solid fa-bars"></i>
+                                </el-button>
 
-                    <li class="nav-item mb-2">
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/reporting"
-                            :class="{ active: $page.url === '/reporting' }"
-                        >
-                            <span class="menu-title">Reporting</span>
-                        </Link>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/dashboard"
-                            :class="{ active: $page.url === '/feedback' }"
-                        >
-                            <span class="menu-title">Feedback</span>
-                        </Link>
-                    </li>
-
-                    <li
-                        class="nav-item mb-2"
-                        :class="{ active: $page.url === '/admin/roles' }"
-                    >
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/admin/roles"
-                        >
-                            <span class="menu-title"
-                                >Roles and permissions</span
-                            >
-                        </Link>
-                    </li>
-                    <li
-                        class="nav-item mb-2"
-                        :class="{ active: $page.url === '/admin/getUsers' }"
-                    >
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/admin/getUsers"
-                            :class="{ active: $page.url === '/Users' }"
-                        >
-                            <span class="menu-title">Users </span>
-                        </Link>
-                    </li>
-
-                    <li
-                        class="nav-item"
-                        :class="{ active: $page.url === '/organizantions' }"
-                        v-if="company_type == 'super_company'"
-                    >
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/organizantions"
-                        >
-                            <span class="menu-title">Companies </span>
-                        </Link>
-                    </li>
-                    <li
-                        class="nav-item"
-                        :class="{
-                            active: $page.url === '/admin/weather/forcast',
-                        }"
-                    >
-                        <Link
-                            class="nav-link"
-                            aria-current="page"
-                            href="/admin/weather/forcast"
-                        >
-                            <span class="menu-title">Weather </span>
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-            <!-- partial -->
-
-            <div class="main-panel">
-                <div
-                    class="content-wrapper"
-                    style="background-color: #ebedf0 !important"
-                >
-                    <div
-                        class="col-12 text-end py-2"
-                        style="
-                            background-color: #ffff !important;
-                            border-bottom: 1px solid #c7cdd2;
-                        "
-                    >
-                        <div class="d-flex justify-content-end">
-                            <div class="col-6 mx-0 px-0">
-                                <Link href="/admin/weather/forcast">
-                                    <Weather />
-                                </Link>
+                                <el-drawer
+                                    v-model="drawer"
+                                    :direction="direction"
+                                    size="80%"
+                                    :with-header="false"
+                                    style="overflow: hidden !important"
+                                >
+                                    <nav
+                                        class="sidebar"
+                                        style="overflow: hidden !important"
+                                    >
+                                        <AdminHeaderVue />
+                                    </nav>
+                                </el-drawer>
                             </div>
+                        </div>
 
-                            <div
-                                class="col-6 dropdown-toggle pl-0 pr-0 pt-2"
-                                @click="toggleCollapse_user"
-                                href="#"
-                                data-toggle="dropdown"
-                                id="profileDropdown"
+                        <div class="col-6 pt-0 text-end">
+                            <el-popover
+                                ref="popoverRef"
+                                :virtual-ref="buttonRef"
+                                trigger="click"
+                                virtual-triggering
                             >
-                                <span class="nav-profile-name"
+                                <span>
+                                    <div class="d-flex justify-content-start">
+                                        <div style="background-color: #ffff">
+                                            <Link
+                                                href="/dashboard"
+                                                method="get"
+                                                as="link"
+                                                class="nav-link px-3"
+                                                >Dashboard</Link
+                                            >
+
+                                            <Link
+                                                href="/profile"
+                                                method="post"
+                                                as="link"
+                                                class="nav-link px-3"
+                                                >Profile</Link
+                                            >
+                                            <Link
+                                                href="/help"
+                                                method="post"
+                                                as="link"
+                                                class="nav-link px-3"
+                                                >Help</Link
+                                            >
+                                            <Link
+                                                style="cursor: pointer"
+                                                href="/logout"
+                                                method="post"
+                                                as="link"
+                                                class="nav-link px-3"
+                                                >Logout</Link
+                                            >
+                                        </div>
+                                    </div>
+                                </span>
+                            </el-popover>
+                            <div class="d-flex justify-content-end">
+                                <span
+                                    class="nav-profile-name d-none d-lg-block d-xl-block pt-2"
                                     >{{ $page.props.auth.user.name }}
                                 </span>
                                 <span
                                     class="initials-background"
-                                    style="padding: 20px"
-                                    ><strong>{{
-                                        $page.props.auth.user.name
-                                            .charAt(0)
-                                            .toUpperCase()
-                                    }}</strong></span
+                                    ref="buttonRef"
+                                    v-click-outside="onClickOutside"
+                                    style="padding: 20px; cursor: pointer"
+                                    ><strong>
+                                        {{
+                                            $page.props.auth.user.name
+                                                .charAt(0)
+                                                .toUpperCase()
+                                        }}</strong
+                                    ></span
                                 >
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <div
-                                style="background-color: #ffff"
-                                class="navbar-dropdown shadow col-2 py-4"
-                                :class="[
-                                    'collapse',
-                                    { hideUser: isCollapsed_user },
-                                ]"
-                            >
-                                <Link
-                                    href="/dashboard"
-                                    method="get"
-                                    as="link"
-                                    class="nav-link px-3"
-                                    >Dashboard</Link
-                                >
-
-                                <Link
-                                    href="/profile"
-                                    method="post"
-                                    as="link"
-                                    class="nav-link px-3"
-                                    >Profile</Link
-                                >
-                                <Link
-                                    href="/help"
-                                    method="post"
-                                    as="link"
-                                    class="nav-link px-3"
-                                    >Help</Link
-                                >
-                                <Link
-                                    style="cursor: pointer"
-                                    href="/logout"
-                                    method="post"
-                                    as="link"
-                                    class="nav-link px-3"
-                                    >Logout</Link
-                                >
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <slot></slot>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div>
+                        <button @click="colorMode = 'light'">Light</button>
+                        <button @click="colorMode = 'dark'">dark</button>
+
+                        <slot></slot>
+                    </div>
+                </div>
             </div>
-            <!-- main-panel ends -->
         </div>
-        <!-- page-body-wrapper ends -->
+        <!-- main-panel ends -->
     </div>
-    <!-- container-scroller -->
+    <!-- page-body-wrapper ends -->
 </template>
 
 <script>
 import { Link } from "@inertiajs/vue3";
 
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, unref } from "vue";
 
-import Logo from "../assets/sentech-logo2.jpg";
+import { ElMessageBox } from "element-plus";
 
-import Weather from "./WeatherWidget.vue";
+import AdminHeaderVue from "./Partials/AdminHeader.vue";
+import { ClickOutside as vClickOutside } from "element-plus";
+
+import { Expand } from "@element-plus/icons-vue";
+
+import { useDark, useToggle, useColorMode } from "@vueuse/core";
 
 export default defineComponent({
     name: "navigation",
-    components: { Link, Weather },
+    components: {
+        Link,
+        ElMessageBox,
+        AdminHeaderVue,
+        vClickOutside,
+    },
 
     setup() {
+        const drawer = ref(false);
+        const direction = ref("ltr");
+
         const company_type = ref([]);
         const userdata = ref([]);
 
@@ -267,40 +162,37 @@ export default defineComponent({
             }
         };
 
-        const isCollapsed = ref(false);
-
-        const toggleCollapse = () => {
-            isCollapsed.value = !isCollapsed.value;
-        };
-
-        const isCollapsed_pm = ref(false);
-
-        const toggleCollapse_pm = () => {
-            isCollapsed_pm.value = !isCollapsed_pm.value;
-        };
-
-        const isCollapsed_user = ref(false);
-
-        const toggleCollapse_user = () => {
-            isCollapsed_user.value = !isCollapsed_user.value;
-        };
-
         onMounted(() => {
             getuser();
         });
+
+        const buttonRef = ref();
+        const popoverRef = ref();
+        const onClickOutside = () => {
+            unref(popoverRef).popperRef?.delayHide?.();
+        };
+        const isDark = useDark({
+            selector: "body",
+            attribute: "class",
+            valueDark: "dark",
+            valueLight: "light",
+        });
+
+        const colorMode = useColorMode();
+        const toggleDark = useToggle(isDark);
 
         return {
             userdata,
             getRoleNames,
             company_type,
-            Logo,
-            toggleCollapse,
-            isCollapsed,
-            toggleCollapse_pm,
-            isCollapsed_pm,
-            toggleCollapse_user,
-            isCollapsed_user,
-            Weather,
+            drawer,
+            direction,
+            buttonRef,
+            onClickOutside,
+            Expand,
+            toggleDark,
+            isDark,
+            colorMode,
         };
     },
 });
@@ -344,4 +236,65 @@ export default defineComponent({
     position: absolute;
     z-index: 1000;
 }
+
+// @media (max-width: 768px) {
+//     .sidebar {
+//         display: none; /* Hide sidebar on smaller screens */
+//     }
+
+//     .drawer-mobile {
+//         display: none;
+//     }
+
+//     .main-panel {
+//         width: 100%; /* Take full width on smaller screens */
+//     }
+
+//     .navbar-dropdown {
+//         width: 100%; /* Take full width on smaller screens */
+//         /* Add more styles as needed for smaller screens */
+//     }
+
+//     .initials-background {
+//         margin-left: 0; /* Center initials on smaller screens */
+//     }
+
+//     /* Add more responsive styles as needed for smaller screens */
+// }
+
+.sidebar-mobile {
+    min-height: 100vh;
+    background: #ffffff;
+    font-family: "Roboto", sans-serif;
+    padding: 0;
+    width: 90px;
+    z-index: 11;
+}
+
+.sidebar-mobile .nav {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin-bottom: 60px;
+}
+
+.sidebar-mobile .nav .nav-item .nav-link .menu-title {
+    color: #737272;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.el-button--primary {
+    background-color: #144f9f !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .sidebar {
+        border-right: none !important;
+    }
+}
 </style>
+
+<style></style>

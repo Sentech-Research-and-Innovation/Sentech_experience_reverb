@@ -4,6 +4,10 @@ import WebLayout from "@/Layouts/WebLayout.vue";
 import SideModal from "../../Layouts/SideModal.vue";
 import WeatherWidgetVue from "./WeatherWidget.vue";
 
+import freeVisionLogo from "../../assets/Freevision.svg";
+
+import arrow from "../../assets/arrow-right-grey.png";
+
 export default {
     props: ["x"],
     setup() {
@@ -20,6 +24,8 @@ export default {
         return {
             step: 1,
             form: {},
+            freeVisionLogo,
+            arrow,
         };
     },
     computed: {},
@@ -39,28 +45,39 @@ export default {
                         Lorem ipsum dolor sit amet consectetur adipiscing elit
                     </div>
                 </div>
-                <div class="col-md-12 pt-5">
+                <div class="col-12 pt-5 mx-0 px-0">
                     <div class="row">
-                        <div class="col-md-6 col-lg-6 col-12">
+                        <div class="col-md-6 col-lg-6 col-12" style="">
                             <div
                                 class="col-lg-11 col-12 mt-2 advert-section-page px-4"
                             >
+                                <div class="pt-lg-4 pt-2">
+                                    <img :src="freeVisionLogo" width="300" />
+                                </div>
                                 <div
-                                    class="advert-section-div pt-lg-5 mx-4 pt-3"
+                                    class="advert-section-div pt-lg-3 mx-2 pt-3"
                                 >
                                     Introducing our <br />
-                                    NEW Streaming App Sentech Plus
+                                    NEW Streaming App
                                 </div>
 
                                 <div
-                                    class="d-flex justify-content-end mt-5 col-12 py-2"
+                                    class="d-flex justify-content-end mt-1 col-12 pt-2"
                                 >
-                                    <div
-                                        class="btn advert-section-div-button my-4"
+                                    <a
+                                        href="https://devstech.dotcomlb.com"
+                                        target="__blank"
                                     >
-                                        <span class="pr-2">Get Started</span>
-                                        <img src="arrow-right-grey.png" />
-                                    </div>
+                                        <div
+                                            class="btn advert-section-div-button my-4 py-3 px-2"
+                                        >
+                                            <span class="pr-4"
+                                                >Get Started</span
+                                            >
+
+                                            <img :src="arrow" width="40" />
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -143,26 +160,27 @@ export default {
 }
 
 .advert-section-page {
-    background-color: #fff;
-    height: auto;
+    height: 321px;
     border-radius: 20px;
+    background: url("../../assets/movie_bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 600px 350px;
 }
 
 .advert-section-div-button {
-    color: #9f9e9e;
+    color: #fff;
     font-size: 15px;
-    border: solid 2px #9f9e9e;
     border-radius: 10px;
     font-weight: bold;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.397);
 }
 
 .advert-section-div {
-    color: #9f9e9e;
+    color: #fff;
 
-    font-size: 30px;
+    font-size: 25px;
     width: 100%;
-    font-weight: normal;
+    font-weight: 100;
 }
 
 .small-info-block {

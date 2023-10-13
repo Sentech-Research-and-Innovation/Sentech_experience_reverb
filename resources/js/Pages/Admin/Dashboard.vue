@@ -1,26 +1,36 @@
 <template>
-    <div class="col-12">
-        <p class="text-grey">Welcome Back,</p>
-        <!-- {{ userdata[0].first_name }} -->
-        <h1><strong>Dashboard</strong></h1>
+    <div class="col-12 px-lg-5">
+        <p class="text-grey" v-if="userdata[0]">
+            Welcome Back, {{ userdata[0].first_name }}
+        </p>
 
-        <div class="col-12 tweets-report-wrapper rounded mt-5">
-            <div class="d-flex justify-content-between pr-4 py-4">
-                <div class="col-3 total-tweets rounded py-4 tweet-box">
-                    <div class="tweets-label">Total tweets</div>
-                    <div class="tweets-value"><strong>321</strong></div>
+        <h1><strong> Your Dashboard</strong></h1>
+
+        <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
+            <div class="row">
+                <div class="col-lg-3 col-6 pr-0">
+                    <div class="col-12 total-tweets rounded py-4 tweet-box">
+                        <div class="tweets-label">Total tweets</div>
+                        <div class="tweets-value"><strong>321</strong></div>
+                    </div>
                 </div>
-                <div class="col-3 total-engagement rounded py-4 tweet-box">
-                    <div class="tweets-label">Engament</div>
-                    <div class="tweets-value"><strong>48%</strong></div>
+                <div class="col-lg-3 col-6 pr-lg-3">
+                    <div class="col-12 total-engagement rounded py-4 tweet-box">
+                        <div class="tweets-label">Engagement</div>
+                        <div class="tweets-value"><strong>48%</strong></div>
+                    </div>
                 </div>
-                <div class="col-3 total-tweets2 rounded py-4 tweet-box">
-                    <div class="tweets-label">Total tweets</div>
-                    <div class="tweets-value"><strong>321</strong></div>
+                <div class="col-lg-3 col-6 pr-0 pt-lg-0 pt-3 pl-lg-0">
+                    <div class="col-12 total-tweets2 rounded py-4 tweet-box">
+                        <div class="tweets-label">Total tweets</div>
+                        <div class="tweets-value"><strong>321</strong></div>
+                    </div>
                 </div>
-                <div class="col-3 total-tweets3 rounded py-4 tweet-box">
-                    <div class="tweets-label">Total tweets</div>
-                    <div class="tweets-value"><strong>321</strong></div>
+                <div class="col-lg-3 col-6 pt-3 pt-lg-0">
+                    <div class="col-12 total-tweets3 rounded py-4 tweet-box">
+                        <div class="tweets-label">Total tweets</div>
+                        <div class="tweets-value"><strong>321</strong></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,8 +145,5 @@ export default defineComponent({
 }
 .tweets-label {
     font-size: 20px;
-}
-.tweet-box {
-    margin-right: 8px; /* Add margin-right to create space between divs */
 }
 </style>

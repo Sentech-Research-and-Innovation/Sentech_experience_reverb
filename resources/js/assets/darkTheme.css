@@ -1,0 +1,139 @@
+
+.dark{
+    background:#000000 !important;
+}
+
+
+
+.dark .shadow-border {
+    background-color: #191c24;
+    border:1px solid #191c24;
+    
+}
+
+.dark .shadow-border .apexcharts-legend-text, h1, h3 {
+    color:#ffff !important
+}
+
+.dark .navbar{
+    border-bottom: 1px solid #191c24; background-color: #191c24;
+    color: #ffff !important
+}
+
+.dark .navbar-light .navbar-nav .active > .nav-link{
+    color:#144f9f
+}
+
+.dark .navbar-light .navbar-nav .nav-link {
+    color: #737272
+} 
+
+.dark .navbar-light .btn-search{
+    background-color: #144f9f;
+    color: #fff;
+    height: 32.5px;
+    border: none !important
+}
+
+.dark .navbar-light .keyword-input {
+    height: 32.5px !important;
+    border: none !important;
+    color: #737272 !important;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color:#000000
+
+}
+
+.dark .el-date-editor {
+    --el-input-border-color: none !important;
+    --el-input-bg-color: #000000 !important;
+  
+}
+
+.dark .sidebar .nav .nav-item .nav-link .menu-title {
+font-weight:500
+
+}
+
+.dark .sidebar {
+    background: #191c24;
+    font-family: "Roboto", sans-serif;
+    padding: 0;
+    width: 350px;
+    z-index: 11;
+    border-right: 2px solid #000000;
+}
+
+.dark .sidebar .bg{
+    background: #000000 !important
+}
+
+.dark .tweetsColor{
+    color:#737272 !important
+}
+
+.dark .checkbox-select__trigger {
+    background:#000000  !important;
+    border:none !important
+    
+}
+.dark .predictions-table-tree{
+  min-height: 100vh; background-color: #191c24
+}
+
+.dark .table thead th {
+
+    background-color: #191c24 !important
+}
+
+.dark  .org-tree-container {
+   
+    background-color: #191c24;
+}
+
+.dark .org-tree-node-label-inner{
+    background-color: black !important
+}
+
+.dark .org-tree-node-btn {
+    background-color: black !important;
+
+}
+
+.dark .bh-table-responsive table thead tr th {
+
+    background-color: #191c24 !important
+}
+.dark .bh-table-responsive table tbody tr td {
+    
+
+        background-color: #191c24 !important
+    
+}
+
+.dark .prediction-table-hearder{
+    background-color: #191c24;
+}
+
+.dark .mobile-nav{
+    border-bottom: none; background-color: #191c24
+}
+
+.dark .mobile .navbar-light .navbar-nav .active > .nav-link{
+    color:#144f9f
+}
+
+.dark .keyword-input{
+    background-color:black;
+    border:1px solid black !important
+}
+.dark .el-drawer {
+    --el-drawer-bg-color: #191c24 !important
+}
+
+
+
+
+
+

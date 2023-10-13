@@ -1,13 +1,9 @@
 <template>
     <div>
-        <div class="col-12 text-end">
-            <button
-                type="button"
-                class="button button-dark"
-                @click="showing = true"
-            >
+        <div class="col-12 text-end px-0 mx-0">
+            <el-button @click="showing = true" class="button-dark">
                 Create Role
-            </button>
+            </el-button>
         </div>
         <SideModal
             :content="content"
@@ -50,21 +46,12 @@
                                                 v-model="SelectedPermissions"
                                                 :value="perm.name"
                                             />
+
                                             <label
-                                                class="form-check-label"
+                                                class="form-check-label pt-1 pl-4"
                                                 :for="perm.name"
                                             >
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    v-model="
-                                                        SelectedPermissions
-                                                    "
-                                                    :value="perm.name"
-                                                />
-
                                                 {{ perm.label }}
-                                                <i class="input-helper"></i>
                                             </label>
                                         </div>
                                     </div>
@@ -74,12 +61,12 @@
 
                         <div class="col-md-12 pt-3">
                             <div class="text-right add-company-btn">
-                                <button
+                                <el-button
                                     @click="SaveRole()"
-                                    class="btn btn-dark button button-dark"
+                                    class="button-dark"
                                 >
                                     Save Role
-                                </button>
+                                </el-button>
                             </div>
                         </div>
                     </div>

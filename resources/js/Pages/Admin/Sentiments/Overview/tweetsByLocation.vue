@@ -1,7 +1,8 @@
 <template>
-    <div class="col-12 px-0 mx-0">
-        <div class="col-12 shadow-border py-4">
-            <h3 style="color: #000">Number Of Tweets By Location</h3>
+    <div class="col-12 pl-0 pr-0">
+        <div class="col-12 shadow-border py-4 mx-0" style="min-height: 500px">
+            <h3>Number Of Tweets By Location</h3>
+            <br />
             <div
                 class="col-12 text-center"
                 v-if="loading"
@@ -10,7 +11,7 @@
                 <img :src="LoadingGif" width="50" />
             </div>
             <apexchart
-                class="py-2"
+                height="400"
                 type="donut"
                 :options="chartOptions"
                 :series="values"

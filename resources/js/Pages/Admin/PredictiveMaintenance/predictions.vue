@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="col-12 px-0 mx-0"
-        style="min-height: 100vh; background-color: #ffff"
-    >
+    <div class="col-12 px-0 mx-0 predictions-table-tree">
         <div class="row medium-labels">
             <table class="table">
                 <thead>
@@ -22,7 +19,7 @@
             </table>
         </div>
 
-        <div class="col-12 pt-5 desktop-labels" style="background-color: #ffff">
+        <div class="col-12 pt-5 desktop-labels">
             <div class="d-flex flex-row">
                 <div class="dh">#</div>
 
@@ -37,7 +34,7 @@
                 <div class="dh">% in Alarm</div>
             </div>
         </div>
-        <div class="py-0" style="background-color: #ffff">
+        <div class="py-0">
             <blocks-tree
                 :data="treeData"
                 horizontal="true"

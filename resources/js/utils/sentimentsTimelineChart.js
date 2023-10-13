@@ -44,10 +44,7 @@ export default {
             border: false,
             strokeDashArray: 3,
             show: true,
-            padding: {
-                left: -16,
-                right: 0,
-            },
+
             xaxis: {
                 lines: {
                     show: false,
