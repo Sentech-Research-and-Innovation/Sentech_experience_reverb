@@ -19,14 +19,16 @@
         <div class="col-lg-4 col-12 mt-lg-0 mt-3">
             <div class="col-12 shadow-border text-center py-1">
                 <p class="pt-2 fs-5">7 day In-Alarm sensor count</p>
-                <div class="pt-2">
+
+                <div class="pt-2" v-if="series[0]">
                     <apexchart
                         type="radialBar"
                         height="190"
                         :options="chartOptions"
-                        :series="series"
+                        :series="[series[0]]"
                     ></apexchart>
                 </div>
+                <div class="py-4" v-else>Loading..</div>
             </div>
         </div>
     </div>
@@ -76,7 +78,6 @@ export default defineComponent({
                         margin: 0, // margin is in pixels
                     },
                     dataLabels: {
-                        show: true,
                         name: {
                             show: false,
                         },

@@ -129,7 +129,6 @@ export default defineComponent({
             });
 
             rows.value = filteredPredictions;
-            console.log(filteredPredictions);
         };
 
         getPredictions();

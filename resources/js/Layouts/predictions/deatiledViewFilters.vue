@@ -27,7 +27,7 @@
                             v-model="siteNameModel"
                             collapse-tags
                             collapse-tags-tooltip
-                            max-collapse-tags="0"
+                            :max-collapse-tags="0"
                             clearable
                         />
                     </div>
@@ -44,7 +44,7 @@
                             v-model="measuresModel"
                             collapse-tags
                             collapse-tags-tooltip
-                            max-collapse-tags="0"
+                            :max-collapse-tags="0"
                             clearable
                         />
                     </div>
@@ -63,7 +63,7 @@
                             v-model="deviceNameModel"
                             collapse-tags
                             collapse-tags-tooltip
-                            max-collapse-tags="0"
+                            :max-collapse-tags="0"
                             clearable
                         />
                     </div>
@@ -82,7 +82,7 @@
                             v-model="classificationModel"
                             collapse-tags
                             collapse-tags-tooltip
-                            max-collapse-tags="0"
+                            :max-collapse-tags="0"
                             clearable
                         />
                     </div>
@@ -100,7 +100,7 @@
                             v-model="alarmFlagModel"
                             collapse-tags
                             collapse-tags-tooltip
-                            max-collapse-tags="0"
+                            :max-collapse-tags="0"
                             clearable
                         />
                     </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, onMounted } from "vue";
+import { defineComponent, ref, watch, onMounted, nextTick } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
@@ -177,42 +177,43 @@ export default defineComponent({
         const alarmFlagModel = ref(filterStore.alarmFlag);
         const alarmFlagOptions = ref([]);
 
-        // watch(siteNameModel, (newFilter, oldFilter) => {
-        //     filterStore.siteNames = newFilter;
-        // });
+        watch(siteNameModel, (newFilter, oldFilter) => {
+            filterStore.siteNames = newFilter;
+        });
 
-        // watch(measuresModel, (newFilter, oldFilter) => {
-        //     filterStore.measureDecription = newFilter;
-        // });
+        watch(measuresModel, (newFilter, oldFilter) => {
+            filterStore.measureDecription = newFilter;
+        });
 
-        // watch(deviceNameModel, (newFilter, oldFilter) => {
-        //     filterStore.deviceName = newFilter;
-        // });
+        watch(deviceNameModel, (newFilter, oldFilter) => {
+            filterStore.deviceName = newFilter;
+        });
 
-        // watch(inputdate, (newDate, oldDate) => {
-        //     filterStore.date = oldDate;
-        // });
+        watch(inputdate, (newDate, oldDate) => {
+            filterStore.date = oldDate;
+        });
 
-        watch(
-            [
-                siteNameModel,
-                measuresModel,
-                deviceNameModel,
-                inputdate,
-                classificationModel,
-                alarmFlagModel,
-            ],
-            () => {
-                filterStore.siteNames = siteNameModel.value;
-                filterStore.measureDecription = measuresModel.value;
-                filterStore.deviceName = deviceNameModel.value;
-                filterStore.date = inputdate.value;
-                filterStore.classification = classificationModel.value;
-                filterStore.alarmFlag = alarmFlagModel.value;
-            }
-        );
+        // watch(
+        //     [
+        //         siteNameModel,
+        //         measuresModel,
+        //         deviceNameModel,
+        //         inputdate,
+        //         classificationModel,
+        //         alarmFlagModel,
+        //     ],
+        //     () => {
+        //         filterStore.siteNames = siteNameModel.value;
+        //         filterStore.measureDecription = measuresModel.value;
+        //         filterStore.deviceName = deviceNameModel.value;
+        //         filterStore.date = inputdate.value;
+        //         filterStore.classification = classificationModel.value;
+        //         filterStore.alarmFlag = alarmFlagModel.value;
+        //     }
+        // );
 
-        const setFiltersOptions = () => {
+        const setFiltersOptions = async () => {
+            await nextTick();
             const seenSiteNames = {};
             const seenMeasures = {};
             const seenDeviceNames = {};
@@ -273,11 +274,28 @@ export default defineComponent({
                     });
                 }
             });
+
+            filterStore.siteNames = siteNameOptions.value.map(
+                (option) => option.value
+            );
+            filterStore.measureDecription = measuresOptions.value.map(
+                (option) => option.value
+            );
+            filterStore.deviceName = deviceNameOptions.value.map(
+                (option) => option.value
+            );
+            filterStore.classification = classificationOptions.value.map(
+                (option) => option.value
+            );
+            filterStore.alarmFlag = alarmFlagOptions.value.map(
+                (option) => option.value
+            );
         };
 
         onMounted(() => {
             setFiltersOptions();
         });
+
         return {
             siteNameOptions,
             siteNameModel,
