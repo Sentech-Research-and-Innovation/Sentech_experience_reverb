@@ -144,7 +144,8 @@ export default {
 
 <style scoped lang="scss">
 .sentech-index-page {
-    margin-top: 50px;
+    padding-top: 50px;
+    min-height: 100vh;
 }
 
 .advert-section-text {
@@ -235,7 +236,20 @@ export default {
 }
 
 @media only screen and (max-width: 991px) {
-    .welcome-text {
+    consectetur
+        adipiscing
+        elit
+        Introducing
+        our
+        NEW
+        Streaming
+        App
+        Lorem
+        ipsum
+        dolor
+        sit
+        amet,
+    consectetur .welcome-text {
         font-size: 32px;
     }
 }

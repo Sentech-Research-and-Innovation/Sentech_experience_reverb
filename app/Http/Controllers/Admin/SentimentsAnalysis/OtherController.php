@@ -25,6 +25,7 @@ class OtherController extends Controller
         $mapData = [];
         $filterDate = request()->searchFilter['date'];
         $keyword = request()->searchFilter['keywords'];
+        $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
         $startDate = null;
         $endDate = null;
@@ -37,52 +38,32 @@ class OtherController extends Controller
         foreach ($data['hits']['hits'] as $hit) {
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
+            $sentiment = $hit['_source']['sentiment'];
 
             // Check if the tweet's date falls within the specified date range (if not null)
-            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
-                if ($keyword !== null) {
-                    if (stripos($hit['_source']['text'], $keyword) !== false) {
-                        $loc = $hit['_source']['location_point'];
-                        $name = $hit['_source']['sentiment'];
-                        $fill = "";
+            // and if the sentiment type is in the specified sentimentTypes
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
+                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
+                (in_array($sentiment, $sentimentTypes))
+            ) {
 
-                        if ($name == "negative") {
-                            $fill = "#ec1c24";
-                        }
-                        if ($name == "positive") {
-                            $fill = "#00c83c";
-                        }
-                        if ($name == "neutral") {
-                            $fill = "#118dff";
-                        }
+                $loc = $hit['_source']['location_point'];
+                $name = $sentiment;
+                $fill = "";
 
-                        $mapData[] = [
-                            "name" => $name,
-                            "coords" => [$loc['lat'], $loc['lon']],
-                            "style" => ["fill" => $fill]
-                        ];
-                    }
-                } else {
-                    $loc = $hit['_source']['location_point'];
-                    $name = $hit['_source']['sentiment'];
-                    $fill = "";
-
-                    if ($name == "negative") {
-                        $fill = "#ec1c24";
-                    }
-                    if ($name == "positive") {
-                        $fill = "#00c83c";
-                    }
-                    if ($name == "neutral") {
-                        $fill = "#118dff";
-                    }
-
-                    $mapData[] = [
-                        "name" => $name,
-                        "coords" => [$loc['lat'], $loc['lon']],
-                        "style" => ["fill" => $fill]
-                    ];
+                if ($name == "negative") {
+                    $fill = "rgba(255, 69, 96, 0.85)";
+                } elseif ($name == "positive") {
+                    $fill = "rgb(0, 227, 150)";
+                } elseif ($name == "neutral") {
+                    $fill = "rgb(119, 93, 208)";
                 }
+
+                $mapData[] = [
+                    "name" => $name,
+                    "coords" => [$loc['lat'], $loc['lon']],
+                    "style" => ["fill" => $fill]
+                ];
             }
         }
 

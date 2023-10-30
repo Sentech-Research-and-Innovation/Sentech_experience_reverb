@@ -25298,3 +25298,6 @@ background-color:#000 !important
                   overflow: auto !important;
               }
           }
+          .checkbox-select__title{
+            color:#606266 !important
+        }

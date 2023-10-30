@@ -51,9 +51,9 @@ export default defineComponent({
             }
         };
 
-        onMounted(async () => {
-            getPredictions();
-        });
+        // onMounted(async () => {
+        //     getPredictions();
+        // });
 
         // Compute the chart data and options
         const chartData = ref(null);
@@ -174,49 +174,68 @@ export default defineComponent({
             };
             return date.toLocaleDateString("en-US", optionsDate);
         };
-        watch(predictions, (newPredictions) => {
-            if (newPredictions) {
-                const uniqueItemCountByDate = newPredictions.reduce(
-                    (counts, prediction) => {
-                        const date = prediction.date;
-                        const item_id = prediction.item_id;
-                        counts[date] = counts[date] || new Set();
-                        counts[date].add(item_id);
-                        return counts;
-                    },
-                    {}
-                );
-                const sortedDates = Object.keys(uniqueItemCountByDate).sort(
-                    (a, b) =>
-                        uniqueItemCountByDate[b].size -
-                        uniqueItemCountByDate[a].size
-                );
 
-                const top10Dates = sortedDates.slice(0, 10);
-                console.log(top10Dates);
+watch(predictions, (newPredictions) => {
+    if (newPredictions) {
+        // Calculate unique item counts for each date where alarm value is 1
+        const uniqueItemCountByDate = newPredictions.reduce(
+            (counts, prediction) => {
+                const date = prediction.date;
+                const item_id = prediction.item_id;
+                const alarm = prediction.alarm;
 
-                const formattedDates = top10Dates.map((date) =>
-                    convertDate(new Date(date))
-                );
-                chartOptions.value = {
-                    ...chartOptions.value, // Keep other properties unchanged
-                    xaxis: {
-                        ...chartOptions.value.xaxis, // Keep other xaxis properties unchanged
-                        categories: formattedDates,
-                    },
-                };
-                chartData.value = {
-                    series: [
-                        {
-                            name: "Count Alarm State",
-                            data: top10Dates.map(
-                                (date) => uniqueItemCountByDate[date].size
-                            ),
-                        },
-                    ],
-                };
-            }
+                // Check if alarm value is 1
+                if (alarm === 0) {
+                    counts[date] = counts[date] || new Set();
+                    counts[date].add(item_id);
+                }
+
+                return counts;
+            },
+            {}
+        );
+
+        // Sort dates in descending order
+        const sortedDates = Object.keys(uniqueItemCountByDate).sort((a, b) => {
+            const dateA = new Date(a);
+            const dateB = new Date(b);
+            return dateB - dateA;
         });
+
+        // Get total of 10 dates from the max date
+        const top10Dates = sortedDates.slice(0, 10);
+
+        // Sort top 10 dates in ascending order
+        const sortedTop10Dates = top10Dates.sort((a, b) => {
+            const dateA = new Date(a);
+            const dateB = new Date(b);
+            return dateA - dateB;
+        });
+
+        // Format dates using the convertDate function (assuming it's defined)
+        const formattedDates = sortedTop10Dates.map(date => convertDate(new Date(date)));
+
+        // Update chart options
+        chartOptions.value = {
+            ...chartOptions.value,
+            xaxis: {
+                ...chartOptions.value.xaxis,
+                categories: formattedDates,
+            },
+        };
+
+        // Update chart data
+        chartData.value = {
+            series: [{
+                name: "Count Alarm State",
+                data: sortedTop10Dates.map(date => uniqueItemCountByDate[date].size),
+            }],
+        };
+    }
+});
+
+
+
 
         return {
             predictions,

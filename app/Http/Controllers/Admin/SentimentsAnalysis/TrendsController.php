@@ -30,6 +30,7 @@ class TrendsController extends Controller
 
         $filterDate = request()->searchFilter['date'];
         $keyword = request()->searchFilter['keywords'];
+        $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
         $startDate = null;
         $endDate = null;
@@ -43,43 +44,29 @@ class TrendsController extends Controller
 
             $dateStr = $hit['_source']['date'];
             $date = new DateTime($dateStr);
+            $sentiment = $hit['_source']['sentiment'];
 
             // Check if the tweet's date falls within the specified date range (if not null)
-            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
-                if ($keyword !== null) {
-                    // Check if keywords are set and the tweet contains them
-                    if (stripos($hit['_source']['text'], $keyword) !== false) {
-                        $sentiment = $hit['_source']['sentiment'];
+            // and if the sentiment type is in the specified sentimentTypes
+            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
+                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
+                (in_array($sentiment, $sentimentTypes))
+            ) {
 
-                        if ($sentiment === 'positive') {
-                            $positiveTweets++;
-                        } else if ($sentiment === 'negative') {
-                            $negativeTweets++;
-                        } else if ($sentiment == 'neutral') {
-                            $neutralTweets++;
-                        }
-
-                        $tweetsContent[] = [
-                            "tweet" => $hit['_source']["text"],
-                            "sentiment" => $hit['_source']["sentiment"],
-                        ];
-                    }
-                } else {
-                    // If no keyword filter is set, count all tweets
-                    $sentiment = $hit['_source']['sentiment'];
-
-                    if ($sentiment === 'positive') {
-                        $positiveTweets++;
-                    } else if ($sentiment === 'negative') {
-                        $negativeTweets++;
-                    } else if ($sentiment == 'neutral') {
-                        $neutralTweets++;
-                    }
-                    $tweetsContent[] = [
-                        "tweet" => $hit['_source']["text"],
-                        "sentiment" => $hit['_source']["sentiment"],
-                    ];
+                // Update sentiment counts based on tweet's sentiment
+                if ($sentiment === 'positive') {
+                    $positiveTweets++;
+                } elseif ($sentiment === 'negative') {
+                    $negativeTweets++;
+                } elseif ($sentiment == 'neutral') {
+                    $neutralTweets++;
                 }
+
+                $tweetsContent[] = [
+                    "tweet" => $hit['_source']["text"],
+                    "sentiment" => $hit['_source']["sentiment"],
+                    "date" => $hit['_source']["date"],
+                ];
             }
         }
 
@@ -87,7 +74,7 @@ class TrendsController extends Controller
             "positiveTweets" => $positiveTweets,
             "negativeTweets" => $negativeTweets,
             "neutralTweets" => $neutralTweets,
-            "tweetsContent" =>  $tweetsContent
+            "tweetsContent" => $tweetsContent
         ];
 
         return response()->json($response, 200);

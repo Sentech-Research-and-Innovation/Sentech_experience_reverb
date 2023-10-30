@@ -1,9 +1,9 @@
 <template>
     <Head :title="'Others'"><title>Others</title></Head>
 
-    <div class="col-12 px-0">
+    <div class="col-12 px-0 mx-0">
         <div class="col-12 px-0"><navigationSearchBar /></div>
-        <div class="col-12 px-4">
+        <div class="col-12 mx-0 my-3">
             <Map />
         </div>
     </div>

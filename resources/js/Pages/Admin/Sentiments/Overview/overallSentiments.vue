@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 mx-lg-3 mt-3">
+    <div class="col-12 mx-lg-0 mt-3">
         <div class="row">
             <div v-if="loading" class="col-lg-2 col-6 mb-lg-0 mb-3 pr-0">
                 <div class="col-12 shadow-border text-center py-5">
@@ -23,7 +23,7 @@
                     <p class="text-positive">Positive Tweets</p>
                 </div>
             </div>
-            <div v-else class="col-lg-2 col-6 mb-lg-0 mb-3">
+            <div v-else class="col-lg-2 col-6 pr-0 mb-lg-0 mb-3">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
                 </div>
@@ -54,7 +54,7 @@
                     <img :src="LoadingGif" width="50" />
                 </div>
             </div>
-            <div class="col-lg-4 pr-lg-5">
+            <div class="col-lg-4 pr-lg-3">
                 <div
                     class="col-12 py-1 px-2 mx-0 shadow-border"
                     v-if="!loading && overallData.totalTweets > 0"
@@ -105,11 +105,16 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
         const overallData = ref([]);
         const chartOptions = ref({
             chart: {
                 type: "pie",
+            },
+
+            stroke: {
+                show: false,
             },
             colors: ["#00e396", "#775dd0", "#ff4560"],
             labels: ["Positive", "Neutral", "Negative"],
@@ -147,6 +152,7 @@ export default defineComponent({
             search.value = {
                 date: searchFilter.value.date,
                 keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
             };
 
             getData();
@@ -155,10 +161,11 @@ export default defineComponent({
         watch(
             searchFilter,
             (newFilter, oldFilter) => {
-                const { date, keywords } = newFilter;
+                const { date, keywords, sentimentTypes } = newFilter;
                 search.value = {
                     date: date,
                     keywords: keywords,
+                    sentimentTypes: sentimentTypes,
                 };
 
                 overallData.value.totalTweets = null;

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 px-0 mx-0">
+    <div class="col-12 px-2">
         <div class="col-12 shadow-border mx-0" style="min-height: 500px">
             <h3 class="py-4">Sentiments Timeline (cumulative)</h3>
             <div
@@ -41,6 +41,7 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
 
         const seriesData = ref([
@@ -123,16 +124,18 @@ export default defineComponent({
             search.value = {
                 date: searchFilter.value.date,
                 keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
             };
 
             await getData();
         });
 
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
 
             seriesData.value[0].data = [];

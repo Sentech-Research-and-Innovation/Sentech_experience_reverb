@@ -12,7 +12,7 @@
                 v-if="dataLoaded"
                 width="100%"
                 height="290"
-                backgroundColor="#0000"
+                color="red"
                 :options="{
                     markers,
                     markerStyle,
@@ -83,7 +83,7 @@ export default defineComponent({
                 r: 8,
             },
             hover: {
-                fill: "",
+                fill: "black",
             },
             selected: {
                 fill: "blue",
@@ -109,57 +109,60 @@ export default defineComponent({
         // Function to calculate target values by SiteName for the last 7 days
         watch(predictions, (newPredictions) => {
             if (newPredictions) {
-                const siteTargets = {};
-
-                // Find the maximum date from predictions data
+                const currentDate = new Date(); // Current date and time
                 const maxDate = new Date(
                     Math.max(
-                        ...predictions.value.map(
+                        ...newPredictions.map(
                             (prediction) => new Date(prediction.date)
                         )
                     )
                 );
 
-                // Subtract 7 days from the maximum date to get the start date for the 7-day range
+                // Calculate the start date for the 7-day range
                 const startDate = new Date(maxDate);
-                startDate.setDate(startDate.getDate() - 7);
+                startDate.setDate(startDate.getDate() - 300);
 
-                // Iterate through predictions and calculate target values for the last 7 days
-                predictions.value.forEach((prediction) => {
-                    const siteName = prediction.SiteName;
-                    const targetValue = parseFloat(prediction.target_value);
-                    const latitude = parseFloat(prediction.Latitude_);
-                    const longitude = parseFloat(prediction.Longitude_);
+                const siteTotals = {}; // Object to store totals by siteName
+
+                // Iterate through newPredictions and calculate totals for the last 7 days where alarm is 1
+                newPredictions.forEach((prediction) => {
                     const predictionDate = new Date(prediction.date);
+                    const siteName = prediction.SiteName;
+                    const itemId = prediction.item_id;
+                    const alarm = prediction.alarm; // Assuming 'alarm' property represents the alarm status
 
+                    // Check if siteName exists, date is within the 7-day range, itemId is unique, and alarm is 1
                     if (
                         siteName &&
-                        !isNaN(targetValue) &&
-                        !isNaN(latitude) &&
-                        !isNaN(longitude) &&
                         predictionDate >= startDate &&
-                        predictionDate <= maxDate
+                        predictionDate <= maxDate &&
+                        alarm === 0
                     ) {
-                        if (siteTargets[siteName]) {
-                            siteTargets[siteName].targetValue += targetValue;
-                        } else {
-                            siteTargets[siteName] = {
-                                targetValue,
-                                coords: [latitude, longitude],
-                                labelName: siteName,
-                            };
-                        }
+                        siteTotals[siteName] =
+                            siteTotals[siteName] || new Set();
+                        siteTotals[siteName].add(itemId);
                     }
                 });
 
-                // Convert siteTargets object to markers array
-                markers.value = Object.keys(siteTargets).map((siteName) => ({
-                    name: `7 days Sensor alarm : ${siteTargets[
-                        siteName
-                    ].targetValue.toFixed(2)}`,
-                    coords: siteTargets[siteName].coords, // Use actual latitude and longitude
-                    labelName: siteName,
-                }));
+                // Convert siteTotals object to markers array
+                markers.value = Object.keys(siteTotals).map((siteName) => {
+                    const totalItems = siteTotals[siteName].size;
+                    const predictionWithCoordinates = newPredictions.find(
+                        (prediction) => prediction.SiteName === siteName
+                    );
+                    const latitude = parseFloat(
+                        predictionWithCoordinates.Latitude
+                    );
+                    const longitude = parseFloat(
+                        predictionWithCoordinates.Longitude
+                    );
+
+                    return {
+                        name: `7 days Sensor alarm : ${totalItems}`,
+                        coords: [latitude, longitude],
+                        labelName: siteName,
+                    };
+                });
             }
         });
 

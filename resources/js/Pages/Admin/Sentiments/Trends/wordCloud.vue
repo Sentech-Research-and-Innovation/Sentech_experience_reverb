@@ -92,10 +92,6 @@ ul.cloud {
 }
 
 ul.cloud a {
-    /*   
-  Not supported by any browser at the moment :(
-  --size: attr(data-weight number); 
-  */
     --size: 4;
     --color: #a33;
     color: var(--color);
@@ -105,10 +101,6 @@ ul.cloud a {
     position: relative;
     text-decoration: none;
     cursor: pointer;
-    /* 
-  For different tones of a single color
-  opacity: calc((15 - (9 - var(--size))) / 15); 
-  */
 }
 
 ul.cloud a[data-weight="1"] {

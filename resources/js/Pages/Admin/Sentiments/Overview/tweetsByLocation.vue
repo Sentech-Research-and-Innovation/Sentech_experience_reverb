@@ -1,22 +1,20 @@
 <template>
-    <div class="col-12 pl-0 pr-0">
-        <div class="col-12 shadow-border py-4 mx-0" style="min-height: 500px">
-            <h3>Number Of Tweets By Location</h3>
-            <br />
-            <div
-                class="col-12 text-center"
-                v-if="loading"
-                style="padding-top: 10px"
-            >
-                <img :src="LoadingGif" width="50" />
-            </div>
-            <apexchart
-                height="400"
-                type="donut"
-                :options="chartOptions"
-                :series="values"
-            ></apexchart>
+    <div class="col-12 shadow-border py-4" style="min-height: 500px">
+        <h3>Number Of Tweets By Location</h3>
+        <br />
+        <div
+            class="col-12 text-center"
+            v-if="loading"
+            style="padding-top: 10px"
+        >
+            <img :src="LoadingGif" width="50" />
         </div>
+        <apexchart
+            height="400"
+            type="donut"
+            :options="chartOptions"
+            :series="values"
+        ></apexchart>
     </div>
 </template>
 
@@ -37,6 +35,7 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
 
         const labels = ref([]);
@@ -47,6 +46,10 @@ export default defineComponent({
                 type: "donut",
                 width: 350,
                 height: 350,
+            },
+
+            stroke: {
+                show: false,
             },
             tooltip: {
                 enabled: true,
@@ -84,14 +87,21 @@ export default defineComponent({
         };
 
         onMounted(async () => {
-            getData();
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
+            };
+
+            await getData();
         });
 
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
             chartOptions.value.labels.length = 0;
             //  location.reload();

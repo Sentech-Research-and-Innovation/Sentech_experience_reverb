@@ -46,3 +46,31 @@ main{
     font-size: 20px;
     text-decoration: none;
 }
+
+
+$dot-color: red !important;
+
+
+:root {
+    --el-menu-active-color: var(--el-color-primary);
+    // ... other custom properties ...
+}
+
+// Override the custom properties
+:root {
+    --el-menu-active-color: $dot-color !important;
+    --el-menu-text-color:  $dot-color;
+    --el-menu-hover-text-color: $dot-color;
+
+    // ... override other custom properties ...
+}
+
+.dark {
+    --el-bg-color-overlay:#191c24 ;
+    --el-border-color-light: #144f9f!important;
+
+    --el-fill-color-light:black
+}
+
+
+

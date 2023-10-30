@@ -14,4 +14,6 @@ Route::group(['prefix' => '/admin/predictive-maintenance'], function () {
     Route::get('/predictions/detailed-view', [PredictiveMaintenanceController::class, 'detailedView']);
 
     Route::post('/predictions/detailed-view-data', [PredictiveMaintenanceController::class, 'detailedViewData']);
+
+    Route::post('/predictions/alarm-flag', [PredictiveMaintenanceController::class, 'alarmFlag']);
 });

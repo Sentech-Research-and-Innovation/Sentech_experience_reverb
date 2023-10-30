@@ -36,12 +36,14 @@ export default defineComponent({
     components: {},
 
     setup() {
-        const loading = ref(true);
         const filterStore = useFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
+
+        const loading = ref(true);
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
 
         const seriesData = ref([
@@ -120,13 +122,23 @@ export default defineComponent({
             }
         };
 
+        onMounted(async () => {
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
+            };
+
+            await getData();
+        });
+
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
-            //  chartData.value.length = 0;
 
             seriesData.value[0].data = [];
             seriesData.value[0].type = "bar";
@@ -137,18 +149,12 @@ export default defineComponent({
             seriesData.value[2].data = [];
             seriesData.value[2].type = "bar";
             loading.value = true;
-
             getData();
         });
 
-        onMounted(async () => {
-            search.value = {
-                date: searchFilter.value.date,
-                keywords: searchFilter.value.keywords,
-            };
-
-            await getData();
-        });
+        // onMounted(async () => {
+        //     getData();
+        // });
 
         return {
             getData,
@@ -157,6 +163,7 @@ export default defineComponent({
             loading,
             LoadingGif,
             searchFilter,
+            search,
         };
     },
 });

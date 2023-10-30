@@ -26,10 +26,18 @@ class TimeLinesController extends Controller
         $hits = $data['hits']['hits'];
         $hourGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keywords = (array)request()->searchFilter['keywords']; // Ensure keywords is an array
+        $keyword = trim(request()->searchFilter['keywords']); // Get the keyword as a string
+        $sentimentTypes = request()->searchFilter['sentimentTypes']; // Get the sentimentTypes parameter
 
-        // Initialize an array to count occurrences of each hour
-        $hourCounts = array_fill(0, 24, 0);
+        // Initialize an array to count occurrences of each hour and sentiment type
+        $hourSentimentCounts = [];
+        for ($hour = 0; $hour < 24; $hour++) {
+            $hourSentimentCounts[$hour] = [
+                'positive' => 0,
+                'neutral' => 0,
+                'negative' => 0,
+            ];
+        }
 
         foreach ($hits as $hit) {
             $sentiment = $hit['_source']['sentiment'];
@@ -48,54 +56,25 @@ class TimeLinesController extends Controller
             }
 
             // Keyword filtering logic
-            $keywordFound = false;
-            foreach ($keywords as $keyword) {
-                if (stripos($tweetText, $keyword) !== false) {
-                    $keywordFound = true;
-                    break; // Exit the loop if at least one keyword is found
-                }
+            if (!empty($keyword) && stripos($tweetText, $keyword) === false) {
+                continue; // Skip this tweet if it does not contain the specified keyword
             }
 
-
-            if (!empty($keywords) && !$keywordFound) {
-                continue; // Skip this iteration if no keyword is found
+            if (!in_array($sentiment, $sentimentTypes)) {
+                continue; // Skip this tweet if its sentiment type is not in the specified types
             }
 
-            // Count the occurrence of each hour
-            $hourCounts[$hour]++;
+            // Count the occurrence of each sentiment type for each hour
+            $hourSentimentCounts[$hour][$sentiment]++;
         }
 
-        // Create hourGroups based on the counts
-        for ($hour = 0; $hour < 24; $hour++) {
-            $hourGroups[] = [
-                'hour' => $hour,
-                'sentiments' => [
-                    'positive' => 0,
-                    'neutral' => 0,
-                    'negative' => 0,
-                ],
-            ];
-        }
-
-        // Fill sentiments based on counts
-        foreach ($hits as $hit) {
-            $sentiment = $hit['_source']['sentiment'];
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-            $hour = (int)$date->format('H'); // Get the hour component
-
-            if (isset($hourGroups[$hour])) {
-                $hourGroups[$hour]['sentiments'][$sentiment]++;
-            }
-        }
-
-        // Separate hours and data
+        // Prepare the response data
         $hours = [];
         $dataByHour = [];
 
-        foreach ($hourGroups as $hourGroup) {
-            $hours[] = $hourGroup['hour'];
-            $dataByHour[] = $hourGroup['sentiments'];
+        foreach ($hourSentimentCounts as $hour => $sentiments) {
+            $hours[] = $hour;
+            $dataByHour[] = $sentiments;
         }
 
         $response = [
@@ -104,52 +83,5 @@ class TimeLinesController extends Controller
         ];
 
         return response()->json($response, 200);
-    }
-
-
-
-    public function tweetsLikes()
-    {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=2000');
-        $data = json_decode($jsonData, true);
-
-        $hits = $data['hits']['hits'];
-
-        $dateTotals = [];
-        $filterDate = request()->searchFilter['date'];
-
-        $startDate = null;
-        $endDate = null;
-
-        if ($filterDate !== null) {
-            $startDate = new DateTime($filterDate[0]);
-            $endDate = new DateTime($filterDate[1]);
-        }
-
-        foreach ($hits as $hit) {
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-
-            // Check if the tweet's date falls within the specified date range (if not null)
-            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate)) {
-                $formattedDate = $date->format('Y-m-d');
-
-                if (!isset($dateTotals[$formattedDate])) {
-                    $dateTotals[$formattedDate] = [
-                        'totalTweets' => 0,
-                        'totalLikes' => 0,
-                    ];
-                }
-
-                // Increment total tweets
-                $dateTotals[$formattedDate]['totalTweets']++;
-
-                // Increment total likes
-                $totalLikes = $hit['_source']['likes'];
-                $dateTotals[$formattedDate]['totalLikes'] += $totalLikes;
-            }
-        }
-
-        return response()->json($dateTotals);
     }
 }

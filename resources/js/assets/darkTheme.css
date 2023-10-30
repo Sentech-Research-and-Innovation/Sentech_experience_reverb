@@ -70,7 +70,8 @@ font-weight:500
 }
 
 .dark .tweetsColor{
-    color:#737272 !important
+    color:#737272 !important;
+    font-weight:bold;
 }
 
 .dark .checkbox-select__trigger {
@@ -106,10 +107,7 @@ font-weight:500
     background-color: #191c24 !important
 }
 .dark .bh-table-responsive table tbody tr td {
-    
-
-        background-color: #191c24 !important
-    
+  background-color: #191c24 !important
 }
 
 .dark .prediction-table-hearder{
@@ -131,6 +129,57 @@ font-weight:500
 .dark .el-drawer {
     --el-drawer-bg-color: #191c24 !important
 }
+
+
+.dark .el-tree {
+  
+    background: #191c24 !important;
+
+    --el-tree-node-hover-bg-color: black !important;
+    font-weight: bold;
+  
+}
+
+.dark .el-table {
+    --el-table-tr-bg-color :#191c24;
+    --el-table-header-bg-color:#191c24;
+    --el-table-bg-color: #191c24;
+    --el-table-row-hover-bg-color:black;
+
+    --el-table-border: 1px solid black;
+    
+
+}
+
+.dark .el-input {
+    --el-input-bg-color: black !important;
+
+    --el-input-border-color:black !important;
+    --el-input-hover-border-color: black !important;
+}
+
+.dark .el-tag {
+    color:#144f9f !important
+}
+
+.dark .el-cascader-menu {
+     /* --el-cascader-menu-fill: black !important; */
+    /* --el-bg-color-overlay:red !important; */
+    background-color: #191c24 !important;
+   
+}
+
+.dark .el-cascader {
+    --el-cascader-tag-background:#191c24 !important   
+}
+
+.dark .search_select {
+background-color:black;
+border:none !important
+}
+
+
+
 
 
 

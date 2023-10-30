@@ -41,6 +41,7 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
         const series = ref([
             {
@@ -68,7 +69,7 @@ export default defineComponent({
                 stacked: true,
 
                 toolbar: {
-                    show: true,
+                    show: false,
                     tools: {
                         download: false,
                         zoom: false,
@@ -145,12 +146,24 @@ export default defineComponent({
             },
             xaxis: {
                 type: "numeric",
-
-                tickAmount: hours.value.length - 1,
+                tickAmount: 10,
                 labels: {
                     formatter: function (val) {
-                        return hours.value[val - 1];
+                        if (hours.value[val - 1] !== undefined) {
+                            return (
+                                ("0" + hours.value[val - 1]).slice(-2) + ":00"
+                            );
+                        } else {
+                            //  return val.toFixed(0) - 1 + ":00";
+                            let convert = 0;
+                            convert = val.toFixed(0) - 1;
+                            return ("0" + convert).slice(-2) + ":00";
+                        }
                     },
+                    show: true,
+
+                    rotate: -45,
+                    rotateAlways: true,
                 },
             },
             categories: hours.value,
@@ -181,15 +194,17 @@ export default defineComponent({
             search.value = {
                 date: searchFilter.value.date,
                 keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
             };
 
             await getData();
         });
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
             hours.value = [];
             series.value[0].data = [];
@@ -201,9 +216,6 @@ export default defineComponent({
 
             getData();
         });
-        // onMounted(async () => {
-        //     getData();
-        // });
 
         return {
             series,

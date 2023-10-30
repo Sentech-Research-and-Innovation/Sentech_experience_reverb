@@ -27,25 +27,25 @@
 import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import chartUtil from "../../../../utils/sentimentsTimelineChart";
 import LoadingGif from "../../../../assets/loading.gif";
+
 import { useFilterStore } from "../../../../stores/filter";
 
 export default defineComponent({
     name: "sentiment-analysis-over-sentimentsTimelineChart",
 
     components: {},
+
     setup() {
         const filterStore = useFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
+
+        const loading = ref(true);
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
-        const loading = ref(true);
-        const chartData = ref({
-            negative: [],
-            positive: [],
-            neutral: [],
-        });
+
         const seriesData = ref([
             {
                 type: "line",
@@ -103,15 +103,12 @@ export default defineComponent({
             if (res.status === 200) {
                 for (const key in res.data) {
                     const monthData = res.data[key];
+
                     seriesData.value[0].data.push({
                         x: monthData.month + " " + monthData.year,
                         y: monthData.sentiments.negative,
                     });
 
-                    // chartData.value["negative"].push({
-                    //     x: monthData.month + " " + monthData.year,
-                    //     y: monthData.sentiments.negative,
-                    // });
                     seriesData.value[1].data.push({
                         x: monthData.month + " " + monthData.year,
                         y: monthData.sentiments.positive,
@@ -125,35 +122,48 @@ export default defineComponent({
             }
         };
 
+        onMounted(async () => {
+            search.value = {
+                date: searchFilter.value.date,
+                keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
+            };
+
+            await getData();
+        });
+
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
-            loading.value = true;
+
             seriesData.value[0].data = [];
             seriesData.value[0].type = "bar";
+
             seriesData.value[1].data = [];
             seriesData.value[1].type = "bar";
+
             seriesData.value[2].data = [];
             seriesData.value[2].type = "bar";
-
+            loading.value = true;
             getData();
         });
 
-        onMounted(async () => {
-            getData();
-        });
+        // onMounted(async () => {
+        //     getData();
+        // });
 
         return {
-            chartData,
             getData,
             seriesData,
             chartUtil,
             loading,
             LoadingGif,
             searchFilter,
+            search,
         };
     },
 });

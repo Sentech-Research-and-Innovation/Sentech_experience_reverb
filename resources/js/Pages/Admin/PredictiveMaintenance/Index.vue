@@ -15,7 +15,9 @@
         </div>
     </div>
 
-    <predictionsVue :predictions="predictions" />
+    <div class="col-12">
+        <predictionsVue :predictions="predictions" />
+    </div>
 </template>
 
 <script>

@@ -1,45 +1,16 @@
 <template>
     <div class="row mt-3">
-        <!-- <div class="col-4 pr-0">
-            <div class="col-12 shadow-border" style="height: 135px">
-                <p class="py-2">
-                    The dashboard displays Machine Learning Powered sensor
-                    predictions made for a 7 day period. A table with more
-                    detailed information about the predicted sensor value and
-                    corresponding thresholds can be viewed from the "Detailed
-                    View" Tab on the top bar.
-                </p>
-            </div>
-        </div> -->
-
         <div class="col-8 mx-0">
             <div class="row">
-                <div class="col-3 mb-3 pr-0">
+                <div class="col-6 mb-3 pr-0">
                     <div
-                        class="col-12 shadow-border py-3"
+                        class="col-12 shadow-border py-2"
                         style="min-height: 100px"
                     >
-                        <div class="pb-2">Measure Description</div>
-
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
-                            v-model="siteNameModel"
-                        />
-                    </div>
-                </div>
-                <div class="col-3 mb-3 pr-0">
-                    <div
-                        class="col-12 shadow-border py-3"
-                        style="min-height: 100px"
-                    >
-                        <div class="pb-2">Device Name</div>
-
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
-                            v-model="siteNameModel"
-                        />
+                        Please use the filters to narrow down to relevant
+                        devices and sensors. The table below contains predicted
+                        sensor values along with the thresholds for a 7 day
+                        period.
                     </div>
                 </div>
 
@@ -50,13 +21,54 @@
                     >
                         <div class="pb-2">Site Name</div>
 
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
+                        <el-cascader
+                            :options="siteNameOptions"
+                            :props="propsSiteNames"
                             v-model="siteNameModel"
+                            collapse-tags
+                            collapse-tags-tooltip
+                            max-collapse-tags="0"
+                            clearable
                         />
                     </div>
                 </div>
+                <div class="col-3 mb-3 pr-0">
+                    <div
+                        class="col-12 shadow-border py-3"
+                        style="min-height: 100px"
+                    >
+                        <div class="pb-2">Measure Description</div>
+                        <el-cascader
+                            :options="measuresOptions"
+                            :props="props2"
+                            v-model="measuresModel"
+                            collapse-tags
+                            collapse-tags-tooltip
+                            max-collapse-tags="0"
+                            clearable
+                        />
+                    </div>
+                </div>
+
+                <div class="col-3 mb-3 pr-0">
+                    <div
+                        class="col-12 shadow-border py-3"
+                        style="min-height: 100px"
+                    >
+                        <div class="pb-2">Device Name</div>
+
+                        <el-cascader
+                            :options="deviceNameOptions"
+                            :props="props2"
+                            v-model="deviceNameModel"
+                            collapse-tags
+                            collapse-tags-tooltip
+                            max-collapse-tags="0"
+                            clearable
+                        />
+                    </div>
+                </div>
+
                 <div class="col-3 pr-0">
                     <div
                         class="col-12 shadow-border py-3"
@@ -64,10 +76,14 @@
                     >
                         <div class="pb-2">Classification</div>
 
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
-                            v-model="siteNameModel"
+                        <el-cascader
+                            :options="classificationOptions"
+                            :props="props2"
+                            v-model="classificationModel"
+                            collapse-tags
+                            collapse-tags-tooltip
+                            max-collapse-tags="0"
+                            clearable
                         />
                     </div>
                 </div>
@@ -78,55 +94,38 @@
                         style="min-height: 100px"
                     >
                         <div class="pb-2">Alarm Flag</div>
-
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
-                            v-model="siteNameModel"
+                        <el-cascader
+                            :options="alarmFlagOptions"
+                            :props="props2"
+                            v-model="alarmFlagModel"
+                            collapse-tags
+                            collapse-tags-tooltip
+                            max-collapse-tags="0"
+                            clearable
                         />
                     </div>
                 </div>
+
                 <div class="col-3 pr-0">
-                    <div
-                        class="col-12 shadow-border py-3"
-                        style="min-height: 100px"
-                    >
-                        <div class="pb-2">OC</div>
-
-                        <SelectDroptownVue
-                            :filters="options"
-                            :options="siteNames"
-                            v-model="siteNameModel"
-                        />
-                    </div>
-                </div>
-                <div class="col-6 pr-0">
                     <div
                         class="col-12 shadow-border py-3"
                         style="height: 100px"
                     >
                         <div class="pb-2">Date between</div>
-                        <VueDatePicker
+                        <el-date-picker
                             v-model="inputdate"
-                            :enable-time-picker="false"
-                            dark
-                            range
-                        ></VueDatePicker>
+                            type="daterange"
+                            range-separator="To"
+                            start-placeholder="Start date"
+                            end-placeholder="End date"
+                            size="medium"
+                        />
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-4">
-            <div class="col-12 shadow-border text-center py-1">
-                <div class="pt-4">
-                    <apexchart
-                        type="donut"
-                        height="178px"
-                        :options="chartOptions"
-                        :series="series"
-                    ></apexchart>
-                </div>
-            </div>
+            <AlarmFlagChartVue />
         </div>
     </div>
 </template>
@@ -136,53 +135,168 @@ import { defineComponent, ref, watch, onMounted } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-import { predictionsFilterStore } from "../../stores/predictionsFilter";
-import SelectDroptownVue from "../../Components/SelectDroptown.vue";
+import { predictionsFilterStore } from "../../stores/predictionFiltersDetailed";
+
+import AlarmFlagChartVue from "../../Pages/Admin/PredictiveMaintenance/DetailedView/AlarmFlagChart.vue";
 
 export default defineComponent({
     components: {
         VueDatePicker,
-        SelectDroptownVue,
+        AlarmFlagChartVue,
     },
 
-    setup() {
+    props: {
+        predictions: {
+            type: Array,
+            required: true,
+        },
+    },
+
+    setup(props) {
+        const props2 = { multiple: true };
+        const propsSiteNames = { multiple: true };
+
+        const { predictions } = props;
+
         const filterStore = predictionsFilterStore();
-        const siteNameModel = ref([]);
-        const siteNames = ref(filterStore.siteNames);
+
+        const measuresOptions = ref([]);
+        const measuresModel = ref(filterStore.measureDecription);
+
         const inputdate = ref(filterStore.date);
-        const options = ref([
-            "PORT ELIZABETH",
-            "CONSTANTIABERG",
-            "JOHANNESBURG",
-        ]);
 
-        watch(siteNameModel, (newFilter, oldFilter) => {
-            filterStore.siteNames = newFilter;
-            console.log(filterStore.siteNames);
+        const siteNameModel = ref(filterStore.siteNames);
+        const siteNameOptions = ref([]);
+
+        const deviceNameModel = ref(filterStore.deviceName);
+        const deviceNameOptions = ref([]);
+
+        const classificationModel = ref(filterStore.classification);
+        const classificationOptions = ref([]);
+
+        const alarmFlagModel = ref(filterStore.alarmFlag);
+        const alarmFlagOptions = ref([]);
+
+        // watch(siteNameModel, (newFilter, oldFilter) => {
+        //     filterStore.siteNames = newFilter;
+        // });
+
+        // watch(measuresModel, (newFilter, oldFilter) => {
+        //     filterStore.measureDecription = newFilter;
+        // });
+
+        // watch(deviceNameModel, (newFilter, oldFilter) => {
+        //     filterStore.deviceName = newFilter;
+        // });
+
+        // watch(inputdate, (newDate, oldDate) => {
+        //     filterStore.date = oldDate;
+        // });
+
+        watch(
+            [
+                siteNameModel,
+                measuresModel,
+                deviceNameModel,
+                inputdate,
+                classificationModel,
+                alarmFlagModel,
+            ],
+            () => {
+                filterStore.siteNames = siteNameModel.value;
+                filterStore.measureDecription = measuresModel.value;
+                filterStore.deviceName = deviceNameModel.value;
+                filterStore.date = inputdate.value;
+                filterStore.classification = classificationModel.value;
+                filterStore.alarmFlag = alarmFlagModel.value;
+            }
+        );
+
+        const setFiltersOptions = () => {
+            const seenSiteNames = {};
+            const seenMeasures = {};
+            const seenDeviceNames = {};
+            const seenClassification = {};
+            const seenAlarmFlag = {};
+            predictions.forEach((item) => {
+                const siteName = item.SiteName;
+                const measure = item.MeasureDescription;
+                const deviceName = item.DeviceName;
+                const classification = item.Classification_x;
+                const alarmFlag = item.alarm;
+
+                if (!seenSiteNames[siteName]) {
+                    seenSiteNames[siteName] = true;
+                    siteNameOptions.value.push({
+                        value: siteName,
+                        label: siteName,
+                    });
+                }
+
+                if (!seenMeasures[measure]) {
+                    seenMeasures[measure] = true;
+                    measuresOptions.value.push({
+                        value: measure,
+                        label: measure,
+                    });
+                }
+
+                if (!seenDeviceNames[deviceName]) {
+                    seenDeviceNames[deviceName] = true;
+                    deviceNameOptions.value.push({
+                        value: deviceName,
+                        label: deviceName,
+                    });
+                }
+
+                if (!seenClassification[classification]) {
+                    seenClassification[classification] = true;
+                    classificationOptions.value.push({
+                        value: classification,
+                        label: classification,
+                    });
+                }
+
+                if (!seenAlarmFlag[alarmFlag]) {
+                    seenAlarmFlag[alarmFlag] = true;
+                    let label = "";
+                    if (alarmFlag === 0) {
+                        label = "Alarm";
+                    } else if (alarmFlag === 1) {
+                        label = "Normal";
+                    } else {
+                        label = "Pre-Alarm";
+                    }
+                    alarmFlagOptions.value.push({
+                        value: alarmFlag,
+                        label: label,
+                    });
+                }
+            });
+        };
+
+        onMounted(() => {
+            setFiltersOptions();
         });
-
-        watch(inputdate, (newDate, oldDate) => {
-            filterStore.date = oldDate;
-        });
-
-        const series = ref([70, 20]);
-
-        const chartOptions = ref({
-            colors: ["#41e809", "#e80909"],
-            labels: ["Normal", "Alarm"],
-
-            chart: {
-                type: "donut",
-            },
-        });
-
         return {
-            options,
-            siteNames,
-            inputdate,
+            siteNameOptions,
             siteNameModel,
-            chartOptions,
-            series,
+
+            inputdate,
+            predictions,
+            measuresOptions,
+            measuresModel,
+            props2,
+            propsSiteNames,
+
+            deviceNameOptions,
+            deviceNameModel,
+
+            classificationOptions,
+            classificationModel,
+
+            alarmFlagOptions,
+            alarmFlagModel,
         };
     },
 });

@@ -25,8 +25,8 @@
                 <div class="">
                     <input
                         type="text"
-                        placeholder="Serach value"
-                        class="search_select"
+                        placeholder="Search value"
+                        class="search_select px-2"
                         v-model="search"
                     />
                 </div>
@@ -91,7 +91,7 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const search = ref("");
-        const checkedFilters = ref([...props.options]);
+        const checkedFilters = ref([]);
         const allSelected = ref(false);
         const selectAllText = ref("Select All");
 
@@ -134,7 +134,9 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            checkedFilters.value = [...props.options];
+            if (props.options) {
+                checkedFilters.value = [...props.options];
+            }
             emit("update:modelValue", checkedFilters.value);
         });
 
@@ -161,7 +163,7 @@ export default defineComponent({
 
 <style lang="scss">
 ::placeholder {
-    color: rgb(134, 171, 209) !important;
+    color: #144f9f !important;
     opacity: 1;
     font-size: 12px;
 }
@@ -171,8 +173,9 @@ export default defineComponent({
     font-weight: 100 !important;
     height: 30px !important;
     border-radius: 5px;
-    border: 1px solid rgb(134, 171, 209) !important;
-    color: rgb(134, 171, 209) !important;
+    border: 1px solid #144f9f;
+    color: #144f9f !important;
+    width: 100%;
 }
 input {
     appearance: none;
@@ -188,7 +191,7 @@ input {
         border-radius: 5px;
         background: #fff repeat;
         position: relative;
-        border: 1px solid rgb(134, 171, 209) !important;
+        border: 1px solid #144f9f !important;
         height: 30px;
         display: flex;
         align-items: center;
@@ -306,8 +309,7 @@ input {
         }
     }
     &__filters-wrapp {
-        margin-top: 20px;
-        height: 157px;
+        margin-top: 10px;
         overflow-y: auto;
     }
 

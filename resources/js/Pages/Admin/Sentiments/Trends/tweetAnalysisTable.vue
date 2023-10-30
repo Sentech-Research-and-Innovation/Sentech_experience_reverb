@@ -80,15 +80,26 @@ app-54837d4d.js:7 TypeError: Cannot read properties of null (reading
                                         <div
                                             v-if="search.keywords"
                                             class="col-9 py-2 tweetsColor"
-                                            v-html="
-                                                highlightKeywords(tweet.tweet)
-                                            "
-                                        ></div>
+                                        >
+                                            <div
+                                                v-html="
+                                                    highlightKeywords(
+                                                        tweet.tweet
+                                                    )
+                                                "
+                                            ></div>
+                                            <div>
+                                                <br />
+                                                {{ formattedDate(tweet.date) }}
+                                            </div>
+                                        </div>
                                         <div
                                             v-else
                                             class="col-9 py-2 tweetsColor"
                                         >
-                                            {{ tweet.tweet }}
+                                            {{ tweet.tweet }} <br />
+                                            <br />
+                                            {{ formattedDate(tweet.date) }}
                                         </div>
                                     </div>
                                 </div>
@@ -117,7 +128,7 @@ app-54837d4d.js:7 TypeError: Cannot read properties of null (reading
 import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import LoadingGif from "../../../../assets/loading.gif";
 import { useFilterStore } from "../../../../stores/filter";
-
+import { DateTime } from "luxon";
 export default defineComponent({
     name: "sentiment-analysis-tweets-analysis-table",
 
@@ -131,6 +142,7 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
         const getData = async () => {
             loading.value = true;
@@ -144,25 +156,38 @@ export default defineComponent({
             }
         };
         const highlightKeywords = (tweetText) => {
-            // Get the keywords from the filter or use an empty string if null/undefined
             const keywords = (search.value.keywords || "")
                 .toLowerCase()
                 .split(" ");
 
-            // Create a regular expression to match the keywords
             const keywordRegex = new RegExp(keywords.join("|"), "gi");
-            console.log(tweetText);
-            // Use replace with a custom function to highlight keywords
             return tweetText.replace(keywordRegex, (match) => {
                 return `<span style="background-color:yellow!important">${match}</span>`;
             });
         };
+        const formattedDate = (date) => {
+            const options = {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+            };
 
+            // Parse the input date string and convert it to UTC+2
+            const localDate = new Date(date);
+            localDate.setUTCHours(localDate.getUTCHours() - 2);
+
+            // Format the date and time
+            return localDate.toLocaleDateString(undefined, options);
+        };
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
 
             tweets.value = [];
@@ -172,6 +197,7 @@ export default defineComponent({
             search.value = {
                 date: searchFilter.value.date,
                 keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
             };
 
             await getData();
@@ -183,6 +209,7 @@ export default defineComponent({
             LoadingGif,
             loading,
             search,
+            formattedDate,
         };
     },
 });
@@ -205,14 +232,14 @@ export default defineComponent({
 }
 
 .tweets-container-negative {
-    color: #ec1c24 !important;
+    color: rgba(255, 69, 96, 0.85) !important;
 }
 .tweets-container-neutral {
-    color: #118dff !important;
+    color: rgba(119, 93, 208, 0.85) !important;
 }
 
 .tweets-container-positive {
-    color: #00c83c !important;
+    color: rgba(0, 227, 150, 0.85) !important;
 }
 
 .sentiment {

@@ -1,11 +1,11 @@
 <template>
     <nav
-        class="navbar navbar-expand-lg navbar-light py-3 mb-2 d-none d-lg-block d-xl-block"
+        class="navbar navbar-expand-lg navbar-light py-3 mb-0 d-none d-lg-block d-xl-block"
     >
         <div class="navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto pt-2">
                 <li
-                    class="nav-item mr-5 filter-items"
+                    class="nav-item mr-3 filter-items"
                     :class="{
                         active: $page.url === '/admin/sentiments/all',
                     }"
@@ -15,7 +15,7 @@
                     >
                 </li>
                 <li
-                    class="nav-item mr-5"
+                    class="nav-item mr-3"
                     :class="{
                         active: $page.url === '/admin/sentiments/overview',
                     }"
@@ -25,7 +25,7 @@
                     >
                 </li>
                 <li
-                    class="nav-item mr-5"
+                    class="nav-item mr-3"
                     :class="{
                         active: $page.url === '/admin/sentiments/timelines',
                     }"
@@ -35,7 +35,7 @@
                     >
                 </li>
                 <li
-                    class="nav-item mr-5"
+                    class="nav-item mr-3"
                     :class="{
                         active: $page.url === '/admin/sentiments/trends',
                     }"
@@ -45,7 +45,7 @@
                     >
                 </li>
                 <li
-                    class="nav-item mr-3"
+                    class="nav-item mr-0"
                     :class="{
                         active: $page.url === '/admin/sentiments/others',
                     }"
@@ -54,10 +54,16 @@
                         >Others</a
                     >
                 </li>
-                <li class="nav-item mx-0"></li>
             </ul>
-            <div class="form-inline my-2 my-lg-0">
-                <div class="col-7 mx-0">
+            <div class="form-inline my-2 my-lg-0 justify-content-end text-end">
+                <div class="col-3 mr-0 px-1">
+                    <SelectDroptownVue
+                        :filters="options"
+                        :options="sentimentType"
+                        v-model="sentimentModel"
+                    />
+                </div>
+                <div class="col-4 mx-0 px-0">
                     <el-date-picker
                         v-model="inputdate"
                         type="daterange"
@@ -67,14 +73,14 @@
                     />
                 </div>
 
-                <div class="col-4 mx-0 px-0 d-flex justify-content-left">
+                <div class="col-3 text-end mx-1 px-0">
                     <input
                         type="text"
                         v-model="keywords"
                         class="form-control keyword-input"
                     />
                 </div>
-                <div class="col-1 mx-0 d-flex justify-content-end">
+                <div class="col-1 mx-0">
                     <button
                         class="btn btn-sm btn-primary btn-search"
                         @click="changePropValue"
@@ -174,21 +180,27 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 import { useFilterStore } from "../../stores/filter";
 import VueHorizontal from "vue-horizontal";
+
+import SelectDroptownVue from "../../Components/SelectDroptown.vue";
 export default defineComponent({
     name: "navigation",
-    components: { Link, VueDatePicker, VueHorizontal },
+    components: { Link, VueDatePicker, VueHorizontal, SelectDroptownVue },
 
     setup() {
         const filterStore = useFilterStore();
 
         const inputdate = ref(filterStore.date);
         const keywords = ref(filterStore.keywords);
-
+        const sentimentModel = ref([]);
         //
+        const options = ref(["neutral", "positive", "negative"]);
+
+        const sentimentType = ref(filterStore.sentimentTypes);
 
         const changePropValue = () => {
             filterStore.date = inputdate.value;
             filterStore.keywords = keywords.value;
+            filterStore.sentimentTypes = sentimentModel.value;
         };
 
         return {
@@ -196,11 +208,20 @@ export default defineComponent({
             inputdate,
             changePropValue,
             filterStore,
+            options,
+            sentimentType,
+            sentimentModel,
         };
     },
 });
 </script>
 
+<style>
+.el-date-editor.el-input,
+.el-date-editor.el-input__wrapper {
+    --el-date-editor-width: 100% !important;
+}
+</style>
 <style scoped>
 .keyword-input {
     height: 32.5px !important;

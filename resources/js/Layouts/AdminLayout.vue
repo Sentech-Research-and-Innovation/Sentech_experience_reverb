@@ -7,9 +7,11 @@
 
         <div class="main-panel">
             <div class="col-12 px-0">
-                <div class="col-12 py-3">
+                <div class="col-12 py-4">
                     <div class="row">
-                        <div class="col-6 mx-0 px-0">
+                        <div
+                            class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-none"
+                        >
                             <div class="d-xl-none d-xxl-block d-lg-none">
                                 <el-button
                                     type="primary"
@@ -36,8 +38,29 @@
                                 </el-drawer>
                             </div>
                         </div>
-
-                        <div class="col-6 pt-0 text-end">
+                        <div class="col-lg-6 col-4">
+                            <div v-if="colorMode === 'dark'">
+                                <!-- <button @click="toggleMode">Swicth To Light</button> -->
+                                <el-button
+                                    @click="toggleMode"
+                                    type="primary"
+                                    :icon="Sunny"
+                                    class="fs-5"
+                                    circle
+                                />
+                            </div>
+                            <div v-else>
+                                <!-- <button @click="toggleMode">Switch to Dark</button> -->
+                                <el-button
+                                    @click="toggleMode"
+                                    type="primary"
+                                    :icon="Moon"
+                                    class="fs-5"
+                                    circle
+                                />
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-4 pt-0 text-end">
                             <el-popover
                                 ref="popoverRef"
                                 :virtual-ref="buttonRef"
@@ -46,7 +69,7 @@
                             >
                                 <span>
                                     <div class="d-flex justify-content-start">
-                                        <div style="background-color: #ffff">
+                                        <div>
                                             <Link
                                                 href="/dashboard"
                                                 method="get"
@@ -105,9 +128,6 @@
                 </div>
                 <div>
                     <div>
-                        <button @click="colorMode = 'light'">Light</button>
-                        <button @click="colorMode = 'dark'">dark</button>
-
                         <slot></slot>
                     </div>
                 </div>
@@ -128,7 +148,7 @@ import { ElMessageBox } from "element-plus";
 import AdminHeaderVue from "./Partials/AdminHeader.vue";
 import { ClickOutside as vClickOutside } from "element-plus";
 
-import { Expand } from "@element-plus/icons-vue";
+import { Expand, Moon, Sunny } from "@element-plus/icons-vue";
 
 import { useDark, useToggle, useColorMode } from "@vueuse/core";
 
@@ -181,6 +201,9 @@ export default defineComponent({
         const colorMode = useColorMode();
         const toggleDark = useToggle(isDark);
 
+        const toggleMode = () => {
+            colorMode.value = colorMode.value === "light" ? "dark" : "light";
+        };
         return {
             userdata,
             getRoleNames,
@@ -193,6 +216,9 @@ export default defineComponent({
             toggleDark,
             isDark,
             colorMode,
+            toggleMode,
+            Moon,
+            Sunny,
         };
     },
 });

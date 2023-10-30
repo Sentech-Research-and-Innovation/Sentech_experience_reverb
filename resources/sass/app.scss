@@ -1,6 +1,6 @@
 @use 'three-dots';
 
-$dot-color: #fff !important;
+$dot-color: red !important;
 $dot-bg-color: $dot-color;
 $dot-before-color: $dot-color;
 $dot-after-color: $dot-color;
@@ -17,4 +17,6 @@ $dot-after-color: $dot-color;
 // @import 'admin-sidebar';
 @import 'main';
 @import 'modal';
+
+
 

@@ -4,7 +4,7 @@
             <div class="col-2 pr-0 mx-0 pt-3 pl-2">
                 <img :src="weatherIconUrl" width="30" height="30" />
             </div>
-            <div class="col-10 pt-0">
+            <div class="col-10 pt-0 px-lg-2 px-2">
                 <div class="row">
                     <div class="col-3 d-flex">
                         <div class="temp">
@@ -17,7 +17,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 px-lg-3 px-0">
                         <div class="col-12 fs-6 pt-2 mx-0 date text-center">
                             {{ date }} <br />
 

@@ -31,6 +31,21 @@ border-bottom: 1px solid #c7cdd2; background-color: #ffffff
     border-bottom: 1px solid #c7cdd2; background-color: #ffffff
 }
 
+.light .tweetsColor{
+    color:#737272 !important
+}
+
+.light .el-cascader-menu {
+    /* --el-cascader-menu-fill: black !important; */
+   /* --el-bg-color-overlay:red !important; */
+   background-color: #ffff;
+  
+}
+
+.light .checkbox-select__trigger {
+    border: 1px solid #dddddd  !important;
+ 
+}
 
 
 

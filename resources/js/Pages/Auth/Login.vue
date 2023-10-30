@@ -83,6 +83,7 @@ import SideModal from "@/Layouts/SideModal.vue";
 import { useFilterStore } from "../../stores/filter";
 
 import { predictionsFilterStore } from "../../stores/predictionsFilter";
+//import { predictionsFilterDetailedStore } from "../../stores/predictionFiltersDetailed";
 
 export default {
     layout: null,
@@ -130,22 +131,33 @@ export default {
 
     created() {
         const filterStore = useFilterStore();
-        const newDate = [
-            "2023-02-01T08:54:00.000Z",
-            "2023-02-26T08:54:00.000Z",
-        ];
-
-        filterStore.date = newDate;
-
-        const filterSitenames = predictionsFilterStore();
-
-        const siteNames = ["PORT ELIZABETH", "CONSTANTIABERG", "JOHANNESBURG"];
-        filterSitenames.siteNames = siteNames;
-
-        filterSitenames.date = [
+        filterStore.date = [
             "2023-01-01T08:54:00.000Z",
             "2023-08-26T08:54:00.000Z",
         ];
+        filterStore.sentimentTypes = ["neutral", "positive", "negative"];
+
+        //prediction filters
+        const filterPredictions = predictionsFilterStore();
+        filterPredictions.siteNames = [
+            "PORT ELIZABETH",
+            "CONSTANTIABERG",
+            "JOHANNESBURG",
+        ];
+        filterPredictions.date = [
+            "2023-01-01T08:54:00.000Z",
+            "2023-12-26T08:54:00.000Z",
+        ];
+
+        // //prediction detailevue filters
+        // const filterPredictionsDetailed = predictionsFilterDetailedStore();
+        // filterPredictionsDetailed.siteNames = [
+        //     "PORT ELIZABETH",
+        //     "CONSTANTIABERG",
+        //     "JOHANNESBURG",
+        // ];
+        // filterPredictionsDetailed.alarmFlag = ["Normal", "Alarm", "Pre Alarm"];
+        // filterPredictionsDetailed.classification = ["Platinum", "Gold"];
     },
 };
 </script>

@@ -39,6 +39,7 @@ export default defineComponent({
         const search = ref({
             date: "",
             keywords: "",
+            sentimentTypes: "",
         });
         const markers = ref([]);
         const dataLoaded = ref(false);
@@ -48,15 +49,12 @@ export default defineComponent({
                 fontSize: 1,
                 border: "none",
                 fontWeight: 200,
-                fill: "#35373e",
+
                 strokeWidth: 1,
                 r: 5,
             },
             hover: {
-                fill: "",
-            },
-            selected: {
-                fill: "blue",
+                fill: "#0000",
             },
         });
 
@@ -80,10 +78,11 @@ export default defineComponent({
         };
 
         watch(searchFilter, (newFilter, oldFilter) => {
-            const { date, keywords } = newFilter;
+            const { date, keywords, sentimentTypes } = newFilter;
             search.value = {
                 date: date,
                 keywords: keywords,
+                sentimentTypes: sentimentTypes,
             };
             dataLoaded.value = false;
 
@@ -94,6 +93,7 @@ export default defineComponent({
             search.value = {
                 date: searchFilter.value.date,
                 keywords: searchFilter.value.keywords,
+                sentimentTypes: searchFilter.value.sentimentTypes,
             };
 
             await getData();
