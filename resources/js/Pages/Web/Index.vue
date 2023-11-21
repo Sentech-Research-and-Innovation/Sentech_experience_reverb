@@ -8,6 +8,8 @@ import freeVisionLogo from "../../assets/Freevision.svg";
 
 import arrow from "../../assets/arrow-right-grey.png";
 
+import NetWorksAlertVue from "./netWorksAlert.vue";
+
 export default {
     props: ["x"],
     setup() {
@@ -19,6 +21,7 @@ export default {
         Head,
         Link,
         WeatherWidgetVue,
+        NetWorksAlertVue,
     },
     data: function () {
         return {
@@ -138,13 +141,14 @@ export default {
                     </div>
                 </div>
             </div>
+            <NetWorksAlertVue />
         </div>
     </WebLayout>
 </template>
 
 <style scoped lang="scss">
 .sentech-index-page {
-    padding-top: 50px;
+    padding-top: 170px;
     min-height: 100vh;
 }
 

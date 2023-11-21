@@ -31,7 +31,10 @@
             <li
                 class="nav-item"
                 :class="{
-                    active: $page.url === '/admin/predictive-maintenance/index',
+                    active:
+                        $page.url === '/admin/predictive-maintenance/index' ||
+                        $page.url ===
+                            '/admin/predictive-maintenance/predictions/detailed-view',
                 }"
             >
                 <Link

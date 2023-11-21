@@ -138,7 +138,7 @@ export default defineComponent({
 <style scoped>
 .colored-icon {
     width: 80px;
-    height: 80px;
+    height: 60px;
 }
 .temp {
     font-size: 60px;

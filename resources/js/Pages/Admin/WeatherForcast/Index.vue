@@ -70,18 +70,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9 pr-5 mt-5 pt-5">
-                <div class="row pt-4 mt-5" style="background-color: #ffff">
+            <div class="col-9 pr-5 mt-5 pt-0">
+                <div class="row pt-4 mt-5 container-bg">
                     <div
-                        class="col-2 mx-0 px-0 pb-5 mb-5"
-                        style="border-bottom: 10px solid #efefef"
+                        class="col-2 mx-0 px-0 pb-5 mb-5 border-bottom-weather"
                         v-for="(forecast, index) in data.forecast.list"
-                        :key="forecast.dt"
+                        :key="index"
                     >
-                        <div
-                            class="col-12 px-0"
-                            style="border-right: 2px solid #efefef"
-                        >
+                        <div class="col-12 px-0 border-right-weather">
                             <div class="col-12 pt-2 date text-center">
                                 {{ formatDate(forecast.dt) }}
                             </div>
@@ -106,7 +102,7 @@
                             </div>
                         </div>
                         <!-- Add a new row after every 6 items -->
-                        <div v-if="(index + 1) % 6 === 0" class="w-100"></div>
+                        <!-- <div v-if="(index + 1) % 1 === 0" class="w-100"></div> -->
                     </div>
                 </div>
             </div>
@@ -220,6 +216,17 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+.container-bg {
+    background-color: #ffff;
+}
+
+.border-bottom-weather {
+    border-bottom: 10px solid #efefef;
+}
+.border-right-weather {
+    border-right: 2px solid #efefef;
+}
+
 .date-container {
     background-color: #144f9f;
     border-top-right-radius: 10px;

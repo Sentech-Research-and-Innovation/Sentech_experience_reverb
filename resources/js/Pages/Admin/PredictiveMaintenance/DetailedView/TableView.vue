@@ -1,6 +1,15 @@
 <template>
     <div class="shadow-border col-12 py-2">
-        <el-table :data="rows" style="width: 100%" height="600">
+        <!-- <el-skeleton v-if="!rows" :rows="5" animated /> -->
+        <el-table
+            v-loading="loading"
+            :element-loading-svg="svg"
+            class="custom-loading-svg"
+            element-loading-svg-view-box="-10, -10, 50, 50"
+            :data="rows"
+            style="width: 100%"
+            height="600"
+        >
             <el-table-column
                 prop="SiteName"
                 label="Site Name"
@@ -11,7 +20,7 @@
             <el-table-column
                 prop="DeviceName"
                 label="Device Name"
-                width="200"
+                width="250"
                 fixed="left"
             />
             <el-table-column prop="item_id" label="Sensor ID" width="300" />
@@ -86,8 +95,18 @@ export default defineComponent({
 
         const filterStore = predictionsFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
-
+        const loading = ref(false);
+        const svg = `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`;
         const getPredictions = () => {
+            //loading.value = true;
             const {
                 siteNames,
                 date,
@@ -98,9 +117,9 @@ export default defineComponent({
             } = searchFilter.value;
 
             const filteredPredictions = predictions.filter((prediction) => {
-                const predictionDate = new Date(prediction.date).toISOString(); // Convert prediction date to ISO 8601 format
-                const isDateInRange =
-                    date[0] <= predictionDate && predictionDate <= date[1];
+                // const predictionDate = new Date(prediction.date).toISOString(); // Convert prediction date to ISO 8601 format
+                // const isDateInRange =
+                //     date[0] <= predictionDate && predictionDate <= date[1];
 
                 const isSiteNameMatch = siteNames
                     .flat()
@@ -129,16 +148,22 @@ export default defineComponent({
             });
 
             rows.value = filteredPredictions;
+            loading.value = false;
         };
 
         getPredictions();
 
         watch(searchFilter, () => {
-            getPredictions();
+            loading.value = true;
+            setTimeout(() => {
+                getPredictions();
+            }, 2000);
         });
 
         return {
             rows,
+            loading,
+            svg,
         };
     },
 });
@@ -152,5 +177,9 @@ export default defineComponent({
 .el-table .cell {
     padding: 1px !important;
     text-align: center;
+}
+
+.example-showcase .el-loading-mask {
+    z-index: 9;
 }
 </style>

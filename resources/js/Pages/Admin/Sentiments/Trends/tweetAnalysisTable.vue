@@ -1,6 +1,3 @@
-app-54837d4d.js:7 TypeError: Cannot read properties of null (reading
-'toLowerCase')
-
 <template>
     <div class="row">
         <div class="col-12">

@@ -41,37 +41,39 @@ export default {
 }
 </style>
 <template>
-    <nav class="navbar navbar-expand">
-        <div class="container">
-            <a class="navbar-brand pt-4" href="#"
-                ><img src="../../assets/white-logo.png" width="200"
-            /></a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#sentech-nav"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="sentech-nav">
-                <div class="navbar-nav ms-auto">
-                    <Login />
-                    <Link
-                        class="register nav-link"
-                        aria-current="page"
-                        href="/login"
-                        ><span class="request-an-account-button"
-                            >Request an Account</span
-                        >
-                    </Link>
+    <div class="col-12 mx-0 px-0" style="position: fixed; z-index: 1">
+        <nav class="navbar navbar-expand">
+            <div class="container">
+                <a class="navbar-brand pt-4" href="#"
+                    ><img src="../../assets/white-logo.png" width="200"
+                /></a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#sentech-nav"
+                    aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="sentech-nav">
+                    <div class="navbar-nav ms-auto">
+                        <Login />
+                        <Link
+                            class="register nav-link"
+                            aria-current="page"
+                            href="/login"
+                            ><span class="request-an-account-button"
+                                >Request an Account</span
+                            >
+                        </Link>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 </template>
 
 <style scoped>

@@ -118,7 +118,6 @@
                             range-separator="To"
                             start-placeholder="Start date"
                             end-placeholder="End date"
-                            size="medium"
                         />
                     </div>
                 </div>
@@ -191,6 +190,13 @@ export default defineComponent({
 
         watch(inputdate, (newDate, oldDate) => {
             filterStore.date = oldDate;
+        });
+
+        watch(classificationModel, (newClassification, oldClassification) => {
+            filterStore.classification = newClassification;
+        });
+        watch(alarmFlagModel, (newAlarmFlag, oldAlarmFlag) => {
+            filterStore.alarmFlag = newAlarmFlag;
         });
 
         // watch(
@@ -320,7 +326,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style>
 .dp__theme_dark {
     --dp-background-color: #ebedf0;
     --dp-text-color: #144f9f;
@@ -330,5 +336,10 @@ export default defineComponent({
     --dp-icon-color: #144f9f;
 
     font-size: 5px !important;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__wrapper {
+    --el-date-editor-width: 100% !important;
 }
 </style>

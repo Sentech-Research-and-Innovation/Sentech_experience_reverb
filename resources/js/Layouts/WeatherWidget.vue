@@ -2,7 +2,7 @@
     <div v-if="temp" class="col-12 bg mx-0 px-3">
         <div class="row px-0">
             <div class="col-2 pr-0 mx-0 pt-3 pl-2">
-                <img :src="weatherIconUrl" width="30" height="30" />
+                <img :src="weatherIconUrl" width="20" height="20" />
             </div>
             <div class="col-10 pt-0 px-lg-2 px-2">
                 <div class="row">

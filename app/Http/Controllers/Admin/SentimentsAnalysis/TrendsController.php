@@ -46,8 +46,6 @@ class TrendsController extends Controller
             $date = new DateTime($dateStr);
             $sentiment = $hit['_source']['sentiment'];
 
-            // Check if the tweet's date falls within the specified date range (if not null)
-            // and if the sentiment type is in the specified sentimentTypes
             if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
                 (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
                 (in_array($sentiment, $sentimentTypes))

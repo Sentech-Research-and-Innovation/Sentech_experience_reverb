@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Prediction;
 use Carbon\Carbon;
 
-
 class ProcessCsvData extends Command
 {
     protected $signature = 'csv:process';
@@ -20,12 +19,22 @@ class ProcessCsvData extends Command
 
     public function handle()
     {
+        $directory = 'current-prediction/';
 
-        $yesterday_date = Carbon::yesterday()->toDateString();
+        // Retrieve a list of all files in the directory
+        $files = Storage::disk('s3')->allFiles($directory);
+        foreach ($files as $filePath) {
+            // Check if the file matches the expected format
+            if (preg_match('/^prediction-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}-\d{2}\.csv$/', basename($filePath))) {
+                $this->processCsvFile($filePath);
+            }
+        }
 
-        // $filePath = 'measures-data/historical-data/' . $yesterday_date . '_Measures.csv';
-        $filePath = 'measures-data/historical-data/2023-09-20_Measures.csv';
+        $this->info('CSV data processed and stored successfully.');
+    }
 
+    private function processCsvFile($filePath)
+    {
         $fileContents = Storage::disk('s3')->get($filePath);
 
         $csvData = str_getcsv($fileContents, "\n");
@@ -34,13 +43,15 @@ class ProcessCsvData extends Command
 
         $parsedData = [];
 
+
+
         foreach ($csvData as $row) {
             $parsedData[] = array_combine($header, str_getcsv($row));
         }
 
+        Prediction::truncate();
 
         foreach ($parsedData as $row) {
-
             Prediction::create(
                 [
                     "item_id" => $row['item_id'],
@@ -62,11 +73,13 @@ class ProcessCsvData extends Command
                     "upperAlarmTsh" => $row['upperAlarmTsh'],
                     "oid" => $row['oid'],
                     "oidIndex" => $row['oidIndex'],
+                    "Latitude" => $row['Latitude (#)'],
+                    "Longitude" => $row['Longitude (#)'],
                 ]
 
             );
         }
 
-        $this->info('CSV data processed and stored successfully.');
+        $this->info("CSV file '$filePath' processed and stored.");
     }
 }

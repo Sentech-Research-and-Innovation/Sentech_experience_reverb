@@ -9,6 +9,7 @@
             <div class="col-12 px-0">
                 <div class="col-12 py-4">
                     <div class="row">
+                        <el-backtop :right="100" :bottom="100" />
                         <div
                             class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-none"
                         >
@@ -69,7 +70,7 @@
                             >
                                 <span>
                                     <div class="d-flex justify-content-start">
-                                        <div>
+                                        <div style="background-color: #ffff">
                                             <Link
                                                 href="/dashboard"
                                                 method="get"
@@ -112,7 +113,6 @@
                                 <span
                                     class="initials-background"
                                     ref="buttonRef"
-                                    v-click-outside="onClickOutside"
                                     style="padding: 20px; cursor: pointer"
                                     ><strong>
                                         {{
@@ -128,7 +128,7 @@
                 </div>
                 <div>
                     <div>
-                        <slot></slot>
+                        <slot> </slot>
                     </div>
                 </div>
             </div>

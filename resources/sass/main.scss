@@ -1,5 +1,26 @@
 
-
+        /* width */
+        ::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          /* Track */
+          ::-webkit-scrollbar-track {
+            // box-shadow: inset 0 0 5px grey; 
+            border-radius: 3px;
+          }
+           
+          /* Handle */
+          ::-webkit-scrollbar-thumb {
+            background: #838688; 
+            border-radius: 10px;
+          }
+          
+          /* Handle on hover */
+          ::-webkit-scrollbar-thumb:hover {
+            background: #838688; 
+          }
+          
 .main-wrapper{
     // border:1px solid #000;
     .nav-breadcrumb{

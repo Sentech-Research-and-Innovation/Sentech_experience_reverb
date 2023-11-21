@@ -3,7 +3,8 @@
     <div class="col-12">
         <deatiledViewFiltersVue :predictions="predictions" />
     </div>
-    <div class="mt-4 col-12">
+
+    <div class="">
         <TableViewVue :predictions="predictions" />
     </div>
 </template>

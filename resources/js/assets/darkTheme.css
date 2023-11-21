@@ -177,6 +177,20 @@ font-weight:500
 background-color:black;
 border:none !important
 }
+.dark .weather-container {
+    background-color: #191c24 !important;
+}
+.dark .container-bg {
+    background-color: #191c24 !important ;
+}
+
+.dark .border-bottom-weather {
+    border-bottom: 10px solid black !important;
+}
+.dark .border-right-weather {
+    border-right: 2px solid black !important;
+}
+
 
 
 
