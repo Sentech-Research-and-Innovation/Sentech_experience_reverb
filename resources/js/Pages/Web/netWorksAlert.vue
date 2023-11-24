@@ -171,9 +171,9 @@ export default defineComponent({
     font-size: 20px;
 }
 .network-container {
-    background-color: #ffff;
-    color: #14122d !important;
-    font-size: 20px;
+    background-color: #4372b2 !important;
+    color: #ffff !important;
+    font-size: 15px;
     text-align: right;
     border-radius: 15px;
 }
@@ -181,11 +181,16 @@ export default defineComponent({
     background-color: #67c23a;
     color: #ffff;
     border-radius: 15px;
+    font-size: 13px;
 }
 .status-warning {
     background-color: #e6a23c;
     color: #ffff;
     border-radius: 15px;
+    font-size: 13px !important;
+}
+.fs-6 {
+    font-size: 13px !important;
 }
 </style>
 >

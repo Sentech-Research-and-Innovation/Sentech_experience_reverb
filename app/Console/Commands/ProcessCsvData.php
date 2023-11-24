@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Prediction;
 use Carbon\Carbon;
 
+ini_set('memory_limit', '512M');
 class ProcessCsvData extends Command
 {
     protected $signature = 'csv:process';
@@ -19,18 +20,24 @@ class ProcessCsvData extends Command
 
     public function handle()
     {
-        $directory = 'current-prediction/';
+        try {
+            $directory = 'current-prediction/';
 
-        // Retrieve a list of all files in the directory
-        $files = Storage::disk('s3')->allFiles($directory);
-        foreach ($files as $filePath) {
-            // Check if the file matches the expected format
-            if (preg_match('/^prediction-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}-\d{2}\.csv$/', basename($filePath))) {
-                $this->processCsvFile($filePath);
+            // Retrieve a list of all files in the directory
+            $files = Storage::disk('s3')->allFiles($directory);
+            foreach ($files as $filePath) {
+                // Check if the file matches the expected format
+                if (preg_match('/^prediction-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}-\d{2}\.csv$/', basename($filePath))) {
+                    $this->processCsvFile($filePath);
+                }
             }
-        }
 
-        $this->info('CSV data processed and stored successfully.');
+            $this->info('CSV data processed and stored successfully.');
+        } catch (\Exception $e) {
+            $this->error('Error processing CSV data: ' . $e->getMessage());
+            // If you want to stop the script on error, uncomment the next line
+            // throw $e;
+        }
     }
 
     private function processCsvFile($filePath)
@@ -43,17 +50,19 @@ class ProcessCsvData extends Command
 
         $parsedData = [];
 
-
-
         foreach ($csvData as $row) {
             $parsedData[] = array_combine($header, str_getcsv($row));
         }
 
         Prediction::truncate();
 
-        foreach ($parsedData as $row) {
-            Prediction::create(
-                [
+        $chunkedData = array_chunk($parsedData, 100);
+
+        foreach ($chunkedData as $chunk) {
+            $insertData = [];
+
+            foreach ($chunk as $row) {
+                $insertData[] = [
                     "item_id" => $row['item_id'],
                     "date" => $row['date'],
                     'target_value' => $row['target_value'],
@@ -75,9 +84,11 @@ class ProcessCsvData extends Command
                     "oidIndex" => $row['oidIndex'],
                     "Latitude" => $row['Latitude (#)'],
                     "Longitude" => $row['Longitude (#)'],
-                ]
+                ];
+            }
 
-            );
+            // Use the insert method to insert the chunk of data
+            Prediction::insert($insertData);
         }
 
         $this->info("CSV file '$filePath' processed and stored.");
