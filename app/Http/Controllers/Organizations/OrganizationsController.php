@@ -10,14 +10,47 @@ use App\Models\User;
 use App\Http\Requests\CreateUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+use App\Models\Notification;
+
 
 
 class OrganizationsController extends Controller
 {
-    public function index()
+
+    public function approved()
     {
-        $companies = Company::with('contactPerson')->OrderBy('id', 'DESC')->get();
-        return Inertia::render('Companies/Index', compact('companies'));
+        $companies = Company::with('contactPerson')->where('active', true)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+        return Inertia::render('Companies/Approved', compact('companies'));
+    }
+
+    public function request()
+    {
+        $companies = Company::with('contactPerson')->where('active', false)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+        return Inertia::render('Companies/Requests', compact('companies'));
+    }
+
+
+    public function approveCompany($company_id, Request $request)
+    {
+
+        $status = Password::sendResetLink(
+            $request->only('email'),
+
+        );
+
+        company::where('id', $company_id)->update(['active' => true]);
+
+        Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);
+        return response()->json([
+            'status' => true,
+            'message' => 'link sent',
+        ], 200);
+    }
+
+    public function declineCompany()
+    {
     }
 
     public function create(CreateUserRequest $request)
@@ -38,7 +71,7 @@ class OrganizationsController extends Controller
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "email" => $data['email'],
-            'password' => Hash::make('password'), // Replace with your desired default password
+            'password' => Hash::make('password'),
             'company_id' => $company->id
         ]);
 

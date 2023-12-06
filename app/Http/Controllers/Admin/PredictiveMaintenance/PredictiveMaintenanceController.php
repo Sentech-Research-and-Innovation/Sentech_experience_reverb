@@ -10,7 +10,6 @@ use App\Models\Prediction;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 
-
 class PredictiveMaintenanceController extends Controller
 {
 

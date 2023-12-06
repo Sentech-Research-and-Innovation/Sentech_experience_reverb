@@ -1,146 +1,246 @@
-<script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import AuthenticationCard from "@/Components/AuthenticationCard.vue";
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-import Checkbox from "@/Components/Checkbox.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+<template>
+    <Head :title="'Login'"><title>Register</title></Head>
+    <!-- <button type="button" class="button button-dark" @click="showing = true">
+        Create {{ showing }}
+    </button> -->
+    <a
+        class="nav-link register"
+        @click="showing = true"
+        style="cursor: pointer !important"
+    >
+        <span class="request-an-account-button">Request an Account</span>
+    </a>
+    <SideModal
+        :content="content"
+        :showing="showing"
+        @hideModal="showing = false"
+    >
+        <div class="col-12 px-5" v-if="!registered">
+            <div class="h1-login pb-5">Request An Account</div>
+            <div class="row register-form">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label"
+                            >First Name</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.firstName"
+                        />
+                        <div class="text-danger">
+                            {{ errors.firstName[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="form-label"
+                            >Last Name</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.lastName"
+                        />
+                        <div class="text-danger">
+                            {{ errors.lastName[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.email"
+                        />
+                        <div class="text-danger">
+                            {{ errors.email[0] }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="companyName" class="form-label"
+                            >Company Name</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.companyName"
+                        />
+                        <div class="text-danger">
+                            {{ errors.companyName[0] }}
+                        </div>
+                    </div>
 
-const form = useForm({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-    terms: false,
-});
+                    <div class="form-group">
+                        <label for="position" class="form-label"
+                            >Position</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.position"
+                        />
+                        <div class="text-danger">
+                            {{ errors.position[0] }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label"
+                            >Phone Number</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control login-form-inputs"
+                            v-model="form.phoneNumber"
+                        />
+                        <div class="text-danger">
+                            {{ errors.phoneNumber[0] }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pt-3">
+                    <div
+                        class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
+                        @click="register"
+                    >
+                        Submit
+                        <img src="arrow-right.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" v-else>
+            <el-alert
+                title="Success"
+                description="Thank you for requesting  account, we will review and get back to you"
+                type="success"
+                show-icon
+                @click="registered = false"
+            />
+        </div>
+    </SideModal>
+</template>
 
-const submit = () => {
-    form.post(route("register"), {
-        onFinish: () => form.reset("password", "password_confirmation"),
-    });
+<script>
+import { Head, Link } from "@inertiajs/inertia-vue3";
+import axios from "axios";
+import SideModal from "@/Layouts/SideModal.vue";
+
+export default {
+    layout: null,
+    components: {
+        Link,
+        Head,
+        SideModal,
+    },
+    data() {
+        return {
+            showing: false,
+            content: {
+                create: {
+                    title: "",
+                },
+            },
+            form: {},
+
+            errors: {
+                email: "",
+                firstName: "",
+                lastName: "",
+                position: "",
+                phoneNumber: "",
+                companyName: "",
+            },
+
+            registered: false,
+        };
+    },
+    methods: {
+        async register() {
+            try {
+                const response = await axios.post("/register", this.form);
+
+                if (response.data.status === true) {
+                    this.registered = true;
+                    this.form = {};
+                }
+            } catch (err) {
+                const res = err.response.data.errors;
+                this.errors = {
+                    email: res?.email || "",
+                    firstName: res?.firstName || "",
+                    lastName: res?.lastName || "",
+                    position: res?.position || "",
+                    phoneNumber: res?.phoneNumber || "",
+                    companyName: res?.companyName || "",
+                };
+            }
+        },
+    },
 };
 </script>
 
-<template>
-    <Head title="Register" />
+<style lang="scss" scoped>
+span {
+    font-size: 30px;
+    margin: 20px;
+}
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
+label {
+    color: #706f6f;
+    font-size: 20px;
+}
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: #144f9f;
+    // NEST
+    .login-container {
+        width: 650px;
+        max-width: 100%;
+        background-color: #fff;
+        padding: 40px;
+    }
 
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+    h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+    .cm-logo {
+        text-align: center;
+        // NEST
+        img {
+            width: 350px;
+        }
+    }
+}
+.nav-link {
+    color: #fff !important;
+    .fa.fa-user {
+        padding-right: 10px !important;
+    }
+}
+.form-label {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
 
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
-            </div>
+.request-an-account-button {
+    padding: 10px;
+    border: solid 1px #fff;
+    border-radius: 12px;
+    font-size: 14px;
+}
 
-            <div
-                v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
-                class="mt-4"
-            >
-                <InputLabel for="terms">
-                    <div class="flex items-center">
-                        <Checkbox
-                            id="terms"
-                            v-model:checked="form.terms"
-                            name="terms"
-                            required
-                        />
-
-                        <div class="ml-2">
-                            I agree to the
-                            <a
-                                target="_blank"
-                                :href="route('terms.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >Terms of Service</a
-                            >
-                            and
-                            <a
-                                target="_blank"
-                                :href="route('policy.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >Privacy Policy</a
-                            >
-                        </div>
-                    </div>
-                    <InputError class="mt-2" :message="form.errors.terms" />
-                </InputLabel>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ml-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
-</template>
+.login-form-inputs {
+    border: 1px solid #d1cdcd;
+    border-radius: 8px;
+}
+</style>

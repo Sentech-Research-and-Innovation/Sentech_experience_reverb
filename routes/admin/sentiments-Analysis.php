@@ -13,8 +13,8 @@ Route::get('/admin/sentiments/all', function () {
 });
 
 Route::group(['prefix' => '/admin/sentiments/overview'], function () {
-    Route::get('/', [OverViewController::class, 'index']);
-    Route::post('/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline'])->middleware('auth');
+    Route::get('/', [OverViewController::class, 'index'])->middleware('auth')->name('overview');
+    Route::post('/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline'])->middleware(['auth']);
     Route::post('/tweets-by-location', [OverViewController::class, 'tweetsByLocation'])->middleware('auth');
     Route::post('/overall-sentiments', [OverViewController::class, 'overallSentiments'])->middleware('auth');
 });

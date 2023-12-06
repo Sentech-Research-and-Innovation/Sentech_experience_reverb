@@ -17,12 +17,10 @@ Route::group(['prefix' => '/admin/roles'], function () {
     Route::get('/getRoles', [RolesController::class, 'getRoles'])->name('roles.getRoles')->middleware('role_has_permission:roles-read');
 });
 
-
 Route::group(['prefix' => '/admin/user'], function () {
     Route::get('/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show.user')->middleware('role_has_permission:roles-read');
     Route::post('/create', [UserController::class, 'create'])->name('roles.user.create')->middleware('auth');
 });
-
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->name('permissions.index')->middleware('auth');
 

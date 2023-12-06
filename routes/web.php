@@ -6,6 +6,9 @@ use Inertia\Inertia;
 use App\Models\System\MenuItem;
 
 use App\Http\Controllers\Web\WeatherController;
+use App\Http\Controllers\Admin\GetNotifications;
+
+
 
 
 Route::get('/', function () {
@@ -15,6 +18,23 @@ Route::get('/', function () {
     ]);
 })->name('landing');
 
+Route::get('/services', function () {
+    return Inertia::render('Web/services');
+})->name('services');
+
+Route::get('/aboutus', function () {
+    return Inertia::render('Web/aboutus');
+})->name('aboutus');
+
+Route::get('/news', function () {
+    return Inertia::render('Web/news');
+})->name('news');
+
+Route::get('/contactus', function () {
+    return Inertia::render('Web/contactus');
+})->name('contactus');
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
@@ -23,6 +43,12 @@ Route::get('/dashboard', function () {
 
 Route::get('/web/weather', [WeatherController::class, 'create']);
 Route::get('/admin/weather/forcast', [WeatherController::class, 'forecast'])->middleware('auth');
+Route::get('/admin/notifications', [GetNotifications::class, 'index'])->middleware('auth');
+
+
+Route::get('/change_password/{token}', function () {
+    return Inertia::render('Auth/changePassword');
+})->name('changePassword');
 
 
 //MenuItem::inertia();
@@ -34,3 +60,4 @@ require __DIR__ . '/admin/sentiments-Analysis.php';
 require __DIR__ . '/admin/predictive-maintenance.php';
 require __DIR__ . '/admin/roles.php';
 require __DIR__ . '/admin/company.php';
+require __DIR__ . '/admin/reports.php';

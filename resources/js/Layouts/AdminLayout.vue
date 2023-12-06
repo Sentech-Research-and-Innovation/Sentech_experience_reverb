@@ -106,6 +106,7 @@
                                 </span>
                             </el-popover>
                             <div class="d-flex justify-content-end">
+                                <Notifications />
                                 <span
                                     class="nav-profile-name d-none d-lg-block d-xl-block pt-2"
                                     >{{ $page.props.auth.user.name }}
@@ -152,6 +153,8 @@ import { Expand, Moon, Sunny } from "@element-plus/icons-vue";
 
 import { useDark, useToggle, useColorMode } from "@vueuse/core";
 
+import Notifications from "./Notifications.vue";
+
 export default defineComponent({
     name: "navigation",
     components: {
@@ -159,6 +162,7 @@ export default defineComponent({
         ElMessageBox,
         AdminHeaderVue,
         vClickOutside,
+        Notifications,
     },
 
     setup() {
@@ -262,31 +266,6 @@ export default defineComponent({
     position: absolute;
     z-index: 1000;
 }
-
-// @media (max-width: 768px) {
-//     .sidebar {
-//         display: none; /* Hide sidebar on smaller screens */
-//     }
-
-//     .drawer-mobile {
-//         display: none;
-//     }
-
-//     .main-panel {
-//         width: 100%; /* Take full width on smaller screens */
-//     }
-
-//     .navbar-dropdown {
-//         width: 100%; /* Take full width on smaller screens */
-//         /* Add more styles as needed for smaller screens */
-//     }
-
-//     .initials-background {
-//         margin-left: 0; /* Center initials on smaller screens */
-//     }
-
-//     /* Add more responsive styles as needed for smaller screens */
-// }
 
 .sidebar-mobile {
     min-height: 100vh;

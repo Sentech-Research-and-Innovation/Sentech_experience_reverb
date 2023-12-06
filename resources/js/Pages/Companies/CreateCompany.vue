@@ -1,13 +1,20 @@
 <template>
     <div>
-        <div class="col-12 text-end">
-            <button
+        <div class="col-12 text-end px-0">
+            <!-- <button
                 type="button"
                 class="button button-dark"
+              
+            >
+                Create Company
+            </button> -->
+            <el-button
+                type="button"
+                class="button-dark"
                 @click="showing = true"
             >
                 Create Company
-            </button>
+            </el-button>
         </div>
         <SideModal
             :content="content"

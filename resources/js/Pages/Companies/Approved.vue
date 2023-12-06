@@ -11,16 +11,25 @@
 
         <div class="company-nav-header col-12 px-0 my-4">
             <nav class="nav nav-pills flex-column flex-sm-row py-3 px-2">
-                <a
-                    class="flex-sm-fill text-sm-center nav-link active py-3 mx-2"
-                    aria-current="page"
-                    href="#"
-                    >Approved</a
-                >
-
-                <a class="flex-sm-fill text-sm-center nav-link py-3" href="#"
-                    >Pending <span class="badge badge-danger">9</span></a
-                >
+                <Link
+                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
+                    :class="{
+                        active: $page.url === '/organizantions/approved',
+                    }"
+                    href="/organizantions/approved"
+                    >Approved
+                </Link>
+                <Link class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
+                    >Pending
+                </Link>
+                <Link
+                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
+                    :class="{
+                        active: $page.url === '/organizantions/request',
+                    }"
+                    href="/organizantions/request"
+                    >Requests
+                </Link>
             </nav>
         </div>
         <div class="col-12 px-0 mx-0">
@@ -31,15 +40,19 @@
                         <th scope="col">Company Name</th>
                         <th scope="col">Contact Person</th>
                         <th scope="col">Contact Person Email</th>
-                        <th scope="col"></th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(company, index) in companies" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
-                        <td>{{ company.contact_person?.name }}</td>
+                        <td>{{ company.contact_person.first_name }}</td>
                         <td>{{ company.contact_person?.email }}</td>
+                        <td>{{ company.contact_person.phoneNumber }}</td>
+                        <td>{{ company.contact_person?.position }}</td>
 
                         <!-- <td v-for="role in user.roles" :key="role.id">
                             {{ role.name }}

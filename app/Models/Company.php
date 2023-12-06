@@ -17,4 +17,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class, 'contact_person_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'company_id');
+    }
 }

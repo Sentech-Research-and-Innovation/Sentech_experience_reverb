@@ -87,10 +87,10 @@
 
             <li
                 class="nav-item"
-                :class="{ active: $page.url === '/organizantions' }"
+                :class="{ active: $page.url === '/organizantions/approved' }"
             >
                 <!-- v-if="company_type == 'super_company'" -->
-                <Link class="nav-link" href="/organizantions">
+                <Link class="nav-link" href="/organizantions/approved">
                     <span class="menu-title">Companies </span>
                 </Link>
             </li>

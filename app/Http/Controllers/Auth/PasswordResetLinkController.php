@@ -58,10 +58,11 @@ class PasswordResetLinkController extends Controller
 
         );
 
-        $status = Password::sendResetLink(
-            $request->only('email'),
 
-        );
+        // $status = Password::sendResetLink(
+        //     $request->only('email'),
+
+        // );
 
         if ($status == "passwords.throttled") {
             return response()->json([
@@ -75,6 +76,8 @@ class PasswordResetLinkController extends Controller
             ], 404);
         }
     }
+
+
 
     public function reset(Request $request)
     {

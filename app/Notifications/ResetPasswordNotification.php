@@ -43,7 +43,8 @@ class ResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Forgot Password?')
+            ->line('Account Approvedd.')
+            ->line('Congrats your account has been approve, click the reset your password, to start using the system.')
             ->action('Click to reset', $this->url)
             ->line('Thank you for using our application!');
     }
