@@ -13,7 +13,7 @@ class GetNotifications extends Controller
     {
         $notifications = Notification::whereJsonContains('model_ids', ['to_compay_id' => auth()->user()->company->id])
             ->with('notificationType')
-            ->get();
+            ->orderBy('id', 'DESC')->get();
 
         $notifications = $notifications->map(function ($notification) {
             return [

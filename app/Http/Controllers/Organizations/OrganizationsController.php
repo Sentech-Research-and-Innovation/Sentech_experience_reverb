@@ -40,6 +40,7 @@ class OrganizationsController extends Controller
 
         );
 
+
         company::where('id', $company_id)->update(['active' => true]);
 
         Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);
@@ -55,22 +56,25 @@ class OrganizationsController extends Controller
 
     public function create(CreateUserRequest $request)
     {
+        $data = $request->validated();
+
         $company = Company::create([
             "company_name" => request()->company_name
         ]);
 
-        return $this->createContactPerson($request, $company);
+        return $this->createContactPerson($company, $data);
     }
 
-    public function createContactPerson($request, $company)
+    public function createContactPerson($company, $data)
     {
-        $data = $request->validated();
 
         $user = User::create([
             "name" => $data['first_name'] . ' ' . $data['last_name'],
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "email" => $data['email'],
+            "phoneNumber" => $data['phoneNumber'],
+            "position" => $data['position'],
             'password' => Hash::make('password'),
             'company_id' => $company->id
         ]);

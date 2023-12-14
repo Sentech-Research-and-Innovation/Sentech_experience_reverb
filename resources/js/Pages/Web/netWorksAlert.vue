@@ -172,10 +172,18 @@ export default defineComponent({
 }
 .network-container {
     background-color: #4372b2 !important;
-    color: #ffff !important;
+
     font-size: 15px;
     text-align: right;
     border-radius: 15px;
+}
+
+.network-container:hover {
+    color: #144f9f;
+    cursor: pointer;
+    background-color: #fff;
+    -webkit-transition: background-color 1000ms ease;
+    transition: background-color 1000ms ease;
 }
 .status-good {
     background-color: #67c23a;

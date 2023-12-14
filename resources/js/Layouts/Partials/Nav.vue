@@ -62,29 +62,32 @@
                 <div class="nav-lg" id="sentech-nav">
                     <div class="navbar-nav ms-auto">
                         <Link
-                            class="register nav-link"
+                            class="register nav-link nav-link-text"
                             aria-current="page"
                             href="/"
                             ><span class="">Home</span>
                         </Link>
                         <Link
-                            class="nav-link"
+                            class="nav-link nav-link-text"
                             aria-current="page"
                             href="/services"
                         >
                             Services
                         </Link>
                         <Link
-                            class="nav-link"
+                            class="nav-link nav-link-text"
                             aria-current="page"
                             href="/aboutus"
                             ><span>About us</span>
                         </Link>
-                        <Link class="nav-link" aria-current="page" href="/news"
+                        <Link
+                            class="nav-link nav-link-text"
+                            aria-current="page"
+                            href="/news"
                             ><span>News</span>
                         </Link>
                         <Link
-                            class="nav-link pr-5"
+                            class="nav-link nav-link-text mr-5"
                             aria-current="page"
                             href="/contactus"
                             ><span>Contact us</span>
@@ -92,13 +95,14 @@
 
                         <Login />
                         <!-- <Link
-                            class="register nav-link"
+                            class="register nav-link nav-link-text"
                             aria-current="page"
                             href="/login"
                             ><span class="request-an-account-button"
                                 >Request an Account</span
                             >
                         </Link> -->
+
                         <Register />
                     </div>
                 </div>
@@ -125,7 +129,7 @@
                                 </div>
                                 <div class="col-6 col-6 mx-0">
                                     <Link
-                                        class="register nav-link text-end"
+                                        class="register nav-link nav-link-text text-end"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">Register</span>
@@ -133,7 +137,7 @@
                                 </div>
                                 <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
-                                        class="register nav-link"
+                                        class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">Home</span>
@@ -141,7 +145,7 @@
                                 </div>
                                 <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
-                                        class="register nav-link"
+                                        class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">Services</span>
@@ -149,7 +153,7 @@
                                 </div>
                                 <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
-                                        class="register nav-link"
+                                        class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">About us</span>
@@ -157,7 +161,7 @@
                                 </div>
                                 <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
-                                        class="register nav-link"
+                                        class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">News</span>
@@ -165,7 +169,7 @@
                                 </div>
                                 <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
-                                        class="register nav-link"
+                                        class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/login"
                                         ><span class="">Contact us</span>
@@ -317,7 +321,8 @@ export default defineComponent({
 .social {
     padding: 0px !important;
 }
-.navbar .nav-link:hover {
-    color: red !important;
+.nav-link-text:hover {
+    /* font-size: 17px; */
+    background-color: #0c368b !important;
 }
 </style>

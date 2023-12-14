@@ -27,7 +27,11 @@ class CreateUserRequest extends FormRequest
             'first_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
-            'role' =>  ['sometimes', 'required']
+            'role' =>  ['sometimes', 'required'],
+            'company_name' =>  ['sometimes', 'required'],
+            'position' =>  ['required', 'sometimes'],
+            'phoneNumber' => 'sometimes|required|regex:/(0)[0-9]{9}/'
+
         ];
     }
 
@@ -37,6 +41,9 @@ class CreateUserRequest extends FormRequest
             'first_name.required' => 'The first name is required',
             'last_name.required' => 'The last name field is required',
             'email.required' => 'The email field is required',
+            'company_name.required' => 'The company field is required',
+            'position.required' => 'The position field is required',
+            'phoneNumber.required' => "The phone number field is required",
             'role.required' => 'No Role Selected',
         ];
     }

@@ -9,13 +9,22 @@ trait StoreNotificationTrait
 {
 
 
-    public function StoreNotification($request, $notificationTypeId)
+    public function StoreNotification($from_company_id, $notificationTypeId)
     {
-        $message = $this->getMessage($notificationTypeId);
+
+        $data = $this->getMessage($notificationTypeId);
         Notification::create([
-            "company_id" =>  auth()->user()->company->id ?? 1,
+
+            "model_ids" => [
+
+                "from_compay_id" => $from_company_id,
+                "to_compay_id" => 1,
+                "user_id" => 0
+
+            ],
             "notification_type_id" => $notificationTypeId,
-            "message" => $message
+            "message" => $data['message'],
+            "link" => $data["link"]
         ]);
     }
 
@@ -23,9 +32,11 @@ trait StoreNotificationTrait
     private function getMessage($notificationTypeId)
     {
         $message = "";
+        $link = "";
         if ($notificationTypeId == 1) {
             $message = "A new account has been requested";
+            $link = "/organizantions/request";
         }
-        return $message;
+        return ["message" => $message, "link" => $link];
     }
 }

@@ -50,7 +50,7 @@
                                     {{ errors.password }}
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 mt-3">
                                 <div
                                     class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
                                     @click="login"
@@ -210,9 +210,17 @@ label {
 }
 .form-label {
     font-size: 15px !important;
-    font-weight: 100 !important;
+    font-weight: 500 !important;
 }
+
 .login-form-inputs {
     border: 1px solid #707070;
+}
+.login-form-inputs {
+    border: 1px solid #d1cdcd;
+    border-radius: 8px;
+}
+.forgot-password-text {
+    font-size: 15px !important;
 }
 </style>

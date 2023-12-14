@@ -5,10 +5,10 @@
             <div>
                 <div class="col-md-12 px-0">
                     <div class="welcome-text">
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit
+                        Welcome to the Sentech Engage 360 Platform
                     </div>
                 </div>
-                <div class="col-12 pt-5 mx-0 px-0">
+                <div class="col-12 pt-4 mx-0 px-0">
                     <div class="row">
                         <div class="col-md-6 col-lg-6 col-12" style="">
                             <div
@@ -94,11 +94,9 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-12 pt-lg-2 pt-4">
-                                    <div class="advert-section-text">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna
-                                        aliqua.
+                                    <div class="advert-section-text pt-4">
+                                        We'd love your feedback on how to make
+                                        our new platform work for you!
                                     </div>
                                 </div>
                                 <div class="col-12 mx-0 px-lg-2 px-md-2 px-0">
@@ -188,7 +186,7 @@ export default {
 
 <style scoped lang="scss">
 .sentech-index-page {
-    padding-top: 170px;
+    padding-top: 160px;
     min-height: 100vh;
 }
 
@@ -199,9 +197,9 @@ export default {
 }
 
 .welcome-text {
-    font-size: 58px;
+    font-size: 45px;
     font-weight: bolder;
-    max-width: 75%;
+    max-width: 60%;
 }
 
 .advert-section-page {
@@ -243,6 +241,11 @@ export default {
     background-color: #0c368b;
     border-radius: 10px;
     color: #fff !important;
+    transition-timing-function: ease-in;
+}
+.weather-widget:hover {
+    background-color: #4372b2;
+    opacity: 1;
 }
 
 .btn:hover {
@@ -251,7 +254,7 @@ export default {
     border: solid 1px #4372b2;
 }
 
-.small-info-block.d-flex.justify-content-center.align-items-center:hover {
+.small-info-block:hover {
     color: #144f9f;
     cursor: pointer;
     background-color: #fff;

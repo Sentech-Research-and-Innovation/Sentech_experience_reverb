@@ -109,7 +109,11 @@
                                 <Notifications />
                                 <span
                                     class="nav-profile-name d-none d-lg-block d-xl-block pt-2"
-                                    >{{ $page.props.auth.user.name }}
+                                    >{{
+                                        $page.props.auth.user.first_name +
+                                        " " +
+                                        $page.props.auth.user.last_name
+                                    }}
                                 </span>
                                 <span
                                     class="initials-background"
@@ -117,7 +121,7 @@
                                     style="padding: 20px; cursor: pointer"
                                     ><strong>
                                         {{
-                                            $page.props.auth.user.name
+                                            $page.props.auth.user.first_name
                                                 .charAt(0)
                                                 .toUpperCase()
                                         }}</strong

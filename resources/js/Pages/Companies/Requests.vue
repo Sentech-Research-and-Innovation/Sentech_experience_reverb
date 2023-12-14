@@ -174,7 +174,7 @@ export default defineComponent({
                 await axios.post(`/organizantions/approve/${companyid}`, {
                     email: email,
                 });
-                location.reload();
+                // location.reload();
             } catch (err) {}
         };
 

@@ -11,58 +11,66 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center" v-if="!success">
-                        <div class="col-6">
-                            <div
-                                class="alert alert-danger"
-                                v-if="errors.expiredTokenMessage"
-                            >
-                                {{ errors.expiredTokenMessage }}
-                            </div>
+                        <div class="col-lg-8 py-5 white-container">
+                            <div class="d-flex justify-content-center">
+                                <div class="col-lg-8">
+                                    <div
+                                        class="alert alert-danger"
+                                        v-if="errors.expiredTokenMessage"
+                                    >
+                                        {{ errors.expiredTokenMessage }}
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="emailAdress" class="form-label"
-                                    >Email address</label
-                                >
-                                <input
-                                    type="email"
-                                    v-model="form.email"
-                                    class="form-control login-form-inputs"
-                                />
-                                <div class="error">
-                                    {{ errors.email }}
-                                </div>
-                            </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="emailAdress"
+                                            class="form-label"
+                                            >Email address</label
+                                        >
+                                        <input
+                                            type="email"
+                                            v-model="form.email"
+                                            class="form-control login-form-inputs"
+                                        />
+                                        <div class="error">
+                                            {{ errors.email }}
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="password" class="form-label"
-                                    >Password</label
-                                >
-                                <input
-                                    type="password"
-                                    class="form-control login-form-inputs"
-                                    v-model="form.password"
-                                />
-                                <div class="error">
-                                    {{ errors.password }}
+                                    <div class="form-group">
+                                        <label for="password" class="form-label"
+                                            >Password</label
+                                        >
+                                        <input
+                                            type="password"
+                                            class="form-control login-form-inputs"
+                                            v-model="form.password"
+                                        />
+                                        <div class="error">
+                                            {{ errors.password }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label
+                                            for="confirm_password"
+                                            class="form-label"
+                                            >Confirm Password</label
+                                        >
+                                        <input
+                                            type="password"
+                                            class="form-control login-form-inputs"
+                                            v-model="form.password_confirmation"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <button
+                                            class="btn btn-block btn-primary fs-4"
+                                            @click="submit()"
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm_password" class="form-label"
-                                    >Confirm Password</label
-                                >
-                                <input
-                                    type="password"
-                                    class="form-control login-form-inputs"
-                                    v-model="form.password_confirmation"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <button
-                                    class="btn btn-block btn-success fs-4"
-                                    @click="submit()"
-                                >
-                                    Submit
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -136,5 +144,22 @@ export default defineComponent({
     color: red;
     font-size: 14px;
     margin-top: 5px;
+}
+.white-container {
+    background-color: white;
+    border-radius: 20px;
+}
+
+.form-label {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+.login-form-inputs {
+    border: 1px solid #d1cdcd;
+    border-radius: 8px;
+}
+label {
+    color: #706f6f;
+    font-size: 20px;
 }
 </style>

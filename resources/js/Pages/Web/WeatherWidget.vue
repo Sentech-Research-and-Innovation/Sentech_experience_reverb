@@ -1,8 +1,8 @@
 <template>
-    <div class="col-12 mx-0 px-0">
+    <div class="col-12 mx-0 px-0 weather-container">
         <div class="row pt-1 px-0" v-if="temp">
             <div
-                class="col-2 col-lg-4 px-0 mx-0 pt-lg-5 pt-4 d-flex justify-content-center"
+                class="col-2 col-lg-4 px-lg-3 mx-0 pt-lg-2 pt-4 d-flex justify-content-center"
             >
                 <img :src="weatherIconUrl" class="colored-icon" />
             </div>
@@ -116,7 +116,7 @@ export default defineComponent({
 
                 let month = monthNames[objectDate.getMonth()];
 
-                date.value = day + "," + month;
+                date.value = day + "  " + month;
             }
         };
 
@@ -137,8 +137,9 @@ export default defineComponent({
 
 <style scoped>
 .colored-icon {
-    width: 80px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 .temp {
     font-size: 60px;
@@ -180,8 +181,7 @@ export default defineComponent({
         font-weight: bold;
     }
 }
-/* . weather-text{
-    font-size
-} */
+.weather-container {
+    cursor: pointer !important;
+}
 </style>
-//45aee2ef715cfa91ed7957e8cfd37a70

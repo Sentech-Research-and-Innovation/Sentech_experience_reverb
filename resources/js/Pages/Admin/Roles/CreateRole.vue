@@ -12,11 +12,11 @@
         >
             <div>
                 <div class="col-12 pb-5 pt-4">
-                    <label class="pb-2">Role Name</label>
+                    <label for="RoleName" class="form-label">Role Name</label>
                     <input
                         type="text"
                         v-model="roleName"
-                        class
+                        class="form-control login-form-inputs"
                         placeholder="Role Name"
                     />
                     <div v-if="errorRoleName" class="py-2 text-danger">

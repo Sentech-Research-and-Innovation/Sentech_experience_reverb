@@ -13,11 +13,11 @@
             <div class="col-12 pb-5 pt-4">
                 <div class="row">
                     <div class="col-4">
-                        <label class="pb-2">First Name</label>
+                        <label class="pb-2 form-label">First Name</label>
                         <input
                             type="text"
                             v-model="form.first_name"
-                            class
+                            class="form-control login-form-inputs"
                             placeholder="First Name"
                         />
                         <div class="error">
@@ -25,11 +25,11 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <label class="pb-2">Last Name</label>
+                        <label class="pb-2 form-label">Last Name</label>
                         <input
                             type="text"
                             v-model="form.last_name"
-                            class
+                            class="form-control login-form-inputs"
                             placeholder="Last Name"
                         />
                         <div class="error">
@@ -37,11 +37,11 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <label class="pb-2">Email</label>
+                        <label class="pb-2 form-label">Email</label>
                         <input
                             type="text"
                             v-model="form.email"
-                            class
+                            class="form-control login-form-inputs"
                             placeholder="Email"
                         />
                         <div class="error">
@@ -52,7 +52,11 @@
                         <label class="form-label" for="password"
                             >User role</label
                         >
-                        <select v-if="roles" v-model="form.role">
+                        <select
+                            v-if="roles"
+                            v-model="form.role"
+                            class="form-control"
+                        >
                             <option
                                 v-for="role in roles"
                                 :value="role.id"

@@ -65,7 +65,7 @@ class RegisteredUserController extends Controller
 
         $role = Role::create(['guard_name' => $company->company_name, 'name' => "Super Admin", 'company_id' => $company->id]);
         $user->assignRole("Super Admin");
-        $this->StoreNotification($requestData, 1);
+        $this->StoreNotification($company->id, 1);
         return response(['status' => true, 'message' => 'User successfully register.'], 200);
     }
 }

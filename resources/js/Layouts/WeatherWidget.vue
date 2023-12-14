@@ -108,7 +108,7 @@ export default defineComponent({
 
                 let month = monthNames[objectDate.getMonth()];
 
-                date.value = day + "," + month;
+                date.value = day + " " + month;
             }
         };
 
