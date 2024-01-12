@@ -14,8 +14,6 @@ class CreateCompaniesTable extends Migration
             $table->string('companyType')->default('normal_company');
             $table->unsignedBigInteger('contact_person_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('contact_person_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
