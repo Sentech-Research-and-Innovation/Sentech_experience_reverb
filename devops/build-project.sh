@@ -17,4 +17,5 @@ php artisan key:generate
 # php artisan passport:client --personal <<EOF
 
 # Run npm build.
-npm run prod
+npm run build
+
