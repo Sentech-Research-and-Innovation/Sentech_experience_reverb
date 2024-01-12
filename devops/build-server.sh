@@ -19,4 +19,4 @@ docker-php-ext-install exif
 curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install NPM
-apt -qy install npm
+apt -qy install npm --force
