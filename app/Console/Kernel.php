@@ -18,9 +18,9 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('inspire')->hourly();
 
-        // $schedule->command('csv:process')->dailyAt('08:20');
+        $schedule->command('csv:process')->everyMinute();
 
-        $schedule->command('csv:process')->hourly()->appendOutputTo(storage_path('logs.text'));
+        // $schedule->command('csv:process')->hourly()->appendOutputTo(storage_path('logs.text'));
     }
 
     protected $commands = [

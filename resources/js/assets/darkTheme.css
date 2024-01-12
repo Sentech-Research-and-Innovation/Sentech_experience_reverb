@@ -1,6 +1,8 @@
 
 .dark{
     background:#000000 !important;
+
+    --el-bg-color:#191c24;
 }
 
 
@@ -150,6 +152,11 @@ font-weight:500
     
 
 }
+.dark .company .table{
+    --bs-table-color-state:#144f9f;
+    --bs-body-bg:#191c24;
+    --bs-border-color: black;
+}
 
 .dark .el-input {
     --el-input-bg-color: black !important;
@@ -190,6 +197,41 @@ border:none !important
 .dark .border-right-weather {
     border-right: 2px solid black !important;
 }
+
+.dark .company-nav-header {
+    background-color: #191c24;
+    border:none !important
+}
+
+.dark .nav-pills {
+    border-bottom: 1px solid #191c24;
+}
+
+.dark .company-nav-header .nav-link {
+    color: #ffff;
+    font-weight: 500;
+    border: none
+}
+
+.dark .company .dark .table thead th {
+    background-color: #191c24 !important;
+    color: #ffff !important
+}
+
+.dark .dialog{
+    background-color:#191c24  !important
+}
+
+.dark .el-dialog__title {
+    --el-text-color-primary:#737272
+}
+
+.el-textarea__inner {
+    --el-input-bg-color: none !important
+}
+
+
+
 
 
 

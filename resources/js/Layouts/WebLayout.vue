@@ -1,5 +1,5 @@
 <template>
-    <Nav :showing="showing" @modal="updateModal"></Nav>
+    <Nav></Nav>
 
     <div class="sentech-web">
         <div class="container">
@@ -11,37 +11,35 @@
 <script>
 import Nav from "@/Layouts/Partials/Nav.vue";
 import { Link } from "@inertiajs/vue3";
-import SideModal from "../Layouts/SideModal.vue";
-import Login from "../Pages/Auth/Login.vue";
-export default {
+import { defineComponent, onMounted, ref, unref } from "vue";
+
+import { useDark, useToggle, useColorMode } from "@vueuse/core";
+
+export default defineComponent({
     components: {
         Nav,
         Link,
-        SideModal,
-        Login,
     },
-    data: function () {
-        return {
-            showing: false,
-            formData: {
-                action: "login",
-                edit: true,
-            },
-            content: {
-                create: {
-                    title: "Sentech Login",
-                },
-            },
+
+    setup() {
+        const isDark = useDark({
+            selector: "body",
+            attribute: "class",
+            valueLight: "light",
+        });
+
+        const colorMode = useColorMode();
+
+        const toggleMode = () => {
+            colorMode.value = "light";
         };
+
+        onMounted(() => {
+            toggleMode();
+        });
+        return {};
     },
-    methods: {
-        updateModal(value) {
-            this.showing = value;
-            console.log(this.showing, "hello Show");
-        },
-    },
-    mounted() {},
-};
+});
 </script>
 
 <style lang="scss" scoped>

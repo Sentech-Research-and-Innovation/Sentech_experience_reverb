@@ -32,7 +32,7 @@
                 </Link>
             </nav>
         </div>
-        <div class="col-12 px-0 mx-0" v-if="!loading">
+        <div class="col-12 px-0 mx-0 company" v-if="!loading">
             <table class="table">
                 <thead>
                     <tr>
@@ -174,7 +174,7 @@ export default defineComponent({
                 await axios.post(`/organizantions/approve/${companyid}`, {
                     email: email,
                 });
-                // location.reload();
+                location.reload();
             } catch (err) {}
         };
 

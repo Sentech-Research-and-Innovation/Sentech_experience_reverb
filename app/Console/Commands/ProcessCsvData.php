@@ -28,7 +28,7 @@ class ProcessCsvData extends Command
             foreach ($files as $filePath) {
                 // Check if the file matches the expected format
                 if (preg_match('/^prediction-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}-\d{2}\.csv$/', basename($filePath))) {
-                    $this->processCsvFile($filePath);
+                    return $this->processCsvFile($filePath);
                 }
             }
 

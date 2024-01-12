@@ -32,7 +32,7 @@
                 </Link>
             </nav>
         </div>
-        <div class="col-12 px-0 mx-0">
+        <div class="col-12 px-0 mx-0 company">
             <table class="table">
                 <thead>
                     <tr>
