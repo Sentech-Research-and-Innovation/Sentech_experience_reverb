@@ -37,7 +37,10 @@ return [
         'enabled' => true,
         'binary'  => env('WKHTML_PDF_BINARY', '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf"  --viewport-size 1024x768'),
         'timeout' => false,
-        'options' => [],
+        'options' => [
+            'enable-local-file-access' => true,
+            'keep-relative-links' => true,
+        ],
         'env'     => [],
     ],
 
@@ -45,7 +48,11 @@ return [
         'enabled' => true,
         'binary'  => env('WKHTML_IMG_BINARY', '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe"'),
         'timeout' => false,
-        'options' => [],
+        'options' => [
+            'enable-local-file-access' => true,
+            'orientation'   => 'landscape',
+            'encoding'      => 'UTF-8'
+        ],
         'env'     => [],
     ],
 
