@@ -10,4 +10,4 @@ Route::get('/test', [PrintReportsController::class, 'test']);
 //Route::get('/reports', [PrintReportsController::class, 'index'])->middleware(['print']);
 
 
-Route::get('/admin/reports/predictive-maintenance', [PredictiveMaintenanceReportsController::class, 'index']);
+Route::post('/admin/reports/predictive-maintenance', [PredictiveMaintenanceReportsController::class, 'index'])->middleware('auth');

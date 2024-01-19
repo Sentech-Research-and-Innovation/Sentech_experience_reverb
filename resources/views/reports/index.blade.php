@@ -91,7 +91,7 @@
             <div class="reports">
                 <div class="row px-4">
                     <div class="col-6 pb-2 px-0">
-                        <h2>Engage 360 Platform {{ $data['date'][0] }}</h2>
+                        <h2>Engage 360 Platform</h2>
                         {{-- <div class="col-12 py-1">
                         <i class="fas fa-envelope"></i> frfrfrfrf
                     </div> --}}
@@ -126,9 +126,10 @@
                                                 "></i>
                                     </div>
                                     <div class="col-6 kpi-value-sites">
-                                        JOHANNESBURG ( 20 ) <br />
+                                        {{-- JOHANNESBURG ( 20 ) <br />
                                         CAPE TOWN ( 20 ) <br />
-                                        EAST LONDON ( 20 )
+                                        EAST LONDON ( 20 ) --}}
+                                        {{ htmlspecialchars(implode(', ', $data['siteNames'])) }}
                                     </div>
                                 </div>
                             </div>
@@ -163,8 +164,8 @@
                                                 "></i>
                                     </div>
                                     <div class="col-6 kpi-value-date">
-                                        2023-02-01 <br />
-                                        2023-02-10
+                                        {{ $data['start_date'] }}<br />
+                                        {{ $data['end_date'] }}
                                     </div>
                                 </div>
                             </div>
