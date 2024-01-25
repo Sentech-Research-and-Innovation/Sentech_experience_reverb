@@ -10,10 +10,8 @@
                 type="bar"
                 :options="chartOptions"
                 :series="chartData.series"
-                width:="100%"
                 height="315"
             ></apexchart>
-
         </div>
     </div>
 </template>
@@ -164,8 +162,6 @@ export default defineComponent({
             getPredictions();
         });
 
-        // Watch for changes in predictions and update chart data and options
-
         const convertDate = (date) => {
             const optionsDate = {
                 year: "numeric",
@@ -175,67 +171,72 @@ export default defineComponent({
             return date.toLocaleDateString("en-US", optionsDate);
         };
 
-watch(predictions, (newPredictions) => {
-    if (newPredictions) {
-        // Calculate unique item counts for each date where alarm value is 1
-        const uniqueItemCountByDate = newPredictions.reduce(
-            (counts, prediction) => {
-                const date = prediction.date;
-                const item_id = prediction.item_id;
-                const alarm = prediction.alarm;
+        watch(predictions, (newPredictions) => {
+            if (newPredictions) {
+                // Calculate unique item counts for each date where alarm value is 1
+                const uniqueItemCountByDate = newPredictions.reduce(
+                    (counts, prediction) => {
+                        const date = prediction.date;
+                        const item_id = prediction.item_id;
+                        const alarm = prediction.alarm;
 
-                // Check if alarm value is 1
-                if (alarm === 0) {
-                    counts[date] = counts[date] || new Set();
-                    counts[date].add(item_id);
-                }
+                        // Check if alarm value is 1
+                        if (alarm === 0) {
+                            counts[date] = counts[date] || new Set();
+                            counts[date].add(item_id);
+                        }
 
-                return counts;
-            },
-            {}
-        );
+                        return counts;
+                    },
+                    {}
+                );
 
-        // Sort dates in descending order
-        const sortedDates = Object.keys(uniqueItemCountByDate).sort((a, b) => {
-            const dateA = new Date(a);
-            const dateB = new Date(b);
-            return dateB - dateA;
+                // Sort dates in descending order
+                const sortedDates = Object.keys(uniqueItemCountByDate).sort(
+                    (a, b) => {
+                        const dateA = new Date(a);
+                        const dateB = new Date(b);
+                        return dateB - dateA;
+                    }
+                );
+
+                // Get total of 10 dates from the max date
+                const top10Dates = sortedDates.slice(0, 10);
+
+                // Sort top 10 dates in ascending order
+                const sortedTop10Dates = top10Dates.sort((a, b) => {
+                    const dateA = new Date(a);
+                    const dateB = new Date(b);
+                    return dateA - dateB;
+                });
+
+                // Format dates using the convertDate function (assuming it's defined)
+                const formattedDates = sortedTop10Dates.map((date) =>
+                    convertDate(new Date(date))
+                );
+
+                // Update chart options
+                chartOptions.value = {
+                    ...chartOptions.value,
+                    xaxis: {
+                        ...chartOptions.value.xaxis,
+                        categories: formattedDates,
+                    },
+                };
+
+                // Update chart data
+                chartData.value = {
+                    series: [
+                        {
+                            name: "Count Alarm State",
+                            data: sortedTop10Dates.map(
+                                (date) => uniqueItemCountByDate[date].size
+                            ),
+                        },
+                    ],
+                };
+            }
         });
-
-        // Get total of 10 dates from the max date
-        const top10Dates = sortedDates.slice(0, 10);
-
-        // Sort top 10 dates in ascending order
-        const sortedTop10Dates = top10Dates.sort((a, b) => {
-            const dateA = new Date(a);
-            const dateB = new Date(b);
-            return dateA - dateB;
-        });
-
-        // Format dates using the convertDate function (assuming it's defined)
-        const formattedDates = sortedTop10Dates.map(date => convertDate(new Date(date)));
-
-        // Update chart options
-        chartOptions.value = {
-            ...chartOptions.value,
-            xaxis: {
-                ...chartOptions.value.xaxis,
-                categories: formattedDates,
-            },
-        };
-
-        // Update chart data
-        chartData.value = {
-            series: [{
-                name: "Count Alarm State",
-                data: sortedTop10Dates.map(date => uniqueItemCountByDate[date].size),
-            }],
-        };
-    }
-});
-
-
-
 
         return {
             predictions,

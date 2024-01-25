@@ -151,19 +151,18 @@
 
                 <div class="col-12 py-4 rounded my-4">
                     <h2>Count of Sensors in Alarm State by Date</h2>
-                    <div class="line-breaker2"></div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-12 pr-lg-4 pl-lg-0 px-4">
-            <alarmStateByDate :predictions="predictions" />
+        <div class="col-12 pr-lg-4 pl-lg-0 px-4">
+            <D3BarChart :config="config" :datum="data"></D3BarChart>
         </div>
     </div>
 </template>
 
 <script>
-//import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { defineComponent } from "vue";
+import filtersVue from "../../../Layouts/predictions/filter.vue";
+import { defineComponent, ref, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import {
     MagicStick,
@@ -173,12 +172,11 @@ import {
     Trophy,
     Monitor,
 } from "@element-plus/icons-vue";
-import alarmStateByDate from "../PredictiveMaintenance/alarmStateByDate.vue";
 
 export default defineComponent({
     //  layout: AdminLayout,
     name: "PredictiveMaintenance",
-    components: { Link, Head, alarmStateByDate },
+    components: { Link, Head },
     props: {
         predictions: {
             type: Array,
@@ -187,6 +185,7 @@ export default defineComponent({
     },
     setup(props) {
         const { predictions } = props;
+
         return {
             predictions,
             MagicStick,
@@ -200,25 +199,31 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
+html {
+    -webkit-print-color-adjust: exact;
+}
+.dd {
+    background-color: #f2c744 !important;
+}
 .reports {
     color: black !important;
 }
 
 .line-breaker {
-    background-color: #f2c744;
+    background-color: #f2c744 !important;
     height: 4px;
 }
 .line-breaker2 {
-    background-color: #f2c744;
+    background-color: #f2c744 !important;
     height: 2px;
     margin-top: 10px;
 }
 .overview {
-    background-color: #e3f6f5;
+    background-color: #e3f6f5 !important;
 }
 .kpi-bg {
-    background-color: #ffff;
+    background-color: #ffff !important;
 }
 .kpi-name {
     color: #2b6360;

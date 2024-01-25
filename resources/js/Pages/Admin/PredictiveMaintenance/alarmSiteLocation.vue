@@ -124,14 +124,14 @@ export default defineComponent({
 
                 const siteTotals = {}; // Object to store totals by siteName
 
-                // Iterate through newPredictions and calculate totals for the last 7 days where alarm is 1
+                // Iterate through newPredictions and calculate totals for the last 7 days where alarm is 0
                 newPredictions.forEach((prediction) => {
                     const predictionDate = new Date(prediction.date);
                     const siteName = prediction.SiteName;
                     const itemId = prediction.item_id;
-                    const alarm = prediction.alarm; // Assuming 'alarm' property represents the alarm status
+                    const alarm = prediction.alarm;
 
-                    // Check if siteName exists, date is within the 7-day range, itemId is unique, and alarm is 1
+                    // Check if siteName exists, date is within the 7-day range, itemId is unique, and alarm is 0
                     if (
                         siteName &&
                         predictionDate >= startDate &&
