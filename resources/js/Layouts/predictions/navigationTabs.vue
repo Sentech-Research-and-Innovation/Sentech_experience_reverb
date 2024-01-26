@@ -35,21 +35,84 @@
             </ul>
             <ul>
                 <div v-if="!loading">
-                    <el-tooltip
-                        content="Print a report"
-                        placement="top"
-                        effect="light"
-                    >
-                        <el-button
-                            :icon="Collection"
-                            @click="printReport"
-                            class="fs-4 reportsLink pt-4"
-                        />
-                    </el-tooltip>
+                    <el-button
+                        :icon="Collection"
+                        class="fs-4 reportsLink pt-4"
+                        @click="centerDialogVisible = true"
+                    />
+                    <!-- @click="printReport" -->
                 </div>
                 <div v-else>Loading...</div>
             </ul>
         </nav>
+
+        <el-dialog
+            v-model="centerDialogVisible"
+            width="30%"
+            left
+            :show-close="false"
+        >
+            <div class="col-12">
+                <h2>Export reports</h2>
+            </div>
+            <div class="col-12 pt-2">
+                <span class="fs-6">
+                    Select the type of document you wan to export
+                </span>
+            </div>
+            <div class="col-12 pt-3">
+                <div class="d-flex justify-content-between">
+                    <div class="col-6 ml-0 pl-0">
+                        <div
+                            class="col-12 rounded py-5 text-center"
+                            :style="{
+                                border: isActive('pdf')
+                                    ? '1px solid #409eff'
+                                    : '1px solid #c0c4cc',
+                                fontSize: '40px',
+                                color: isActive('pdf') ? '#409eff' : '#c0c4cc',
+                                cursor: 'pointer',
+                            }"
+                            @click="setActive('pdf')"
+                        >
+                            <i class="far fa-file-pdf"></i>
+                            PDF
+                        </div>
+                    </div>
+                    <div class="col-6 mx-0 px-0">
+                        <div
+                            class="col-12 rounded py-5 text-center"
+                            :style="{
+                                border: isActive('csv')
+                                    ? '1px solid #409eff'
+                                    : '1px solid #c0c4cc',
+                                fontSize: '40px',
+                                color: isActive('csv') ? '#409eff' : '#c0c4cc',
+                                cursor: 'pointer',
+                            }"
+                            @click="setActive('csv')"
+                        >
+                            <i class="far fa-file-excel"></i>
+                            CSV
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="centerDialogVisible = false"
+                        >Cancel</el-button
+                    >
+                    <el-button
+                        type="primary"
+                        @click="printReport"
+                        :disabled="!activeType"
+                    >
+                        Download
+                    </el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
@@ -71,22 +134,40 @@ export default defineComponent({
             searchFilter,
         });
 
+        const centerDialogVisible = ref(false);
+
         const printReport = async () => {
+            centerDialogVisible.value = false;
             loading.value = true;
+
             await axios
                 .post("/admin/reports/predictive-maintenance", {
                     searchData: search.value,
                     responseType: "blob",
                 })
                 .catch(() => {
-                    console.log("you did it");
                     loading.value = false;
                 });
         };
+
+        const activeType = ref(null);
+
+        const isActive = (type) => {
+            return activeType.value === type;
+        };
+
+        const setActive = (type) => {
+            activeType.value = type;
+        };
+
         return {
             Collection,
             printReport,
             loading,
+            centerDialogVisible,
+            isActive,
+            setActive,
+            activeType,
         };
     },
 });
