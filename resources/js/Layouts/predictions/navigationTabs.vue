@@ -34,17 +34,20 @@
                 </li>
             </ul>
             <ul>
-                <el-tooltip
-                    content="Print a report"
-                    placement="top"
-                    effect="light"
-                >
-                    <el-button
-                        :icon="Collection"
-                        @click="printReport"
-                        class="fs-4 reportsLink pt-4"
-                    />
-                </el-tooltip>
+                <div v-if="!loading">
+                    <el-tooltip
+                        content="Print a report"
+                        placement="top"
+                        effect="light"
+                    >
+                        <el-button
+                            :icon="Collection"
+                            @click="printReport"
+                            class="fs-4 reportsLink pt-4"
+                        />
+                    </el-tooltip>
+                </div>
+                <div v-else>Loading...</div>
             </ul>
         </nav>
     </div>
@@ -62,18 +65,28 @@ export default defineComponent({
     setup() {
         const filterStore = predictionsFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
+
+        const loading = ref(false);
         const search = ref({
             searchFilter,
         });
 
         const printReport = async () => {
-            await axios.post("/admin/reports/predictive-maintenance", {
-                searchData: search.value,
-            });
+            loading.value = true;
+            await axios
+                .post("/admin/reports/predictive-maintenance", {
+                    searchData: search.value,
+                    responseType: "blob",
+                })
+                .catch(() => {
+                    console.log("you did it");
+                    loading.value = false;
+                });
         };
         return {
             Collection,
             printReport,
+            loading,
         };
     },
 });

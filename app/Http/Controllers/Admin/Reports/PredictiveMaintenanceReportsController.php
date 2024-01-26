@@ -105,12 +105,20 @@ class PredictiveMaintenanceReportsController extends Controller
         ];
 
 
+        $fileName = time() . ".pdf";
+        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0);
+        // ->setNodeBinary('c:\src\nodejs\node.exe')
+        // ->setNpmBinary('c:\src\nodejs\npm')
+        //   ->storeAs('pdfs/', $fileName);
+        return $pdfStoredPath->download('report' . '.pdf');
 
-        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0)
-            // ->setNodeBinary('c:\src\nodejs\node.exe')
-            // ->setNpmBinary('c:\src\nodejs\npm')
-            ->storeAs('pdfs/', time() . ".pdf");
+        // $headers = [
+        //      'Content-Type' => 'application/pdf', // Adjust the content type based on your file type
+        // ];
+        //return  $filePath = storage_path('/app/pdfs/' . $fileName);
 
+        // Send the file as a download response with the specified content type
+        //return response()->download($filePath, $fileName, $headers);
         //return view('reports.index', compact('data'));
     }
 
