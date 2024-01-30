@@ -54,8 +54,7 @@
         "vue3-select2-component": "^0.1.7",
         "vuejs-tree": "^3.0.2",
         "vuescroll": "^5.1.1",
-        "vuetify": "^3.1.15",
-        "vuevectormap": "^2.0.1",
-        "vueye-datepicker": "^0.1.7"
+        "vuevectormap": "^2.0.1"
+      
     }
 }
