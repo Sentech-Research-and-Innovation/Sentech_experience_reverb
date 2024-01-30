@@ -41,20 +41,13 @@
         "pinia-plugin-persistedstate": "^3.2.0",
         "puppeteer": "^21.7.0",
         "three-dots": "^0.3.2",
-        "vue-apexcharts": "^1.6.2",
+   
         "vue-horizontal": "^1.0.2",
         "vue-json-component": "^0.4.1",
         "vue-spinner": "^1.0.4",
-        "vue-tree-table-component": "^0.1.1",
-        "vue-weather-widget": "^4.3.1",
         "vue3-apexcharts": "^1.4.4",
         "vue3-blocks-tree": "^0.6.1",
-        "vue3-easy-data-table": "^1.5.47",
-        "vue3-open-weather-widget": "^0.1.7",
-        "vue3-select2-component": "^0.1.7",
-        "vuejs-tree": "^3.0.2",
         "vuescroll": "^5.1.1",
         "vuevectormap": "^2.0.1"
-      
     }
 }

@@ -36,6 +36,7 @@ class UserController extends Controller
             'password' => '$2y$10$D2tQCuUfUuYhCbJOSxOtf.45hNeFmjW3hUGzZMBB/CK7UBf9HlaQe',
             'company_id' =>  $this->company->id
 
+
         ]);
 
         $user->assignRole($data['role']);
