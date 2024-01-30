@@ -61,3 +61,4 @@ require __DIR__ . '/admin/predictive-maintenance.php';
 require __DIR__ . '/admin/roles.php';
 require __DIR__ . '/admin/company.php';
 require __DIR__ . '/admin/reports.php';
+require __DIR__ . '/admin/profile.php';

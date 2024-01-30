@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
             'email' => 'email|required|unique:users',
             'position' => 'required|max:55',
             'companyName' => 'required|max:55',
-            'phoneNumber' => 'required|regex:/(0)[0-9]{9}/'
+            'phoneNumber' => 'required|regex:/(0)[0-9]{9}/|max:10'
 
         ]);
 

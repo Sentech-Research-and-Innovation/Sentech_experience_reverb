@@ -15,24 +15,14 @@ use VerumConsilium\Browsershot\Facades\PDF;
 class PredictiveMaintenanceReportsController extends Controller
 {
 
-    public function api()
-    {
-        return $data = [
-            "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            "chartData" =>  [200, 19, 3, 5, 2, 3]
-        ];
-    }
-    public function page()
-    {
-        $predictions = Prediction::orderby('item_id', 'ASC')->get();
-        return Inertia::render('Admin/Reports/PredictiveMaintenance', compact('predictions'));
-    }
     public function index()
     {
+        $reportType = request()->reportType;
 
         $siteNamesSearch = request()->searchData['searchFilter']['siteNames'];
         $startDate = request()->searchData['searchFilter']['date'][0];
         $endDate = request()->searchData['searchFilter']['date'][1];
+
 
         // $siteNamesSearch = [
         //     "PORT ELIZABETH",
@@ -43,6 +33,19 @@ class PredictiveMaintenanceReportsController extends Controller
         // $endDate = new DateTime("2023-12-01T08:54:00.000Z");
 
 
+        if ($reportType == "pdf") {
+            return $this->pdf($siteNamesSearch, $startDate, $endDate);
+        } else {
+            return $this->csv();
+        }
+    }
+
+    private function csv()
+    {
+    }
+
+    private function pdf($siteNamesSearch, $startDate, $endDate)
+    {
         $predictions = Prediction::whereIn('siteName', $siteNamesSearch)
             ->whereBetween('date', [$startDate, $endDate])
             ->get();
@@ -136,10 +139,7 @@ class PredictiveMaintenanceReportsController extends Controller
 
             $siteName = $prediction->SiteName;
 
-            if (
-
-                $prediction->alarm == 0
-            ) {
+            if ($prediction->alarm == 0) {
 
                 if (!isset($uniqueItemCounts[$siteName])) {
                     $uniqueItemCounts[$siteName] = [];

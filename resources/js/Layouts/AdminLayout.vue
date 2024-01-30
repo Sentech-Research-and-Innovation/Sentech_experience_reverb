@@ -75,21 +75,24 @@
                                                 href="/dashboard"
                                                 method="get"
                                                 as="link"
+                                                style="cursor: pointer"
                                                 class="nav-link px-3"
                                                 >Dashboard</Link
                                             >
 
                                             <Link
-                                                href="/profile"
-                                                method="post"
+                                                href="/profile/index"
+                                                method="get"
                                                 as="link"
+                                                style="cursor: pointer"
                                                 class="nav-link px-3"
                                                 >Profile</Link
                                             >
                                             <Link
                                                 href="/help"
-                                                method="post"
+                                                method="get"
                                                 as="link"
+                                                style="cursor: pointer"
                                                 class="nav-link px-3"
                                                 >Help</Link
                                             >

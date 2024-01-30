@@ -76,15 +76,15 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function role()
-    {
-        return self::HasOne(UserRole::class, 'user_id', 'id');
-    }
+    // public function role()
+    // {
+    //     return self::HasOne(UserRole::class, 'user_id', 'id');
+    // }
 
-    public function permissions()
-    {
-        return self::HasMany(UserPermissions::class, 'user_id', 'id');
-    }
+    // public function permissions()
+    // {
+    //     return self::HasMany(UserPermissions::class, 'user_id', 'id');
+    // }
 
     public function company()
     {

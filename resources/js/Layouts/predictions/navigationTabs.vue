@@ -42,7 +42,7 @@
                     />
                     <!-- @click="printReport" -->
                 </div>
-                <div v-else>Loading...</div>
+                <pulse-loader :loading="loading" :color="color"></pulse-loader>
             </ul>
         </nav>
 
@@ -108,7 +108,7 @@
                         @click="printReport"
                         :disabled="!activeType"
                     >
-                        Download
+                        Download {{ activeType }}
                     </el-button>
                 </span>
             </template>
@@ -121,9 +121,10 @@ import { defineComponent, ref, computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Collection } from "@element-plus/icons-vue";
 import { predictionsFilterStore } from "../../stores/predictionsFilter";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 export default defineComponent({
-    components: { Link },
+    components: { Link, PulseLoader },
 
     setup() {
         const filterStore = predictionsFilterStore();
@@ -143,7 +144,7 @@ export default defineComponent({
             await axios
                 .post("/admin/reports/predictive-maintenance", {
                     searchData: search.value,
-                    responseType: "blob",
+                    reportType: activeType.value,
                 })
                 .catch(() => {
                     loading.value = false;
@@ -160,6 +161,8 @@ export default defineComponent({
             activeType.value = type;
         };
 
+        const color = ref("#144f9f");
+
         return {
             Collection,
             printReport,
@@ -168,6 +171,7 @@ export default defineComponent({
             isActive,
             setActive,
             activeType,
+            color,
         };
     },
 });
