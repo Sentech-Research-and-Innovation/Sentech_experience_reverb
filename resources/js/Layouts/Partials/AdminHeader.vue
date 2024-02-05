@@ -45,25 +45,6 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
-                <Link
-                    class="nav-link"
-                    href="/reporting"
-                    :class="{ active: $page.url === '/reporting' }"
-                >
-                    <span class="menu-title">Reporting</span>
-                </Link>
-            </li>
-            <li class="nav-item">
-                <Link
-                    class="nav-link"
-                    href="/dashboard"
-                    :class="{ active: $page.url === '/feedback' }"
-                >
-                    <span class="menu-title">Feedback</span>
-                </Link>
-            </li>
-
             <li
                 class="nav-item"
                 :class="{ active: $page.url === '/admin/roles' }"

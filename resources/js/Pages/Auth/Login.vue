@@ -32,7 +32,7 @@
                                     id="email"
                                 />
 
-                                <div class="text-danger">
+                                <div class="text-danger pt-2">
                                     {{ errors.email }}
                                 </div>
                             </div>
@@ -46,22 +46,23 @@
                                     v-model="form.password"
                                 />
 
-                                <div class="text-danger">
+                                <div class="text-danger pt-2">
                                     {{ errors.password }}
                                 </div>
                             </div>
-                            <div class="mb-3 mt-3">
+                            <div class="mb-3 mt-0">
                                 <div
-                                    class="btn btn-primary sentech-login-button d-flex justify-content-between align-items-center"
                                     @click="login"
+                                    class="btn advert-section-div-button mt-2 py-4 px-3 btn-block d-flex justify-content-between"
                                 >
-                                    <span>Login</span>
-                                    <img src="arrow-right.png" />
+                                    <span class="pr-4">Login</span>
+
+                                    <img src="arrow-right.png" width="40" />
                                 </div>
 
                                 <Link
                                     href="/forgot-password"
-                                    class="m-2 text-primary float-end forgot-password-text"
+                                    class="m-2 mt-3 text-primary float-end forgot-password-text"
                                 >
                                     Forgot your password?
                                 </Link>
@@ -163,14 +164,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-span {
-    font-size: 30px;
-    margin: 20px;
-}
-
 label {
     color: #706f6f;
     font-size: 20px;
+    font-weight: 300;
+}
+
+.h1-login {
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.advert-section-div-button {
+    color: #ffffff;
+    font-size: 20px;
+    border-radius: 15px;
+    height: 68px;
+    font-weight: 300;
+    background: #144f9f;
 }
 
 .login-wrapper {
@@ -209,18 +220,20 @@ label {
     }
 }
 .form-label {
-    font-size: 15px !important;
-    font-weight: 500 !important;
+    font-size: 18px !important;
 }
 
 .login-form-inputs {
-    border: 1px solid #707070;
-}
-.login-form-inputs {
     border: 1px solid #d1cdcd;
-    border-radius: 8px;
+    border-radius: 15px;
+    height: 65px;
 }
 .forgot-password-text {
-    font-size: 15px !important;
+    font-size: 18px !important;
+    font-weight: 300;
+}
+
+.text-danger {
+    font-weight: 300;
 }
 </style>

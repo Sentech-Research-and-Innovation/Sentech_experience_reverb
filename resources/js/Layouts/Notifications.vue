@@ -1,10 +1,9 @@
 <template>
-    <span class="pt-1 px-5">
-        <el-badge :value="notificationsCount" type="primary">
+    <span class="px-5 pt-2">
+        <el-badge :value="notificationsCount" type="danger">
             <el-button
                 :icon="BellFilled"
                 class="fs-5 notificationBell"
-                circle
                 ref="buttonRef"
             >
             </el-button>
@@ -58,6 +57,7 @@ import { Link } from "@inertiajs/vue3";
 import { defineComponent, onMounted, ref, unref } from "vue";
 
 import { BellFilled } from "@element-plus/icons-vue";
+import { ElIcon } from "element-plus";
 
 export default defineComponent({
     components: { Link },
@@ -94,13 +94,13 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .notificationBell {
     color: #144f9f !important;
     cursor: pointer;
-}
-.notifications-container {
-    width: 350px !important;
+    border: none;
+    padding: 0px !important;
+    height: 0px !important;
 }
 
 .notificationsTrue {
@@ -121,5 +121,10 @@ export default defineComponent({
 .notificationsFalse .link-not {
     text-decoration: none !important;
     color: #737272;
+}
+</style>
+<style>
+.notifications-container {
+    width: 350px !important;
 }
 </style>

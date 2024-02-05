@@ -232,8 +232,6 @@ export default defineComponent({
         };
 
         const changePassword = async () => {
-            console.log(formPassword.value);
-
             try {
                 await axios.post(
                     `/profile/update/password`,

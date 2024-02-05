@@ -39,28 +39,7 @@
                                 </el-drawer>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-4">
-                            <div v-if="colorMode === 'dark'">
-                                <!-- <button @click="toggleMode">Swicth To Light</button> -->
-                                <el-button
-                                    @click="toggleMode"
-                                    type="primary"
-                                    :icon="Sunny"
-                                    class="fs-5"
-                                    circle
-                                />
-                            </div>
-                            <div v-else>
-                                <!-- <button @click="toggleMode">Switch to Dark</button> -->
-                                <el-button
-                                    @click="toggleMode"
-                                    type="primary"
-                                    :icon="Moon"
-                                    class="fs-5"
-                                    circle
-                                />
-                            </div>
-                        </div>
+                        <div class="col-lg-6 col-4"></div>
                         <div class="col-lg-6 col-4 pt-0 text-end">
                             <el-popover
                                 ref="popoverRef"
@@ -108,28 +87,48 @@
                                     </div>
                                 </span>
                             </el-popover>
-                            <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-end col-12 mx-0">
+                                <el-switch
+                                    v-model="isDark"
+                                    class="fs-1 mt-1"
+                                    :active-icon="Moon"
+                                    :inactive-icon="Sunny"
+                                    @click="toggleMode"
+                                    style="--el-switch-on-color: #144f9f"
+                                />
+                                <!-- <div v-if="colorMode === 'dark'">
+                            
+                                    <el-button
+                                        @click="toggleMode"
+                                        type="primary"
+                                        :icon="Sunny"
+                                        class="fs-5"
+                                        circle
+                                    />
+                                </div>
+                                <div v-else>
+                                 
+                                    <el-button
+                                        @click="toggleMode"
+                                        type="primary"
+                                        :icon="Moon"
+                                        class="fs-5"
+                                        circle
+                                    />
+                                </div> -->
                                 <Notifications />
-                                <span
-                                    class="nav-profile-name d-none d-lg-block d-xl-block pt-2"
-                                    >{{
-                                        $page.props.auth.user.first_name +
-                                        " " +
-                                        $page.props.auth.user.last_name
-                                    }}
-                                </span>
+
                                 <span
                                     class="initials-background"
                                     ref="buttonRef"
-                                    style="padding: 20px; cursor: pointer"
-                                    ><strong>
-                                        {{
-                                            $page.props.auth.user.first_name
-                                                .charAt(0)
-                                                .toUpperCase()
-                                        }}</strong
-                                    ></span
+                                    style="padding: 0px; cursor: pointer"
                                 >
+                                    {{
+                                        $page.props.auth.user.first_name
+                                            .charAt(0)
+                                            .toUpperCase()
+                                    }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -247,13 +246,12 @@ export default defineComponent({
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    font-weight: 600;
+    font-weight: 700;
     width: 35px;
     height: 35px;
     background-color: #144f9f;
     color: #fff;
     border-radius: 100%;
-    margin-left: 20px;
 }
 
 .sidebar-name {
@@ -309,4 +307,12 @@ export default defineComponent({
 }
 </style>
 
-<style></style>
+<style>
+.el-switch__label.is-active {
+    color: #144f9f;
+}
+
+.el-switch__label {
+    color: #c0c4cc;
+}
+</style>

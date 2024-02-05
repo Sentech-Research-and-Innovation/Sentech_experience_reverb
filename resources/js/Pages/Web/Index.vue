@@ -125,7 +125,7 @@
                                                 <span
                                                     class="advert-section-span"
                                                 >
-                                                    Public Stats
+                                                    Login
                                                 </span>
                                             </div>
                                             <div
@@ -134,7 +134,7 @@
                                                 <span
                                                     class="advert-section-span"
                                                 >
-                                                    Promotions
+                                                    Learn More
                                                 </span>
                                             </div>
                                         </div>
@@ -214,7 +214,7 @@ export default {
     color: #ffffff;
     font-size: 15px;
     border-radius: 10px;
-    font-weight: bold;
+    font-weight: 500;
     background: rgba(255, 255, 255, 0.397);
 }
 
@@ -234,7 +234,7 @@ export default {
 
 .advert-section-span {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .weather-widget {

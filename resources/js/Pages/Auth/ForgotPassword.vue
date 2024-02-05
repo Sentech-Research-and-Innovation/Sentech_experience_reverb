@@ -70,6 +70,7 @@ export default {
             email: "",
             error: "",
             success: false,
+            loading: false,
         };
     },
     methods: {
@@ -83,6 +84,7 @@ export default {
                     if (res.status == 200) {
                         this.success = true;
                         this.loading = false;
+                        this.error = "";
                     }
                 })
                 .catch((err) => {

@@ -64,7 +64,7 @@ class PasswordResetLinkController extends Controller
 
         // );
 
-        if ($status == "passwords.throttled") {
+        if ($status == "passwords.throttled" || $status == "passwords.sent") {
             return response()->json([
                 'status' => true,
                 'message' => 'link sent',

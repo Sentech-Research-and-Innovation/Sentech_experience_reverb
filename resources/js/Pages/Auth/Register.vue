@@ -187,6 +187,11 @@ span {
     margin: 20px;
 }
 
+.h1-login {
+    font-weight: 700;
+    font-size: 50px;
+}
+
 label {
     color: #706f6f;
     font-size: 20px;

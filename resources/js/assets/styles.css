@@ -23178,7 +23178,7 @@ background-color:#000 !important
     -webkit-align-items: center;
     align-items: center;
     white-space: nowrap;
-    padding: 0.75rem 1.75rem 0.75rem 1.75rem;
+    /* padding: 0.75rem 1.75rem 0.75rem 1.75rem; */
     -webkit-transition-duration: 0.45s;
     -moz-transition-duration: 0.45s;
     -o-transition-duration: 0.45s;
@@ -23253,12 +23253,15 @@ background-color:#000 !important
   .sidebar .nav .nav-item.active > .nav-link {
     color: #144f9f;
     position: relative;
-    padding-top:20px;
-    padding-bottom:20px;
-    border-radius:15px
+    font-weight: 500;
+    /* padding-top:20px;
+    padding-bottom:20px; */
 
   }
 
+  .sidebar .nav .nav-item{
+    font-weight: 300;
+  }
   .sidebar .nav .nav-item.active > .nav-link .menu-title,
   .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
     color: #144f9f;
