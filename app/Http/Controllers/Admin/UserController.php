@@ -41,6 +41,9 @@ class UserController extends Controller
 
         $user->assignRole($data['role']);
 
+        $message = "Created New user " . $data['first_name'] . " " . $data['first_name'];
+        $this->StoreActivity($message);
+
         return request()->json([], 200);
     }
 

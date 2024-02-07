@@ -19,6 +19,8 @@ Route::group(['prefix' => '/admin/roles'], function () {
 
 Route::group(['prefix' => '/admin/user'], function () {
     Route::get('/role/{userId}', [AsignRolesController::class, 'show'])->name('roles.show.user')->middleware('role_has_permission:roles-read');
+    Route::post('/role/update/{userId}', [AsignRolesController::class, 'update'])->middleware('role_has_permission:roles-update');
+
     Route::post('/create', [UserController::class, 'create'])->name('roles.user.create')->middleware('auth');
 });
 

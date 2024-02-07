@@ -7,6 +7,8 @@ use App\Models\System\MenuItem;
 
 use App\Http\Controllers\Web\WeatherController;
 use App\Http\Controllers\Admin\GetNotifications;
+use App\Http\Controllers\Admin\DashboardController;
+
 
 
 
@@ -36,9 +38,9 @@ Route::get('/contactus', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/admin/dashboard',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+Route::post('/admin/activities',  [DashboardController::class, 'show'])->middleware(['auth'])->name('activities');
+
 
 
 Route::get('/web/weather', [WeatherController::class, 'create']);

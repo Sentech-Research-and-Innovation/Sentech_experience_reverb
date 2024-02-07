@@ -51,7 +51,7 @@
                                     <div class="d-flex justify-content-start">
                                         <div style="background-color: #ffff">
                                             <Link
-                                                href="/dashboard"
+                                                href="/admin/dashboard"
                                                 method="get"
                                                 as="link"
                                                 style="cursor: pointer"
@@ -241,17 +241,6 @@ export default defineComponent({
 }
 .dropdown-toggle {
     cursor: pointer;
-}
-.initials-background {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    width: 35px;
-    height: 35px;
-    background-color: #144f9f;
-    color: #fff;
-    border-radius: 100%;
 }
 
 .sidebar-name {

@@ -109,8 +109,10 @@ class PredictiveMaintenanceReportsController extends Controller
 
 
         $fileName = time() . ".pdf";
-        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0);
-        // ->setNodeBinary('c:\src\nodejs\node.exe')
+        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0)
+            ->setNodeBinary('/root/.nvm/versions/node/v14.21.3/bin/node');
+        // ->setNpmBinary('c:\src\nodejs\npm')
+        //->setNodeBinary('c:\src\nodejs\node.exe')
         // ->setNpmBinary('c:\src\nodejs\npm')
         //   ->storeAs('pdfs/', $fileName);
         return $pdfStoredPath->download('report' . '.pdf');

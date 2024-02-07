@@ -60,6 +60,10 @@ class AsignRolesController extends Controller
 
         $user->assignRole($roleByname->id);
 
+
+        $message = "Changed " . $user->first_name . " " . $user->last_name . "'s role from " . $roleName[0] . " To " . $roleByname->name;
+        $this->StoreActivity($message);
+
         return request()->json([], 200);
     }
 }

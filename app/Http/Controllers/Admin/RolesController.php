@@ -50,6 +50,9 @@ class RolesController extends Controller
                 $role->givePermissionTo($perm);
             }
         }
+
+        $message = "Created a role " . request()->name;
+        $this->StoreActivity($message);
         return request()->json([], 200);
     }
 
@@ -96,7 +99,8 @@ class RolesController extends Controller
                 $role->revokePermissionTo($permission);
             }
         }
-
+        $message = "Updated permissions for role " . $roleName;
+        $this->StoreActivity($message);
         return request()->json([], 200);
     }
 
@@ -110,7 +114,11 @@ class RolesController extends Controller
         if (count($roles_has_users) > 0) {
             return response()->json($roles_has_users, 401);
         } else {
+            $role = Role::find(request()->roleId)->first();
             Role::find(request()->roleId)->delete();
+
+            $message = "Deleted role " . $role;
+            $this->StoreActivity($message);
             return response()->json([], 200);
         }
     }

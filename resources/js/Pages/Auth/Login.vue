@@ -116,7 +116,7 @@ export default {
                 const response = await axios.post("/login", this.form);
 
                 if (response.data.success) {
-                    this.$inertia.visit("/dashboard", {
+                    this.$inertia.visit("/admin/dashboard", {
                         method: "get",
                     });
                 }

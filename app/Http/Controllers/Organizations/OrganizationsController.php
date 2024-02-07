@@ -40,10 +40,15 @@ class OrganizationsController extends Controller
 
         );
 
-
         company::where('id', $company_id)->update(['active' => true]);
 
+        $company = company::find($company_id)->first();
+
         Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);
+
+        $message = "Approved a company " . $company->company_name;
+        $this->StoreActivity($message);
+
         return response()->json([
             'status' => true,
             'message' => 'link sent',
@@ -85,6 +90,9 @@ class OrganizationsController extends Controller
 
         $role = Role::create(['guard_name' => $company->company_name, 'name' => "Super Admin", 'company_id' => $company->id]);
         $user->assignRole("Super Admin");
+
+        $message = "Created a company " . $company->company_name;
+        $this->StoreActivity($message);
 
         return $user;
     }

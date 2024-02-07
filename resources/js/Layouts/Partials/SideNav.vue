@@ -13,8 +13,8 @@
                     <Link
                         class="nav-link"
                         aria-current="page"
-                        href="/dashboard"
-                        :class="{ active: $page.url === '/dashboard' }"
+                        href="/admin/dashboard"
+                        :class="{ active: $page.url === '/admin/dashboard' }"
                     >
                         <span class="nav-link-item">Home</span>
                     </Link>

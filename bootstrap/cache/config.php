@@ -420,7 +420,7 @@
     'username' => 'email',
     'email' => 'email',
     'views' => true,
-    'home' => '/dashboard',
+    'home' => '/admin/dashboard',
     'prefix' => '',
     'domain' => NULL,
     'lowercase_usernames' => false,

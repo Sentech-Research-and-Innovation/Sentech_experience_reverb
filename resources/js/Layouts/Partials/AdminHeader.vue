@@ -6,9 +6,9 @@
         <ul class="nav list-group text-start mx-lg-4">
             <li
                 class="nav-item"
-                :class="{ active: $page.url === '/dashboard' }"
+                :class="{ active: $page.url === '/admin/dashboard' }"
             >
-                <Link class="nav-link" href="/dashboard">
+                <Link class="nav-link" href="/admin/dashboard">
                     <span class="menu-title">Home </span>
                 </Link>
             </li>
