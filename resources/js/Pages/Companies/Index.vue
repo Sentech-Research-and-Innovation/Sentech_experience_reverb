@@ -9,20 +9,6 @@
             <div class="col-6"><CreateCompany /></div>
         </div>
 
-        <div class="company-nav-header col-12 px-0 my-4">
-            <nav class="nav nav-pills flex-column flex-sm-row py-3 px-2">
-                <a
-                    class="flex-sm-fill text-sm-center nav-link active py-3 mx-2"
-                    aria-current="page"
-                    href="#"
-                    >Approved</a
-                >
-
-                <a class="flex-sm-fill text-sm-center nav-link py-3" href="#"
-                    >Pending <span class="badge badge-danger">9</span></a
-                >
-            </nav>
-        </div>
         <div class="col-12 px-0 mx-0">
             <table class="table">
                 <thead>

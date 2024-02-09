@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $startDate = isset($filterDate[0]) ? Carbon::parse($filterDate[0]) : null;
         $endDate = isset($filterDate[1]) ? Carbon::parse($filterDate[1]) : null;
 
-        $activities = ActivityLog::with(['user' => function ($query) use ($searchText) {
+        $activities = ActivityLog::with(['user.roles', 'user' => function ($query) use ($searchText) {
             $query->where(function ($innerQuery) use ($searchText) {
                 $innerQuery->where('first_name', 'LIKE', "%$searchText%")
                     ->orWhere('last_name', 'LIKE', "%$searchText%");
@@ -43,7 +43,7 @@ class DashboardController extends Controller
                             ->orWhere('last_name', 'LIKE', "%$searchText%");
                     });
             })
-            ->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(10);
 
         foreach ($activities as $activity) {
             $dateTimeString = $activity->created_at;

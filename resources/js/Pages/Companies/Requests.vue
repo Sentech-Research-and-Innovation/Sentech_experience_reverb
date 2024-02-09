@@ -9,28 +9,8 @@
             <div class="col-6"><CreateCompany /></div>
         </div>
 
-        <div class="company-nav-header col-12 px-0 my-4">
-            <nav class="nav nav-pills flex-column flex-sm-row py-3 px-2">
-                <Link
-                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    :class="{
-                        active: $page.url === '/organizantions/approved',
-                    }"
-                    href="/organizantions/approved"
-                    >Approved
-                </Link>
-                <Link class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    >Pending
-                </Link>
-                <Link
-                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    :class="{
-                        active: $page.url === '/organizantions/request',
-                    }"
-                    href="/organizantions/request"
-                    >Requests
-                </Link>
-            </nav>
+        <div class="company-nav-header col-12 px-0">
+            <NaviigationVue />
         </div>
         <div class="col-12 px-0 mx-0 company" v-if="!loading">
             <table class="table">
@@ -140,6 +120,7 @@ import { defineComponent, ref } from "vue";
 import CreateCompany from "./CreateCompany.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LoadingGif from "../../assets/loading.gif";
+import NaviigationVue from "../../Layouts/Partials/companies/Naviigation.vue";
 
 import {
     View,
@@ -152,7 +133,7 @@ export default defineComponent({
     name: "Requests",
     layout: AdminLayout,
 
-    components: { CreateCompany, Link, Head },
+    components: { CreateCompany, Link, Head, NaviigationVue },
 
     props: {
         companies: {
@@ -199,21 +180,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style>
-.form-control-error {
-    border-radius: 1px solid #ff1744 !important;
-}
-.company-nav-header {
-    background-color: #ffff;
-}
-.company-nav-header .nav-link {
-    color: #737272;
-    font-weight: 500;
-    border: 1px solid #737272;
-}
-
-.company-nav-header .active {
-    background-color: #144f9f !important;
-}
-</style>

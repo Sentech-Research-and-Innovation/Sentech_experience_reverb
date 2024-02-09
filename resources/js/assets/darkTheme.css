@@ -230,6 +230,43 @@ border:none !important
     --el-input-bg-color: none !important
 }
 
+/* .dark .pending-companies, .dark .company-requests, .dark .system-users, .dark .customer-feedback{
+    background-color:#191c24  !important
+} */
+.dark .tweets-label, .dark .tweets-value{
+    color: #fff !important
+}
+.dark table{
+    --bs-table-bg:#191c24  !important;
+border-color:black !important;
+--bs-table-border-color:black !important
+    
+}
+
+
+
+.dark .fs-6{
+    color: #144f9f !important
+}
+
+.dark .font-weight-light{
+    color: #737272 !important
+}
+.dark .activity-bg{
+    background-color:#191c24  !important
+}
+
+.dark .page-link {
+    background-color:black  !important;
+    border:none !important;
+    color: #737272 !important
+
+    
+}
+.dark .activePage {
+    color: #144f9f !important
+
+}
 
 
 

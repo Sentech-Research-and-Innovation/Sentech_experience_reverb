@@ -1,36 +1,16 @@
 <template>
     <Head :title="'Companies'"><title>Companies</title></Head>
 
-    <div class="col-12 pt-5">
-        <div class="row px-0 pb-3">
+    <div class="col-12 pt-3">
+        <div class="row px-0 pb-4">
             <div class="col-6">
                 <h2>Companies</h2>
             </div>
             <div class="col-6"><CreateCompany /></div>
         </div>
 
-        <div class="company-nav-header col-12 px-0 my-4">
-            <nav class="nav nav-pills flex-column flex-sm-row py-3 px-2">
-                <Link
-                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    :class="{
-                        active: $page.url === '/organizantions/approved',
-                    }"
-                    href="/organizantions/approved"
-                    >Approved
-                </Link>
-                <Link class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    >Pending
-                </Link>
-                <Link
-                    class="flex-sm-fill text-sm-center nav-link py-3 mx-2"
-                    :class="{
-                        active: $page.url === '/organizantions/request',
-                    }"
-                    href="/organizantions/request"
-                    >Requests
-                </Link>
-            </nav>
+        <div class="company-nav-header col-12 px-0">
+            <NaviigationVue />
         </div>
         <div class="col-12 px-0 mx-0 company">
             <table class="table">
@@ -42,7 +22,7 @@
                         <th scope="col">Contact Person Email</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Position</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Active</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,8 +38,7 @@
                             {{ role.name }}
                         </td> -->
                         <td>
-                            <!-- <EditRole :userId="user.id" />
-                            | delete -->
+                            <el-switch v-model="active" />
                         </td>
                     </tr>
                 </tbody>
@@ -71,15 +50,18 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import CreateCompany from "./CreateCompany.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Search } from "@element-plus/icons-vue";
+
+import NaviigationVue from "../../Layouts/Partials/companies/Naviigation.vue";
 
 export default defineComponent({
     name: "company-list",
     layout: AdminLayout,
 
-    components: { CreateCompany, Link, Head },
+    components: { CreateCompany, Link, Head, NaviigationVue },
 
     props: {
         companies: {
@@ -89,29 +71,16 @@ export default defineComponent({
     },
 
     setup(props) {
+        const active = ref(true);
         const { companies } = props;
 
         return {
             companies,
+            Search,
+            active,
         };
     },
 });
 </script>
 
-<style>
-.form-control-error {
-    border-radius: 1px solid #ff1744 !important;
-}
-.company-nav-header {
-    background-color: #ffff;
-}
-.company-nav-header .nav-link {
-    color: #737272;
-    font-weight: 500;
-    border: 1px solid #737272;
-}
-
-.company-nav-header .active {
-    background-color: #144f9f !important;
-}
-</style>
+<style></style>

@@ -1,12 +1,12 @@
 <template>
-    <div class="col-12 shadow-s pt-3" style="background-color: #ffff">
+    <div class="col-12 shadow-s pt-3 activity-bg">
         <div class="col-12 mb-4 mt-4">
             <div class="d-flex justify-content-between">
                 <div class="col-3 px-0">
                     <el-input
                         v-model="searchActivity"
                         class="w-100"
-                        placeholder="Serach..."
+                        placeholder="Serach by name"
                         :prefix-icon="Search"
                     />
                 </div>
@@ -84,7 +84,7 @@
 
                                 <div>
                                     <p class="font-weight-light text-grey">
-                                        Manager
+                                        {{ log.user.roles[0].name }}
                                     </p>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-12 py-4" style="background-color: #ffff">
+    <div class="col-12 py-4 activity-bg">
         <nav
             class=""
             aria-label="Page navigation example"
@@ -199,5 +199,8 @@ export default defineComponent({
 .activePage {
     background-color: #144f9f;
     color: #ffff !important;
+}
+.activity-bg {
+    background-color: #ffff;
 }
 </style>
