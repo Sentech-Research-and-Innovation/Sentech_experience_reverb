@@ -103,7 +103,7 @@
                             >
                         </Link> -->
 
-                        <Register />
+                        <!-- <Register /> -->
                     </div>
                 </div>
                 <div class="mobile-nav pt-2">

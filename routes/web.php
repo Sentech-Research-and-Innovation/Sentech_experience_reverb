@@ -53,9 +53,6 @@ Route::get('/change_password/{token}', function () {
 })->name('changePassword');
 
 
-//MenuItem::inertia();
-
-
 require __DIR__ . '/auth.php';
 
 require __DIR__ . '/admin/sentiments-Analysis.php';

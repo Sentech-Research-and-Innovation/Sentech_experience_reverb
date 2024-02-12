@@ -46,9 +46,9 @@ export default {
         top: 0;
         left: 0;
         z-index: 1000;
-        background-color: rgba(244, 245, 247, 0.6);
+        background-color: rgba(244, 245, 247, 0.8);
         inset: 0px;
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(0px);
         width: 100%;
         height: 100vh;
         opacity: 0;

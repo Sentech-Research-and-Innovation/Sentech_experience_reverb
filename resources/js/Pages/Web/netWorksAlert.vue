@@ -5,7 +5,9 @@
             <div class="col-3">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
@@ -21,7 +23,7 @@
             <div class="col-3">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-warning py-3 px-4 col-3">
+                        <div class="status-warning pt-2 pb-3 text-center mt-2">
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                         <div class="py-1">
@@ -37,7 +39,7 @@
             <div class="col-3">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-warning py-3 px-4 col-3">
+                        <div class="status-warning pt-2 pb-3 text-center mt-2">
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                         <div class="py-1">
@@ -53,8 +55,9 @@
             <div class="col-3 mr-0 pr-0">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
@@ -71,8 +74,9 @@
             <div class="col-3 mr-0 pt-4">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
@@ -87,17 +91,20 @@
             </div>
             <div class="col-3 mr-0 pt-4">
                 <div class="col-12 network-container">
-                    <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <div class="py-1">
-                            <strong>Free Sate</strong> <br />
-                            <span class="fs-6"> All Good </span>
-                        </div>
-                        <div class="pt-3 fs-6">
-                            <i class="fa-solid fa-chevron-right"></i>
+                    <div class="col-12 network-container px-0">
+                        <div class="d-flex justify-content-between py-2">
+                            <div
+                                class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="py-1">
+                                <strong>Free State</strong> <br />
+                                <span class="fs-6"> All Good </span>
+                            </div>
+                            <div class="pt-3 fs-6">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,8 +112,9 @@
             <div class="col-3 mr-0 pt-4">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
@@ -122,12 +130,13 @@
             <div class="col-3 mr-0 pt-4 pr-0">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
-                            <strong>Nothern Cape</strong> <br />
+                            <strong>Northern Cape</strong> <br />
                             <span class="fs-6"> All Good </span>
                         </div>
                         <div class="pt-3 fs-6">
@@ -139,8 +148,9 @@
             <div class="col-3 mr-0 pt-4">
                 <div class="col-12 network-container">
                     <div class="d-flex justify-content-between py-2">
-                        <div class="status-good py-3 px-4 col-3">
-                            <!-- <i class="fa-solid fa-exclamation"></i> -->
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                        >
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="py-1">
@@ -188,14 +198,20 @@ export default defineComponent({
 .status-good {
     background-color: #67c23a;
     color: #ffff;
-    border-radius: 15px;
     font-size: 13px;
+    height: 25px;
+    width: 27px;
+    border-radius: 50%;
+    padding-bottom: 19px !important;
 }
 .status-warning {
     background-color: #e6a23c;
     color: #ffff;
-    border-radius: 15px;
     font-size: 13px !important;
+    height: 25px;
+    width: 27px;
+    border-radius: 50%;
+    padding-bottom: 19px !important;
 }
 .fs-6 {
     font-size: 13px !important;

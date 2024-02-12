@@ -11,29 +11,41 @@
         <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
             <div class="row">
                 <div class="col-lg-3 col-6 pr-0">
-                    <div class="col-12 pending-companies rounded py-4">
-                        <div class="tweets-label">Pending companies</div>
-                        <div class="tweets-value"><strong>321</strong></div>
+                    <div class="col-12 pending-companies rounded py-4 px-5">
+                        <div class="tweets-label pt-4">Pending companies</div>
+                        <div class="tweets-value pb-3 pt-3">
+                            <strong>321</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6 pr-lg-3">
-                    <div class="col-12 company-requests rounded py-4 tweet-box">
-                        <div class="tweets-label">Company Requests</div>
-                        <div class="tweets-value"><strong>20</strong></div>
+                    <div
+                        class="col-12 company-requests rounded py-4 tweet-box px-5"
+                    >
+                        <div class="tweets-label pt-4">Company Requests</div>
+                        <div class="tweets-value pb-3 pt-3">
+                            <strong>20</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6 pr-0 pt-lg-0 pt-3 pl-lg-0">
-                    <div class="col-12 system-users rounded py-4 tweet-box">
-                        <div class="tweets-label">System users</div>
-                        <div class="tweets-value"><strong>321</strong></div>
+                    <div
+                        class="col-12 system-users rounded py-4 tweet-box px-5"
+                    >
+                        <div class="tweets-label pt-4">System users</div>
+                        <div class="tweets-value pb-3 pt-3">
+                            <strong>321</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-6 pt-3 pt-lg-0">
                     <div
-                        class="col-12 customer-feedback rounded py-4 tweet-box"
+                        class="col-12 customer-feedback rounded py-4 tweet-box px-5"
                     >
-                        <div class="tweets-label">Customer feedback</div>
-                        <div class="tweets-value"><strong>321</strong></div>
+                        <div class="tweets-label pt-4">Customer feedback</div>
+                        <div class="tweets-value pb-3 pt-3">
+                            <strong>321</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -152,7 +164,8 @@ export default defineComponent({
 }
 
 .tweets-value {
-    font-size: 40px;
+    font-size: 55px;
+    font-weight: 700;
 }
 .tweets-label {
     font-size: 20px;

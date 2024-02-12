@@ -1,35 +1,37 @@
 <template>
-    <div v-if="temp" class="col-12 bg mx-0 px-3">
-        <div class="row px-0">
-            <div class="col-2 pr-0 mx-0 pt-3 pl-2">
-                <img :src="weatherIconUrl" width="20" height="20" />
-            </div>
-            <div class="col-10 pt-0 px-lg-2 px-2">
-                <div class="row">
-                    <div class="col-3 d-flex">
-                        <div class="temp">
-                            {{ temp }}
-                        </div>
-                        <div class="col-12 px-0 mx-0 pt-3">
-                            <div class="degree rounded-circle mx-1"></div>
-                            <div class="col-12 mx-0 px-1 pt-1 description">
-                                {{ description }}
+    <div class="col-12">
+        <div v-if="temp" class="col-12 bg px-4">
+            <div class="row px-0">
+                <div class="col-2 pr-0 mx-0 pt-3 pl-3">
+                    <img :src="weatherIconUrl" width="20" height="20" />
+                </div>
+                <div class="col-10 pt-0 px-lg-2 px-2">
+                    <div class="row">
+                        <div class="col-3 d-flex">
+                            <div class="temp">
+                                {{ temp }}
+                            </div>
+                            <div class="col-12 px-0 mx-0 pt-3">
+                                <div class="degree rounded-circle mx-1"></div>
+                                <div class="col-12 mx-0 px-1 pt-1 description">
+                                    {{ description }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-9 px-lg-3 px-0">
-                        <div class="col-12 fs-6 pt-2 mx-0 date text-center">
-                            {{ date }} <br />
+                        <div class="col-9 px-lg-4 px-0">
+                            <div class="col-12 fs-6 pt-2 mx-0 date text-left">
+                                {{ date }} <br />
 
-                            <span class="city"> {{ city }} </span>
+                                <span class="city"> {{ city }} </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div v-else class="col-12 text-start pt-0 mx-0">
-        <p>Loading...</p>
+        <div v-else class="col-12 text-start pt-0 mx-0">
+            <p>Loading...</p>
+        </div>
     </div>
 </template>
 

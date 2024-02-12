@@ -1,14 +1,16 @@
 <template>
-    <Head :title="'Login'"><title>Register</title></Head>
+    <Head :title="'Sign Up'"><title>Home</title></Head>
     <!-- <button type="button" class="button button-dark" @click="showing = true">
         Create {{ showing }}
     </button> -->
     <a
-        class="nav-link register"
+        class="nav-link register text-end px-0 mx-0"
         @click="showing = true"
         style="cursor: pointer !important"
     >
-        <span class="request-an-account-button">Request an Account</span>
+        <span class="request-an-account-button">
+            Don't have an account? sign up</span
+        >
     </a>
     <SideModal
         :content="content"
@@ -238,10 +240,9 @@ label {
 }
 
 .request-an-account-button {
-    padding: 10px;
-    border: solid 1px #fff;
-    border-radius: 12px;
-    font-size: 14px;
+    font-size: 15px !important;
+    font-weight: 300;
+    color: #706f6f !important;
 }
 
 .login-form-inputs {

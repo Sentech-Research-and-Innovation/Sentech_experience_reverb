@@ -6,7 +6,7 @@
     <a
         class="nav-link"
         @click="showing = true"
-        style="cursor: pointer !important"
+        style="cursor: pointer !important; padding-right: 2px !important"
     >
         <i class="fa fa-user"></i>Login
     </a>
@@ -15,7 +15,7 @@
         :showing="showing"
         @hideModal="showing = false"
     >
-        <div class="col-12">
+        <div class="col-12 px-0 mx-0">
             <div class="d-flex justify-content-center">
                 <div class="col-lg-6 col-md-8 col-12 mt-5 pt-5">
                     <div class="h1-login">Login</div>
@@ -36,7 +36,7 @@
                                     {{ errors.email }}
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label for="email" class="form-label"
                                     >Password</label
                                 >
@@ -50,23 +50,23 @@
                                     {{ errors.password }}
                                 </div>
                             </div>
+                            <Link
+                                href="/forgot-password"
+                                class="m-2 mt-0 text-primary float-end forgot-password-text"
+                            >
+                                Forgot your password?
+                            </Link>
                             <div class="mb-3 mt-0">
                                 <div
                                     @click="login"
-                                    class="btn advert-section-div-button mt-2 py-4 px-3 btn-block d-flex justify-content-between"
+                                    class="btn advert-section-div-button mt-2 py-4 px-4 btn-block d-flex justify-content-between"
                                 >
                                     <span class="pr-4">Login</span>
 
                                     <img src="arrow-right.png" width="40" />
                                 </div>
-
-                                <Link
-                                    href="/forgot-password"
-                                    class="m-2 mt-3 text-primary float-end forgot-password-text"
-                                >
-                                    Forgot your password?
-                                </Link>
                             </div>
+                            <RegisterVue />
                         </div>
                     </form>
                 </div>
@@ -84,6 +84,7 @@ import SideModal from "@/Layouts/SideModal.vue";
 import { useFilterStore } from "../../stores/filter";
 
 import { predictionsFilterStore } from "../../stores/predictionsFilter";
+import RegisterVue from "./Register.vue";
 //import { predictionsFilterDetailedStore } from "../../stores/predictionFiltersDetailed";
 
 export default {
@@ -93,6 +94,7 @@ export default {
         Head,
         ForgotPasswordComponent,
         SideModal,
+        RegisterVue,
     },
     data() {
         return {
@@ -180,7 +182,7 @@ label {
     font-size: 20px;
     border-radius: 15px;
     height: 68px;
-    font-weight: 300;
+    font-weight: 400;
     background: #144f9f;
 }
 
@@ -220,7 +222,7 @@ label {
     }
 }
 .form-label {
-    font-size: 18px !important;
+    font-size: 16.5px !important;
 }
 
 .login-form-inputs {
@@ -229,11 +231,13 @@ label {
     height: 65px;
 }
 .forgot-password-text {
-    font-size: 18px !important;
+    font-size: 15px !important;
     font-weight: 300;
 }
 
 .text-danger {
     font-weight: 300;
+    font-size: 14.5px !important;
+    padding-left: 5px;
 }
 </style>

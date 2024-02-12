@@ -31,11 +31,11 @@
                                         href="https://play.google.com/store/apps/details?id=za.co.freevisiontv"
                                         target="_blank"
                                         rel="external"
-                                        class="pt-4 pr-4 f-vision-icon"
+                                        class="pr-4 f-vision-icon"
                                     >
                                         <svg
-                                            width="40"
-                                            height="40"
+                                            width="23"
+                                            height="23"
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 512 512"
                                         >
@@ -49,11 +49,11 @@
                                         href="https://apps.apple.com/th/app/freevision-play/id6446925337"
                                         target="_blank"
                                         rel="external"
-                                        class="pt-4 pr-4 f-vision-icon"
+                                        class="pr-4 f-vision-icon"
                                     >
                                         <svg
-                                            width="40"
-                                            height="40"
+                                            width="23"
+                                            height="23"
                                             viewBox="0 0 15 18"
                                             fill=" #ffffff"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -303,6 +303,9 @@ export default {
 .f-vision-icon a {
     position: relative;
     display: inline-block;
+}
+.f-vision-icon {
+    margin-top: 35px !important;
 }
 .f-vision-icon:hover svg path {
     fill: #4b84d3 !important;

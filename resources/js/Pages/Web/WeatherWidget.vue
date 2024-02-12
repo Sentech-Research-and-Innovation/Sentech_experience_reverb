@@ -2,11 +2,11 @@
     <div class="col-12 mx-0 px-0 weather-container">
         <div class="row pt-1 px-0" v-if="temp">
             <div
-                class="col-2 col-lg-4 px-lg-3 mx-0 pt-lg-2 pt-4 d-flex justify-content-center"
+                class="col-2 col-lg-4 mr-4 pt-lg-2 pt-4 d-flex justify-content-center"
             >
                 <img :src="weatherIconUrl" class="colored-icon" />
             </div>
-            <div class="col-lg-8 col-10 py-4">
+            <div class="col-lg-7 col-10 py-4">
                 <div class="row">
                     <div class="col-lg-5 col-3 d-flex">
                         <div class="temp">
@@ -23,10 +23,10 @@
                     </div>
 
                     <div class="col-lg-12 col-9">
-                        <div class="col-12 fs-6 pt-2 px-4 px-lg-0 mx-0 date">
+                        <div class="col-12 fs-6 pt-0 px-4 px-lg-0 mx-0 date">
                             Today {{ date }}
                         </div>
-                        <div class="col-12 fs-5 px-4 px-lg-0 mx-0 city">
+                        <div class="col-12 px-4 px-lg-0 mx-0 city pt-1">
                             {{ city }}
                         </div>
                     </div>
@@ -140,6 +140,7 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     object-fit: contain;
+    margin-left: 40px;
 }
 .temp {
     font-size: 60px;
@@ -151,7 +152,9 @@ export default defineComponent({
     height: 20px;
     border: 3px solid #ffff;
 }
-
+.city {
+    font-weight: 700;
+}
 @media only screen and (max-width: 991px) {
     .colored-icon {
         width: 50px;
@@ -178,7 +181,7 @@ export default defineComponent({
 
     .city {
         font-size: 14px !important;
-        font-weight: bold;
+        font-weight: 500;
     }
 }
 .weather-container {

@@ -2,15 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Company\Company;
-use App\Models\Company\CompanyStaff;
-use App\Models\Company\CompanyUser;
-use App\Models\LoanWizard\PersonalDetail;
-use App\Models\UserModels\UserCompany;
-use App\Models\UserModels\UserPermissions;
-use App\Models\UserModels\UserRole;
+use App\Models\Company;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -76,15 +70,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    // public function role()
-    // {
-    //     return self::HasOne(UserRole::class, 'user_id', 'id');
-    // }
-
-    // public function permissions()
-    // {
-    //     return self::HasMany(UserPermissions::class, 'user_id', 'id');
-    // }
 
     public function company()
     {
