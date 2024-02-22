@@ -1,39 +1,46 @@
 <template>
-    <div class="col-12 mx-0 px-0 weather-container">
-        <div class="row pt-1 px-0" v-if="temp">
-            <div
-                class="col-2 col-lg-4 mr-4 pt-lg-2 pt-4 d-flex justify-content-center"
-            >
-                <img :src="weatherIconUrl" class="colored-icon" />
-            </div>
-            <div class="col-lg-7 col-10 py-4">
-                <div class="row">
-                    <div class="col-lg-5 col-3 d-flex">
-                        <div class="temp">
-                            {{ temp }}
-                        </div>
-                        <div class="col-12 px-0 mx-0 pt-2">
-                            <div class="degree rounded-circle mx-1"></div>
-                            <div
-                                class="col-12 mx-0 px-1 pt-lg-3 pt-2 description"
-                            >
-                                {{ description }}
+    <div class="col-12 mr-5 pr-4">
+        <div v-if="temp" class="col-12 bg px-3 pt-2 pb-3">
+            <div class="d-flex justify-content-between">
+                <div class="col-3 pr-0 mx-0 pt-3 pl-5">
+                    <img :src="weatherIconUrl" width="55" height="35" />
+                </div>
+                <div class="col-9 pt-0 pl-lg-0 pr-0">
+                    <div class="d-flex justify-content-around">
+                        <div class="col-5 d-flex pl-0 pt-1">
+                            <div class="temp pt-1">{{ temp }}</div>
+                            <div class="col-12 px-0 mx-0 pt-2">
+                                <div class="degree rounded-circle mx-1"></div>
+                                <div
+                                    class="col-12 mx-0 px-2 descriptionWeather"
+                                >
+                                    {{ descriptionWeather }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div
+                            class="col-7 pl-lg-2 pr-0"
+                            style="padding-top: 7px"
+                        >
+                            <div
+                                class="col-12 fs-6 pt-2 mx-0 date text-left"
+                                style="color: #ffff !important"
+                            >
+                                Today, {{ date }}
+                            </div>
 
-                    <div class="col-lg-12 col-9">
-                        <div class="col-12 fs-6 pt-0 px-4 px-lg-0 mx-0 date">
-                            Today {{ date }}
-                        </div>
-                        <div class="col-12 px-4 px-lg-0 mx-0 city pt-1">
-                            {{ city }}
+                            <h6
+                                class="col-12 pt-1 mx-0 city text-left"
+                                style="color: #ffff !important"
+                            >
+                                <span class="city"> {{ city }} </span>
+                            </h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-else class="col-12 text-center pt-5 mt-4">
+        <div v-else class="col-12 text-start pt-0 mx-0">
             <p>Loading...</p>
         </div>
     </div>
@@ -58,11 +65,10 @@ export default defineComponent({
     components: {},
 
     setup() {
-        const description = ref("");
+        const descriptionWeather = ref("");
         const weatherIconUrl = ref("");
         const city = ref("");
         const temp = ref("");
-        const date = ref("");
 
         const weatherIcons = {
             "01n": clearSky,
@@ -87,6 +93,7 @@ export default defineComponent({
 
         const defaultIconUrl = "http://openweathermap.org/img/wn/";
 
+        const date = ref("");
         const success = async () => {
             const res = await axios.get(`/web/weather`);
             if (res.status === 200) {
@@ -94,7 +101,7 @@ export default defineComponent({
                 const icon = data.weather[0].icon;
 
                 weatherIconUrl.value = weatherIcons[icon];
-                description.value = data.weather[0].main;
+                descriptionWeather.value = data.weather[0].main;
                 city.value = res.data[1].city;
                 temp.value = data.main.temp.toFixed();
                 const monthNames = [
@@ -116,7 +123,7 @@ export default defineComponent({
 
                 let month = monthNames[objectDate.getMonth()];
 
-                date.value = day + "  " + month;
+                date.value = day + " " + month;
             }
         };
 
@@ -126,7 +133,7 @@ export default defineComponent({
 
         return {
             weatherIconUrl,
-            description,
+            descriptionWeather,
             date,
             temp,
             city,
@@ -135,56 +142,42 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.colored-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    margin-left: 40px;
-}
-.temp {
-    font-size: 60px;
-    font-weight: bold;
+<style>
+.bg {
+    background-color: #0c368a !important;
+    border-radius: 16px;
+    color: #fff;
+    text-decoration: none !important;
 }
 
-.degree {
-    width: 20px;
-    height: 20px;
-    border: 3px solid #ffff;
-}
-.city {
+.temp {
+    font-size: 45px;
     font-weight: 700;
 }
-@media only screen and (max-width: 991px) {
-    .colored-icon {
-        width: 50px;
-        height: 50px;
-    }
-
-    .temp {
-        font-size: 40px;
-        font-weight: bold;
-    }
-    .degree {
-        width: 10px;
-        height: 10px;
-        border: 2px solid #ffff;
-    }
-
-    .description {
-        font-size: 11px;
-    }
-
-    .date {
-        font-size: 12px !important;
-    }
-
-    .city {
-        font-size: 14px !important;
-        font-weight: 500;
-    }
+.degree {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #fff;
+    margin-top: 4px;
+    margin-bottom: 1px;
 }
-.weather-container {
-    cursor: pointer !important;
+
+.descriptionWeather {
+    font-size: 14px;
+    padding-top: 10px;
+    color: #ffff;
+    padding-left: 10px;
 }
+
+.date {
+    font-size: 15px !important;
+}
+
+.city {
+    font-size: 17px !important;
+    font-weight: 500;
+}
+/* . weather-text{
+    font-size
+} */
 </style>

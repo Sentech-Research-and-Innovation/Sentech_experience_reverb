@@ -10,7 +10,11 @@
                             now login
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center" v-if="!success">
+
+                    <div
+                        class="d-flex justify-content-center sd"
+                        v-if="!success"
+                    >
                         <div class="col-lg-8 py-5 white-container">
                             <div class="d-flex justify-content-center">
                                 <div class="col-lg-8">

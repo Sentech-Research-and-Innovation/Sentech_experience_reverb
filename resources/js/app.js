@@ -60,7 +60,7 @@ createInertiaApp({
                 .use(pinia)
                 .use(LaravelPermissionToVueJS)
                 .use(VueApexCharts)
-                .use(ZiggyVue, Ziggy)
+
                 .use(VueDatePicker)
                 .use(VueVectorMap, {
                     backgroundColor: "#fffff",

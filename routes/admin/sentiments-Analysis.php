@@ -13,25 +13,25 @@ Route::get('/admin/sentiments/all', function () {
 });
 
 Route::group(['prefix' => '/admin/sentiments/overview'], function () {
-    Route::get('/', [OverViewController::class, 'index'])->middleware('auth')->name('overview');
-    Route::post('/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline'])->middleware(['auth']);
-    Route::post('/tweets-by-location', [OverViewController::class, 'tweetsByLocation'])->middleware('auth');
-    Route::post('/overall-sentiments', [OverViewController::class, 'overallSentiments'])->middleware('auth');
+    Route::get('/', [OverViewController::class, 'index']);
+    Route::post('/sentimentsTimeline', [OverViewController::class, 'sentimentsTimeline']);
+    Route::post('/tweets-by-location', [OverViewController::class, 'tweetsByLocation']);
+    Route::post('/overall-sentiments', [OverViewController::class, 'overallSentiments']);
 });
 
 Route::group(['prefix' => '/admin/sentiments/timelines'], function () {
-    Route::get('/', [TimeLinesController::class, 'index'])->middleware('auth');
-    Route::post('/tweets-by-hour', [TimeLinesController::class, 'tweetsByHour'])->middleware('auth');
-    Route::get('/tweets-and-likes', [TimeLinesController::class, 'tweetsLikes'])->middleware('auth');
+    Route::get('/', [TimeLinesController::class, 'index']);
+    Route::post('/tweets-by-hour', [TimeLinesController::class, 'tweetsByHour']);
+    Route::get('/tweets-and-likes', [TimeLinesController::class, 'tweetsLikes']);
 });
 
 Route::group(['prefix' => '/admin/sentiments/trends'], function () {
-    Route::get('/', [TrendsController::class, 'index'])->middleware('auth');
-    Route::post('/tweetsContent', [TrendsController::class, 'tweetsContent'])->middleware('auth');
-    Route::get('/wordclouds', [TrendsController::class, 'wordCloudList'])->middleware('auth');
+    Route::get('/', [TrendsController::class, 'index']);
+    Route::post('/tweetsContent', [TrendsController::class, 'tweetsContent']);
+    Route::get('/wordclouds', [TrendsController::class, 'wordCloudList']);
 });
 
 Route::group(['prefix' => '/admin/sentiments/others'], function () {
-    Route::get('/', [OtherController::class, 'index'])->middleware('auth');
-    Route::post('/mapCoorddinates', [OtherController::class, 'map'])->middleware('auth');
+    Route::get('/', [OtherController::class, 'index']);
+    Route::post('/mapCoorddinates', [OtherController::class, 'map']);
 });

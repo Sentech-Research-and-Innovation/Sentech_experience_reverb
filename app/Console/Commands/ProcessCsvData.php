@@ -23,10 +23,8 @@ class ProcessCsvData extends Command
         try {
             $directory = 'current-prediction/';
 
-            // Retrieve a list of all files in the directory
             $files = Storage::disk('s3')->allFiles($directory);
             foreach ($files as $filePath) {
-                // Check if the file matches the expected format
                 if (preg_match('/^prediction-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}-\d{2}\.csv$/', basename($filePath))) {
                     return $this->processCsvFile($filePath);
                 }
@@ -35,8 +33,6 @@ class ProcessCsvData extends Command
             $this->info('CSV data processed and stored successfully.');
         } catch (\Exception $e) {
             $this->error('Error processing CSV data: ' . $e->getMessage());
-            // If you want to stop the script on error, uncomment the next line
-            // throw $e;
         }
     }
 
@@ -87,7 +83,6 @@ class ProcessCsvData extends Command
                 ];
             }
 
-            // Use the insert method to insert the chunk of data
             Prediction::insert($insertData);
         }
 

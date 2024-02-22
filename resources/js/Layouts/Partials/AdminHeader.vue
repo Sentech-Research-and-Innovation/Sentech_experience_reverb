@@ -1,9 +1,9 @@
 <template>
     <div style="min-height: 100vh; position: fixed">
         <div class="col-12 text-start pt-lg-4 pb-lg-5 mb-3">
-            <img :src="Logo" alt="Sentech Logo" height="25" />
+            <img :src="Logo" alt="Sentech Logo" height="45" />
         </div>
-        <ul class="nav list-group text-start mx-lg-4">
+        <ul class="nav list-group text-start mx-lg-1">
             <li
                 class="nav-item"
                 :class="{ active: $page.url === '/admin/dashboard' }"
@@ -76,8 +76,14 @@
                 </Link>
             </li>
 
-            <li class="nav-item mt-lg-5">
-                <Link href="/admin/weather/forcast">
+            <li
+                class="nav-item my-lg-5"
+                style="text-decoration: none !important"
+            >
+                <Link
+                    href="/admin/weather/forcast"
+                    style="text-decoration: none !important"
+                >
                     <Weather />
                 </Link>
             </li>

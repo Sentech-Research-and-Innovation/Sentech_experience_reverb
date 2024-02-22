@@ -3,14 +3,10 @@
     <!-- <button type="button" class="button button-dark" @click="showing = true">
         Create {{ showing }}
     </button> -->
-    <a
-        class="nav-link register text-end px-0 mx-0"
-        @click="showing = true"
-        style="cursor: pointer !important"
-    >
-        <span class="request-an-account-button">
-            Don't have an account? sign up</span
-        >
+    <a @click="showing = true" style="cursor: pointer !important">
+        <div class="request-an-account-button py-3 px-2">
+            Request an Account
+        </div>
     </a>
     <SideModal
         :content="content"
@@ -240,9 +236,10 @@ label {
 }
 
 .request-an-account-button {
-    font-size: 15px !important;
-    font-weight: 300;
-    color: #706f6f !important;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 300 !important;
 }
 
 .login-form-inputs {

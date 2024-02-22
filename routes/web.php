@@ -1,15 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\System\MenuItem;
-
 use App\Http\Controllers\Web\WeatherController;
 use App\Http\Controllers\Admin\GetNotifications;
 use App\Http\Controllers\Admin\DashboardController;
-
-
+use App\Http\Controllers\Web\NetworkController;
 
 
 
@@ -37,10 +33,8 @@ Route::get('/contactus', function () {
 })->name('contactus');
 
 
-
 Route::get('/admin/dashboard',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 Route::post('/admin/activities',  [DashboardController::class, 'show'])->middleware(['auth'])->name('activities');
-
 
 
 Route::get('/web/weather', [WeatherController::class, 'create']);
@@ -51,6 +45,10 @@ Route::get('/admin/notifications', [GetNotifications::class, 'index'])->middlewa
 Route::get('/change_password/{token}', function () {
     return Inertia::render('Auth/changePassword');
 })->name('changePassword');
+
+
+Route::get('/web/network/status', [NetworkController::class, 'show']);
+Route::get('/web/network/index', [NetworkController::class, 'index']);
 
 
 require __DIR__ . '/auth.php';

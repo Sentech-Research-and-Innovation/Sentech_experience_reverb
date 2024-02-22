@@ -8,7 +8,7 @@
         @click="showing = true"
         style="cursor: pointer !important; padding-right: 2px !important"
     >
-        <i class="fa fa-user"></i>Login
+        <i class="fa-regular fa-user pr-2"> </i> Login
     </a>
     <SideModal
         :content="content"
@@ -20,7 +20,7 @@
                 <div class="col-lg-6 col-md-8 col-12 mt-5 pt-5">
                     <div class="h1-login">Login</div>
                     <form @submit.prevent="submit">
-                        <div class="row pt-4">
+                        <div class="row pt-4 px-1">
                             <div class="mb-3">
                                 <label for="email" class="form-label"
                                     >Email address</label
@@ -52,7 +52,7 @@
                             </div>
                             <Link
                                 href="/forgot-password"
-                                class="m-2 mt-0 text-primary float-end forgot-password-text"
+                                class="m-2 mt-0 text-primary float-end forgot-password-text px-1"
                             >
                                 Forgot your password?
                             </Link>
@@ -66,7 +66,6 @@
                                     <img src="arrow-right.png" width="40" />
                                 </div>
                             </div>
-                            <RegisterVue />
                         </div>
                     </form>
                 </div>
@@ -84,7 +83,6 @@ import SideModal from "@/Layouts/SideModal.vue";
 import { useFilterStore } from "../../stores/filter";
 
 import { predictionsFilterStore } from "../../stores/predictionsFilter";
-import RegisterVue from "./Register.vue";
 //import { predictionsFilterDetailedStore } from "../../stores/predictionFiltersDetailed";
 
 export default {
@@ -94,7 +92,6 @@ export default {
         Head,
         ForgotPasswordComponent,
         SideModal,
-        RegisterVue,
     },
     data() {
         return {
@@ -116,7 +113,6 @@ export default {
         async login() {
             try {
                 const response = await axios.post("/login", this.form);
-
                 if (response.data.success) {
                     this.$inertia.visit("/admin/dashboard", {
                         method: "get",
@@ -232,7 +228,7 @@ label {
 }
 .forgot-password-text {
     font-size: 15px !important;
-    font-weight: 300;
+    font-weight: 300 !important;
 }
 
 .text-danger {

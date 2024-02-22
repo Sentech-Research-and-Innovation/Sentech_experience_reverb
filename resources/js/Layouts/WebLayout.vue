@@ -2,9 +2,10 @@
     <Nav></Nav>
 
     <div class="sentech-web">
-        <div class="container">
+        <div class="container px-0">
             <slot></slot>
         </div>
+        <Footer />
     </div>
 </template>
 
@@ -14,11 +15,13 @@ import { Link } from "@inertiajs/vue3";
 import { defineComponent, onMounted, ref, unref } from "vue";
 
 import { useDark, useToggle, useColorMode } from "@vueuse/core";
+import Footer from "./Partials/Footer.vue";
 
 export default defineComponent({
     components: {
         Nav,
         Link,
+        Footer,
     },
 
     setup() {

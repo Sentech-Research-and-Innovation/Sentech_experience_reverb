@@ -25,7 +25,7 @@
                         <div class="col-2 text-end px-0">
                             <el-button
                                 type="primary"
-                                class="w-100"
+                                class="w-100 search-bottons-clear"
                                 plain
                                 round
                                 @click="reset"
@@ -35,7 +35,7 @@
                         <div class="col-2 text-end">
                             <el-button
                                 type="primary"
-                                class="w-100"
+                                class="w-100 search-bottons"
                                 round
                                 @click="getActivities"
                                 >Apply</el-button
@@ -46,15 +46,6 @@
             </div>
         </div>
         <table class="table">
-            <!-- <thead>
-                <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">IP Addresss</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Description</th>
-                </tr>
-            </thead> -->
             <tbody v-if="logs">
                 <tr v-for="(log, index) in logs" :key="index">
                     <td>
@@ -202,5 +193,10 @@ export default defineComponent({
 }
 .activity-bg {
     background-color: #ffff;
+}
+.search-bottons {
+    background-color: #144f9f;
+    color: #ffff !important;
+    border: none;
 }
 </style>
