@@ -14,39 +14,42 @@ class NetworkController extends Controller
 
     public function index()
     {
-
-        $csvFilePath = public_path('/alarmList.csv');
-
-        // Open the CSV file for reading
-        $file = fopen($csvFilePath, 'r');
-
-        // Get the CSV headers
-        $headers = fgetcsv($file);
-
-        // Read and insert each row
-        while (($data = fgetcsv($file)) !== false) {
-            // Combine headers with current row data
-            $row = array_combine($headers, $data);
-
-            // return $row['EventOutDateTime'];
-
-
-            //  $row['EventInDateTime'] = $this->convertNumericDate($row['EventInDateTime']);
-
-            // $row['EventOutDateTime'] = $this->convertNumericDate($row['EventOutDateTime']);
-
-
-
-            // Insert data into the database using Eloquent
-            Network::create($row);
-        }
-
-        // Close the CSV file
-        fclose($file);
+        return 1;
     }
 
     public function show()
     {
         return Inertia::render('Web/networks/provinceStatus');
     }
+
+    public function provinceCities($province)
+    {
+        // / 
+        $data = Network::where('province', $province)->select('SiteName')->distinct()->get();
+        return $data;
+    }
+
+
+
+
+
+    // $csvFilePath = public_path('/alarmList.csv');
+
+    // $file = fopen($csvFilePath, 'r');
+
+    // $headers = fgetcsv($file);
+
+    // while (($data = fgetcsv($file)) !== false) {
+    //     $row = array_combine($headers, $data);
+
+
+    //     $row['EventInDateTime'] = str_replace(',', '', $row['EventInDateTime']);
+    //     $row['EventOutDateTime']  = str_replace(',', '', $row['EventOutDateTime']);
+    //     $row['EventInDateTime'] = DateTime::createFromFormat('YmdHis', substr($row['EventInDateTime'], 0, 14))->format('Y-m-d H:i:s');
+    //     $row['EventOutDateTime'] = DateTime::createFromFormat('YmdHis', substr($row['EventOutDateTime'], 0, 14))->format('Y-m-d H:i:s');
+
+    //     Network::create($row);
+    // }
+
+    // fclose($file);
 }

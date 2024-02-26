@@ -1,65 +1,81 @@
 <template>
     <div class="col-12 px-0 py-0 mx-0">
         <div class="networkHeading pb-3">Network Status</div>
-        <p style="font-size: 22px">
+        <p style="font-size: 19px; font-weight: 500">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna.
         </p>
         <div class="row pt-4">
             <div class="col-4 px-2">
-                <Link href="/web/network/status" class="nav-link-status">
-                    <div class="col-12 network-container-good py-1 mx-0">
-                        <div class="d-flex justify-content-between py-2">
-                            <div class="py-1 text-start">
-                                <strong>Eastern Cape</strong> <br />
-                                <span class="fs-6"> All Good </span>
-                            </div>
+                <div
+                    class="col-12 network-container-good py-1 mx-0"
+                    @click="setNetWorkProvince('Eastern Cape')"
+                >
+                    <div class="d-flex justify-content-between py-2">
+                        <div class="py-1 text-start">
+                            <strong>Eastern Cape</strong> <br />
+                            <span class="fs-6" style="font-weight: 500">
+                                All Good
+                            </span>
+                        </div>
 
-                            <div
-                                class="status-good pt-2 pb-3 px-2 text-center mt-2"
-                            >
-                                <i class="fa-solid fa-check"></i>
-                            </div>
+                        <div
+                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                        >
+                            <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
             <div class="col-4 px-2">
-                <div class="col-12 network-container-warning py-1">
+                <div
+                    class="col-12 network-container-warning py-1"
+                    @click="setNetWorkProvince('Western Cape')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Western Cape</strong> <br />
-                            <span class="fs-6"> Medium Impact </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                Medium Impact
+                            </span>
                         </div>
-                        <div class="status-warning pt-2 pb-3 text-center mt-2">
+                        <div class="status-warning pt-2 pb-3 text-center mt-1">
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-4 px-2">
-                <div class="col-12 network-container-error py-1">
+                <div
+                    class="col-12 network-container-error py-1"
+                    @click="setNetWorkProvince('Kwazulu Natal')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Kwazulu Natal</strong> <br />
-                            <span class="fs-6">High Impact </span>
+                            <span class="fs-6" style="font-weight: 500"
+                                >High Impact
+                            </span>
                         </div>
-                        <div class="status-error pt-2 pb-3 text-center mt-2">
+                        <div class="status-error pt-2 pb-3 text-center mt-1">
                             <i class="fa-solid fa-xmark"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-good py-1">
+                <div
+                    class="col-12 network-container-good py-1"
+                    @click="setNetWorkProvince('Gauteng')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Gauteng</strong> <br />
-                            <span class="fs-6"> All Good </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                All Good
+                            </span>
                         </div>
-                        <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
-                        >
+                        <div class="status-good pt-2 pb-3 px-2 text-center m1">
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
@@ -67,27 +83,37 @@
             </div>
 
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-warning py-1">
+                <div
+                    class="col-12 network-container-warning py-1"
+                    @click="setNetWorkProvince('Mpumalanga')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Mpumalanga</strong> <br />
-                            <span class="fs-6"> Medium Impact </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                Medium Impact
+                            </span>
                         </div>
-                        <div class="status-warning pt-2 pb-3 text-center mt-2">
+                        <div class="status-warning pt-2 pb-3 text-center mt-1">
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-error py-1">
+                <div
+                    class="col-12 network-container-error py-1"
+                    @click="setNetWorkProvince('Free State')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Free State</strong> <br />
-                            <span class="fs-6"> High Impact </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                High Impact
+                            </span>
                         </div>
                         <div
-                            class="status-error pt-2 pb-3 px-2 text-center mt-2"
+                            class="status-error pt-2 pb-3 px-2 text-center mt-1"
                         >
                             <i class="fa-solid fa-xmark"></i>
                         </div>
@@ -95,14 +121,19 @@
                 </div>
             </div>
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-good py-1">
+                <div
+                    class="col-12 network-container-good py-1"
+                    @click="setNetWorkProvince('Limpopo')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Limpopo</strong> <br />
-                            <span class="fs-6"> All Good </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                All Good
+                            </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-2"
+                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
@@ -110,27 +141,37 @@
                 </div>
             </div>
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-warning py-1">
+                <div
+                    class="col-12 network-container-warning py-1"
+                    @click="setNetWorkProvince('Northern Cape')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>Northern Cape</strong> <br />
-                            <span class="fs-6"> Medium Impact </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                Medium Impact
+                            </span>
                         </div>
-                        <div class="status-warning pt-2 pb-3 text-center mt-2">
+                        <div class="status-warning pt-2 pb-3 text-center mt-1">
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-4 pt-3 px-2">
-                <div class="col-12 network-container-error py-1">
+                <div
+                    class="col-12 network-container-error py-1"
+                    @click="setNetWorkProvince('North West')"
+                >
                     <div class="d-flex justify-content-between py-2">
                         <div class="py-1 text-start">
                             <strong>North West</strong> <br />
-                            <span class="fs-6"> High Impact </span>
+                            <span class="fs-6" style="font-weight: 500">
+                                High Impact
+                            </span>
                         </div>
                         <div
-                            class="status-error pt-2 pb-3 px-2 text-center mt-2"
+                            class="status-error pt-2 pb-3 px-2 text-center mt-1"
                         >
                             <i class="fa-solid fa-xmark"></i>
                         </div>
@@ -145,11 +186,21 @@
 import { Link } from "@inertiajs/vue3";
 
 import { defineComponent, ref, onMounted } from "vue";
+import { useFilterProvince } from "../../../stores/networks";
+
 export default defineComponent({
     components: { Link },
 
     setup() {
         const networks = ref([]);
+
+        const filterStore = useFilterProvince();
+
+        const setNetWorkProvince = async (province) => {
+            filterStore.province = await province;
+
+            window.location.href = "/web/network/status";
+        };
 
         const getData = async () => {
             try {
@@ -168,6 +219,7 @@ export default defineComponent({
 
         return {
             networks,
+            setNetWorkProvince,
         };
     },
 });
@@ -198,6 +250,7 @@ export default defineComponent({
     font-size: 15px;
     text-align: right;
     border-radius: 5px;
+    cursor: pointer;
 }
 .network-container-error {
     border-left: 7px solid #c51616;
@@ -207,6 +260,7 @@ export default defineComponent({
     font-size: 15px;
     text-align: right;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .network-container-warning {
@@ -217,33 +271,37 @@ export default defineComponent({
     font-size: 15px;
     text-align: right;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .status-good {
-    background-color: #556d8f;
+    /* background-color: #556d8f; */
+    background: rgba(255, 255, 255, 0.09);
     color: #93ad24;
-    font-size: 13px;
-    height: 25px;
-    width: 27px;
+    font-size: 20px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
     padding-bottom: 19px !important;
 }
 .status-warning {
-    background-color: #556d8f;
+    background: rgba(255, 255, 255, 0.09);
+
     color: #f7a623;
-    font-size: 13px !important;
-    height: 25px;
-    width: 27px;
+    font-size: 20px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
     padding-bottom: 19px !important;
 }
 
 .status-error {
-    background-color: #556d8f;
+    background: rgba(255, 255, 255, 0.09);
+
     color: #c51616;
-    font-size: 13px !important;
-    height: 27px;
-    width: 27px;
+    font-size: 20px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
     padding-bottom: 19px !important;
 }

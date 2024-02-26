@@ -208,6 +208,7 @@ export default defineComponent({
 <style scoped>
 .footer-bg {
     background-color: #0c368a !important;
+    color: #fff;
 }
 
 .app-download {
@@ -216,11 +217,11 @@ export default defineComponent({
 }
 .app-text {
     font-weight: 700;
-    font-size: 12px;
+    font-size: 20px;
 }
 .app-text2 {
     font-weight: 300;
-    font-size: 10px;
+    font-size: 12px;
 }
 .list-group-item {
     background-color: transparent;

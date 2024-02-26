@@ -9,26 +9,26 @@
                 <div class="nav-lg" id="sentech-nav">
                     <div class="navbar-nav ms-auto ml-5 mr-0 pt-2">
                         <Link
-                            class="register nav-link nav-link-text pr-5"
+                            class="register nav-link nav-link-text mr-2"
                             aria-current="page"
                             href="/"
                             ><span class="">Home</span>
                         </Link>
                         <Link
-                            class="nav-link nav-link-text pr-5"
+                            class="nav-link nav-link-text mr-2"
                             aria-current="page"
                             href="/services"
                         >
                             Services
                         </Link>
                         <Link
-                            class="nav-link nav-link-text pr-5"
+                            class="nav-link nav-link-text mr-2"
                             aria-current="page"
                             href="/aboutus"
                             ><span>About us</span>
                         </Link>
                         <Link
-                            class="nav-link nav-link-text pr-5"
+                            class="nav-link nav-link-text mr-2"
                             aria-current="page"
                             href="/news"
                             ><span>News</span>

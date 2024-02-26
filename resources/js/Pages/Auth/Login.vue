@@ -8,7 +8,7 @@
         @click="showing = true"
         style="cursor: pointer !important; padding-right: 2px !important"
     >
-        <i class="fa-regular fa-user pr-2"> </i> Login
+        <i class="fa-regular fa-user pr-2 ml-3"> </i> Login
     </a>
     <SideModal
         :content="content"

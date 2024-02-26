@@ -1,12 +1,9 @@
 <template>
     <Nav></Nav>
 
-    <div class="sentech-web">
-        <div class="container px-0">
-            <slot></slot>
-        </div>
-        <Footer />
-    </div>
+    <slot></slot>
+
+    <Footer />
 </template>
 
 <script>

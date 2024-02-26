@@ -50,6 +50,9 @@ Route::get('/change_password/{token}', function () {
 Route::get('/web/network/status', [NetworkController::class, 'show']);
 Route::get('/web/network/index', [NetworkController::class, 'index']);
 
+Route::get('/web/network/province/cities/{province}', [NetworkController::class, 'provinceCities']);
+
+
 
 require __DIR__ . '/auth.php';
 
