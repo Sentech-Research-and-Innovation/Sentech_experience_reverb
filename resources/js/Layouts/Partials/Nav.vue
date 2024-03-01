@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 mx-0 px-0" style="position: fixed; z-index: 1">
         <nav class="navbar navbar-expand">
-            <div class="container">
+            <div class="container pl-1">
                 <a class="navbar-brand pt-3" href="/"
                     ><img src="../../assets/white-logo.png" class="logo"
                 /></a>

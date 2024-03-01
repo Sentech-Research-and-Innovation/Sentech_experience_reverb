@@ -26,8 +26,8 @@
                             <el-button
                                 type="primary"
                                 class="w-100 search-bottons-clear"
+                                style="border-radius: 8px !important"
                                 plain
-                                round
                                 @click="reset"
                                 >Reset</el-button
                             >
@@ -36,7 +36,6 @@
                             <el-button
                                 type="primary"
                                 class="w-100 search-bottons"
-                                round
                                 @click="getActivities"
                                 >Apply</el-button
                             >
@@ -198,5 +197,6 @@ export default defineComponent({
     background-color: #144f9f;
     color: #ffff !important;
     border: none;
+    border-radius: 8px !important;
 }
 </style>

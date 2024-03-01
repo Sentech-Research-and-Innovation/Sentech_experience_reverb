@@ -120,9 +120,9 @@
                                 <div class="col-md-6 pl-0 pr-4">
                                     <WeatherWidgetVue />
                                 </div>
-                                <div class="col-md-6 px-0">
+                                <div class="col-6 pl-0">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-4 px-2">
                                             <div class="col-12 blue-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"
@@ -136,7 +136,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-4 px-2">
                                             <div class="col-12 green-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"
@@ -150,7 +150,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-4 px-2">
                                             <div class="col-12 yellow-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"

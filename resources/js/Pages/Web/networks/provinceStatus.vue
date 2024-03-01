@@ -15,134 +15,56 @@
                             >
                                 Chosse a province
                             </div>
-                            <el-radio-group v-model="radio1">
-                                <div class="col-12 px-0">
-                                    <el-radio
-                                        label="1"
-                                        size="large"
-                                        border
-                                        value="Eastern Cape"
-                                        v-model="province"
-                                        @click="
-                                            setNetWorkProvince('Eastern Cape')
-                                        "
-                                        ><div
-                                            class="d-flex justify-content-end"
-                                        >
-                                            <div class="ml-4">Eastern Cape</div>
-                                            <div class="ml-4 pl-5 text-end">
+                            <div
+                                class="col-12 py-1 px-0"
+                                v-for="(province, index) in provinces"
+                                :key="index"
+                            >
+                                <div
+                                    class="d-flex justify-content-end pt-3 pb-2"
+                                    style="cursor: pointer"
+                                    :class="{
+                                        'selected-province':
+                                            radio1 === province,
+                                    }"
+                                >
+                                    <div class="col-8 province text-start pt-1">
+                                        <label class="radio-container"
+                                            >{{ province }}
+                                            <input
+                                                type="radio"
+                                                v-model="radio1"
+                                                :value="province"
+                                            />
+
+                                            <!-- @change="
+                                                    setNetWorkProvince(province)
+                                                " -->
+                                            <span class="checkmark">
                                                 <i
-                                                    class="fas fa-exclamation-circle text-warning"
+                                                    v-if="radio1 === province"
+                                                    class="far fa-dot-circle"
                                                 ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="col-3 text-start pt-1">
+                                        <i
+                                            v-if="
+                                                province == 'Gauteng' ||
+                                                province == 'Western Cape' ||
+                                                province == 'Eastern Cape'
+                                            "
+                                            class="fas fa-exclamation-circle text-danger fa-lg"
+                                        ></i>
+
+                                        <i
+                                            v-else
+                                            class="fa-solid fa-circle-check text-success fa-lg"
+                                        ></i>
+                                    </div>
                                 </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio
-                                        label="2"
-                                        size="large"
-                                        border
-                                        @click="setNetWorkProvince('Gauteng')"
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">Gauteng</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="far fa-check-circle text-success"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="3" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">Western Cape</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="fas fa-exclamation-circle text-warning"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="4" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">Mpumalanga</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="far fa-check-circle text-success"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="5" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">
-                                                Kwazulu Natal
-                                            </div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="fas fa-exclamation-circle text-warning"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="6" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">Free State</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="far fa-check-circle text-success"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="7" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">Limpopo</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="fas fa-exclamation-circle text-warning"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="8" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">
-                                                Northern Cape
-                                            </div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="fas fa-exclamation-circle text-warning"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                                <div class="col-12 px-0 pt-2">
-                                    <el-radio label="9" size="large" border
-                                        ><div class="d-flex justify-content">
-                                            <div class="ml-4">North West</div>
-                                            <div class="ml-5 pl-5 text-right">
-                                                <i
-                                                    class="fas fa-exclamation-circle text-warning"
-                                                ></i>
-                                            </div>
-                                        </div>
-                                    </el-radio>
-                                </div>
-                            </el-radio-group>
+                            </div>
                         </div>
                         <div class="col-9 text-start pr-0">
                             <div
@@ -182,9 +104,46 @@
                                 </div>
                             </div>
                             <div
+                                v-if="alarms"
                                 class="col-12 px-0 mx-0 shadow-sm py-4 px-4 mt-4"
                             >
-                                fddfdfdf
+                                <div
+                                    class="row"
+                                    v-for="(records, siteName) in alarms"
+                                    :key="siteName"
+                                >
+                                    <div class="col-12">
+                                        <h5>{{ siteName }}</h5>
+                                    </div>
+
+                                    <div
+                                        class="col-3"
+                                        v-for="(record, index) in records"
+                                        :key="index"
+                                    >
+                                        <div
+                                            class="col-12 alert alert-default px-0 shadow-sm"
+                                        >
+                                            <div class="col-12 description">
+                                                {{
+                                                    formatDeviceName(
+                                                        record.DeviceName
+                                                    )
+                                                }}
+                                            </div>
+                                            <div class="col-12 time pt-2">
+                                                <i
+                                                    class="fa-regular fa-clock"
+                                                ></i>
+                                                {{
+                                                    formatDateTime(
+                                                        record.FormattedDateTimeEvent
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,13 +169,25 @@ export default defineComponent({
         Link,
     },
     setup() {
-        const radio1 = ref("1");
+        const provinces = ref([
+            "Eastern Cape",
+            "Western Cape",
+            "Gauteng",
+            "Kwazulu Natal",
+            "Mpumalanga",
+            "Free State",
+            "Northern Cape",
+            "North West",
+            "Limpompo",
+        ]);
 
         const filterStore = useFilterProvince();
+        const radio1 = ref(filterStore.province);
 
         const province = ref(filterStore.province);
         const value = ref("");
         const options = ref([]);
+        const alarms = ref({});
         const getCitiesByProvince = async () => {
             try {
                 const res = await axios.get(
@@ -236,6 +207,27 @@ export default defineComponent({
                 console.error("Error fetching data:", error);
             }
         };
+        const getAlarmsData = async () => {
+            try {
+                const res = await axios.get(
+                    `/web/network/alarms/${province.value}`
+                );
+                if (res.status === 200) {
+                    const data = res.data;
+
+                    alarms.value = data.reduce((acc, item) => {
+                        const siteName = item.SiteName;
+                        if (!acc[siteName]) {
+                            acc[siteName] = [];
+                        }
+                        acc[siteName].push(item);
+                        return acc;
+                    }, {});
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
 
         const setNetWorkProvince = async (provinceNew) => {
             filterStore.province = await provinceNew;
@@ -243,12 +235,46 @@ export default defineComponent({
             await getCitiesByProvince();
         };
 
-        watch(province, (newFilter, oldFilter) => {
+        const formatDeviceName = (deviceName) => {
+            const parts = deviceName.split("-");
+            if (parts.length > 1) {
+                const partsTrim = parts[1].replace(/Tx\s*/, "").trim();
+                if (partsTrim == "Mux1" || partsTrim == "Mux2") {
+                    return "Multichoice";
+                } else {
+                    return partsTrim;
+                }
+            } else {
+                // If no hyphen, return the original string
+                return deviceName.trim();
+            }
+        };
+
+        const formatDateTime = (dateTimeString) => {
+            const options = {
+                hour: "numeric",
+                minute: "numeric",
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            };
+
+            const dateTime = new Date(dateTimeString);
+            return dateTime.toLocaleString("en-ZA", options);
+        };
+
+        watch(radio1, (newFilter, oldFilter) => {
             filterStore.province = newFilter;
+            options.value = [];
+            alarms.value = [];
+            province.value = newFilter;
+            getCitiesByProvince();
+            getAlarmsData();
         });
 
         onMounted(async () => {
             await getCitiesByProvince();
+            await getAlarmsData();
         });
 
         return {
@@ -257,6 +283,10 @@ export default defineComponent({
             value,
             options,
             setNetWorkProvince,
+            provinces,
+            alarms,
+            formatDateTime,
+            formatDeviceName,
         };
     },
 });
@@ -271,36 +301,39 @@ export default defineComponent({
     --el-font-weight-primary: 400;
     background-color: #fff !important;
 }
-.sentech-web {
-    background-color: red !important;
-}
 
 .hearder-text {
     font-size: 20px;
     font-weight: 700;
 }
+
+.selected-province {
+    color: #fff !important;
+    border-radius: 25px;
+    background: #144f9f;
+}
 </style>
 
 <style>
-.el-radio {
-    width: 100%;
-    border: none !important;
-}
-/* .el-radio .is-bordered .is-checked {
-    background-color: red !important;
-} */
-
-.el-radio.is-bordered.is-checked {
-    border: none !important;
-    background-color: #144f9f !important;
-    color: #ffff !important;
-}
-
-.el-radio__input.is-checked .el-radio__inner {
-    border-color: #ffff !important;
-    background: var(--el-color-primary);
-}
 #app {
     background-color: #fff;
+}
+
+.province {
+    font-weight: 400;
+    color: #c2bebe;
+}
+
+.alert-default {
+    background-color: #f5f5f5;
+    color: #000;
+    border-left: 4px solid red;
+}
+.time {
+    font-size: 13px;
+}
+.description {
+    font-size: 14px;
+    font-weight: 500;
 }
 </style>

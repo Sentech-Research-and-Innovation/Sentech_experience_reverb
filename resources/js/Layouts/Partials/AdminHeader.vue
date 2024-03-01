@@ -38,7 +38,7 @@
                 }"
             >
                 <Link
-                    class="nav-link mb-2"
+                    class="nav-link"
                     href="/admin/predictive-maintenance/index"
                 >
                     <span class="menu-title">Predictive Maintenance </span>
@@ -46,7 +46,7 @@
             </li>
 
             <li
-                class="nav-item"
+                class="nav-item pt-0"
                 :class="{ active: $page.url === '/admin/roles' }"
             >
                 <Link class="nav-link" href="/admin/roles">

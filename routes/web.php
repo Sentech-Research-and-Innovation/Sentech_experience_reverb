@@ -51,6 +51,8 @@ Route::get('/web/network/status', [NetworkController::class, 'show']);
 Route::get('/web/network/index', [NetworkController::class, 'index']);
 
 Route::get('/web/network/province/cities/{province}', [NetworkController::class, 'provinceCities']);
+Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlarmsDataByProvince']);
+
 
 
 

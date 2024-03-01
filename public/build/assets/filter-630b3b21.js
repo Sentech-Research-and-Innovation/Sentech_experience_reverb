@@ -1,0 +1,1 @@
+import{M as t}from"./app-ada3f84a.js";const r=t("filter",{state:()=>({date:null,keywords:null,sentimentTypes:null}),getters:{searchFilter:e=>({date:e.date,keywords:e.keywords,sentimentTypes:e.sentimentTypes})},actions:{},persist:!0});export{r as u};

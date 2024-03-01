@@ -1,7 +1,9 @@
 <template>
     <div class="container-fluid page-body-wrapper" style="min-height: 100vh">
         <nav class="sidebar d-none d-lg-block d-xl-block" style="">
-            <AdminHeaderVue />
+            <div class="pl-4">
+                <AdminHeaderVue />
+            </div>
         </nav>
         <!-- partial -->
 

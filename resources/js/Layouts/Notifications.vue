@@ -17,33 +17,59 @@
             trigger="click"
             virtual-triggering
         >
-            <div class="col-12">
-                <h4>Notifications</h4>
+            <div class="col-12 px-0">
+                <div class="row px-4 py-2">
+                    <div class="col-8 text-start">
+                        <h4>Notifications</h4>
+                    </div>
+                    <div class="col-4 text-end">
+                        <i class="fa-solid fa-list-check fa-lg"></i>
+                    </div>
+                </div>
                 <div
+                    class="border-top"
                     v-for="(notification, index) in notifications"
                     :key="index"
                 >
-                    <div
-                        class="notificationsFalse py-3 my-2 rounded col-12 mx-0 px-2 mx-0"
-                        :class="{
-                            notificationsTrue: notification.active == 1,
-                        }"
-                    >
-                        <Link :href="notification.link" class="link-not">
-                            <!-- Display the notification details -->
-                            {{ notification.message }}
+                    <div class="col-12 px-0">
+                        <div class="d-flex">
+                            <div class="col-2 text-center pt-3">
+                                <i
+                                    v-if="notification.active == 1"
+                                    class="fa-solid fa-bell fa-lg"
+                                    style="color: #409eff"
+                                ></i>
+                                <i v-else class="fa-regular fa-bell fa-lg"></i>
+                            </div>
+                            <div
+                                class="notificationsFalse py-2 col-10 px-0"
+                                :class="{
+                                    notificationsTrue: notification.active == 1,
+                                }"
+                            >
+                                <Link
+                                    :href="notification.link"
+                                    class="link-not"
+                                >
+                                    <!-- Display the notification details -->
 
-                            <div class="col-12 px-0 pt-2">
-                                <div class="row">
-                                    <div class="col-6 text-start">
+                                    <span
+                                        style="font-weight: 500; color: #000000"
+                                    >
                                         {{ notification.notification_type }}
-                                    </div>
-                                    <div class="col-6 text-end fs-7">
+                                    </span>
+                                    :
+                                    {{ notification.message }}
+
+                                    <div
+                                        class="col-6 text-start fs-7 px-0"
+                                        style="font-size: 11px"
+                                    >
                                         {{ notification.created_at }}
                                     </div>
-                                </div>
+                                </Link>
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,8 +130,6 @@ export default defineComponent({
 }
 
 .notificationsTrue {
-    background-color: #e3eefa !important;
-
     font-weight: 400;
 }
 
@@ -116,6 +140,7 @@ export default defineComponent({
 
 .notificationsFalse {
     font-weight: 400;
+    font-size: 12px;
 }
 
 .notificationsFalse .link-not {
@@ -125,6 +150,6 @@ export default defineComponent({
 </style>
 <style>
 .notifications-container {
-    width: 350px !important;
+    width: 400px !important;
 }
 </style>

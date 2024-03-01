@@ -1,9 +1,14 @@
 <template>
     <div class="col-12 mr-5 pr-4">
-        <div v-if="temp" class="col-12 bg px-3 pt-2 pb-3">
+        <div v-if="temp" class="col-12 bg-1 px-3 pt-2 pb-3">
             <div class="d-flex justify-content-between">
                 <div class="col-3 pr-0 mx-0 pt-3 pl-5">
-                    <img :src="weatherIconUrl" width="55" height="35" />
+                    <img
+                        :src="weatherIconUrl"
+                        width="40"
+                        height="40"
+                        style="object-fit: contain"
+                    />
                 </div>
                 <div class="col-9 pt-0 pl-lg-0 pr-0">
                     <div class="d-flex justify-content-around">
@@ -143,7 +148,7 @@ export default defineComponent({
 </script>
 
 <style>
-.bg {
+.bg-1 {
     background-color: #0c368a !important;
     border-radius: 16px;
     color: #fff;
