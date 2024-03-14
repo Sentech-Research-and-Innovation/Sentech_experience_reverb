@@ -1,10 +1,10 @@
 <template>
     <div class="col-12 mx-0 px-0" style="position: fixed; z-index: 1">
-        <nav class="navbar navbar-expand">
+        <nav class="navbar navbar-expand mx-0">
             <div class="container pl-1">
-                <a class="navbar-brand pt-3" href="/"
-                    ><img src="../../assets/white-logo.png" class="logo"
-                /></a>
+                <a class="navbar-brand pt-3" href="/">
+                    <img src="../../assets/white-logo.png" class="logo" />
+                </a>
 
                 <div class="nav-lg" id="sentech-nav">
                     <div class="navbar-nav ms-auto ml-5 mr-0 pt-2">

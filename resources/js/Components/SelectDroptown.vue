@@ -162,10 +162,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-::placeholder {
+.search_select::placeholder {
     color: #144f9f !important;
     opacity: 1;
     font-size: 12px;
+    font-weight: 400;
 }
 .search_select {
     margin-top: 10px !important;

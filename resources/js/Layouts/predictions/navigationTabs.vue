@@ -190,7 +190,7 @@ export default defineComponent({
     color: #144f9f !important;
 }
 .reportsLink {
-    color: #144f9f !important;
+    color: #144f9f;
     cursor: pointer;
     border: none !important;
     background: none !important;

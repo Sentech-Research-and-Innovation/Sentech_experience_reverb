@@ -5,7 +5,7 @@
                 <div class="col-3 px-0">
                     <el-input
                         v-model="searchActivity"
-                        class="w-100"
+                        class="w-100 search-input"
                         placeholder="Serach by name"
                         :prefix-icon="Search"
                     />
@@ -25,8 +25,7 @@
                         <div class="col-2 text-end px-0">
                             <el-button
                                 type="primary"
-                                class="w-100 search-bottons-clear"
-                                style="border-radius: 8px !important"
+                                class="w-100 search-bottons"
                                 plain
                                 @click="reset"
                                 >Reset</el-button
@@ -48,9 +47,9 @@
             <tbody v-if="logs">
                 <tr v-for="(log, index) in logs" :key="index">
                     <td>
-                        <div class="d-flex">
+                        <div class="d-flex py-2">
                             <div
-                                class="initials-background mt-1"
+                                class="initials-background mt-0"
                                 ref="buttonRef"
                                 style="
                                     padding: 0px;
@@ -58,25 +57,27 @@
                                     width: 30px;
                                     height: 30px;
                                     margin-right: 15px;
-                                    font-size: 12px;
+                                    font-size: 16px;
                                 "
                             >
                                 {{
                                     log.user.first_name.charAt(0).toUpperCase()
                                 }}
-                                {{ log.user.last_name.charAt(0).toUpperCase() }}
                             </div>
-                            <div class="pt-1">
-                                <div class="fs-6 font-weight-bold">
-                                    {{ log.user.first_name }}
-                                    {{ log.user.last_name }}
+                            <div class="pt-2">
+                                <div>
+                                    <span class="fs-6" style="font-weight: 400">
+                                        {{ log.user.first_name }}
+                                        {{ log.user.last_name }}
+                                        |
+                                    </span>
+
+                                    <span class="font-weight-light text-grey">
+                                        {{ log.user.roles[0].name }}
+                                    </span>
                                 </div>
 
-                                <div>
-                                    <p class="font-weight-light text-grey">
-                                        {{ log.user.roles[0].name }}
-                                    </p>
-                                </div>
+                                <div></div>
                             </div>
                         </div>
                     </td>
@@ -198,5 +199,13 @@ export default defineComponent({
     color: #ffff !important;
     border: none;
     border-radius: 8px !important;
+    height: 40px !important;
+}
+.activity-bg .el-input {
+    height: 40px !important;
+}
+
+.activity-bg .el-date-editor {
+    height: 40px !important;
 }
 </style>

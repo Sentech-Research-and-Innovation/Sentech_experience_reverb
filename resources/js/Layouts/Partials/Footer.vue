@@ -11,7 +11,7 @@
                                 href="/contactus"
                             >
                                 <div class="d-flex">
-                                    <div class="pt-1 pr-3">
+                                    <div class="pr-3" style="padding-top: 13px">
                                         <span>
                                             <svg
                                                 width="25"
@@ -42,7 +42,7 @@
                                 href="/contactus"
                             >
                                 <div class="d-flex">
-                                    <div class="pt-1 pr-3">
+                                    <div class="pr-3" style="padding-top: 13px">
                                         <span>
                                             <svg
                                                 width="26"

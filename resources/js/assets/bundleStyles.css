@@ -31,7 +31,9 @@ color:#ff4560
   font-weight:bold
 }
  .text-grey{
-  color:#737272
+  color:#737272;
+  font-weight:400;
+  font-size:14px
  }
  .ps {
     overflow: hidden !important;

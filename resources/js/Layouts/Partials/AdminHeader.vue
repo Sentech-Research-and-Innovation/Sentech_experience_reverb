@@ -1,7 +1,9 @@
 <template>
     <div style="min-height: 100vh; position: fixed">
-        <div class="col-12 text-start pt-lg-4 pb-lg-5 mb-3">
-            <img :src="Logo" alt="Sentech Logo" height="45" />
+        <div class="col-12 pt-lg-4">
+            <div class="col-12 text-start pt-lg-4 pb-lg-5 mb-3 admin-logo">
+                <!-- <img :src="Logo" alt="Sentech Logo" height="45" /> -->
+            </div>
         </div>
         <ul class="nav list-group text-start mx-lg-1">
             <li
@@ -105,8 +107,6 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 
-import Logo from "../../assets/sentech-logo2.png";
-
 import Weather from "../WeatherWidget.vue";
 
 export default defineComponent({
@@ -115,9 +115,7 @@ export default defineComponent({
         Link,
     },
     setup() {
-        return {
-            Logo,
-        };
+        return {};
     },
 });
 </script>

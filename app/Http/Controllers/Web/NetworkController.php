@@ -80,25 +80,18 @@ class NetworkController extends Controller
             ->groupBy('SiteName', 'MeasureDescription', 'DeviceIP');
 
 
-
-
-
-
-
         $latestRecords = [];
 
         foreach ($data as $siteName => $records) {
             foreach ($records as $record) {
                 $key = $record['SiteName'] . $record['DeviceIP'];
 
-                // Check if the key exists and the current record has a later date
                 if (!isset($latestRecords[$key]) || $record['FormattedDateTimeEvent'] > $latestRecords[$key]['FormattedDateTimeEvent']) {
                     $latestRecords[$key] = $record;
                 }
             }
         }
 
-        // Get the values from the associative array to get the final result
         $filteredData = array_values($latestRecords);
 
 

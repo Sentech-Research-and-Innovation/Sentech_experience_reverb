@@ -23,7 +23,7 @@
                         <h4>Notifications</h4>
                     </div>
                     <div class="col-4 text-end">
-                        <i class="fa-solid fa-list-check fa-lg"></i>
+                        <i class="fa-solid fa-list-check fa-lg icon-color"></i>
                     </div>
                 </div>
                 <div
@@ -39,7 +39,10 @@
                                     class="fa-solid fa-bell fa-lg"
                                     style="color: #409eff"
                                 ></i>
-                                <i v-else class="fa-regular fa-bell fa-lg"></i>
+                                <i
+                                    v-else
+                                    class="fa-regular fa-bell fa-lg icon-color"
+                                ></i>
                             </div>
                             <div
                                 class="notificationsFalse py-2 col-10 px-0"
@@ -53,9 +56,7 @@
                                 >
                                     <!-- Display the notification details -->
 
-                                    <span
-                                        style="font-weight: 500; color: #000000"
-                                    >
+                                    <span style="font-weight: 500">
                                         {{ notification.notification_type }}
                                     </span>
                                     :

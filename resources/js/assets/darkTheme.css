@@ -1,15 +1,15 @@
 
 .dark{
-    background:#000000 !important;
+    background:#121822 !important;
 
-    --el-bg-color:#191c24;
+    --el-bg-color:#263140;
 }
 
 
 
 .dark .shadow-border {
-    background-color: #191c24;
-    border:1px solid #191c24;
+    background-color: #263140;
+    border:1px solid #263140;
     
 }
 
@@ -18,7 +18,7 @@
 }
 
 .dark .navbar{
-    border-bottom: 1px solid #191c24; background-color: #191c24;
+    border-bottom: 1px solid #263140; background-color: #263140;
     color: #ffff !important
 }
 
@@ -26,9 +26,12 @@
     color:#144f9f
 }
 
-.dark .navbar-light .navbar-nav .nav-link {
-    color: #737272
+.dark .navbar-light .navbar-nav .nav-link, .dark  {
+    color:#ffff
 } 
+.dark .reportsLink{
+    color:#ffff !important
+}
 
 .dark .navbar-light .btn-search{
     background-color: #144f9f;
@@ -40,31 +43,47 @@
 .dark .navbar-light .keyword-input {
     height: 32.5px !important;
     border: none !important;
-    color: #737272 !important;
+    color: #ffff!important;
     font-weight: 500;
     border-radius: 4px;
-    background-color:#000000
+    background-color:#121822
 
 }
 
 .dark .el-date-editor {
     --el-input-border-color: none !important;
-    --el-input-bg-color: #000000 !important;
+    --el-input-bg-color: #373e48 !important;
   
 }
 
+.dark .border-top{
+ border-top: 1px solid #373e48 !important;;
+}
+
+.dark .notificationsFalse .link-not {
+    text-decoration: none !important;
+    color: #ffff !important
+}
+
 .dark .sidebar .nav .nav-item .nav-link .menu-title {
-font-weight:500
+font-weight:300;
+color:#fff
 
 }
 
+.dark .sidebar .nav .nav-item.active > .nav-link .menu-title, .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
+    color: #144f9f;
+    font-weight:500 !important;
+    font-size: 18px;
+}
+
 .dark .sidebar {
-    background: #191c24;
+    background: #263140;
     font-family: "Roboto", sans-serif;
     padding: 0;
     width: 350px;
     z-index: 11;
-    border-right: 2px solid #000000;
+    border-right: 1px solid #646567;
 }
 
 .dark .sidebar .bg{
@@ -77,47 +96,53 @@ font-weight:500
 }
 
 .dark .checkbox-select__trigger {
-    background:#000000  !important;
+    background:#373e48  !important;
+  
     border:none !important
     
 }
+.dark .checkbox-select__title {
+    color: #fff !important;
+}
+
+
 .dark .predictions-table-tree{
-  min-height: 100vh; background-color: #191c24
+  min-height: 100vh; background-color: #263140
 }
 
 .dark .table thead th {
 
-    background-color: #191c24 !important
+    background-color: #263140 !important
 }
 
 .dark  .org-tree-container {
    
-    background-color: #191c24;
+    background-color: #263140;
 }
 
 .dark .org-tree-node-label-inner{
-    background-color: black !important
+    background-color: #121822 !important
 }
 
 .dark .org-tree-node-btn {
-    background-color: black !important;
+    background-color: #121822 !important;
 
 }
 
 .dark .bh-table-responsive table thead tr th {
 
-    background-color: #191c24 !important
+    background-color: #263140 !important
 }
 .dark .bh-table-responsive table tbody tr td {
-  background-color: #191c24 !important
+  background-color: #263140 !important
 }
 
 .dark .prediction-table-hearder{
-    background-color: #191c24;
+    background-color: #263140;
 }
 
 .dark .mobile-nav{
-    border-bottom: none; background-color: #191c24
+    border-bottom: none; background-color: #263140
 }
 
 .dark .mobile .navbar-light .navbar-nav .active > .nav-link{
@@ -125,44 +150,61 @@ font-weight:500
 }
 
 .dark .keyword-input{
-    background-color:black;
-    border:1px solid black !important
+    background-color:#121822;
+    border:1px solid #121822 !important
 }
 .dark .el-drawer {
-    --el-drawer-bg-color: #191c24 !important
+    --el-drawer-bg-color: #263140 !important
 }
 
 
 .dark .el-tree {
   
-    background: #191c24 !important;
+    background: #263140 !important;
 
-    --el-tree-node-hover-bg-color: black !important;
+    --el-tree-node-hover-bg-color: #121822 !important;
     font-weight: bold;
   
 }
 
 .dark .el-table {
-    --el-table-tr-bg-color :#191c24;
-    --el-table-header-bg-color:#191c24;
-    --el-table-bg-color: #191c24;
-    --el-table-row-hover-bg-color:black;
+    --el-table-tr-bg-color :#263140;
+    --el-table-header-bg-color:#263140;
+    --el-table-bg-color: #263140;
+    --el-table-row-hover-bg-color:#121822;
 
-    --el-table-border: 1px solid black;
+    --el-table-border: 1px solid #121822;
     
 
 }
 .dark .company .table{
     --bs-table-color-state:#144f9f;
-    --bs-body-bg:#191c24;
-    --bs-border-color: black;
+    --bs-body-bg:#263140;
+    --bs-border-color: #121822;
 }
 
 .dark .el-input {
-    --el-input-bg-color: black !important;
+    --el-input-bg-color: #373e48 !important;
 
-    --el-input-border-color:black !important;
-    --el-input-hover-border-color: black !important;
+    --el-input-border-color:#373e48 !important;
+    --el-input-hover-border-color: #373e48 !important;
+ 
+}
+
+.dark .el-input__inner {
+ 
+
+    color:#fff !important
+
+
+}
+.dark .text-grey, .dark h2, .dark h4, .dark .icon-color{
+    color:#fff !important
+}
+
+.dark .el-date-editor .el-range-input {
+
+    color:#fff !important
 }
 
 .dark .el-tag {
@@ -170,41 +212,51 @@ font-weight:500
 }
 
 .dark .el-cascader-menu {
-     /* --el-cascader-menu-fill: black !important; */
+     /* --el-cascader-menu-fill: #121822 !important; */
     /* --el-bg-color-overlay:red !important; */
-    background-color: #191c24 !important;
+    background-color: #263140 !important;
    
 }
 
 .dark .el-cascader {
-    --el-cascader-tag-background:#191c24 !important   
+    --el-cascader-tag-background:#263140 !important   
 }
 
 .dark .search_select {
-background-color:black;
+background-color:#373e48;
+color:#ffff !important;
 border:none !important
 }
+
+
+.dark .search_select::placeholder {
+    color:#ffff !important;
+    opacity: 1;
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .dark .weather-container {
-    background-color: #191c24 !important;
+    background-color: #263140 !important;
 }
 .dark .container-bg {
-    background-color: #191c24 !important ;
+    background-color: #263140 !important ;
 }
 
 .dark .border-bottom-weather {
-    border-bottom: 10px solid black !important;
+    border-bottom: 10px solid #121822 !important;
 }
 .dark .border-right-weather {
-    border-right: 2px solid black !important;
+    border-right: 2px solid #121822 !important;
 }
 
 .dark .company-nav-header {
-    background-color: #191c24;
+    background-color: #263140;
     border:none !important
 }
 
 .dark .nav-pills {
-    border-bottom: 1px solid #191c24;
+    border-bottom: 1px solid #263140;
 }
 
 .dark .company-nav-header .nav-link {
@@ -214,12 +266,12 @@ border:none !important
 }
 
 .dark .company .dark .table thead th {
-    background-color: #191c24 !important;
+    background-color: #263140 !important;
     color: #ffff !important
 }
 
 .dark .dialog{
-    background-color:#191c24  !important
+    background-color:#263140  !important
 }
 
 .dark .el-dialog__title {
@@ -231,33 +283,33 @@ border:none !important
 }
 
 /* .dark .pending-companies, .dark .company-requests, .dark .system-users, .dark .customer-feedback{
-    background-color:#191c24  !important
+    background-color:#263140  !important
 } */
 .dark .tweets-label, .dark .tweets-value{
     color: #fff !important
 }
 .dark table{
-    --bs-table-bg:#191c24  !important;
-border-color:black !important;
---bs-table-border-color:black !important
+    --bs-table-bg:#263140  !important;
+border-color:#494848  !important;
+--bs-table-border-color:#737272  !important;
     
 }
 
 
 
 .dark .fs-6{
-    color: #144f9f !important
+    color: #fff !important
 }
 
 .dark .font-weight-light{
-    color: #737272 !important
+    color: #fff !important
 }
 .dark .activity-bg{
-    background-color:#191c24  !important
+    background-color:#263140  !important
 }
 
 .dark .page-link {
-    background-color:black  !important;
+    background-color:#121822  !important;
     border:none !important;
     color: #737272 !important
 
@@ -276,11 +328,7 @@ border-color:black !important;
     background-color: #144f9f !important;
 }
 
-.dark .search-bottons, .dark .search-bottons-clear{
-    background-color: black;
-    color: #b0b3b8 !important;
-    border:1px solid #b0b3b8;
-}
+
 
 .dark .search-bottons:hover {
     background-color: #144f9f !important;
@@ -292,6 +340,17 @@ border-color:black !important;
     color: #b0b3b8 !important;
 }
 
+
+
+.dark .admin-logo{
+    background-image: url("sentech-logo3.png");
+    background-repeat: no-repeat;
+    background-size: 200px 40px;
+}
+
+.dark .nav-link{
+    color:#fff !important
+}
 
 
 

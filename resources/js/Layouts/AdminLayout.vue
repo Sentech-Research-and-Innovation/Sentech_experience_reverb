@@ -41,53 +41,49 @@
                                 </el-drawer>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-4"></div>
-                        <div class="col-lg-6 col-4 pt-0 text-end">
+
+                        <div class="col-lg-12 col-8 pt-0 text-end px-0">
                             <el-popover
                                 ref="popoverRef"
                                 :virtual-ref="buttonRef"
                                 trigger="click"
                                 virtual-triggering
                             >
-                                <span>
-                                    <div class="d-flex justify-content-start">
-                                        <div style="background-color: #ffff">
-                                            <Link
-                                                href="/admin/dashboard"
-                                                method="get"
-                                                as="link"
-                                                style="cursor: pointer"
-                                                class="nav-link px-3"
-                                                >Dashboard</Link
-                                            >
+                                <div>
+                                    <Link
+                                        href="/admin/dashboard"
+                                        method="get"
+                                        as="link"
+                                        style="cursor: pointer"
+                                        class="nav-link px-3"
+                                        >Dashboard</Link
+                                    >
 
-                                            <Link
-                                                href="/profile/index"
-                                                method="get"
-                                                as="link"
-                                                style="cursor: pointer"
-                                                class="nav-link px-3"
-                                                >Profile</Link
-                                            >
-                                            <Link
-                                                href="/help"
-                                                method="get"
-                                                as="link"
-                                                style="cursor: pointer"
-                                                class="nav-link px-3"
-                                                >Help</Link
-                                            >
-                                            <Link
-                                                style="cursor: pointer"
-                                                href="/logout"
-                                                method="post"
-                                                as="link"
-                                                class="nav-link px-3"
-                                                >Logout</Link
-                                            >
-                                        </div>
-                                    </div>
-                                </span>
+                                    <Link
+                                        href="/profile/index"
+                                        method="get"
+                                        as="link"
+                                        style="cursor: pointer"
+                                        class="nav-link px-3"
+                                        >Profile</Link
+                                    >
+                                    <Link
+                                        href="/help"
+                                        method="get"
+                                        as="link"
+                                        style="cursor: pointer"
+                                        class="nav-link px-3"
+                                        >Help</Link
+                                    >
+                                    <Link
+                                        style="cursor: pointer"
+                                        href="/logout"
+                                        method="post"
+                                        as="link"
+                                        class="nav-link px-3"
+                                        >Logout</Link
+                                    >
+                                </div>
                             </el-popover>
                             <div class="d-flex justify-content-end col-12 mx-0">
                                 <el-switch
@@ -276,15 +272,6 @@ export default defineComponent({
     flex-wrap: nowrap;
     flex-direction: column;
     margin-bottom: 60px;
-}
-
-.sidebar-mobile .nav .nav-item .nav-link .menu-title {
-    color: #737272;
-    display: inline-block;
-    font-size: 15px;
-    line-height: 1;
-    vertical-align: middle;
-    font-weight: 500;
 }
 
 .el-button--primary {

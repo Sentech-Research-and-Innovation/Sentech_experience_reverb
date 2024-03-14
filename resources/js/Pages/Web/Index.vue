@@ -2,7 +2,7 @@
     <Head :title="'Home'"><title>Home</title></Head>
     <WebLayout>
         <div class="sentech-web">
-            <div class="container px-0">
+            <div class="container pl-0 pr-2">
                 <div class="sentech-index-page">
                     <div>
                         <!-- <div class="col-md-12 px-0">

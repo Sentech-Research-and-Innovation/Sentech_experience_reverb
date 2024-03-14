@@ -4,9 +4,9 @@
         Create {{ showing }}
     </button> -->
     <a
-        class="nav-link"
+        class="nav-link mr-0 text-end pr-0"
         @click="showing = true"
-        style="cursor: pointer !important; padding-right: 2px !important"
+        style="cursor: pointer !important"
     >
         <i class="fa-regular fa-user pr-2 ml-3"> </i> Login
     </a>
