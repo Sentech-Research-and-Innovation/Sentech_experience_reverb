@@ -13,7 +13,7 @@
                 <tbody>
                     <tr v-for="(role, index) in roles" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ role.name }}</td>
+                        <td>{{ extractRole(role.name) }}</td>
                         <td>
                             <div class="d-flex justify-content-end">
                                 <div class="col-lg-3 col-6">
@@ -61,6 +61,11 @@ export default defineComponent({
     },
 
     setup(props) {
+        const extractRole = (text) => {
+            const parts = text.split("_");
+            return parts[0];
+        };
+
         const { roles } = props;
 
         const deleteRole = (id) => {
@@ -71,6 +76,7 @@ export default defineComponent({
         };
 
         return {
+            extractRole,
             roles,
             deleteRole,
             editRole,

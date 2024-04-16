@@ -1,17 +1,17 @@
 <template>
-    <div class="col-12 footer-bg py-5">
+    <div class="col-12 footer-bg py-5 px-lg-0 px-3">
         <div class="container">
-            <div class="row py-4">
-                <div class="col-6 px-0">
+            <div class="row py-lg-4">
+                <div class="col-lg-6 px-0">
                     <div class="row">
-                        <div class="col-4 pr-0">
+                        <div class="col-lg-4 col-6 pr-0">
                             <Link
                                 class="nav-link nav-link-text app-download pt-2 pb-3"
                                 aria-current="page"
                                 href="/contactus"
                             >
                                 <div class="d-flex">
-                                    <div class="pr-3" style="padding-top: 13px">
+                                    <div class="pr-3 app-padding">
                                         <span>
                                             <svg
                                                 width="25"
@@ -35,14 +35,14 @@
                                 </div>
                             </Link>
                         </div>
-                        <div class="col-4">
+                        <div class="col-lg-4 col-6">
                             <Link
                                 class="nav-link nav-link-text app-download pt-2 pb-3"
                                 aria-current="page"
                                 href="/contactus"
                             >
                                 <div class="d-flex">
-                                    <div class="pr-3" style="padding-top: 13px">
+                                    <div class="pr-3 app-padding">
                                         <span>
                                             <svg
                                                 width="26"
@@ -73,7 +73,7 @@
                                 </div>
                             </Link>
                         </div>
-                        <div class="col-4 pt-3">
+                        <div class="col-4 pt-lg-3 pt-4">
                             <nav class="d-flex justify-content-left">
                                 <a
                                     href="https://www.facebook.com/sentechLtd/"
@@ -136,14 +136,11 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-12 px-0 pt-5 list-group-item">
-                        Copyright 2024. All rights reserved.
-                    </div>
                 </div>
 
-                <div class="col-6 text-end">
+                <div class="col-lg-6 text-end pt-lg-0 pt-4">
                     <div class="row">
-                        <div class="col-3 text-start px-0">
+                        <div class="col-lg-3 col-4 text-start px-0">
                             <div class="list-group-header">Pages</div>
                             <ul
                                 class="list-group list-group-flush bg-transparent"
@@ -154,7 +151,7 @@
                                 <li class="list-group-item">News</li>
                             </ul>
                         </div>
-                        <div class="col-3 text-start px-0">
+                        <div class="col-lg-3 col-4 text-start px-0">
                             <div class="list-group-header">Policies</div>
                             <ul
                                 class="list-group list-group-flush bg-transparent"
@@ -165,7 +162,7 @@
                                 <li class="list-group-item">Police 3</li>
                             </ul>
                         </div>
-                        <div class="col-3 text-start px-0">
+                        <div class="col-lg-3 col-4 text-start px-0">
                             <div class="list-group-header">Contact</div>
                             <ul
                                 class="list-group list-group-flush bg-transparent"
@@ -178,8 +175,15 @@
                                 <li class="list-group-item">Login</li>
                             </ul>
                         </div>
-                        <div class="col-3 text-start px-0 pt-0">
+                        <div
+                            class="col-lg-3 col-6 text-start px-0 pt-lg-0 pt-4"
+                        >
                             <Register />
+                        </div>
+                        <div
+                            class="col-12 px-0 pt-lg-3 pt-4 list-group-item text-lg-right text-left"
+                        >
+                            Copyright 2024. All rights reserved.
                         </div>
                     </div>
                 </div>
@@ -237,6 +241,22 @@ export default defineComponent({
 .list-group-header {
     font-weight: 500;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+}
+.app-padding {
+    padding-top: 13px;
+}
+@media only screen and (max-width: 1199px) {
+    .app-text {
+        font-weight: 700;
+        font-size: 10px;
+    }
+    .app-text2 {
+        font-weight: 300;
+        font-size: 9px;
+    }
+    .app-padding {
+        padding-top: 3px;
+    }
 }
 </style>

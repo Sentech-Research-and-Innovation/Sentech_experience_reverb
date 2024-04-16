@@ -104,16 +104,16 @@ export default defineComponent({
 
                     seriesData.value[0].data.push({
                         x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.negative,
+                        y: monthData.sentiments.NEGATIVE,
                     });
 
                     seriesData.value[1].data.push({
                         x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.positive,
+                        y: monthData.sentiments.POSITIVE,
                     });
                     seriesData.value[2].data.push({
                         x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.neutral,
+                        y: monthData.sentiments.NEUTRAL,
                     });
                 }
                 loading.value = false;

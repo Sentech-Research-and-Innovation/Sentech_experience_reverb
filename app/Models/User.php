@@ -26,6 +26,8 @@ class User extends Authenticatable
     use HasRoles;
     use LaravelPermissionToVueJS;
 
+    //protected $guard_name = "api";
+
     /**
      * The attributes that are mass assignable.
      *

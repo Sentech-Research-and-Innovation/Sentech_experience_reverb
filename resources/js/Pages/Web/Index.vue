@@ -10,16 +10,16 @@
                         Welcome to the Sentech Engage 360 Platform
                     </div>
                 </div> -->
-                        <div class="col-12 pt-4 mx-0 px-0">
+                        <div class="col-12 pt-4 mx-0 px-lg-0">
                             <div class="row">
                                 <div
-                                    class="col-md-6 col-lg-6 col-12 pr-5"
+                                    class="col-md-6 col-lg-6 col-12 pr-lg-5 pr-2"
                                     style=""
                                 >
                                     <div
                                         class="col-lg-12 col-12 mt-2 advert-section-page px-4"
                                     >
-                                        <div class="pt-lg-4 pt-2">
+                                        <div class="pt-4 pt-2">
                                             <img
                                                 :src="freeVisionLogo"
                                                 width="300"
@@ -92,12 +92,9 @@
                                                     rel="external"
                                                 >
                                                     <div
-                                                        class="btn advert-section-div-button mt-4 py-4 px-4 d-flex justify-content-between"
+                                                        class="btn advert-section-div-button mt-4 py-lg-4 px-lg-4 px-2 d-flex justify-content-between"
                                                     >
-                                                        <span
-                                                            style="
-                                                                font-size: 20px;
-                                                            "
+                                                        <span style=""
                                                             >Get Started</span
                                                         >
 
@@ -112,17 +109,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 pl-0">
+                                <div class="col-md-6 pl-lg-0 px-0">
                                     <NetWorksAlertVue />
                                 </div>
                             </div>
-                            <div class="row pt-5 mt-4">
-                                <div class="col-md-6 pl-0 pr-4">
+                            <div class="row pt-lg-5 mt-lg-4">
+                                <div class="col-md-6 px-0 pr-lg-4">
                                     <WeatherWidgetVue />
                                 </div>
-                                <div class="col-6 pl-0">
+                                <div class="col-lg-6 pt-lg-0 pt-4 px-lg-0 px-4">
                                     <div class="row">
-                                        <div class="col-4 px-2">
+                                        <div class="col-lg-4 px-2">
                                             <div class="col-12 blue-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"
@@ -136,7 +133,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4 px-2">
+                                        <div class="col-lg-4 pt-lg-0 pt-4 px-2">
                                             <div class="col-12 green-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"
@@ -150,7 +147,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4 px-2">
+                                        <div class="col-lg-4 px-2 pt-lg-0 pt-4">
                                             <div class="col-12 yellow-bg py-3">
                                                 <div
                                                     class="col-12 fs-4 px-0 text-center"
@@ -246,6 +243,7 @@ export default {
     border-radius: 20px;
     font-weight: 500;
     background: rgba(255, 255, 255, 0.397);
+    font-size: 20px;
 }
 
 .advert-section-div {
@@ -309,6 +307,24 @@ export default {
 @media only screen and (max-width: 1199px) {
     .welcome-text {
         font-size: 42px;
+    }
+
+    .advert-section-div-button {
+        width: 100%;
+        color: #ffffff;
+        font-size: 15px;
+        border-radius: 10px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.397);
+    }
+
+    .sentech-index-page {
+        padding-top: 100px;
+        padding-bottom: 30px;
+    }
+
+    .advert-section-page {
+        height: 340px;
     }
 }
 

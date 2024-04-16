@@ -18,13 +18,19 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('csv:process')->everyMinute();
+        //$schedule->command('csv:process')->everyMinute();
+
+        $schedule->command('tweets:import')->everyMinute();
+
+
 
         // $schedule->command('csv:process')->hourly()->appendOutputTo(storage_path('logs.text'));
     }
 
     protected $commands = [
-        'App\Console\Commands\ProcessCsvData'
+        //'App\Console\Commands\ProcessCsvData'
+        'App\Console\Commands\ImportTweets'
+
     ];
     /**
      * Register the commands for the application.

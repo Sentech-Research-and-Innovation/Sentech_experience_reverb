@@ -31,7 +31,7 @@
                         <td>{{ company.company_name }}</td>
                         <td>{{ company.contact_person?.first_name }}</td>
                         <td>{{ company.contact_person?.email }}</td>
-                        <td>{{ company.contact_person.phoneNumber }}</td>
+                        <td>{{ company.contact_person?.phoneNumber }}</td>
                         <td>{{ company.contact_person?.position }}</td>
                         <!-- <td v-for="role in user.roles" :key="role.id">
                             {{ role.name }}

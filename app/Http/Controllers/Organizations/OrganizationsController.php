@@ -22,12 +22,24 @@ class OrganizationsController extends Controller
     public function approved()
     {
         $companies = Company::with('contactPerson')->where('active', true)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+
+        $userAgent = request()->header('User-Agent-type');
+
+        if ($userAgent == 'X-Mobile-Device') {
+            return request()->json(200, $companies);
+        }
         return Inertia::render('Companies/Approved', compact('companies'));
     }
 
     public function request()
     {
         $companies = Company::with('contactPerson')->where('active', false)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+
+        $userAgent = request()->header('User-Agent-type');
+
+        if ($userAgent == 'X-Mobile-Device') {
+            return request()->json(200, $companies);
+        }
         return Inertia::render('Companies/Requests', compact('companies'));
     }
 

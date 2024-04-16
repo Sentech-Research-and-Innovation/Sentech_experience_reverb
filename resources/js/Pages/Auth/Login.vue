@@ -4,7 +4,7 @@
         Create {{ showing }}
     </button> -->
     <a
-        class="nav-link mr-0 text-end pr-0"
+        class="nav-link mr-0 text-lg-end text-start pr-0 pt-lg-2 pt-4"
         @click="showing = true"
         style="cursor: pointer !important"
     >
@@ -15,9 +15,9 @@
         :showing="showing"
         @hideModal="showing = false"
     >
-        <div class="col-12 px-0 mx-0">
+        <div class="col-12 px-0 mx-2">
             <div class="d-flex justify-content-center">
-                <div class="col-lg-6 col-md-8 col-12 mt-5 pt-5">
+                <div class="col-lg-6 col-md-8 col-12 mt-lg-5 pt-lg-5">
                     <div class="h1-login">Login</div>
                     <form @submit.prevent="submit">
                         <div class="row pt-4 px-1">
@@ -131,10 +131,10 @@ export default {
     created() {
         const filterStore = useFilterStore();
         filterStore.date = [
-            "2023-01-01T08:54:00.000Z",
-            "2023-08-26T08:54:00.000Z",
+            "2024-01-01T08:54:00.000Z",
+            "2024-08-26T08:54:00.000Z",
         ];
-        filterStore.sentimentTypes = ["neutral", "positive", "negative"];
+        filterStore.sentimentTypes = ["POSITIVE", "NEUTRAL", "NEGATIVE"];
 
         //prediction filters
         const filterPredictions = predictionsFilterStore();
@@ -144,8 +144,8 @@ export default {
             "JOHANNESBURG",
         ];
         filterPredictions.date = [
-            "2023-01-01T08:54:00.000Z",
-            "2023-12-26T08:54:00.000Z",
+            "2024-01-01T08:54:00.000Z",
+            "2024-12-26T08:54:00.000Z",
         ];
 
         // //prediction detailevue filters

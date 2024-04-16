@@ -93,15 +93,31 @@ $dot-color: red !important;
     padding-bottom: 19px !important;
 }
 
-.status-error {
-    background: rgba(255, 255, 255, 0.09);
 
-    color: #c51616;
-    font-size: 20px;
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    padding-bottom: 19px !important;
+
+
+@media only screen and (max-width: 1199px) {
+    .status-good {
+        /* background-color: #556d8f; */
+        background: rgba(255, 255, 255, 0.09);
+        color: #93ad24;
+        font-size: 13px;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+       
+    }
+    .status-warning {
+        background: rgba(255, 255, 255, 0.09);
+    
+        color: #c51616;
+        font-size: 13px;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        padding-bottom: 19px !important;
+    }
+  
 }
 
 .radio-container {

@@ -49,9 +49,9 @@ export default defineComponent({
             }
         };
 
-        // onMounted(async () => {
-        //     getPredictions();
-        // });
+        onMounted(async () => {
+            getPredictions();
+        });
 
         // Compute the chart data and options
         const chartData = ref(null);

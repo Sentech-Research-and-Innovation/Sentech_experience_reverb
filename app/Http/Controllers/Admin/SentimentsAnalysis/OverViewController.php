@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use DateTime;
 
+use App\Models\Sentiment as Tweet;
+
+
 class OverViewController extends Controller
 {
 
@@ -24,14 +27,13 @@ class OverViewController extends Controller
 
     public function overallSentiments()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
+        $tweets = Tweet::all(); // Fetch all tweets from your database
 
         $positiveTweets = 0;
         $negativeTweets = 0;
         $neutralTweets = 0;
 
-        $total = count($data['hits']['hits']);
+        $total = count($tweets);
 
         $dateRange = request()->searchFilter['date'];
         $startDate = new DateTime($dateRange[0]);
@@ -40,23 +42,21 @@ class OverViewController extends Controller
         $keyword = request()->searchFilter['keywords'];
         $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
-        foreach ($data['hits']['hits'] as $hit) {
-            $dateStr = $hit['_source']['date'];
-            $tweetDate = new DateTime($dateStr);
-            $sentiment = $hit['_source']['sentiment'];
+        foreach ($tweets as $tweet) {
+            $tweetDate = new DateTime($tweet->date); // Assuming 'date' is the attribute name in your Tweet model
+            $sentiment = $tweet->sentiment; // Assuming 'sentiment' is the attribute name in your Tweet model
 
             // Check if the tweet's date falls within the specified date range
             // and if the sentiment type is in the specified sentimentTypes
             if (($tweetDate >= $startDate && $tweetDate <= $endDate) &&
-                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
+                (empty($keyword) || stripos($tweet->text, $keyword) !== false) &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
-
-                if ($sentiment === 'positive') {
+                if ($sentiment === 'POSITIVE') {
                     $positiveTweets++;
-                } elseif ($sentiment === 'negative') {
+                } elseif ($sentiment === 'NEGATIVE') {
                     $negativeTweets++;
-                } elseif ($sentiment === 'neutral') {
+                } elseif ($sentiment === 'NEUTRAL') {
                     $neutralTweets++;
                 }
             }
@@ -76,9 +76,10 @@ class OverViewController extends Controller
 
     public function sentimentsTimeline()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
-        $hits = $data['hits']['hits'];
+
+
+        // Fetch tweets using Eloquent instead of HTTP call
+        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
 
         $dateMonthGroups = [];
         $filterDate = request()->searchFilter['date'];
@@ -93,18 +94,16 @@ class OverViewController extends Controller
             $endDate = new DateTime($filterDate[1]);
         }
 
-        foreach ($hits as $hit) {
-            $sentiment = $hit['_source']['sentiment'];
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
+        foreach ($tweets as $tweet) {
+            $sentiment = $tweet->sentiment;
+            $date = new DateTime($tweet->date);
 
             // Check if the tweet's date falls within the specified date range (if not null)
             // and if the sentiment type is in the specified sentimentTypes
             if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keywords) || stripos($hit['_source']['text'], $keywords) !== false) &&
+                (empty($keywords) || stripos($tweet->text, $keywords) !== false) &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
-
                 $formattedDate = $date->format('Y-m');
 
                 if (!isset($dateMonthGroups[$formattedDate])) {
@@ -112,9 +111,9 @@ class OverViewController extends Controller
                         'year' => $date->format('Y'),
                         'month' => $date->format('F'),
                         'sentiments' => [
-                            'positive' => 0,
-                            'neutral' => 0,
-                            'negative' => 0,
+                            'POSITIVE' => 0,
+                            'NEUTRAL' => 0,
+                            'NEGATIVE' => 0,
                         ],
                     ];
                 }
@@ -132,10 +131,10 @@ class OverViewController extends Controller
 
     public function tweetsByLocation()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
 
-        $hits = $data['hits']['hits'];
+
+        // Fetch tweets using Eloquent instead of HTTP call
+        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
 
         $placeTweetCounts = [];
         $filterDate = request()->searchFilter['date'];
@@ -150,16 +149,15 @@ class OverViewController extends Controller
             $endDate = new DateTime($filterDate[1]);
         }
 
-        foreach ($hits as $hit) {
-            $place = $hit['_source']['place'];
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-            $sentiment = $hit['_source']['sentiment'];
+        foreach ($tweets as $tweet) {
+            $place = $tweet->place;
+            $date = new DateTime($tweet->date);
+            $sentiment = $tweet->sentiment;
 
             // Check if the tweet's date falls within the specified date range (if not null)
             // and if the sentiment type is in the specified sentimentTypes
             if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
+                (empty($keyword) || stripos($tweet->text, $keyword) !== false) &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
 

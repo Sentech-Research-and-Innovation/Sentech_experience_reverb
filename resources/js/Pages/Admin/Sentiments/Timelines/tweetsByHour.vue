@@ -183,9 +183,9 @@ export default defineComponent({
                 const responseData = await res.data;
                 hours.value = await responseData.hours;
                 for await (const sentiment of responseData.data) {
-                    series.value[0].data.push(sentiment.positive);
-                    series.value[1].data.push(sentiment.neutral);
-                    series.value[2].data.push(sentiment.negative);
+                    series.value[0].data.push(sentiment.POSITIVE);
+                    series.value[1].data.push(sentiment.NEUTRAL);
+                    series.value[2].data.push(sentiment.NEGATIVE);
                 }
                 loading.value = false;
             }

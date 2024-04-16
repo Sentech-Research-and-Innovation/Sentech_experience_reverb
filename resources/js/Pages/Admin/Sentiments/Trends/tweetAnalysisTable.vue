@@ -62,13 +62,13 @@
                                             :class="{
                                                 'tweets-container-negative':
                                                     tweet.sentiment ===
-                                                    'negative',
+                                                    'NEGATIVE',
                                                 'tweets-container-neutral':
                                                     tweet.sentiment ===
-                                                    'neutral',
+                                                    'NEUTRAL',
                                                 'tweets-container-positive':
                                                     tweet.sentiment ===
-                                                    'positive',
+                                                    'POSITIVE',
                                             }"
                                         >
                                             {{ tweet.sentiment }}
@@ -81,7 +81,7 @@
                                             <div
                                                 v-html="
                                                     highlightKeywords(
-                                                        tweet.tweet
+                                                        tweet.text
                                                     )
                                                 "
                                             ></div>
@@ -94,7 +94,7 @@
                                             v-else
                                             class="col-9 py-2 tweetsColor"
                                         >
-                                            {{ tweet.tweet }} <br />
+                                            {{ tweet.text }} <br />
                                             <br />
                                             {{ formattedDate(tweet.date) }}
                                         </div>

@@ -10,6 +10,8 @@ use App\Models\WordCloud;
 use Inertia\Inertia;
 use DateTime;
 
+use App\Models\Sentiment as Tweet;
+
 class TrendsController extends Controller
 {
     public function index()
@@ -19,8 +21,6 @@ class TrendsController extends Controller
 
     public function tweetsContent()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
 
         $positiveTweets = 0;
         $negativeTweets = 0;
@@ -40,32 +40,41 @@ class TrendsController extends Controller
             $endDate = new DateTime($filterDate[1]);
         }
 
-        foreach ($data['hits']['hits'] as $hit) {
+        $query = Tweet::query();
 
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-            $sentiment = $hit['_source']['sentiment'];
+        if (!empty($keyword)) {
+            $query->where('text', 'like', '%' . $keyword . '%');
+        }
 
-            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
-                (in_array($sentiment, $sentimentTypes))
-            ) {
+        if (!empty($sentimentTypes)) {
+            $query->whereIn('sentiment', $sentimentTypes);
+        }
 
-                // Update sentiment counts based on tweet's sentiment
-                if ($sentiment === 'positive') {
-                    $positiveTweets++;
-                } elseif ($sentiment === 'negative') {
-                    $negativeTweets++;
-                } elseif ($sentiment == 'neutral') {
-                    $neutralTweets++;
-                }
+        if ($startDate !== null) {
+            $query->where('date', '>=', $startDate);
+        }
 
-                $tweetsContent[] = [
-                    "tweet" => $hit['_source']["text"],
-                    "sentiment" => $hit['_source']["sentiment"],
-                    "date" => $hit['_source']["date"],
-                ];
+        if ($endDate !== null) {
+            $query->where('date', '<=', $endDate);
+        }
+
+        $tweets = $query->get();
+
+        foreach ($tweets as $tweet) {
+            // Update sentiment counts based on tweet's sentiment
+            if ($tweet->sentiment === 'POSITIVE') {
+                $positiveTweets++;
+            } elseif ($tweet->sentiment === 'NEGATIVE') {
+                $negativeTweets++;
+            } elseif ($tweet->sentiment == 'NEUTRAL') {
+                $neutralTweets++;
             }
+
+            $tweetsContent[] = [
+                "text" => $tweet->text,
+                "sentiment" => $tweet->sentiment,
+                "date" => $tweet->date,
+            ];
         }
 
         $response = [

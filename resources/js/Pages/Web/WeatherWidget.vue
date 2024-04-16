@@ -1,8 +1,8 @@
 <template>
-    <div class="col-12 mr-5 pr-4">
-        <div v-if="temp" class="col-12 bg-1 px-3 pt-2 pb-3">
+    <div class="col-12 mr-lg-5 pr-lg-4">
+        <div v-if="temp" class="col-12 bg-1 px-lg-3 px-0 pt-2 pb-3">
             <div class="d-flex justify-content-between">
-                <div class="col-3 pr-0 mx-0 pt-3 pl-5">
+                <div class="col-3 pr-0 mx-0 pt-3 pl-lg-5">
                     <img
                         :src="weatherIconUrl"
                         width="40"

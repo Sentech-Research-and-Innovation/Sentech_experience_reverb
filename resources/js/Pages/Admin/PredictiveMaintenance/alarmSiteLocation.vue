@@ -12,7 +12,6 @@
                 v-if="dataLoaded"
                 width="100%"
                 height="290"
-                color="red"
                 :options="{
                     markers,
                     markerStyle,

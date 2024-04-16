@@ -178,7 +178,7 @@ export default defineComponent({
             "Free State",
             "Northern Cape",
             "North West",
-            "Limpompo",
+            "Limpopo",
         ]);
 
         const filterStore = useFilterProvince();

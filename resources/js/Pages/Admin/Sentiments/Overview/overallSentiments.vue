@@ -117,7 +117,7 @@ export default defineComponent({
                 show: false,
             },
             colors: ["#00e396", "#775dd0", "#ff4560"],
-            labels: ["Positive", "Neutral", "Negative"],
+            labels: ["POSITIVE", "NEUTRAL", "NEGATIVE"],
             legend: {
                 position: "bottom",
             },

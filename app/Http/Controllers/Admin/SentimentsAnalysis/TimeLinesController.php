@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 
 use Inertia\Inertia;
 use DateTime;
+use App\Models\Sentiment as Tweet;
+
 
 class TimeLinesController extends Controller
 {
@@ -20,10 +22,11 @@ class TimeLinesController extends Controller
 
     public function tweetsByHour()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
 
-        $hits = $data['hits']['hits'];
+
+        // Fetch tweets using Eloquent instead of HTTP call
+        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
+
         $hourGroups = [];
         $filterDate = request()->searchFilter['date'];
         $keyword = trim(request()->searchFilter['keywords']); // Get the keyword as a string
@@ -33,17 +36,15 @@ class TimeLinesController extends Controller
         $hourSentimentCounts = [];
         for ($hour = 0; $hour < 24; $hour++) {
             $hourSentimentCounts[$hour] = [
-                'positive' => 0,
-                'neutral' => 0,
-                'negative' => 0,
+                'POSITIVE' => 0,
+                'NEUTRAL' => 0,
+                'NEGATIVE' => 0,
             ];
         }
 
-        foreach ($hits as $hit) {
-            $sentiment = $hit['_source']['sentiment'];
-            $dateStr = $hit['_source']['date'];
-            $tweetText = $hit['_source']['text'];
-            $date = new DateTime($dateStr);
+        foreach ($tweets as $tweet) {
+            $sentiment = $tweet->sentiment;
+            $date = new DateTime($tweet->date);
             $hour = (int)$date->format('H'); // Get the hour component
 
             // Check if the tweet's date falls within the specified date range (if not null)
@@ -54,6 +55,8 @@ class TimeLinesController extends Controller
                     continue; // Skip this tweet if it's outside the date range
                 }
             }
+
+            $tweetText = $tweet->text;
 
             // Keyword filtering logic
             if (!empty($keyword) && stripos($tweetText, $keyword) === false) {

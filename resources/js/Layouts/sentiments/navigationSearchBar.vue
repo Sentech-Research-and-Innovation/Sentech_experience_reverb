@@ -193,7 +193,7 @@ export default defineComponent({
         const keywords = ref(filterStore.keywords);
         const sentimentModel = ref([]);
         //
-        const options = ref(["neutral", "positive", "negative"]);
+        const options = ref(["POSITIVE", "NEUTRAL", "NEGATIVE"]);
 
         const sentimentType = ref(filterStore.sentimentTypes);
 

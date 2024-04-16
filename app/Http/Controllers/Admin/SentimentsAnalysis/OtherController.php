@@ -10,6 +10,8 @@ use App\Models\WordCloud;
 use Inertia\Inertia;
 use DateTime;
 
+use App\Models\Sentiment as Tweet;
+
 class OtherController extends Controller
 {
     public function index()
@@ -19,8 +21,7 @@ class OtherController extends Controller
 
     public function map()
     {
-        $jsonData = Http::get('http://13.244.120.32:81/twitter/_search?size=10000');
-        $data = json_decode($jsonData, true);
+
 
         $mapData = [];
         $filterDate = request()->searchFilter['date'];
@@ -35,36 +36,44 @@ class OtherController extends Controller
             $endDate = new DateTime($filterDate[1]);
         }
 
-        foreach ($data['hits']['hits'] as $hit) {
-            $dateStr = $hit['_source']['date'];
-            $date = new DateTime($dateStr);
-            $sentiment = $hit['_source']['sentiment'];
+        $query = Tweet::query();
 
-            // Check if the tweet's date falls within the specified date range (if not null)
-            // and if the sentiment type is in the specified sentimentTypes
-            if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keyword) || stripos($hit['_source']['text'], $keyword) !== false) &&
-                (in_array($sentiment, $sentimentTypes))
-            ) {
+        if (!empty($keyword)) {
+            $query->where('text', 'like', '%' . $keyword . '%');
+        }
 
-                $loc = $hit['_source']['location_point'];
-                $name = $sentiment;
-                $fill = "";
+        if (!empty($sentimentTypes)) {
+            $query->whereIn('sentiment', $sentimentTypes);
+        }
 
-                if ($name == "negative") {
-                    $fill = "rgba(255, 69, 96, 0.85)";
-                } elseif ($name == "positive") {
-                    $fill = "rgb(0, 227, 150)";
-                } elseif ($name == "neutral") {
-                    $fill = "rgb(119, 93, 208)";
-                }
+        if ($startDate !== null) {
+            $query->where('date', '>=', $startDate);
+        }
 
-                $mapData[] = [
-                    "name" => $name,
-                    "coords" => [$loc['lat'], $loc['lon']],
-                    "style" => ["fill" => $fill]
-                ];
+        if ($endDate !== null) {
+            $query->where('date', '<=', $endDate);
+        }
+
+        $tweets = $query->get();
+
+        foreach ($tweets as $tweet) {
+            $loc = $tweet->location_point;
+            $name = $tweet->sentiment;
+            $fill = "";
+
+            if ($name == "NEGATIVE") {
+                $fill = "rgba(255, 69, 96, 0.85)";
+            } elseif ($name == "POSITIVE") {
+                $fill = "rgb(0, 227, 150)";
+            } elseif ($name == "NEUTRAL") {
+                $fill = "rgb(119, 93, 208)";
             }
+
+            $mapData[] = [
+                "name" => $name,
+                "coords" => [$loc, $loc],
+                "style" => ["fill" => $fill]
+            ];
         }
 
         return response()->json($mapData, 200);

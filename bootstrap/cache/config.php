@@ -555,7 +555,6 @@
     'cache' => 'all',
     'cache_tags' => 
     array (
-      0 => 'torann-geoip-location',
     ),
     'cache_expires' => 30,
     'default_location' => 

@@ -13,8 +13,8 @@
         :showing="showing"
         @hideModal="showing = false"
     >
-        <div class="col-12 px-5" v-if="!registered">
-            <div class="h1-login pb-5">Request An Account</div>
+        <div class="col-12 px-lg-5 px-3" v-if="!registered">
+            <div class="h1-login pb-lg-5 pb-3">Request An Account</div>
             <div class="row register-form">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -231,7 +231,7 @@ label {
     }
 }
 .form-label {
-    font-size: 15px !important;
+    font-size: 15px;
     font-weight: 500 !important;
 }
 
@@ -245,5 +245,23 @@ label {
 .login-form-inputs {
     border: 1px solid #d1cdcd;
     border-radius: 8px;
+}
+
+@media only screen and (max-width: 1199px) {
+    .h1-login {
+        font-weight: 700;
+        font-size: 20px;
+    }
+    .form-label {
+        font-size: 11px;
+    }
+    .text-danger {
+        font-size: 10px !important;
+        padding-top: 8px !important;
+    }
+    .form-group {
+        padding: 0px !important;
+        margin-bottom: 10px !important;
+    }
 }
 </style>

@@ -41,8 +41,7 @@ class RolesController extends Controller
         $this->validate(request(), [
             'name' => 'required|min:4',
         ]);
-        $role = Role::create(['name' => request()->name, 'company_id' => $this->company->id]);
-
+        $role = Role::create(['name' => request()->name . "_" . $this->company->id, 'company_id' => $this->company->id, 'guard_name' => 'web']);
         foreach (request()->permissions as $perm) {
             if ($role->hasPermissionTo($perm)) {
                 return request()->json(['message' => "permission already exists"], 422);
@@ -62,7 +61,7 @@ class RolesController extends Controller
 
         $rolesPermissons =  Role::where('name', request()->name)
             ->where('company_id', $this->company->id)
-            ->with('permissions') // Load permissions eagerly
+            ->with('permissions')
             ->first();
 
         $permissions = $rolesPermissons->permissions->map(function ($permission) {
@@ -80,11 +79,9 @@ class RolesController extends Controller
         $permissions = request()->permissions;
         $roleName = request()->roleName;
 
-        // Retrieve the role from the database
         $role = Role::where('name', $roleName)->first();
 
         // Assign new permissions from the request
-
         foreach ($permissions as $perm) {
             $hasNoPermission = !$role->hasPermissionTo($perm);
 

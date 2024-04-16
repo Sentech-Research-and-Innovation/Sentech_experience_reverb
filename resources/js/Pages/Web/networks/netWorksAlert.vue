@@ -1,12 +1,12 @@
 <template>
-    <div class="col-12 px-0 py-0 mx-0">
+    <div class="col-12 px-lg-0 py-lg-0 px-4 py-4 mx-0">
         <div class="networkHeading pb-3 pt-1">Network Status</div>
         <p style="font-size: 17px; font-weight: 500">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna.
         </p>
         <div class="row pt-4">
-            <div class="col-4 px-2">
+            <div class="col-lg-4 col-6 px-2">
                 <div
                     class="col-12 network-container-warning py-1 mx-0"
                     @click="setNetWorkProvince('Eastern Cape')"
@@ -19,13 +19,15 @@
                             </span>
                         </div>
 
-                        <div class="status-warning pt-2 pb-3 text-center mt-1">
+                        <div
+                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                        >
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 px-2">
+            <div class="col-lg-4 col-6 px-2">
                 <div
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Western Cape')"
@@ -37,13 +39,15 @@
                                 OFF Line (4)
                             </span>
                         </div>
-                        <div class="status-warning pt-2 pb-3 text-center mt-1">
+                        <div
+                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                        >
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 px-2">
+            <div class="col-lg-4 col-6 px-2 pt-lg-0 pt-3">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Kwazulu Natal')"
@@ -56,14 +60,14 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Gauteng')"
@@ -76,7 +80,7 @@
                             </span>
                         </div>
                         <div
-                            class="status-warning pt-2 pb-3 px-2 text-center m1"
+                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-exclamation"></i>
                         </div>
@@ -84,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Mpumalanga')"
@@ -97,14 +101,14 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Free State')"
@@ -117,14 +121,14 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Limpopo')"
@@ -137,14 +141,14 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Northern Cape')"
@@ -157,14 +161,14 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 pt-3 px-2">
+            <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('North West')"
@@ -177,7 +181,7 @@
                             </span>
                         </div>
                         <div
-                            class="status-good pt-2 pb-3 px-2 text-center mt-1"
+                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                         >
                             <i class="fa-solid fa-check"></i>
                         </div>

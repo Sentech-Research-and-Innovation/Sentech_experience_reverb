@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Web\WeatherController;
 use App\Http\Controllers\Admin\GetNotifications;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Web\NetworkController;
 
 
@@ -33,13 +32,9 @@ Route::get('/contactus', function () {
 })->name('contactus');
 
 
-Route::get('/admin/dashboard',  [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
-Route::post('/admin/activities',  [DashboardController::class, 'show'])->middleware(['auth'])->name('activities');
-
 
 Route::get('/web/weather', [WeatherController::class, 'create']);
-Route::get('/admin/weather/forcast', [WeatherController::class, 'forecast'])->middleware('auth');
-Route::get('/admin/notifications', [GetNotifications::class, 'index'])->middleware('auth');
+
 
 
 Route::get('/change_password/{token}', function () {
@@ -57,10 +52,11 @@ Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlar
 
 
 require __DIR__ . '/auth.php';
-
+require __DIR__ . '/admin/admin.php';
 require __DIR__ . '/admin/sentiments-Analysis.php';
 require __DIR__ . '/admin/predictive-maintenance.php';
 require __DIR__ . '/admin/roles.php';
 require __DIR__ . '/admin/company.php';
 require __DIR__ . '/admin/reports.php';
 require __DIR__ . '/admin/profile.php';
+require __DIR__ . '/admin/dashboard.php';
