@@ -27,7 +27,7 @@ class OverViewController extends Controller
 
     public function overallSentiments()
     {
-        $tweets = Tweet::all(); // Fetch all tweets from your database
+        $tweets = Tweet::all();
 
         $positiveTweets = 0;
         $negativeTweets = 0;
@@ -43,13 +43,13 @@ class OverViewController extends Controller
         $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
         foreach ($tweets as $tweet) {
-            $tweetDate = new DateTime($tweet->date); // Assuming 'date' is the attribute name in your Tweet model
-            $sentiment = $tweet->sentiment; // Assuming 'sentiment' is the attribute name in your Tweet model
+            $tweetDate = new DateTime($tweet->date);
+            $sentiment = $tweet->sentiment;
 
-            // Check if the tweet's date falls within the specified date range
-            // and if the sentiment type is in the specified sentimentTypes
+
             if (($tweetDate >= $startDate && $tweetDate <= $endDate) &&
-                (empty($keyword) || stripos($tweet->text, $keyword) !== false) &&
+                (empty($keyword) || stripos($tweet->text, $keyword) !== false  ||
+                    stripos($tweet->user, $keyword) !== false)  &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
                 if ($sentiment === 'POSITIVE') {
@@ -78,13 +78,13 @@ class OverViewController extends Controller
     {
 
 
-        // Fetch tweets using Eloquent instead of HTTP call
-        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
+
+        $tweets = Tweet::all();
 
         $dateMonthGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keywords = request()->searchFilter['keywords']; // Get the keywords parameter
-        $sentimentTypes = request()->searchFilter['sentimentTypes']; // Get the sentimentTypes parameter
+        $keywords = request()->searchFilter['keywords'];
+        $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
         $startDate = null;
         $endDate = null;
@@ -98,10 +98,8 @@ class OverViewController extends Controller
             $sentiment = $tweet->sentiment;
             $date = new DateTime($tweet->date);
 
-            // Check if the tweet's date falls within the specified date range (if not null)
-            // and if the sentiment type is in the specified sentimentTypes
             if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keywords) || stripos($tweet->text, $keywords) !== false) &&
+                (empty($keywords) || stripos($tweet->text, $keywords) !== false || stripos($tweet->user, $keywords) !== false) &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
                 $formattedDate = $date->format('Y-m');
@@ -133,8 +131,8 @@ class OverViewController extends Controller
     {
 
 
-        // Fetch tweets using Eloquent instead of HTTP call
-        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
+
+        $tweets = Tweet::all();
 
         $placeTweetCounts = [];
         $filterDate = request()->searchFilter['date'];
@@ -154,14 +152,11 @@ class OverViewController extends Controller
             $date = new DateTime($tweet->date);
             $sentiment = $tweet->sentiment;
 
-            // Check if the tweet's date falls within the specified date range (if not null)
-            // and if the sentiment type is in the specified sentimentTypes
             if (($startDate === null || $date >= $startDate) && ($endDate === null || $date <= $endDate) &&
-                (empty($keyword) || stripos($tweet->text, $keyword) !== false) &&
+                (empty($keyword) || stripos($tweet->text, $keyword) !== false || stripos($tweet->user, $keyword) !== false) &&
                 (in_array($sentiment, $sentimentTypes))
             ) {
 
-                // Count tweets per place
                 if (!isset($placeTweetCounts[$place])) {
                     $placeTweetCounts[$place] = 1;
                 } else {
@@ -170,14 +165,11 @@ class OverViewController extends Controller
             }
         }
 
-        // Sort the places by tweet counts in descending order
         arsort($placeTweetCounts);
 
-        // Take only the top 10 places, and group the rest under "Other"
         $topPlaces = array_slice($placeTweetCounts, 0, 10);
         $otherCount = array_sum(array_slice($placeTweetCounts, 10));
 
-        // Add "Other" category to the result
         $topPlaces['Other'] = $otherCount;
 
         return $topPlaces;

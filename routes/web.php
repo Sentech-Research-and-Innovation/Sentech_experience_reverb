@@ -34,6 +34,7 @@ Route::get('/contactus', function () {
 
 
 Route::get('/web/weather', [WeatherController::class, 'create']);
+Route::get('/web/weather/forcast', [WeatherController::class, 'forecast']);
 
 
 
@@ -52,11 +53,13 @@ Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlar
 
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/admin/admin.php';
-require __DIR__ . '/admin/sentiments-Analysis.php';
-require __DIR__ . '/admin/predictive-maintenance.php';
-require __DIR__ . '/admin/roles.php';
-require __DIR__ . '/admin/company.php';
-require __DIR__ . '/admin/reports.php';
-require __DIR__ . '/admin/profile.php';
-require __DIR__ . '/admin/dashboard.php';
+Route::middleware('auth')->group(function () {
+    require __DIR__ . '/admin/admin.php';
+    require __DIR__ . '/admin/sentiments-Analysis.php';
+    require __DIR__ . '/admin/predictive-maintenance.php';
+    require __DIR__ . '/admin/roles.php';
+    require __DIR__ . '/admin/company.php';
+    require __DIR__ . '/admin/reports.php';
+    require __DIR__ . '/admin/profile.php';
+    require __DIR__ . '/admin/dashboard.php';
+});

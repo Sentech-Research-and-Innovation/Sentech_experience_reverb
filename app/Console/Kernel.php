@@ -5,8 +5,6 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-ini_set('memory_limit', '512M');
-
 class Kernel extends ConsoleKernel
 {
     /**
@@ -14,35 +12,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('csv:process')->everyMinute()->runInBackground();
 
-
-        // $schedule->command('inspire')->hourly();
-
-        //$schedule->command('csv:process')->everyMinute();
-
-        $schedule->command('tweets:import')->everyMinute();
-
-
-
-        // $schedule->command('csv:process')->hourly()->appendOutputTo(storage_path('logs.text'));
+        $schedule->command('tweets:import')->everyMinute()->runInBackground();
     }
 
-    protected $commands = [
-        //'App\Console\Commands\ProcessCsvData'
-        'App\Console\Commands\ImportTweets'
-
-    ];
     /**
      * Register the commands for the application.
      *
      * @return void
      */
-
-
     protected function commands()
     {
-        // $this->load(__DIR__ . '/Commands');
-
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

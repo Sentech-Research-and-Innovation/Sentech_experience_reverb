@@ -2,7 +2,25 @@
     <!-- <button type="button" class="btn btn-dark" id="ffg" @click="dialog1 = true">
         Delete
     </button> -->
-    <el-button @click="open">Delete Role</el-button>
+
+    <el-dialog v-model="dialogVisible" title="Error" width="500">
+        <span>{{ errMessage }}</span>
+        <template #footer> </template>
+    </el-dialog>
+
+    <el-popconfirm
+        confirm-button-text="Yes"
+        cancel-button-text="No"
+        :icon="InfoFilled"
+        icon-color="#626AEF"
+        title="Are you sure to approve this?"
+        @confirm="deleteRole()"
+        @cancel="cancelEvent"
+    >
+        <template #reference>
+            <el-button @click="open">Delete Role</el-button>
+        </template>
+    </el-popconfirm>
     <!-- <div>
         <v-dialog v-model="dialog1" activator="parent" persistent width="30%">
             <v-card>
@@ -45,8 +63,7 @@ export default defineComponent({
 
     setup(props) {
         const { roleId } = props;
-
-        const dialog1 = ref(false);
+        const dialogVisible = ref(false);
         const errMessage = ref("");
 
         const deleteRole = async () => {
@@ -66,39 +83,16 @@ export default defineComponent({
                 errorData.forEach(function (name) {
                     errMessage.value = errMessage.value.concat(", ", name);
                 });
+                dialogVisible.value = true;
             }
-        };
-
-        const open = () => {
-            ElMessageBox.confirm(
-                "proxy will permanently delete the Role. Continue?",
-                "Warning",
-                {
-                    confirmButtonText: "OK",
-                    cancelButtonText: "Cancel",
-                    type: "warning",
-                }
-            )
-                .then(() => {
-                    ElMessage({
-                        type: "success",
-                        message: "Delete completed",
-                    });
-                })
-                .catch(() => {
-                    ElMessage({
-                        type: "info",
-                        message: "Delete canceled",
-                    });
-                });
         };
 
         return {
             deleteRole,
-            dialog1,
+
             roleId,
             errMessage,
-            open,
+            dialogVisible,
         };
     },
 });

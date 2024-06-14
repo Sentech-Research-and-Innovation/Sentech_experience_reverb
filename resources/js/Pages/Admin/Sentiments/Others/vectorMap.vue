@@ -3,8 +3,15 @@
         Count Of Location by Location and Label
     </div> -->
     <div class="col-12 mx-0 ox-0 shadow-border py-5">
+        <div
+            v-if="permissionError && !dataLoaded"
+            class="col-12 text-center"
+            style="height: 215px; padding-top: 60px; color: red"
+        >
+            {{ permissionError }}
+        </div>
         <vuevectormap
-            v-if="dataLoaded"
+            v-if="dataLoaded && !permissionError"
             width="100%"
             height="200"
             :options="{
@@ -17,7 +24,7 @@
             }"
         >
         </vuevectormap>
-        <div v-else class="col-12 text-center">
+        <div v-if="!dataLoaded && !permissionError" class="col-12 text-center">
             <img :src="LoadingGif" width="50" />
         </div>
     </div>
@@ -57,7 +64,7 @@ export default defineComponent({
                 fill: "#0000",
             },
         });
-
+        const permissionError = ref("");
         const getData = async () => {
             try {
                 const res = await axios.post(
@@ -73,7 +80,11 @@ export default defineComponent({
                     dataLoaded.value = true;
                 }
             } catch (error) {
-                console.error("Error fetching data:", error);
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Others data";
+                }
+                dataLoaded.value = false;
             }
         };
 
@@ -106,6 +117,7 @@ export default defineComponent({
             searchFilter,
             LoadingGif,
             search,
+            permissionError,
         };
     },
 });

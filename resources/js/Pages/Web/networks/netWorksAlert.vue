@@ -1,22 +1,20 @@
 <template>
     <div class="col-12 px-lg-0 py-lg-0 px-4 py-4 mx-0">
-        <div class="networkHeading pb-3 pt-1">Network Status</div>
-        <p style="font-size: 17px; font-weight: 500">
+        <div class="networkHeading pb-lg-3 pb-2 pt-1">Network Status</div>
+        <p class="networkHeadingText">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna.
         </p>
-        <div class="row pt-4">
+        <div class="row pt-lg-4 pt-2">
             <div class="col-lg-4 col-6 px-2">
                 <div
                     class="col-12 network-container-warning py-1 mx-0"
                     @click="setNetWorkProvince('Eastern Cape')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Eastern Cape</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                OFF Line (4)
-                            </span>
+                            <span> OFF Line (4) </span>
                         </div>
 
                         <div
@@ -32,12 +30,10 @@
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Western Cape')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Western Cape</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                OFF Line (4)
-                            </span>
+                            <span> OFF Line (4) </span>
                         </div>
                         <div
                             class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -52,12 +48,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Kwazulu Natal')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Kwazulu Natal</strong> <br />
-                            <span class="fs-6" style="font-weight: 500"
-                                >All Good
-                            </span>
+                            <span>All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -72,12 +66,10 @@
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Gauteng')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Gauteng</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                OFF Line (4)
-                            </span>
+                            <span> OFF Line (4) </span>
                         </div>
                         <div
                             class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -93,12 +85,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Mpumalanga')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Mpumalanga</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                All Good
-                            </span>
+                            <span> All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -113,12 +103,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Free State')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Free State</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                All Good
-                            </span>
+                            <span> All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -133,12 +121,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Limpopo')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Limpopo</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                All Good
-                            </span>
+                            <span> All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -153,12 +139,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Northern Cape')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>Northern Cape</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                All Good
-                            </span>
+                            <span> All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -173,12 +157,10 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('North West')"
                 >
-                    <div class="d-flex justify-content-between py-2">
+                    <div class="d-flex justify-content-between py-lg-2">
                         <div class="py-1 text-start">
                             <strong>North West</strong> <br />
-                            <span class="fs-6" style="font-weight: 500">
-                                All Good
-                            </span>
+                            <span> All Good </span>
                         </div>
                         <div
                             class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
@@ -244,6 +226,11 @@ export default defineComponent({
     font-size: 30px;
     font-weight: 500;
 }
+.networkHeadingText {
+    font-size: 16px;
+    font-weight: 500;
+}
+
 .network-container {
     background-color: #0c2f5f !important;
 
@@ -287,5 +274,37 @@ export default defineComponent({
 .fs-6 {
     font-size: 13px !important;
 }
+@media only screen and (max-width: 1199px) {
+    .networkHeading {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .networkHeadingText {
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    .network-container-warning {
+        border-left: 7px solid #c51616;
+
+        background-color: #0c2f5f !important;
+
+        font-size: 12px;
+        text-align: right;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .network-container-good {
+        border-left: 7px solid #93ad24;
+
+        background-color: #0c2f5f !important;
+
+        font-size: 12px;
+        text-align: right;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
 </style>
->

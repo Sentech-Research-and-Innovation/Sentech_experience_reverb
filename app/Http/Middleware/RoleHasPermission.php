@@ -16,7 +16,7 @@ class RoleHasPermission
 
         // Check if the user has the specified permission for any of their roles.
         if (!Auth::user()->hasPermissionTo($permission)) {
-            abort(403, 'Unauthorized'); // Return a 403 Forbidden response if the user doesn't have the permission.
+            abort(403, 'Unauthorized, You dont have permissions'); // Return a 403 Forbidden response if the user doesn't have the permission.
         }
 
         return $next($request);

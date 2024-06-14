@@ -6,7 +6,9 @@
             <div class="col-6">
                 <h2>Companies</h2>
             </div>
-            <div class="col-6"><CreateCompany /></div>
+            <div class="col-6">
+                <CreateCompany v-if="can('companies-create_company')" />
+            </div>
         </div>
 
         <div class="company-nav-header col-12 px-0">

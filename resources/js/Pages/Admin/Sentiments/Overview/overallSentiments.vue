@@ -1,6 +1,13 @@
 <template>
     <div class="col-12 mx-lg-0 mt-3">
-        <div class="row">
+        <div
+            v-if="permissionError"
+            class="col-12 shadow-border text-center"
+            style="height: 200px; padding-top: 80px; color: red"
+        >
+            {{ permissionError }}
+        </div>
+        <div v-else class="row">
             <div v-if="loading" class="col-lg-2 col-6 mb-lg-0 mb-3 pr-0">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
@@ -125,25 +132,34 @@ export default defineComponent({
 
         const series = ref([]);
 
+        const permissionError = ref("");
         const getData = async () => {
-            const res = await axios.post(
-                `/admin/sentiments/overview/overall-sentiments`,
-                { searchFilter: search.value }
-            );
+            try {
+                const res = await axios.post(
+                    `/admin/sentiments/overview/overall-sentiments`,
+                    { searchFilter: search.value }
+                );
 
-            if (res.status === 200) {
-                overallData.value.totalTweets =
-                    res.data.positiveTweets +
-                    res.data.neutralTweets +
-                    res.data.negativeTweets;
-                overallData.value.positiveTweets = res.data.positiveTweets;
-                overallData.value.neutralTweets = res.data.neutralTweets;
-                overallData.value.negativeTweets = res.data.negativeTweets;
-                series.value = [
-                    overallData.value.positiveTweets,
-                    overallData.value.neutralTweets,
-                    overallData.value.negativeTweets,
-                ];
+                if (res.status === 200) {
+                    overallData.value.totalTweets =
+                        res.data.positiveTweets +
+                        res.data.neutralTweets +
+                        res.data.negativeTweets;
+                    overallData.value.positiveTweets = res.data.positiveTweets;
+                    overallData.value.neutralTweets = res.data.neutralTweets;
+                    overallData.value.negativeTweets = res.data.negativeTweets;
+                    series.value = [
+                        overallData.value.positiveTweets,
+                        overallData.value.neutralTweets,
+                        overallData.value.negativeTweets,
+                    ];
+                    loading.value = false;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Overview Data";
+                }
                 loading.value = false;
             }
         };
@@ -190,6 +206,7 @@ export default defineComponent({
             LoadingGif,
             search,
             loading,
+            permissionError,
         };
     },
 });

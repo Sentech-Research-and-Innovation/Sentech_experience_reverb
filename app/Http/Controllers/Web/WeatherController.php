@@ -68,48 +68,19 @@ class WeatherController extends Controller
 
         $response = Http::get("https://api.openweathermap.org/data/2.5/forecast?lat=" . $lat . "&lon=" . $lon . "&mode=json&units=metric&appid=e695570b6f7c7b11ff6b8dd74c8f7865");
         $forecast = $response->json();
-        // if ($weatherData->successful()) {
-        //     $data = $weatherData->json();
-        //     $response = [];
-        //     $count = 0;
-        //     foreach ($data['list'] as $dt) {
-        //         $dateKey = date('Y-m-d', $dt['dt']);
-        //         $timeKey = date('H:i:s', $dt['dt']);
 
-        //         // Check if the date key exists in the response array
-        //         if (!isset($response[$dateKey])) {
-        //             $response[$dateKey] = [];
-        //         }
-        //         $count++;
-        //         // Append the data to the response array under the date and time keys
-        //         $response[$dateKey][$timeKey] = [
-        //             'main' => $dt['main'],
-        //             'weather' => $dt['weather'],
-        //             'clouds' => $dt['clouds'],
-        //             'wind' => $dt['wind'],
-        //             'visibility' => $dt['visibility'],
-        //             'sys' => $dt['sys'],
-        //             'dt_txt' => $timeKey,
-        //         ];
-
-        //         if ($count == 6) {
-        //             break;
-        //         }
-        //     }
-
-        //     // You should decide whether to return JSON or render the Inertia view
-        //     // In this example, I'm returning the JSON response
-        //     // return response()->json($response);
-
-        // } else {
-        //     // Handle the API request error here
-        //     return response()->json(['error' => 'API request failed'], 500);
-        // }
 
         $currentWeather = $this->create();
 
         $data = array_merge($currentWeather, ["forecast" => $forecast]);
 
-        return Inertia::render('Admin/WeatherForcast/Index', compact('data'));
+
+        $userAgent = request()->header('User-Agent-type');
+
+        if ($userAgent == 'X-Mobile-Device') {
+            return request()->json(200, $data);
+        } else {
+            return Inertia::render('Admin/WeatherForcast/Index', compact('data'));
+        }
     }
 }

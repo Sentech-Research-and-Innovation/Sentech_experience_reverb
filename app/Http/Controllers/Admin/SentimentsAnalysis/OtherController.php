@@ -39,8 +39,12 @@ class OtherController extends Controller
         $query = Tweet::query();
 
         if (!empty($keyword)) {
-            $query->where('text', 'like', '%' . $keyword . '%');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('text', 'like', '%' . $keyword . '%')
+                    ->orWhere('user', 'like', '%' . $keyword . '%');
+            });
         }
+
 
         if (!empty($sentimentTypes)) {
             $query->whereIn('sentiment', $sentimentTypes);

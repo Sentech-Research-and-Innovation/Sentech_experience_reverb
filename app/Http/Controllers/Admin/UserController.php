@@ -25,8 +25,12 @@ class UserController extends Controller
         });
     }
 
+
+
+
     public function create(CreateUserRequest $request)
     {
+
         $data = $request->validated();
         $user = User::create([
             "name" => $data['first_name'] . '' . $data['last_name'],

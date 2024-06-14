@@ -8,13 +8,16 @@
                 </div>
                 <div class="col-12 pt-4 px-0">
                     <div class="row">
-                        <div class="col-3 shadow-sm shadow-border py-4 px-2">
-                            <div
+                        <div
+                            class="col-lg-3 col-12 shadow-sm shadow-border py-4 px-2 d-none d-lg-block d-xl-block"
+                        >
+                            <!-- <div
                                 class="col-12 pb-4 px-2 fs-6"
                                 style="font-weight: 500"
                             >
                                 Chosse a province
-                            </div>
+                            </div> -->
+
                             <div
                                 class="col-12 py-1 px-0"
                                 v-for="(province, index) in provinces"
@@ -37,9 +40,6 @@
                                                 :value="province"
                                             />
 
-                                            <!-- @change="
-                                                    setNetWorkProvince(province)
-                                                " -->
                                             <span class="checkmark">
                                                 <i
                                                     v-if="radio1 === province"
@@ -66,10 +66,70 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-9 text-start pr-0">
-                            <div
+
+                        <div
+                            class="col-lg-3 col-12 shadow-border22 py-2 px-2 d-xl-none d-xxl-block d-lg-none px-4 mb-4"
+                        >
+                            <vue-horizontal>
+                                <div
+                                    class="col-12 py-1 px-0"
+                                    v-for="(province, index) in provinces"
+                                    :key="index"
+                                >
+                                    <div
+                                        class="d-flex justify-content-end pt-3 pb-2 default-province"
+                                        style="cursor: pointer"
+                                        :class="{
+                                            'selected-province':
+                                                radio1 === province,
+                                        }"
+                                    >
+                                        <div
+                                            class="col-8 province text-start pt-1"
+                                        >
+                                            <label class="radio-container"
+                                                >{{ province }}
+                                                <input
+                                                    type="radio"
+                                                    v-model="radio1"
+                                                    :value="province"
+                                                />
+
+                                                <span class="checkmark">
+                                                    <i
+                                                        v-if="
+                                                            radio1 === province
+                                                        "
+                                                        class="far fa-dot-circle"
+                                                    ></i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col-3 text-start pt-1">
+                                            <i
+                                                v-if="
+                                                    province == 'Gauteng' ||
+                                                    province ==
+                                                        'Western Cape' ||
+                                                    province == 'Eastern Cape'
+                                                "
+                                                class="fas fa-exclamation-circle text-danger fa-lg"
+                                            ></i>
+
+                                            <i
+                                                v-else
+                                                class="fa-solid fa-circle-check text-success fa-lg"
+                                            ></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </vue-horizontal>
+                        </div>
+
+                        <div class="col-lg-9 col-12 text-start pr-0">
+                            <!-- <div
                                 class="col-12 px-0 mx-0 shadow-sm shadow-border py-4 px-4"
-                            >
+                               >
                                 <div class="row px-4">
                                     <div
                                         class="col-4 px-0 fs-6 pt-1"
@@ -102,46 +162,66 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div
                                 v-if="alarms"
-                                class="col-12 px-0 mx-0 shadow-sm py-4 px-4 mt-4"
+                                class="col-12 px-0 mx-0 pb-4 px-lg-4 mt-0"
                             >
-                                <div
-                                    class="row"
-                                    v-for="(records, siteName) in alarms"
-                                    :key="siteName"
-                                >
-                                    <div class="col-12">
-                                        <h5>{{ siteName }}</h5>
-                                    </div>
-
+                                <div v-if="isObjectEmpty(alarms)">
                                     <div
-                                        class="col-3"
-                                        v-for="(record, index) in records"
-                                        :key="index"
+                                        class="row"
+                                        v-for="(records, siteName) in alarms"
+                                        :key="siteName"
                                     >
+                                        <div class="col-12 pb-2">
+                                            <h5>{{ siteName }}</h5>
+                                        </div>
+
                                         <div
-                                            class="col-12 alert alert-default px-0 shadow-sm"
+                                            class="col-lg-3 col-6"
+                                            v-for="(record, index) in records"
+                                            :key="index"
                                         >
-                                            <div class="col-12 description">
-                                                {{
-                                                    formatDeviceName(
-                                                        record.DeviceName
-                                                    )
-                                                }}
-                                            </div>
-                                            <div class="col-12 time pt-2">
-                                                <i
-                                                    class="fa-regular fa-clock"
-                                                ></i>
-                                                {{
-                                                    formatDateTime(
-                                                        record.FormattedDateTimeEvent
-                                                    )
-                                                }}
+                                            <div
+                                                class="col-12 alert alert-default px-0 shadow-sm"
+                                            >
+                                                <div class="col-12 description">
+                                                    {{
+                                                        formatDeviceName(
+                                                            record.DeviceName
+                                                        )
+                                                    }}
+                                                </div>
+                                                <div class="col-12 time pt-2">
+                                                    <i
+                                                        class="fa-regular fa-clock"
+                                                    ></i>
+                                                    {{
+                                                        formatDateTime(
+                                                            record.FormattedDateTimeEvent
+                                                        )
+                                                    }}
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div v-else class="text-center col-12 pt-lg-5">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        width="100"
+                                        fill="#17c964"
+                                    >
+                                        <path
+                                            d="m15.09 2 1.72 3.048 3.28.78-.308 3.515L22 12l-2.218 2.657.309 3.514-3.282.781-1.718 3.038L12 20.6 8.91 22l-1.72-3.038-3.28-.781.308-3.524L2 12l2.218-2.667L3.91 5.81l3.282-.772L8.909 2 12 3.39zm1.559 6.293a.954.954 0 0 0-1.284-.084l-.091.084-4.988 5.16-1.56-1.62a.954.954 0 0 0-1.284-.084l-.09.083-.069.07a1.02 1.02 0 0 0-.08 1.316l.08.095 2.305 2.4a.974.974 0 0 0 1.3.083l.095-.083 5.734-5.94a1.02 1.02 0 0 0 .08-1.316l-.08-.095-.068-.07"
+                                        ></path>
+                                    </svg>
+
+                                    <div>
+                                        <p>
+                                            There are no network alerts at the
+                                            moment
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -160,13 +240,14 @@ import { defineComponent, ref, onMounted, watch } from "vue";
 
 import { WarningFilled } from "@element-plus/icons-vue";
 import { useFilterProvince } from "../../../stores/networks";
-
+import VueHorizontal from "vue-horizontal";
 //
 export default defineComponent({
     components: {
         WebLayout,
         Head,
         Link,
+        VueHorizontal,
     },
     setup() {
         const provinces = ref([
@@ -262,6 +343,9 @@ export default defineComponent({
             const dateTime = new Date(dateTimeString);
             return dateTime.toLocaleString("en-ZA", options);
         };
+        const isObjectEmpty = (obj) => {
+            return Object.keys(obj).length !== 0;
+        };
 
         watch(radio1, (newFilter, oldFilter) => {
             filterStore.province = newFilter;
@@ -278,6 +362,7 @@ export default defineComponent({
         });
 
         return {
+            isObjectEmpty,
             radio1,
             WarningFilled,
             value,
@@ -310,7 +395,24 @@ export default defineComponent({
 .selected-province {
     color: #fff !important;
     border-radius: 25px;
-    background: #144f9f;
+    background: #144f9f !important;
+}
+
+.default-province {
+    color: #fff !important;
+    border-radius: 25px;
+    border: 1px solid #c2bebe;
+}
+
+@media only screen and (max-width: 1199px) {
+    .sentech-index-page {
+        padding-top: 30px;
+        min-height: 100vh;
+        color: #144f9f;
+        --el-font-size-base: 17px;
+        --el-font-weight-primary: 400;
+        background-color: #fff !important;
+    }
 }
 </style>
 

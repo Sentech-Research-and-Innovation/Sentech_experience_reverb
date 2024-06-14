@@ -1,16 +1,16 @@
 <?php return array (
   'app' => 
   array (
-    'name' => 'Laravel',
+    'name' => 'Sentech',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://127.0.0.1:8000',
+    'url' => 'https://sentech.webgap.xyz',
     'asset_url' => NULL,
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:UJJMY31WTwkoaRt7S8NmO9+cRmtsyvZKKKN6NNu0tvY=',
+    'key' => 'base64:MMkNC7eLspRobvNlxR0dPWETSCWUlwzqogbAFO1Bj9o=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -252,7 +252,7 @@
         'driver' => 'octane',
       ),
     ),
-    'prefix' => 'laravel_cache_',
+    'prefix' => 'sentech_cache_',
   ),
   'cors' => 
   array (
@@ -351,7 +351,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'laravel_database_',
+        'prefix' => 'sentech_database_',
       ),
       'default' => 
       array (
@@ -388,7 +388,7 @@
       array (
         'driver' => 'local',
         'root' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/public',
-        'url' => 'http://127.0.0.1:8000/storage',
+        'url' => 'https://sentech.webgap.xyz/storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -399,6 +399,14 @@
         'secret' => 'OOmFPN60ZTX0BHgZi5hK+mosdEVUqZyd2351q51S',
         'region' => 'af-south-1',
         'bucket' => 'model-output-predictive-analysis-mvp',
+      ),
+      's3_secondary' => 
+      array (
+        'driver' => 's3',
+        'key' => 'AKIATOGUXFZ76A3RNF4Y',
+        'secret' => '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',
+        'region' => 'af-south-1',
+        'bucket' => 'sentech-rtcsa',
       ),
     ),
     'links' => 
@@ -710,7 +718,7 @@
       array (
         'transport' => 'smtp',
         'host' => 'sandbox.smtp.mailtrap.io',
-        'port' => '2525',
+        'port' => '587',
         'encryption' => 'tls',
         'username' => '13467686d7467f',
         'password' => '9c1a49d9332efb',
@@ -756,7 +764,7 @@
     'from' => 
     array (
       'address' => 'hello@example.com',
-      'name' => 'Example',
+      'name' => 'Sentech',
     ),
     'markdown' => 
     array (
@@ -931,7 +939,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'laravel_session',
+    'cookie' => 'sentech_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,
@@ -967,116 +975,6 @@
       ),
       'env' => 
       array (
-      ),
-    ),
-  ),
-  'system_config' => 
-  array (
-    'do_not_encrypt' => 
-    array (
-      0 => 'email',
-      1 => 'first_name',
-      2 => 'last_name',
-      3 => 'company_name',
-      4 => 'company_id',
-      5 => 'company_unique_id',
-      6 => 'created_at',
-      7 => 'updated_at',
-      8 => 'suburb_name',
-      9 => 'user_id',
-      10 => 'country',
-      11 => 'country_code',
-      12 => 'password_confirmation',
-      13 => 'password',
-      14 => 'email_verified_at',
-      15 => 'locked',
-      16 => 'created_at',
-      17 => 'updated_at',
-      18 => 'id',
-      19 => 'town_name',
-      20 => 'zip_code',
-      21 => 'town_id',
-      22 => 'country_id',
-      23 => 'province_id',
-      24 => 'suburb_id',
-      25 => 'province_name',
-      26 => 'area_code_id',
-      27 => 'country_name',
-      28 => 'dial_code',
-      29 => 'intermediate_region_code',
-      30 => 'sub_region_code',
-      31 => 'region_code',
-      32 => 'intermediate_region',
-      33 => 'sub_region',
-      34 => 'region',
-      35 => 'iso_3166_2',
-      36 => 'country_code',
-      37 => 'alpha_3',
-      38 => 'alpha_2',
-      39 => 'address_type',
-      40 => 'role_id',
-      41 => 'role_name',
-      42 => 'branch_id',
-      43 => 'branch_name',
-      44 => 'branch_unique_id',
-      45 => 'rule_category_name',
-      46 => 'affordability_category_name',
-      47 => 'sub_category_name',
-      48 => 'credit_report_source',
-      49 => 'created_by',
-      50 => 'application_id',
-      51 => 'loan_cat_id',
-    ),
-    'models' => 
-    array (
-      'user' => '\\App\\Models\\User',
-      'company' => '\\App\\Models\\Company\\Company',
-      'company_details' => '\\App\\Models\\Company\\CompanyDetails',
-      'company_billing_details' => '\\App\\Models\\Company\\CompanyBillingDetails',
-      'suburb' => '\\App\\Models\\Address\\Suburb',
-      'address' => '\\App\\Models\\Address\\Address',
-      'country' => '\\App\\Models\\Address\\Country',
-      'province' => '\\App\\Models\\Address\\Province',
-      'town' => '\\App\\Models\\Address\\Town',
-      'area_code' => '\\App\\Models\\Address\\AreaCode',
-      'user_role' => '\\App\\Models\\UserModels\\UserRole',
-      'user_company' => '\\App\\Models\\UserModels\\UserCompany',
-      'role' => '\\App\\Models\\UserModels\\Role',
-      'branch' => '\\App\\Models\\Branch\\Branch',
-      'branch_details' => '\\App\\Models\\Branch\\BranchDetails',
-      'user_branch' => '\\App\\Models\\Branch\\UserBranch',
-      'user_permission' => '\\App\\Models\\UserModels\\UserPermissions',
-      'company_staff' => '\\App\\Models\\Company\\CompanyStaff',
-      'rule_category' => '\\App\\Models\\Categories\\RuleCategory',
-      'rule_sub_category' => '\\App\\Models\\Categories\\RuleSubCategory',
-      'system_rule' => '\\App\\Models\\Rules\\SystemRule',
-      'system_rule_answer' => '\\App\\Models\\Rules\\SystemRuleAnswer',
-      'loan_application' => '\\App\\Models\\LoanWizard\\LoanApplication',
-      'personal_details' => '\\App\\Models\\LoanWizard\\PersonalDetail',
-      'system_user' => '\\App\\Models\\LoanWizard\\SystemUser',
-      'credit_report_data' => '\\App\\Models\\CreditReport\\CreditReportData',
-      'branch_settings' => '\\App\\Models\\Branch\\BranchSettings',
-      'employment_information' => '\\App\\Models\\LoanWizard\\EmploymentInformation',
-    ),
-    'steps' => 
-    array (
-      'training-check' => 
-      array (
-        'currentStep' => false,
-        'progress' => 0,
-        'title' => 'Application Start',
-      ),
-      'personal-information' => 
-      array (
-        'currentStep' => 0,
-        'progress' => 10,
-        'title' => 'Personal information',
-      ),
-      'employment-details' => 
-      array (
-        'currentStep' => 1,
-        'progress' => 15,
-        'title' => 'Employment details',
       ),
     ),
   ),

@@ -14,20 +14,17 @@
                 <div class="col-12 pt-4 pb-2 text-start">
                     <h5>Edit Permissions for {{ roleName }} Role</h5>
                 </div>
-                <div class="col-12 py-4 px-lg-4 border text-start">
+                <div class="col-12 py-4 px-0border text-start">
                     <div
-                        class="col-12 pt-lg-2 pt-5"
+                        class="col-12 pt-lg-4 pt-2"
                         v-for="(group, groupName) in groupedData"
                         :key="groupName"
                     >
-                        <div class="row">
-                            <div class="col-lg-3 col-12">
-                                <h5>{{ groupName }}</h5>
-                            </div>
+                        <div class="row border">
                             <div class="col-lg-9 col-12">
                                 <div class="row">
                                     <div
-                                        class="col-lg-3 col-8 text-lg-start text-end"
+                                        class="col-lg-3 col-8 text-lg-start text-end py-3"
                                         v-for="perm in group"
                                         :key="perm.id"
                                     >
@@ -47,6 +44,9 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-3 col-12 border-right py-3">
+                                <h5>{{ groupName }}</h5>
                             </div>
                         </div>
                     </div>

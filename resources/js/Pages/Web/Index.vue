@@ -22,7 +22,7 @@
                                         <div class="pt-4 pt-2">
                                             <img
                                                 :src="freeVisionLogo"
-                                                width="300"
+                                                class="freevisionLogo"
                                             />
                                         </div>
                                         <div
@@ -33,10 +33,10 @@
                                         </div>
 
                                         <div
-                                            class="d-flex justify-content-between mt-1 col-12 pt-3"
+                                            class="d-flex justify-content-between col-12 pt-lg-4"
                                         >
                                             <div
-                                                class="col-5 px-0 text-start pt-5"
+                                                class="col-5 px-0 text-start pt-lg-5 pedning-bottons"
                                             >
                                                 <a
                                                     href="https://play.google.com/store/apps/details?id=za.co.freevisiontv"
@@ -207,6 +207,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.freevisionLogo {
+    width: 300px;
+}
 .sentech-web {
     background-color: #144f9f !important;
     color: #ffff;
@@ -309,22 +312,30 @@ export default {
         font-size: 42px;
     }
 
+    .pedning-bottons {
+        padding-top: 32px;
+    }
     .advert-section-div-button {
         width: 100%;
         color: #ffffff;
-        font-size: 15px;
+
+        font-size: 12px;
         border-radius: 10px;
         font-weight: 500;
         background: rgba(255, 255, 255, 0.397);
+        height: 40px;
     }
 
     .sentech-index-page {
-        padding-top: 100px;
+        padding-top: 40px;
         padding-bottom: 30px;
     }
 
     .advert-section-page {
-        height: 340px;
+        height: 240px;
+    }
+    .freevisionLogo {
+        width: 140px;
     }
 }
 

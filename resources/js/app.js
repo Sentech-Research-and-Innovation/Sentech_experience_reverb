@@ -2,7 +2,6 @@ import "./bootstrap";
 import "./assets/styles.css";
 import "./assets/bundleStyles.css";
 import "./assets/typicons.css";
-
 import "./assets/lightTheme.css";
 import "./assets/darkTheme.css";
 
@@ -35,6 +34,9 @@ import vuescroll from "vuescroll";
 import VueBlocksTree from "vue3-blocks-tree";
 import "vue3-blocks-tree/dist/vue3-blocks-tree.css";
 
+import axios from "axios";
+import ErrorComponent from "./Layouts/Partials/AcessError.vue";
+
 let defaultoptions = { treeName: "blocks-tree" };
 
 const pinia = createPinia();
@@ -51,63 +53,89 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, App, props, plugin }) {
-        return (
-            createApp({ render: () => h(App, props) })
-                .use(ElementPlus)
-                .use(plugin)
-                .use(bootstrap)
-                // .use(vuetify)
-                .use(pinia)
-                .use(LaravelPermissionToVueJS)
-                .use(VueApexCharts)
+        const app = createApp({ render: () => h(App, props) });
 
-                .use(VueDatePicker)
-                .use(VueVectorMap, {
-                    backgroundColor: "#fffff",
-                    map: "south_africa",
-                })
-                .use(VueBlocksTree, defaultoptions)
-                .use(vuescroll, {
-                    ops: {
-                        // The global config
-                        vuescroll: {
-                            checkShiftKey: true,
-                            locking: false,
-                            // deltaPercent: 0.75
-                        },
-                        scrollButton: {
-                            enable: true,
-                            background: "rgb(3, 185, 118)",
-                            opacity: 1,
-                            step: 180,
-                            mousedownStep: 30,
-                        },
-                        bar: {
-                            opacity: "0.5",
-                            background: "blue",
-                        },
-                        scrollPanel: {
-                            initialScrollY: true,
-                            initialScrollX: true,
-                            scrollingX: true,
-                            scrollingY: true,
-                            speed: 300,
-                            easing: undefined,
-                            verticalNativeBarPos: "right",
-                        },
-                        rail: {
-                            background: "#A3ACBC",
-                            opacity: 0.3,
-                            size: "1%",
-                            specifyBorderRadius: "1%",
-                            gutterOfEnds: "0",
-                            gutterOfSide: "0",
-                            keepShow: false,
-                        },
+        app.use(ElementPlus)
+            .use(plugin)
+            .use(bootstrap)
+            .use(pinia)
+            .use(LaravelPermissionToVueJS)
+            .use(VueApexCharts)
+            .use(VueDatePicker)
+            .use(VueVectorMap, {
+                backgroundColor: "#fffff",
+                map: "south_africa",
+            })
+            .use(VueBlocksTree, defaultoptions)
+            .use(vuescroll, {
+                ops: {
+                    // The global config
+                    vuescroll: {
+                        checkShiftKey: true,
+                        locking: false,
                     },
-                })
-                .mount(el)
+                    scrollButton: {
+                        enable: true,
+                        background: "rgb(3, 185, 118)",
+                        opacity: 1,
+                        step: 180,
+                        mousedownStep: 30,
+                    },
+                    bar: {
+                        opacity: "0.5",
+                        background: "blue",
+                    },
+                    scrollPanel: {
+                        initialScrollY: true,
+                        initialScrollX: true,
+                        scrollingX: true,
+                        scrollingY: true,
+                        speed: 300,
+                        easing: undefined,
+                        verticalNativeBarPos: "right",
+                    },
+                    rail: {
+                        background: "#A3ACBC",
+                        opacity: 0.3,
+                        size: "1%",
+                        specifyBorderRadius: "1%",
+                        gutterOfEnds: "0",
+                        gutterOfSide: "0",
+                        keepShow: false,
+                    },
+                },
+            });
+
+        // Axios interceptor for error handling
+        axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error.response && error.response.status === 403) {
+                    const errorMessage =
+                        error.response.data.message || "Unauthorized access.";
+
+                    // Dynamically create and mount the error component
+                    const ErrorConstructor = app.component(
+                        "ErrorComponent",
+                        ErrorComponent
+                    );
+                    const instance = createApp({
+                        render() {
+                            return h(ErrorConstructor, {
+                                message: errorMessage,
+                            });
+                        },
+                    });
+                    const el = document.createElement("div");
+                    document.body.appendChild(el);
+                    instance.mount(el);
+                }
+                return Promise.reject(error);
+            }
         );
+
+        app.mount(el);
+        return app;
     },
     progress: {
         color: "#4B5563",

@@ -1,8 +1,8 @@
 <template>
     <div class="col-12 px-0 mx-0">
-        <div class="col-12 shadow-border">
+        <div class="col-12 shadow-border mx-0">
             <h3 class="py-4" style="color: #000">
-                Sentiments Timeline (cumulative)
+                Number Of Tweets By Date And Sentiments
             </h3>
             <div
                 class="col-12 text-center"
@@ -11,10 +11,16 @@
             >
                 <img :src="LoadingGif" width="50" />
             </div>
-
+            <div
+                v-if="permissionError"
+                class="col-12 text-center"
+                style="height: 215px; padding-top: 60px; color: red"
+            >
+                {{ permissionError }}
+            </div>
             <apexchart
                 v-else
-                height="200"
+                height="350"
                 type="line"
                 :options="chartUtil.chartOptions"
                 :series="seriesData"
@@ -94,29 +100,37 @@ export default defineComponent({
                 data: [],
             },
         ]);
-
+        const permissionError = ref("");
         const getData = async () => {
-            const res = await axios.post(
-                `/admin/sentiments/overview/sentimentsTimeline`,
-                { searchFilter: search.value }
-            );
-            if (res.status === 200) {
-                for (const key in res.data) {
-                    const monthData = res.data[key];
+            try {
+                const res = await axios.post(
+                    `/admin/sentiments/overview/sentimentsTimeline`,
+                    { searchFilter: search.value }
+                );
+                if (res.status === 200) {
+                    for (const key in res.data) {
+                        const monthData = res.data[key];
 
-                    seriesData.value[0].data.push({
-                        x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.NEGATIVE,
-                    });
+                        seriesData.value[0].data.push({
+                            x: monthData.month + " " + monthData.year,
+                            y: monthData.sentiments.NEGATIVE,
+                        });
 
-                    seriesData.value[1].data.push({
-                        x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.POSITIVE,
-                    });
-                    seriesData.value[2].data.push({
-                        x: monthData.month + " " + monthData.year,
-                        y: monthData.sentiments.NEUTRAL,
-                    });
+                        seriesData.value[1].data.push({
+                            x: monthData.month + " " + monthData.year,
+                            y: monthData.sentiments.POSITIVE,
+                        });
+                        seriesData.value[2].data.push({
+                            x: monthData.month + " " + monthData.year,
+                            y: monthData.sentiments.NEUTRAL,
+                        });
+                    }
+                    loading.value = false;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Overview Data";
                 }
                 loading.value = false;
             }
@@ -164,6 +178,7 @@ export default defineComponent({
             LoadingGif,
             searchFilter,
             search,
+            permissionError,
         };
     },
 });

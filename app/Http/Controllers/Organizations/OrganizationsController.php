@@ -21,7 +21,7 @@ class OrganizationsController extends Controller
 
     public function approved()
     {
-        $companies = Company::with('contactPerson')->where('active', true)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+        $companies = Company::with('contactPerson')->where('approved', 2)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
 
         $userAgent = request()->header('User-Agent-type');
 
@@ -33,7 +33,7 @@ class OrganizationsController extends Controller
 
     public function request()
     {
-        $companies = Company::with('contactPerson')->where('active', false)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+        $companies = Company::with('contactPerson')->where('approved', 0)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
 
         $userAgent = request()->header('User-Agent-type');
 
@@ -42,6 +42,19 @@ class OrganizationsController extends Controller
         }
         return Inertia::render('Companies/Requests', compact('companies'));
     }
+
+    public function pending()
+    {
+        $companies = Company::with('contactPerson')->where('approved', 1)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
+
+        $userAgent = request()->header('User-Agent-type');
+
+        if ($userAgent == 'X-Mobile-Device') {
+            return request()->json(200, $companies);
+        }
+        return Inertia::render('Companies/Pending', compact('companies'));
+    }
+
 
 
     public function approveCompany($company_id, Request $request)
@@ -52,7 +65,8 @@ class OrganizationsController extends Controller
 
         );
 
-        company::where('id', $company_id)->update(['active' => true]);
+        company::where('id', $company_id)->update(['active' => true, 'approved' => 1]);
+
 
         $company = company::find($company_id)->first();
 

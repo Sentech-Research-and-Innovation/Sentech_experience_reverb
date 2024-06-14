@@ -40,10 +40,15 @@ class TrendsController extends Controller
             $endDate = new DateTime($filterDate[1]);
         }
 
-        $query = Tweet::query();
+        $query = Tweet::limit(100);
+
+        // return $query = Tweet::all();
 
         if (!empty($keyword)) {
-            $query->where('text', 'like', '%' . $keyword . '%');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('text', 'like', '%' . $keyword . '%')
+                    ->orWhere('user', 'like', '%' . $keyword . '%');
+            });
         }
 
         if (!empty($sentimentTypes)) {
@@ -74,6 +79,7 @@ class TrendsController extends Controller
                 "text" => $tweet->text,
                 "sentiment" => $tweet->sentiment,
                 "date" => $tweet->date,
+                "user" => $tweet->user
             ];
         }
 

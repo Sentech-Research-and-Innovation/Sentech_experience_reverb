@@ -12,6 +12,13 @@
         >
             <img :src="LoadingGif" width="50" />
         </div>
+        <div
+            v-if="permissionError"
+            class="col-12 text-center"
+            style="height: 300px; padding-top: 100px; color: red"
+        >
+            {{ permissionError }}
+        </div>
 
         <apexchart
             v-else
@@ -33,6 +40,8 @@ export default defineComponent({
 
     setup() {
         const loading = ref(true);
+
+        const permissionError = ref("");
 
         const hours = ref([]);
         const filterStore = useFilterStore();
@@ -173,23 +182,32 @@ export default defineComponent({
                 offsetY: 40,
             },
         });
-
         const getData = async () => {
-            const res = await axios.post(
-                `/admin/sentiments/timelines/tweets-by-hour`,
-                { searchFilter: search.value }
-            );
-            if (res.status === 200) {
-                const responseData = await res.data;
-                hours.value = await responseData.hours;
-                for await (const sentiment of responseData.data) {
-                    series.value[0].data.push(sentiment.POSITIVE);
-                    series.value[1].data.push(sentiment.NEUTRAL);
-                    series.value[2].data.push(sentiment.NEGATIVE);
+            try {
+                const res = await axios.post(
+                    `/admin/sentiments/timelines/tweets-by-hour`,
+                    { searchFilter: search.value }
+                );
+
+                if (res.status === 200) {
+                    const responseData = await res.data;
+                    hours.value = await responseData.hours;
+                    for await (const sentiment of responseData.data) {
+                        series.value[0].data.push(sentiment.POSITIVE);
+                        series.value[1].data.push(sentiment.NEUTRAL);
+                        series.value[2].data.push(sentiment.NEGATIVE);
+                    }
+                    loading.value = false;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Timelines";
                 }
                 loading.value = false;
             }
         };
+
         onMounted(async () => {
             search.value = {
                 date: searchFilter.value.date,
@@ -224,6 +242,7 @@ export default defineComponent({
             searchFilter,
             loading,
             LoadingGif,
+            permissionError,
         };
     },
 });

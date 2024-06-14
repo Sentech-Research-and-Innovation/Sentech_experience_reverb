@@ -15,8 +15,15 @@
                     >
                 </li>
 
-                <li class="nav-item mx-0">
-                    <Link class="nav-link">Pending </Link>
+                <li
+                    class="nav-item mx-0"
+                    :class="{
+                        active: $page.url === '/organizantions/pending',
+                    }"
+                >
+                    <Link class="nav-link" href="/organizantions/pending"
+                        >Pending
+                    </Link>
                 </li>
                 <li
                     class="nav-item mr-5"

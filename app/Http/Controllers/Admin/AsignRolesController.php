@@ -39,7 +39,7 @@ class AsignRolesController extends Controller
     public function show(User $userId)
     {
         //  $userRole = Role::where('id', $userId)->with('roles')->get();
-        return $role = $userId->roles;
+        $role = $userId->roles;
 
         $userRole = Role::where('id', $role->role_id)->get();
 

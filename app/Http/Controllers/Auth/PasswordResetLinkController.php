@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 
 class PasswordResetLinkController extends Controller
@@ -98,6 +99,11 @@ class PasswordResetLinkController extends Controller
                 ])->save();
 
                 $user->tokens()->delete();
+                $geuser = User::where('email', $request->email)->first();
+
+                if ($geuser) {
+                    $geuser->company()->update(['approved' => 2]);
+                }
 
                 event(new PasswordReset($user));
             }

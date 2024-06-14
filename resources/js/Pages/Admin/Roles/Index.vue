@@ -17,11 +17,17 @@
                         <td>
                             <div class="d-flex justify-content-end">
                                 <div class="col-lg-3 col-6">
-                                    <DeleteRole :roleId="role.id" />
+                                    <DeleteRole
+                                        :roleId="role.id"
+                                        v-if="can('roles-delete')"
+                                    />
                                 </div>
 
                                 <div class="col-lg-3 col-6">
-                                    <ViewRole :roleName="role.name" />
+                                    <ViewRole
+                                        :roleName="role.name"
+                                        v-if="can('roles-update')"
+                                    />
                                 </div>
                             </div>
                         </td>

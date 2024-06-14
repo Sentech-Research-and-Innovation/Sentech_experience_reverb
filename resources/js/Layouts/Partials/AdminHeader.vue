@@ -10,11 +10,12 @@
                 class="nav-item"
                 :class="{ active: $page.url === '/admin/dashboard' }"
             >
-                <Link class="nav-link" href="/admin/dashboard">
+                <a class="nav-link" href="/admin/dashboard">
                     <span class="menu-title">Home </span>
-                </Link>
+                </a>
             </li>
             <li
+                v-if="can('sentiment_Analysis-read_overview')"
                 class="nav-item"
                 :class="{
                     active:
@@ -25,12 +26,13 @@
                         $page.url === '/admin/sentiments/others',
                 }"
             >
-                <Link class="nav-link" href="/admin/sentiments/all">
+                <a class="nav-link" href="/admin/sentiments/all">
                     <span class="menu-title">Sentiment Analysis </span>
-                </Link>
+                </a>
             </li>
 
             <li
+                v-if="can('predictive_maintenance-read_master_view')"
                 class="nav-item"
                 :class="{
                     active:
@@ -39,65 +41,65 @@
                             '/admin/predictive-maintenance/predictions/detailed-view',
                 }"
             >
-                <Link
-                    class="nav-link"
-                    href="/admin/predictive-maintenance/index"
-                >
+                <a class="nav-link" href="/admin/predictive-maintenance/index">
                     <span class="menu-title">Predictive Maintenance </span>
-                </Link>
+                </a>
             </li>
 
             <li
+                v-if="can('roles-read')"
                 class="nav-item pt-0"
                 :class="{ active: $page.url === '/admin/roles' }"
             >
-                <Link class="nav-link" href="/admin/roles">
+                <a class="nav-link" href="/admin/roles">
                     <span class="menu-title">Roles and permissions</span>
-                </Link>
+                </a>
             </li>
             <li
+                v-if="can('users-read')"
                 class="nav-item"
                 :class="{ active: $page.url === '/admin/getUsers' }"
             >
-                <Link
+                <a
                     class="nav-link"
                     href="/admin/getUsers"
                     :class="{ active: $page.url === '/Users' }"
                 >
                     <span class="menu-title">Users </span>
-                </Link>
+                </a>
             </li>
 
             <li
+                v-if="can('companies-read_approved')"
                 class="nav-item"
                 :class="{ active: $page.url === '/organizantions/approved' }"
             >
                 <!-- v-if="company_type == 'super_company'" -->
-                <Link class="nav-link" href="/organizantions/approved">
+                <a class="nav-link" href="/organizantions/approved">
                     <span class="menu-title">Companies </span>
-                </Link>
+                </a>
             </li>
 
             <li
                 class="nav-item my-lg-5"
                 style="text-decoration: none !important"
             >
-                <Link
-                    href="/admin/weather/forcast"
+                <a
+                    href="/web/weather/forcast"
                     style="text-decoration: none !important"
                 >
                     <Weather />
-                </Link>
+                </a>
             </li>
             <li class="nav-item pt-2">
-                <Link class="nav-link">
+                <a class="nav-link">
                     <span class="menu-title">Settings </span>
-                </Link>
+                </a>
             </li>
             <li class="nav-item">
-                <Link class="nav-link">
+                <a class="nav-link">
                     <span class="menu-title">Help? </span>
-                </Link>
+                </a>
             </li>
         </ul>
     </div>

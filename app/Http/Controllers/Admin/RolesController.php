@@ -96,7 +96,10 @@ class RolesController extends Controller
                 $role->revokePermissionTo($permission);
             }
         }
-        $message = "Updated permissions for role " . $roleName;
+
+
+
+        $message = "Updated permissions for role " . $this->splitRoleName($roleName);
         $this->StoreActivity($message);
         return request()->json([], 200);
     }
@@ -111,10 +114,11 @@ class RolesController extends Controller
         if (count($roles_has_users) > 0) {
             return response()->json($roles_has_users, 401);
         } else {
-            $role = Role::find(request()->roleId)->first();
+
+            $role = Role::where("id", request()->roleId)->get();
             Role::find(request()->roleId)->delete();
 
-            $message = "Deleted role " . $role;
+            $message = "Deleted role " . $this->splitRoleName($role[0]->name);
             $this->StoreActivity($message);
             return response()->json([], 200);
         }
@@ -124,5 +128,13 @@ class RolesController extends Controller
     {
         $roles = Role::where('company_id', $this->company->id)->orderBy('id', 'Desc')->get();
         return request()->json(200, $roles);
+    }
+
+
+    private function splitRoleName($text)
+    {
+
+        $parts = explode("_", $text);
+        return $parts[0];
     }
 }

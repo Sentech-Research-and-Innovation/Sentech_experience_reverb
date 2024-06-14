@@ -6,7 +6,8 @@
             <div class="col-6">
                 <h2>Companies</h2>
             </div>
-            <div class="col-6"><CreateCompany /></div>
+            <!-- v-if="can('roles-create')"  -->
+            <div class="col-6"></div>
         </div>
 
         <div class="col-12 px-0 mx-0">

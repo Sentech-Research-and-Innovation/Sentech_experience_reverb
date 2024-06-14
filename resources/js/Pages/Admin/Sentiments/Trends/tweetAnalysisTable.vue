@@ -3,112 +3,125 @@
         <div class="col-12">
             <div class="col-12 pt-4 shadow-border pb-4 mt-3">
                 <div><h2>Tweet Content</h2></div>
+                <div
+                    v-if="permissionError"
+                    class="col-12 text-center"
+                    style="height: 300px; padding-top: 100px; color: red"
+                >
+                    {{ permissionError }}
+                </div>
                 <div class="row pt-3" v-if="!loading">
-                    <div class="col-12 mt-3 mb-5 px-4">
-                        <div class="row">
-                            <div class="col-4 sentiments-counts">
-                                <div class="sentiments-labels">
-                                    <strong> Postive </strong>
+                    <div>
+                        <div class="col-12 mt-3 mb-5 px-4">
+                            <div class="row">
+                                <div class="col-4 sentiments-counts">
+                                    <div class="sentiments-labels">
+                                        <strong> Postive </strong>
+                                    </div>
+                                    <div class="py-2">
+                                        <strong>
+                                            {{ tweets.positiveTweets }}
+                                        </strong>
+                                    </div>
                                 </div>
-                                <div class="py-2">
-                                    <strong>
-                                        {{ tweets.positiveTweets }}
-                                    </strong>
+                                <div class="col-4 sentiments-counts">
+                                    <div class="sentiments-labels">
+                                        <strong> Neutral </strong>
+                                    </div>
+                                    <div class="py-2">
+                                        <strong>
+                                            {{ tweets.neutralTweets }}
+                                        </strong>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-4 sentiments-counts">
-                                <div class="sentiments-labels">
-                                    <strong> Neutral </strong>
-                                </div>
-                                <div class="py-2">
-                                    <strong>
-                                        {{ tweets.neutralTweets }}
-                                    </strong>
-                                </div>
-                            </div>
-                            <div class="col-4 sentiments-counts">
-                                <div class="sentiments-labels">
-                                    <strong> Negative </strong>
-                                </div>
-                                <div class="py-2">
-                                    <strong>
-                                        {{ tweets.negativeTweets }}
-                                    </strong>
+                                <div class="col-4 sentiments-counts">
+                                    <div class="sentiments-labels">
+                                        <strong> Negative </strong>
+                                    </div>
+                                    <div class="py-2">
+                                        <strong>
+                                            {{ tweets.negativeTweets }}
+                                        </strong>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12" style="height: 500px">
-                        <vue-scroll>
-                            <div class="row pb-3">
-                                <div class="col-3">
-                                    <strong>Sentiments</strong>
+                        <div class="col-12" style="height: 500px">
+                            <vue-scroll>
+                                <div class="row pb-3">
+                                    <div class="col-3">
+                                        <strong>Sentiments</strong>
+                                    </div>
+                                    <div class="col-9">
+                                        <strong>Tweet Content</strong>
+                                    </div>
                                 </div>
-                                <div class="col-9">
-                                    <strong>Tweet Content</strong>
-                                </div>
-                            </div>
-                            <div v-if="tweets.tweetsContent.length !== 0">
-                                <div
-                                    class="col-12 tweets-wrapper1"
-                                    v-for="(
-                                        tweet, index
-                                    ) in tweets.tweetsContent"
-                                    :key="index"
-                                >
-                                    <div class="row tweets-container">
-                                        <div
-                                            class="col-3 sentiment py-2"
-                                            :class="{
-                                                'tweets-container-negative':
-                                                    tweet.sentiment ===
-                                                    'NEGATIVE',
-                                                'tweets-container-neutral':
-                                                    tweet.sentiment ===
-                                                    'NEUTRAL',
-                                                'tweets-container-positive':
-                                                    tweet.sentiment ===
-                                                    'POSITIVE',
-                                            }"
-                                        >
-                                            {{ tweet.sentiment }}
-                                        </div>
-
-                                        <div
-                                            v-if="search.keywords"
-                                            class="col-9 py-2 tweetsColor"
-                                        >
+                                <div v-if="tweets.tweetsContent.length !== 0">
+                                    <div
+                                        class="col-12 tweets-wrapper1"
+                                        v-for="(
+                                            tweet, index
+                                        ) in tweets.tweetsContent"
+                                        :key="index"
+                                    >
+                                        <div class="row tweets-container">
                                             <div
-                                                v-html="
-                                                    highlightKeywords(
-                                                        tweet.text
-                                                    )
-                                                "
-                                            ></div>
-                                            <div>
+                                                class="col-3 sentiment py-2"
+                                                :class="{
+                                                    'tweets-container-negative':
+                                                        tweet.sentiment ===
+                                                        'NEGATIVE',
+                                                    'tweets-container-neutral':
+                                                        tweet.sentiment ===
+                                                        'NEUTRAL',
+                                                    'tweets-container-positive':
+                                                        tweet.sentiment ===
+                                                        'POSITIVE',
+                                                }"
+                                            >
+                                                {{ tweet.sentiment }}
+                                            </div>
+
+                                            <div
+                                                v-if="search.keywords"
+                                                class="col-9 py-2 tweetsColor"
+                                            >
+                                                <div
+                                                    v-html="
+                                                        highlightKeywords(
+                                                            tweet.text
+                                                        )
+                                                    "
+                                                ></div>
+                                                <div>
+                                                    <br />
+                                                    {{
+                                                        formattedDate(
+                                                            tweet.date
+                                                        )
+                                                    }}
+                                                </div>
+                                            </div>
+                                            <div
+                                                v-else
+                                                class="col-9 py-2 tweetsColor"
+                                            >
+                                                {{ tweet.text }} <br />
                                                 <br />
                                                 {{ formattedDate(tweet.date) }}
                                             </div>
                                         </div>
-                                        <div
-                                            v-else
-                                            class="col-9 py-2 tweetsColor"
-                                        >
-                                            {{ tweet.text }} <br />
-                                            <br />
-                                            {{ formattedDate(tweet.date) }}
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-else>
-                                <div
-                                    class="col-12 tweets-wrapper1 text-center py-5"
-                                >
-                                    No Results found
+                                <div v-else>
+                                    <div
+                                        class="col-12 tweets-wrapper1 text-center py-5"
+                                    >
+                                        No Results found
+                                    </div>
                                 </div>
-                            </div>
-                        </vue-scroll>
+                            </vue-scroll>
+                        </div>
                     </div>
                 </div>
                 <div v-else class="row">
@@ -141,14 +154,23 @@ export default defineComponent({
             keywords: "",
             sentimentTypes: "",
         });
+        const permissionError = ref("");
         const getData = async () => {
-            loading.value = true;
-            const res = await axios.post(
-                `/admin/sentiments/trends/tweetsContent`,
-                { searchFilter: search.value }
-            );
-            if (res.status === 200) {
-                tweets.value = res.data;
+            try {
+                loading.value = true;
+                const res = await axios.post(
+                    `/admin/sentiments/trends/tweetsContent`,
+                    { searchFilter: search.value }
+                );
+                if (res.status === 200) {
+                    tweets.value = res.data;
+                    loading.value = false;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Trends Data";
+                }
                 loading.value = false;
             }
         };
@@ -207,6 +229,7 @@ export default defineComponent({
             loading,
             search,
             formattedDate,
+            permissionError,
         };
     },
 });

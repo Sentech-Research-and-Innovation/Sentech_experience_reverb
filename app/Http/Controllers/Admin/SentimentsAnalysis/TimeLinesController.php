@@ -24,15 +24,15 @@ class TimeLinesController extends Controller
     {
 
 
-        // Fetch tweets using Eloquent instead of HTTP call
-        $tweets = Tweet::all(); // You may need to apply additional filters here based on your actual model and requirements
+
+        $tweets = Tweet::all();
 
         $hourGroups = [];
         $filterDate = request()->searchFilter['date'];
-        $keyword = trim(request()->searchFilter['keywords']); // Get the keyword as a string
-        $sentimentTypes = request()->searchFilter['sentimentTypes']; // Get the sentimentTypes parameter
+        $keyword = trim(request()->searchFilter['keywords']);
+        $sentimentTypes = request()->searchFilter['sentimentTypes'];
 
-        // Initialize an array to count occurrences of each hour and sentiment type
+
         $hourSentimentCounts = [];
         for ($hour = 0; $hour < 24; $hour++) {
             $hourSentimentCounts[$hour] = [
@@ -45,33 +45,34 @@ class TimeLinesController extends Controller
         foreach ($tweets as $tweet) {
             $sentiment = $tweet->sentiment;
             $date = new DateTime($tweet->date);
-            $hour = (int)$date->format('H'); // Get the hour component
+            $hour = (int)$date->format('H');
 
-            // Check if the tweet's date falls within the specified date range (if not null)
+
             if ($filterDate !== null) {
                 $startDate = new DateTime($filterDate[0]);
                 $endDate = new DateTime($filterDate[1]);
                 if ($date < $startDate || $date > $endDate) {
-                    continue; // Skip this tweet if it's outside the date range
+                    continue;
                 }
             }
 
             $tweetText = $tweet->text;
+            $user = $tweet->user;
 
-            // Keyword filtering logic
-            if (!empty($keyword) && stripos($tweetText, $keyword) === false) {
-                continue; // Skip this tweet if it does not contain the specified keyword
+
+            if (!empty($keyword) && (stripos($tweetText, $keyword) === false && stripos($user, $keyword) === false)) {
+                continue;
             }
+
 
             if (!in_array($sentiment, $sentimentTypes)) {
-                continue; // Skip this tweet if its sentiment type is not in the specified types
+                continue;
             }
 
-            // Count the occurrence of each sentiment type for each hour
+
             $hourSentimentCounts[$hour][$sentiment]++;
         }
 
-        // Prepare the response data
         $hours = [];
         $dataByHour = [];
 

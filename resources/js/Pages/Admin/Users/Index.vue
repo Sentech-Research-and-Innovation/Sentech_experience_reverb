@@ -5,51 +5,41 @@
             <div class="col-6 px-4">
                 <h2>Users</h2>
             </div>
-            <div class="col-6"><CreateUser /></div>
+            <div class="col-6"><CreateUser v-if="can('users-create')" /></div>
         </div>
-        <div class="col-12 py-4 mr-3 rounded" style="background-color: #fff">
-            <div class="row">
-                <div
-                    v-for="(user, index) in users"
-                    :key="index"
-                    class="col-lg-4 col-12 pl-5 mb-lg-0 mb-3"
-                    style="border-right: 2px solid #ebebeb"
-                >
-                    <div class="d-flex">
-                        <div class="mr-4">
-                            <el-avatar
-                                :icon="UserFilled"
-                                style="
-                                    color: #144f9f;
-                                    font-size: 30px;
-                                    background-color: #ebebeb;
-                                "
-                                :size="60"
-                            />
-                        </div>
-                        <div class="">
-                            <div class="fs-lg-5">
-                                {{ user.first_name }} {{ user.last_name }}
+        <div class="col-12 pt-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(user, index) in users" :key="index">
+                        <th scope="row">{{ index + 1 }}</th>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {{ user.roles[0]?.name }}
+                        </td>
+
+                        <td>
+                            <div class="pt-1">
+                                <EditRole
+                                    :userId="user.id"
+                                    v-if="can('users-update')"
+                                />
                             </div>
-                            <div class="py-1" style="color: #a2a1a1">
-                                {{ user.email }}
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <div
-                                    class="pt-2"
-                                    v-for="role in user.roles"
-                                    :key="role.id"
-                                >
-                                    {{ role.name }}
-                                </div>
-                                <div class="pt-1">
-                                    <EditRole :userId="user.id" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

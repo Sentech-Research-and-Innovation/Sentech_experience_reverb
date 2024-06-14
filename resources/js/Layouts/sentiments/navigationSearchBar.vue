@@ -10,9 +10,7 @@
                         active: $page.url === '/admin/sentiments/all',
                     }"
                 >
-                    <a class="nav-link py-0" href="/admin/sentiments/all"
-                        >All</a
-                    >
+                    <a class="nav-a py-0" href="/admin/sentiments/all">All</a>
                 </li>
                 <li
                     class="nav-item mr-3"
@@ -20,8 +18,8 @@
                         active: $page.url === '/admin/sentiments/overview',
                     }"
                 >
-                    <Link class="nav-link" href="/admin/sentiments/overview"
-                        >Overview</Link
+                    <a class="nav-a" href="/admin/sentiments/overview"
+                        >Overview</a
                     >
                 </li>
                 <li
@@ -30,8 +28,8 @@
                         active: $page.url === '/admin/sentiments/timelines',
                     }"
                 >
-                    <Link class="nav-link" href="/admin/sentiments/timelines"
-                        >Time lines</Link
+                    <a class="nav-a" href="/admin/sentiments/timelines"
+                        >Time lines</a
                     >
                 </li>
                 <li
@@ -40,9 +38,7 @@
                         active: $page.url === '/admin/sentiments/trends',
                     }"
                 >
-                    <a class="nav-link" href="/admin/sentiments/trends"
-                        >Trends</a
-                    >
+                    <a class="nav-a" href="/admin/sentiments/trends">Trends</a>
                 </li>
                 <li
                     class="nav-item mr-0"
@@ -50,9 +46,7 @@
                         active: $page.url === '/admin/sentiments/others',
                     }"
                 >
-                    <a class="nav-link" href="/admin/sentiments/others"
-                        >Others</a
-                    >
+                    <a class="nav-a" href="/admin/sentiments/others">Others</a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0 justify-content-end text-end">
@@ -101,7 +95,7 @@
                     active: $page.url === '/admin/sentiments/all',
                 }"
             >
-                <a class="nav-link" href="/admin/sentiments/all">All</a>
+                <a class="nav-a" href="/admin/sentiments/all">All</a>
             </div>
             <div
                 class="col-4"
@@ -109,9 +103,7 @@
                     active: $page.url === '/admin/sentiments/overview',
                 }"
             >
-                <Link class="nav-link" href="/admin/sentiments/overview"
-                    >Overview</Link
-                >
+                <a class="nav-a" href="/admin/sentiments/overview">Overview</a>
             </div>
 
             <div
@@ -120,8 +112,8 @@
                     active: $page.url === '/admin/sentiments/timelines',
                 }"
             >
-                <Link class="nav-link" href="/admin/sentiments/timelines"
-                    >Time lines</Link
+                <a class="nav-a" href="/admin/sentiments/timelines"
+                    >Time lines</a
                 >
             </div>
             <div
@@ -130,7 +122,7 @@
                     active: $page.url === '/admin/sentiments/trends',
                 }"
             >
-                <a class="nav-link" href="/admin/sentiments/trends">Trends</a>
+                <a class="nav-a" href="/admin/sentiments/trends">Trends</a>
             </div>
             <div
                 class="col-4 text-end"
@@ -138,7 +130,7 @@
                     active: $page.url === '/admin/sentiments/others',
                 }"
             >
-                <a class="nav-link text-end" href="/admin/sentiments/others"
+                <a class="nav-a text-end" href="/admin/sentiments/others"
                     >Others</a
                 >
             </div>
@@ -239,7 +231,7 @@ export default defineComponent({
     border: 1px solid #dddddd !important;
 }
 
-.nav-link {
+.nav-a {
     color: #a8abb2;
     font-size: 14px;
     padding: 0px !important;

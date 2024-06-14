@@ -1,5 +1,12 @@
 <template>
-    <div class="col-12 shadow-border py-4" style="min-height: 500px">
+    <div
+        v-if="permissionError"
+        class="col-12 text-center shadow-border"
+        style="height: 500px; padding-top: 170px; color: red"
+    >
+        {{ permissionError }}
+    </div>
+    <div v-else class="col-12 shadow-border py-4" style="min-height: 500px">
         <h3>Number Of Tweets By Location</h3>
         <br />
         <div
@@ -9,6 +16,7 @@
         >
             <img :src="LoadingGif" width="50" />
         </div>
+
         <apexchart
             height="400"
             type="donut"
@@ -60,30 +68,38 @@ export default defineComponent({
                 position: "right",
             },
         });
-
+        const permissionError = ref("");
         const getData = async () => {
-            const res = await axios.post(
-                `/admin/sentiments/overview/tweets-by-location`,
-                { searchFilter: search.value }
-            );
+            try {
+                const res = await axios.post(
+                    `/admin/sentiments/overview/tweets-by-location`,
+                    { searchFilter: search.value }
+                );
 
-            if (res.status === 200) {
-                //  let isFirstValue = true;
+                if (res.status === 200) {
+                    //  let isFirstValue = true;
 
-                for (const place in res.data) {
-                    if (res.data.hasOwnProperty(place)) {
-                        // if (isFirstValue) {
-                        //     isFirstValue = false;
-                        //     continue;
-                        // }
-                        // places.value.push(place);
+                    for (const place in res.data) {
+                        if (res.data.hasOwnProperty(place)) {
+                            // if (isFirstValue) {
+                            //     isFirstValue = false;
+                            //     continue;
+                            // }
+                            // places.value.push(place);
 
-                        chartOptions.value.labels.push(place);
-                        values.value.push(res.data[place]);
+                            chartOptions.value.labels.push(place);
+                            values.value.push(res.data[place]);
+                        }
                     }
                 }
+                loading.value = false;
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Overview Data";
+                }
+                loading.value = false;
             }
-            loading.value = false;
         };
 
         onMounted(async () => {
@@ -117,6 +133,7 @@ export default defineComponent({
             LoadingGif,
             searchFilter,
             search,
+            permissionError,
         };
     },
 });

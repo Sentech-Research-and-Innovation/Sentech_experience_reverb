@@ -7,8 +7,9 @@ use App\Http\Controllers\Admin\PersmissionsController;
 use  App\Http\Controllers\Admin\AsignRolesController;
 use  App\Http\Controllers\Admin\UserController;
 
-
 Route::group(['prefix' => '/admin/roles'], function () {
+
+
     Route::get('/', [RolesController::class, 'index'])->middleware('role_has_permission:roles-read');
     Route::post('/create', [RolesController::class, 'store'])->middleware('role_has_permission:roles-create');
     Route::post('/show', [RolesController::class, 'show'])->middleware('role_has_permission:roles-read');
@@ -18,12 +19,15 @@ Route::group(['prefix' => '/admin/roles'], function () {
 });
 
 Route::group(['prefix' => '/admin/user'], function () {
-    Route::get('/role/{userId}', [AsignRolesController::class, 'show'])->middleware('role_has_permission:roles-read');
-    Route::post('/role/update/{userId}', [AsignRolesController::class, 'update'])->middleware('role_has_permission:roles-update');
+    // Route::get('/role/{userId}', [AsignRolesController::class, 'show']);
+    // Route::post('/role/update/{userId}', [AsignRolesController::class, 'update']);
 
-    Route::post('/create', [UserController::class, 'create']);
+    Route::get('/role/{userId}', [AsignRolesController::class, 'show']);
+    Route::post('/role/update/{userId}', [AsignRolesController::class, 'update'])->middleware('role_has_permission:users-update');
+
+    Route::post('/create', [UserController::class, 'create'])->middleware('role_has_permission:users-create');
 });
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index']);
 
-Route::get('/admin/getUsers', [AsignRolesController::class, 'index']);
+Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->middleware('role_has_permission:users-read');

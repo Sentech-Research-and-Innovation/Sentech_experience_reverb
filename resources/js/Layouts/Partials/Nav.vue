@@ -2,7 +2,7 @@
     <div class="col-12 mx-0 px-0" style="position: fixed; z-index: 1">
         <nav class="navbar navbar-expand mx-0">
             <div class="container pl-1">
-                <a class="navbar-brand pt-3" href="/">
+                <a class="navbar-brand" href="/">
                     <img
                         src="../../assets/sentech-white-logo.png"
                         class="logo"
@@ -46,15 +46,16 @@
                         <Login />
                     </div>
                 </div>
-                <div class="mobile-nav1 pt-2">
+                <div class="mobile-nav1">
                     <i
-                        class="fa-solid fa-bars fa-2x"
+                        class="fa-solid fa-bars"
                         @click="drawer = true"
                         style="
                             cursor: pointer;
                             color: #ffff;
 
                             padding: 0px;
+                            font-size: 20px;
                         "
                     ></i>
                     <el-drawer
@@ -80,7 +81,7 @@
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
-                                        href="/login"
+                                        href="/"
                                         ><span class="">Home</span>
                                     </Link>
                                 </div>
@@ -88,7 +89,7 @@
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
-                                        href="/login"
+                                        href="/services"
                                         ><span class="">Services</span>
                                     </Link>
                                 </div>
@@ -96,7 +97,7 @@
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
-                                        href="/login"
+                                        href="/aboutus"
                                         ><span class="">About us</span>
                                     </Link>
                                 </div>
@@ -104,7 +105,7 @@
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
-                                        href="/login"
+                                        href="/news"
                                         ><span class="">News</span>
                                     </Link>
                                 </div>
@@ -112,7 +113,7 @@
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
-                                        href="/login"
+                                        href="/contactus"
                                         ><span class="">Contact us</span>
                                     </Link>
                                 </div>
@@ -204,6 +205,12 @@ export default defineComponent({
 
     .navbar .social {
         visibility: hidden;
+    }
+    .logo {
+        width: 120px;
+    }
+    .navbar {
+        height: 50px !important;
     }
 }
 .social {

@@ -14,6 +14,13 @@
                     >
                 </li>
             </ul>
+            <div
+                v-if="permissionError"
+                class="col-12 text-center"
+                style="height: 375px; padding-top: 130px; color: red"
+            >
+                {{ permissionError }}
+            </div>
         </div>
         <div v-else class="col-12 shadow-border mx-0 py-4">
             <div
@@ -40,12 +47,22 @@ export default defineComponent({
         const filterStore = useFilterStore();
 
         const loading = ref(true);
-
+        const permissionError = ref("");
         const words = ref([]);
         const getData = async () => {
-            const res = await axios.get(`/admin/sentiments/trends/wordclouds`);
-            if (res.status === 200) {
-                words.value = res.data;
+            try {
+                const res = await axios.get(
+                    `/admin/sentiments/trends/wordclouds`
+                );
+                if (res.status === 200) {
+                    words.value = res.data;
+                    loading.value = false;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 403) {
+                    permissionError.value =
+                        "Access forbidden: You do not have the necessary permissions. to view Trends Data";
+                }
                 loading.value = false;
             }
         };
@@ -66,6 +83,7 @@ export default defineComponent({
             selectedWord,
             LoadingGif,
             loading,
+            permissionError,
         };
     },
 });

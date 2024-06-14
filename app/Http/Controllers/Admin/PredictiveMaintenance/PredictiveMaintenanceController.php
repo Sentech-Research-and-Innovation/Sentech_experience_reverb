@@ -49,11 +49,7 @@ class PredictiveMaintenanceController extends Controller
         return Inertia::render('Admin/PredictiveMaintenance/DetailedView/Index', compact('predictions'));
     }
 
-    // public function detailedViewData()
-    // {
-    //     $predictions = Prediction::orderby('item_id', 'ASC')->get();
-    //     return response()->json($predictions, 200);
-    // }
+
 
     public function alarmFlag()
     {

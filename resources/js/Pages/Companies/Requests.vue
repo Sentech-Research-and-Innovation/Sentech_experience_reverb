@@ -53,6 +53,7 @@
                             >
                                 <template #reference>
                                     <el-button
+                                        v-if="can('companies-approve_requests')"
                                         type="success"
                                         syle="color:black !important"
                                         :icon="CircleCheckFilled"
@@ -62,6 +63,7 @@
                             </el-popconfirm>
 
                             <el-button
+                                v-if="can('companies-decline_requests')"
                                 type="danger"
                                 :icon="CircleCloseFilled"
                                 class="fs-5"
