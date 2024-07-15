@@ -1,90 +1,206 @@
 <template>
-    <nav
-        class="navbar navbar-expand-lg navbar-light py-3 mb-0 d-none d-lg-block d-xl-block"
+    <div
+        class="col-12 px-0"
+        style="background-color: #ffff; border-bottom: 1px solid #c7cdd2"
     >
-        <div class="navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto pt-2">
-                <li
-                    class="nav-item mr-3 filter-items"
-                    :class="{
-                        active: $page.url === '/admin/sentiments/all',
-                    }"
+        <div class="row">
+            <div class="col-5">
+                <nav
+                    class="navbar navbar-expand-lg navbar-light1 py-3 mb-0 d-none d-lg-block d-xl-block"
+                    style="border: none"
                 >
-                    <a class="nav-a py-0" href="/admin/sentiments/all">All</a>
-                </li>
-                <li
-                    class="nav-item mr-3"
-                    :class="{
-                        active: $page.url === '/admin/sentiments/overview',
-                    }"
-                >
-                    <a class="nav-a" href="/admin/sentiments/overview"
-                        >Overview</a
-                    >
-                </li>
-                <li
-                    class="nav-item mr-3"
-                    :class="{
-                        active: $page.url === '/admin/sentiments/timelines',
-                    }"
-                >
-                    <a class="nav-a" href="/admin/sentiments/timelines"
-                        >Time lines</a
-                    >
-                </li>
-                <li
-                    class="nav-item mr-3"
-                    :class="{
-                        active: $page.url === '/admin/sentiments/trends',
-                    }"
-                >
-                    <a class="nav-a" href="/admin/sentiments/trends">Trends</a>
-                </li>
-                <li
-                    class="nav-item mr-0"
-                    :class="{
-                        active: $page.url === '/admin/sentiments/others',
-                    }"
-                >
-                    <a class="nav-a" href="/admin/sentiments/others">Others</a>
-                </li>
-            </ul>
-            <div class="form-inline my-2 my-lg-0 justify-content-end text-end">
-                <div class="col-3 mr-0 px-1">
-                    <SelectDroptownVue
-                        :filters="options"
-                        :options="sentimentType"
-                        v-model="sentimentModel"
-                    />
-                </div>
-                <div class="col-4 mx-0 px-0">
-                    <el-date-picker
-                        v-model="inputdate"
-                        type="daterange"
-                        range-separator="To"
-                        start-placeholder="Start date"
-                        end-placeholder="End date"
-                    />
-                </div>
+                    <div class="navbar-collapse">
+                        <ul class="navbar-nav mr-auto pt-2">
+                            <li
+                                class="nav-item mr-3 filter-items"
+                                :class="{
+                                    active:
+                                        $page.url === '/admin/sentiments/all',
+                                }"
+                            >
+                                <a
+                                    class="nav-a py-0"
+                                    href="/admin/sentiments/all"
+                                    >All</a
+                                >
+                            </li>
+                            <li
+                                class="nav-item mr-3"
+                                :class="{
+                                    active:
+                                        $page.url ===
+                                        '/admin/sentiments/overview',
+                                }"
+                            >
+                                <a
+                                    class="nav-a"
+                                    href="/admin/sentiments/overview"
+                                    >Overview</a
+                                >
+                            </li>
+                            <li
+                                class="nav-item mr-3"
+                                :class="{
+                                    active:
+                                        $page.url ===
+                                        '/admin/sentiments/timelines',
+                                }"
+                            >
+                                <a
+                                    class="nav-a"
+                                    href="/admin/sentiments/timelines"
+                                    >Time lines</a
+                                >
+                            </li>
+                            <li
+                                class="nav-item mr-3"
+                                :class="{
+                                    active:
+                                        $page.url ===
+                                        '/admin/sentiments/trends',
+                                }"
+                            >
+                                <a class="nav-a" href="/admin/sentiments/trends"
+                                    >Trends</a
+                                >
+                            </li>
+                            <li
+                                class="nav-item mr-0"
+                                :class="{
+                                    active:
+                                        $page.url ===
+                                        '/admin/sentiments/others',
+                                }"
+                            >
+                                <a class="nav-a" href="/admin/sentiments/others"
+                                    >Others</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-7 my-2 my-lg-0 text-end pt-3 px-4">
+                <div class="row">
+                    <div class="col-2 mr-0 px-1">
+                        <SelectDroptownVue
+                            :filters="options"
+                            :options="sentimentType"
+                            v-model="sentimentModel"
+                        />
+                    </div>
+                    <div class="col-4 mx-0 px-0">
+                        <el-date-picker
+                            v-model="inputdate"
+                            type="daterange"
+                            range-separator="To"
+                            start-placeholder="Start date"
+                            end-placeholder="End date"
+                        />
+                    </div>
 
-                <div class="col-3 text-end mx-1 px-0">
-                    <input
-                        type="text"
-                        v-model="keywords"
-                        class="form-control keyword-input"
-                    />
-                </div>
-                <div class="col-1 mx-0">
-                    <button
-                        class="btn btn-sm btn-primary btn-search"
-                        @click="changePropValue"
-                    >
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                    <div class="col-3 text-start px-1">
+                        <input
+                            type="text"
+                            v-model="keywords"
+                            class="form-control keyword-input"
+                        />
+                    </div>
+                    <div class="col-1 mx-0 px-0 text-start">
+                        <button
+                            class="btn btn-sm btn-primary btn-search"
+                            @click="changePropValue"
+                        >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <div class="col-2 pr-4">
+                        <el-button
+                            circle
+                            plain
+                            :icon="Download"
+                            class="reportsLink pt-2"
+                            @click="centerDialogVisible = true"
+                        />
+
+                        <el-dialog
+                            v-model="centerDialogVisible"
+                            width="30%"
+                            left
+                            :show-close="false"
+                        >
+                            <div class="col-12">
+                                <h2>Export reports</h2>
+                            </div>
+                            <div class="col-12 pt-2">
+                                <span class="fs-6">
+                                    Select the type of document you wan to
+                                    export
+                                </span>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <div class="d-flex justify-content-between">
+                                    <div class="col-6 ml-0 pl-0">
+                                        <div
+                                            class="col-12 rounded py-5 text-center"
+                                            :style="{
+                                                border: isActive('pdf')
+                                                    ? '1px solid #409eff'
+                                                    : '1px solid #c0c4cc',
+                                                fontSize: '40px',
+                                                color: isActive('pdf')
+                                                    ? '#409eff'
+                                                    : '#c0c4cc',
+                                                cursor: 'pointer',
+                                            }"
+                                            @click="setActive('pdf')"
+                                        >
+                                            <i class="far fa-file-pdf"></i>
+                                            PDF
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mx-0 px-0">
+                                        <div
+                                            class="col-12 rounded py-5 text-center"
+                                            :style="{
+                                                border: isActive('csv')
+                                                    ? '1px solid #409eff'
+                                                    : '1px solid #c0c4cc',
+                                                fontSize: '40px',
+                                                color: isActive('csv')
+                                                    ? '#409eff'
+                                                    : '#c0c4cc',
+                                                cursor: 'pointer',
+                                            }"
+                                            @click="setActive('csv')"
+                                        >
+                                            <i class="far fa-file-excel"></i>
+                                            CSV
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <template #footer>
+                                <span class="dialog-footer">
+                                    <el-button
+                                        @click="centerDialogVisible = false"
+                                        >Cancel</el-button
+                                    >
+                                    <el-button
+                                        type="primary"
+                                        @click="printReport"
+                                        :disabled="!activeType"
+                                    >
+                                        Download {{ activeType }}
+                                    </el-button>
+                                </span>
+                            </template>
+                        </el-dialog>
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
     <div
         class="col-12 d-xl-none d-xxl-block d-lg-none py-0 px-3 mb-3 mobile-nav"
     >
@@ -158,6 +274,8 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
+
+            <!-- @click="printReport" -->
         </vue-horizontal>
     </div>
 </template>
@@ -172,6 +290,8 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 import { useFilterStore } from "../../stores/filter";
 import VueHorizontal from "vue-horizontal";
+
+import { Download } from "@element-plus/icons-vue";
 
 import SelectDroptownVue from "../../Components/SelectDroptown.vue";
 export default defineComponent({
@@ -188,6 +308,36 @@ export default defineComponent({
         const options = ref(["POSITIVE", "NEUTRAL", "NEGATIVE"]);
 
         const sentimentType = ref(filterStore.sentimentTypes);
+        const centerDialogVisible = ref(false);
+
+        const activeType = ref(null);
+
+        const isActive = (type) => {
+            return activeType.value === type;
+        };
+
+        const setActive = (type) => {
+            activeType.value = type;
+        };
+        const loading = ref(false);
+
+        const printReport = async () => {
+            centerDialogVisible.value = false;
+            loading.value = true;
+
+            await axios
+                .post("/admin/reports/sentiments", {
+                    searchFilter: {
+                        date: inputdate.value,
+                        keywords: keywords.value,
+                        sentimentTypes: sentimentType.value,
+                    },
+                    reportType: activeType.value,
+                })
+                .catch(() => {
+                    loading.value = false;
+                });
+        };
 
         const changePropValue = () => {
             filterStore.date = inputdate.value;
@@ -203,6 +353,13 @@ export default defineComponent({
             options,
             sentimentType,
             sentimentModel,
+            Download,
+            centerDialogVisible,
+            setActive,
+            isActive,
+            activeType,
+            printReport,
+            loading,
         };
     },
 });
@@ -254,14 +411,24 @@ export default defineComponent({
     font-size: 5px !important;
 }
 
-.search-btn {
+.btn-search {
     background-color: #144f9f !important;
     color: #ffff;
     height: 32.5px;
 }
+
+.reportsLink {
+    color: #144f9f;
+    cursor: pointer;
+    font-size: 20px !important;
+}
 </style>
 
 <style>
+.search-btn {
+    background-color: #144f9f !important;
+    border: none !important;
+}
 .dp__input {
     --dp-input-padding: 4px 0px 2px 1px !important;
 }

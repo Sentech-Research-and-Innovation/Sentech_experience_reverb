@@ -109,22 +109,13 @@ class PredictiveMaintenanceReportsController extends Controller
 
 
         $fileName = time() . ".pdf";
-        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0)
-            ->setNodeBinary('/root/.nvm/versions/node/v14.21.3/bin/node');
-        // ->setNpmBinary('c:\src\nodejs\npm')
-        //->setNodeBinary('c:\src\nodejs\node.exe')
-        // ->setNpmBinary('c:\src\nodejs\npm')
+
+        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0);
+        // ->setNodeBinary('/root/.nvm/versions/node/v16.0.0/bin/node')
+
+        // ->setNpmBinary('/root/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
         //   ->storeAs('pdfs/', $fileName);
         return $pdfStoredPath->download('report' . '.pdf');
-
-        // $headers = [
-        //      'Content-Type' => 'application/pdf', // Adjust the content type based on your file type
-        // ];
-        //return  $filePath = storage_path('/app/pdfs/' . $fileName);
-
-        // Send the file as a download response with the specified content type
-        //return response()->download($filePath, $fileName, $headers);
-        //return view('reports.index', compact('data'));
     }
 
     private function dateFormat($date)
@@ -183,9 +174,20 @@ class PredictiveMaintenanceReportsController extends Controller
             }
         }
 
-        ksort($dateCounts);
+        arsort($dateCounts);
 
+        // Get top 10 dates
         $top10Dates = array_slice($dateCounts, 0, 10, true);
+
+        // krsort($top10Dates);
+
+        uksort($top10Dates, function ($a, $b) {
+            $date1 = strtotime($a);
+            $date2 = strtotime($b);
+            return $date1 - $date2;
+        });
+
+
 
         return $alarmSateByDate = [
             'labels' => array_keys($top10Dates),

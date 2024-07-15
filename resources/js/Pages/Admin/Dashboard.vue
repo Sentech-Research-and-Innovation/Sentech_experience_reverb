@@ -5,7 +5,6 @@
         <p class="text-grey" v-if="userdata[0]">
             Welcome Back, {{ userdata[0].first_name }}
         </p>
-
         <h2><strong> Your Dashboard</strong></h2>
 
         <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
@@ -89,7 +88,15 @@ export default defineComponent({
     layout: AdminLayout,
 
     components: { Head, ActivityLog },
-    setup() {
+
+    props: {
+        refresh: {
+            type: String,
+            required: true,
+        },
+    },
+    setup(props) {
+        const { refresh } = props;
         const userdata = ref([]);
         const company_type = ref([]);
 
@@ -109,6 +116,9 @@ export default defineComponent({
         };
 
         onMounted(() => {
+            if (refresh == true) {
+                window.location.href = "/admin/dashboard";
+            }
             getuser();
         });
 
@@ -117,6 +127,7 @@ export default defineComponent({
             userdata,
             getRoleNames,
             company_type,
+            refresh,
         };
     },
 });

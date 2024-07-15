@@ -24,6 +24,6 @@ class PrintReportsController extends Controller
 
     public function test()
     {
-        return view('reports/index');
+        return view('reports/sentiments');
     }
 }

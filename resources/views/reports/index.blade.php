@@ -73,13 +73,13 @@
 
         .kpi-value-date {
             font-weight: 700;
-            font-size: 17px;
+            font-size: 13px;
             color: #020440 !important
         }
 
         .kpi-value-sites {
             font-weight: 700;
-            font-size: 11px;
+            font-size: 10px !important;
             color: #020440 !important
         }
 
@@ -170,7 +170,7 @@
                                             <i class="fas fa-cubes"
                                                 style="
                                                     color: #010440;
-                                                    font-size: 50px;
+                                                    font-size: 45px;
                                                     background-color: #fff;
                                                 "></i>
                                         </div>
@@ -246,13 +246,13 @@
                         </div>
                         <div class="col-4">
                             <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">DEVICE NAMES</span>
+                                <span class="kpi-name-label">DEVICES</span>
                                 <div class="d-flex justify-content-between">
                                     <div class="col-6 pt-1">
                                         <i class="fas fa-desktop"
                                             style="
                                                     color: #010440;
-                                                    font-size: 45px;
+                                                    font-size: 30px;
                                                     background-color: #fff;
                                                 "></i>
                                     </div>

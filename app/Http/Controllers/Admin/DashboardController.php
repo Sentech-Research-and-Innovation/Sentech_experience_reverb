@@ -15,7 +15,19 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Dashboard');
+
+        $url = url()->previous();
+        $refresh = false;
+
+        preg_match('~[^/]*$~', $url, $matches);
+
+        $result = $matches[0];
+
+        if (!$result) {
+            $refresh = true;
+        }
+
+        return Inertia::render('Admin/Dashboard', compact('refresh'));
     }
 
     public function show()

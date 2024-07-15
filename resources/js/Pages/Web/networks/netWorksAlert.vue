@@ -2,8 +2,8 @@
     <div class="col-12 px-lg-0 py-lg-0 px-4 py-4 mx-0">
         <div class="networkHeading pb-lg-3 pb-2 pt-1">Network Status</div>
         <p class="networkHeadingText">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna.
+            Information on network outages affecting provinces. Select your
+            province to view details about current disruptions.
         </p>
         <div class="row pt-lg-4 pt-2">
             <div class="col-lg-4 col-6 px-2">
@@ -11,18 +11,25 @@
                     class="col-12 network-container-warning py-1 mx-0"
                     @click="setNetWorkProvince('Eastern Cape')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Eastern Cape</strong> <br />
-                            <span> OFF Line (4) </span>
-                        </div>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Eastern Cape</strong> <br />
+                                <span> OFF Line (4) </span>
+                            </div>
 
-                        <div
-                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-exclamation"></i>
+                            <div
+                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-exclamation"></i>
+                            </div>
                         </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 px-2">
@@ -30,17 +37,24 @@
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Western Cape')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Western Cape</strong> <br />
-                            <span> OFF Line (4) </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Western Cape</strong> <br />
+                                <span> OFF Line (4) </span>
+                            </div>
+                            <div
+                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-exclamation"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-exclamation"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 px-2 pt-lg-0 pt-3">
@@ -48,17 +62,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Kwazulu Natal')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Kwazulu Natal</strong> <br />
-                            <span>All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Kwazulu Natal</strong> <br />
+                                <span>All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
@@ -66,17 +87,24 @@
                     class="col-12 network-container-warning py-1"
                     @click="setNetWorkProvince('Gauteng')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Gauteng</strong> <br />
-                            <span> OFF Line (4) </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Gauteng</strong> <br />
+                                <span> OFF Line (4) </span>
+                            </div>
+                            <div
+                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-exclamation"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-exclamation"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
 
@@ -85,17 +113,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Mpumalanga')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Mpumalanga</strong> <br />
-                            <span> All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Mpumalanga</strong> <br />
+                                <span> All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
@@ -103,17 +138,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Free State')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Free State</strong> <br />
-                            <span> All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Free State</strong> <br />
+                                <span> All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
@@ -121,17 +163,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Limpopo')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Limpopo</strong> <br />
-                            <span> All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Limpopo</strong> <br />
+                                <span> All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
@@ -139,17 +188,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('Northern Cape')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>Northern Cape</strong> <br />
-                            <span> All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>Northern Cape</strong> <br />
+                                <span> All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
@@ -157,17 +213,24 @@
                     class="col-12 network-container-good py-1"
                     @click="setNetWorkProvince('North West')"
                 >
-                    <div class="d-flex justify-content-between py-lg-2">
-                        <div class="py-1 text-start">
-                            <strong>North West</strong> <br />
-                            <span> All Good </span>
+                    <el-tooltip
+                        class="box-item"
+                        effect="light"
+                        content="Click province to see more details"
+                        placement="top"
+                    >
+                        <div class="d-flex justify-content-between py-lg-2">
+                            <div class="py-1 text-start">
+                                <strong>North West</strong> <br />
+                                <span> All Good </span>
+                            </div>
+                            <div
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                         </div>
-                        <div
-                            class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
-                        >
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
+                    </el-tooltip>
                 </div>
             </div>
         </div>

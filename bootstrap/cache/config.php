@@ -946,7 +946,7 @@
     'http_only' => true,
     'same_site' => 'lax',
   ),
-  'snappy' => 
+  'snappy1' => 
   array (
     'pdf' => 
     array (
