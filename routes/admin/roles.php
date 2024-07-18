@@ -26,6 +26,8 @@ Route::group(['prefix' => '/admin/user'], function () {
     Route::post('/role/update/{userId}', [AsignRolesController::class, 'update'])->middleware('role_has_permission:users-update');
 
     Route::post('/create', [UserController::class, 'create'])->middleware('role_has_permission:users-create');
+
+    Route::post('/delete/{user_id}', [UserController::class, 'delete'])->middleware('role_has_permission:users-create');
 });
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index']);

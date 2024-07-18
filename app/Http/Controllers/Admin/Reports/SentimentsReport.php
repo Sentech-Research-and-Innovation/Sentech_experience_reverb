@@ -49,9 +49,9 @@ class SentimentsReport extends Controller
             $fileName = time() . "sentiments.pdf";
 
             $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 0, 0, 0)
-                ->setNodeBinary('/root/.nvm/versions/node/v16.0.0/bin/node')
+            ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
 
-                ->setNpmBinary('/root/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
+            ->setNpmBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
             //   ->storeAs('pdfs/', $fileName);
             return $pdfStoredPath->download('report' . '.pdf');
             // return view('reports/sentiments', compact('data'));

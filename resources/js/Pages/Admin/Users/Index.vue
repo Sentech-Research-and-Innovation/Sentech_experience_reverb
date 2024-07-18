@@ -30,11 +30,19 @@
                         </td>
 
                         <td>
-                            <div class="pt-1">
-                                <EditRole
-                                    :userId="user.id"
-                                    v-if="can('users-update')"
-                                />
+                            <div class="row">
+                                <div class="pt-1 col-4">
+                                    <EditRole
+                                        :userId="user.id"
+                                        v-if="can('users-update')"
+                                    />
+                                </div>
+                                <div class="col-4 pt-1 text-start">
+                                    <DeleteUser
+                                        :userId="user.id"
+                                        v-if="can('users-update')"
+                                    />
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -50,7 +58,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent } from "vue";
 import EditRole from "./EditRole.vue";
 import CreateUser from "./CreateUser.vue";
-
+import DeleteUser from "./DeleteUser.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Edit } from "@element-plus/icons-vue";
 
@@ -58,7 +66,7 @@ export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser, Head, Link },
+    components: { EditRole, CreateUser, DeleteUser, Head, Link },
 
     props: {
         users: {
