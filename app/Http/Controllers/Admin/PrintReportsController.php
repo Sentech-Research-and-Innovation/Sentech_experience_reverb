@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
-use Spatie\Browsershot\Browsershot;
 use PDF2;
 
 class PrintReportsController extends Controller

@@ -10,7 +10,21 @@
                     style="border: none"
                 >
                     <div class="navbar-collapse">
-                        <ul class="navbar-nav mr-auto pt-2">
+                        <ul class="navbar-nav mr-auto pt-2" id="nav">
+                            <li class="mr-2">
+                                <el-button
+                                    v-if="!loading"
+                                    plain
+                                    style="
+                                        font-size: 18px;
+                                        height: 0px;
+                                        wdith: 0px;
+                                        border: none;
+                                    "
+                                    :icon="QuestionFilled"
+                                    @click="open = true"
+                                />
+                            </li>
                             <li
                                 class="nav-item mr-3 filter-items"
                                 :class="{
@@ -84,12 +98,13 @@
                 <div class="row">
                     <div class="col-2 mr-0 px-1">
                         <SelectDroptownVue
+                            id="sent-type"
                             :filters="options"
                             :options="sentimentType"
                             v-model="sentimentModel"
                         />
                     </div>
-                    <div class="col-4 mx-0 px-0">
+                    <div class="col-4 mx-0 px-0" id="daterange">
                         <el-date-picker
                             v-model="inputdate"
                             type="daterange"
@@ -99,14 +114,14 @@
                         />
                     </div>
 
-                    <div class="col-3 text-start px-1">
+                    <div class="col-3 text-start px-1" id="keywords">
                         <input
                             type="text"
                             v-model="keywords"
                             class="form-control keyword-input"
                         />
                     </div>
-                    <div class="col-1 mx-0 px-0 text-start">
+                    <div class="col-1 mx-0 px-0 text-start" id="search-botton">
                         <button
                             class="btn btn-sm btn-primary btn-search"
                             @click="changePropValue"
@@ -114,14 +129,21 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </div>
-                    <div class="col-2 pr-4">
+                    <div class="col-2">
                         <el-button
+                            id="reports"
+                            v-if="!loading"
                             circle
                             plain
                             :icon="Download"
-                            class="reportsLink pt-2"
+                            class="reportsLink pt-2 mr-3"
                             @click="centerDialogVisible = true"
                         />
+
+                        <pulse-loader
+                            :loading="loading"
+                            :color="color"
+                        ></pulse-loader>
 
                         <el-dialog
                             v-model="centerDialogVisible"
@@ -200,7 +222,43 @@
                 </div>
             </div>
         </div>
+        <el-tour v-model="open" class="mx-5">
+            <el-tour-step
+                target="#nav"
+                title="Navigation"
+                description="Filter by navigating to diffrent pages."
+            />
+            <el-tour-step
+                target="#sent-type"
+                title="Sentiment type filter"
+                description="Filter results by sentiment type"
+            />
+            <el-tour-step
+                target="#daterange"
+                title="Data range filter"
+                description="Filter results by Date range"
+            />
+
+            <el-tour-step
+                target="#keywords"
+                title="Keywords filter"
+                description="Filter results by keywords"
+            />
+
+            <el-tour-step
+                target="#search-botton"
+                title="Search button"
+                description="Click button get filtered results"
+            />
+
+            <el-tour-step
+                target="#reports"
+                title="Export repots"
+                description="Export reports PDF/CSV"
+            />
+        </el-tour>
     </div>
+
     <div
         class="col-12 d-xl-none d-xxl-block d-lg-none py-0 px-3 mb-3 mobile-nav"
     >
@@ -291,14 +349,24 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import { useFilterStore } from "../../stores/filter";
 import VueHorizontal from "vue-horizontal";
 
-import { Download } from "@element-plus/icons-vue";
+import { Download, QuestionFilled } from "@element-plus/icons-vue";
 
 import SelectDroptownVue from "../../Components/SelectDroptown.vue";
+
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+
 export default defineComponent({
     name: "navigation",
-    components: { Link, VueDatePicker, VueHorizontal, SelectDroptownVue },
+    components: {
+        Link,
+        VueDatePicker,
+        VueHorizontal,
+        SelectDroptownVue,
+        PulseLoader,
+    },
 
     setup() {
+        const open = ref(false);
         const filterStore = useFilterStore();
 
         const inputdate = ref(filterStore.date);
@@ -325,18 +393,46 @@ export default defineComponent({
             centerDialogVisible.value = false;
             loading.value = true;
 
-            await axios
-                .post("/admin/reports/sentiments", {
+            try {
+                const response = await axios.post("/admin/reports/sentiments", {
                     searchFilter: {
                         date: inputdate.value,
                         keywords: keywords.value,
                         sentimentTypes: sentimentType.value,
                     },
                     reportType: activeType.value,
-                })
-                .catch(() => {
-                    loading.value = false;
                 });
+
+                loading.value = false;
+
+                const contentDisposition =
+                    response.headers["content-disposition"];
+                if (contentDisposition) {
+                    const filenameRegex =
+                        /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    const matches = filenameRegex.exec(contentDisposition);
+                    let filename = "report.csv";
+                    if (matches != null && matches[1]) {
+                        filename = matches[1].replace(/['"]/g, "");
+                    }
+
+                    const blob = new Blob([response.data], {
+                        type: "text/csv",
+                    });
+
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }
+            } catch (error) {
+                console.error("Error generating or downloading report:", error);
+                loading.value = false;
+            }
         };
 
         const changePropValue = () => {
@@ -360,6 +456,8 @@ export default defineComponent({
             activeType,
             printReport,
             loading,
+            open,
+            QuestionFilled,
         };
     },
 });

@@ -53,4 +53,8 @@ border-bottom: 1px solid #c7cdd2; background-color: #ffffff
     background-size: 200px 43px;
 }
 
+.light .chart-heading{
+    color:#000 !important
+}
+
 

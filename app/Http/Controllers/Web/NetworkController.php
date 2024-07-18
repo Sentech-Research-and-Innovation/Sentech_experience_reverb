@@ -19,6 +19,7 @@ class NetworkController extends Controller
 
     public function show()
     {
+
         return Inertia::render('Web/networks/provinceStatus');
 
 

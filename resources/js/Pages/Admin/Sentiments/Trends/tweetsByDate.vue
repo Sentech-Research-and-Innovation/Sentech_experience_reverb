@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 px-0 mx-0">
         <div class="col-12 shadow-border mx-0">
-            <h3 class="py-4" style="color: #000">
+            <h3 class="py-4 chart-heading" style="color: #000">
                 Number Of Tweets By Date And Sentiments
             </h3>
             <div

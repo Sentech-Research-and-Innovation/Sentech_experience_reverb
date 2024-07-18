@@ -9,7 +9,7 @@ use App\Models\Prediction;
 use Carbon\Carbon;
 use DateTime;
 use VerumConsilium\Browsershot\Facades\PDF;
-
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class PredictiveMaintenanceReportsController extends Controller
@@ -24,24 +24,45 @@ class PredictiveMaintenanceReportsController extends Controller
         $endDate = request()->searchData['searchFilter']['date'][1];
 
 
-        // $siteNamesSearch = [
-        //     "PORT ELIZABETH",
-        //     "CONSTANTIABERG",
-        //     "JOHANNESBURG"
-        // ];
-        // $startDate = new DateTime("2023-01-26T08:54:00.000Z");
-        // $endDate = new DateTime("2023-12-01T08:54:00.000Z");
-
-
         if ($reportType == "pdf") {
             return $this->pdf($siteNamesSearch, $startDate, $endDate);
         } else {
-            return $this->csv();
+            return $this->csv($siteNamesSearch, $startDate, $endDate);
         }
     }
 
-    private function csv()
+    private function csv($siteNamesSearch, $startDate, $endDate)
     {
+        $predictions = Prediction::whereIn('siteName', $siteNamesSearch)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->get()->toArray();
+
+
+        $csvFileName = 'sentiments-report.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        ];
+
+        $callback = function () use ($predictions) {
+            $csvContent = fopen('php://output', 'w');
+            fputcsv($csvContent, [
+                'id', 'item_id', 'target_value', 'alarm', 'SiteName', 'SiteCode',
+                'Classification_x', 'OC', 'Region_x', 'Province', 'DeviceName',
+                'DeviceIP', 'MeasureDescription', 'lowerPreAlarmTsh', 'upperPreAlarmTsh',
+                'lowerAlarmTsh', 'upperAlarmTsh', 'oid', 'oidIndex', 'Latitude', 'Longitude',
+                'updated_at', 'created_at'
+            ]);
+
+            foreach ($predictions as $row) {
+                fputcsv($csvContent, $row);
+            }
+
+            fclose($csvContent);
+        };
+
+        return new StreamedResponse($callback, 200, $headers);
     }
 
     private function pdf($siteNamesSearch, $startDate, $endDate)
@@ -110,10 +131,10 @@ class PredictiveMaintenanceReportsController extends Controller
 
         $fileName = time() . ".pdf";
 
-        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0);
-        // ->setNodeBinary('/root/.nvm/versions/node/v16.0.0/bin/node')
+        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0)
+            ->setNodeBinary('/root/.nvm/versions/node/v16.0.0/bin/node')
 
-        // ->setNpmBinary('/root/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
+            ->setNpmBinary('/root/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
         //   ->storeAs('pdfs/', $fileName);
         return $pdfStoredPath->download('report' . '.pdf');
     }

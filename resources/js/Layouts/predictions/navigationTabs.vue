@@ -36,8 +36,11 @@
             <ul>
                 <div v-if="!loading">
                     <el-button
-                        :icon="Collection"
-                        class="fs-4 reportsLink pt-4"
+                        v-if="!loading"
+                        circle
+                        plain
+                        :icon="Download"
+                        class="reportsLink pt-2"
                         @click="centerDialogVisible = true"
                     />
                     <!-- @click="printReport" -->
@@ -119,7 +122,7 @@
 <script>
 import { defineComponent, ref, computed } from "vue";
 import { Link } from "@inertiajs/vue3";
-import { Collection } from "@element-plus/icons-vue";
+import { Download } from "@element-plus/icons-vue";
 import { predictionsFilterStore } from "../../stores/predictionsFilter";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
@@ -140,15 +143,45 @@ export default defineComponent({
         const printReport = async () => {
             centerDialogVisible.value = false;
             loading.value = true;
+            try {
+                const response = await axios.post(
+                    "/admin/reports/predictive-maintenance",
+                    {
+                        searchData: search.value,
+                        reportType: activeType.value,
+                    }
+                );
 
-            await axios
-                .post("/admin/reports/predictive-maintenance", {
-                    searchData: search.value,
-                    reportType: activeType.value,
-                })
-                .catch(() => {
-                    loading.value = false;
-                });
+                loading.value = false;
+
+                const contentDisposition =
+                    response.headers["content-disposition"];
+                if (contentDisposition) {
+                    const filenameRegex =
+                        /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    const matches = filenameRegex.exec(contentDisposition);
+                    let filename = "report.csv";
+                    if (matches != null && matches[1]) {
+                        filename = matches[1].replace(/['"]/g, "");
+                    }
+
+                    const blob = new Blob([response.data], {
+                        type: "text/csv",
+                    });
+
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }
+            } catch (error) {
+                console.error("Error generating or downloading report:", error);
+                loading.value = false;
+            }
         };
 
         const activeType = ref(null);
@@ -164,7 +197,7 @@ export default defineComponent({
         const color = ref("#144f9f");
 
         return {
-            Collection,
+            Download,
             printReport,
             loading,
             centerDialogVisible,
@@ -189,10 +222,10 @@ export default defineComponent({
     border-bottom: 3px solid #144f9f !important;
     color: #144f9f !important;
 }
+
 .reportsLink {
     color: #144f9f;
     cursor: pointer;
-    border: none !important;
-    background: none !important;
+    font-size: 20px !important;
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
     <div class="col-12 px-2">
-        <div class="col-12 shadow-border mx-0" style="min-height: 500px">
-            <h3 class="py-4">Sentiments Timeline (cumulative)</h3>
+        <div
+            class="col-12 shadow-border mx-0"
+            style="min-height: 500px"
+            id="timeline-chart"
+        >
+            <h3 class="py-4 chart-heading">Sentiments Timeline (cumulative)</h3>
             <div
                 class="col-12 text-center"
                 v-if="loading"

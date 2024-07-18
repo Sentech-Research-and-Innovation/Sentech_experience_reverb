@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 shadow-border">
-        <div class="col-12">
-            <h3 class="py-4" style="color: #000">
+        <div class="col-12" id="tweets-by-hour">
+            <h3 class="py-4 chart-heading" style="color: #000">
                 Number of Tweets By Hour and Sentiments
             </h3>
         </div>

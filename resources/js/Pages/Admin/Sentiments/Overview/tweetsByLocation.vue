@@ -6,9 +6,14 @@
     >
         {{ permissionError }}
     </div>
-    <div v-else class="col-12 shadow-border py-4" style="min-height: 500px">
-        <h3>Number Of Tweets By Location</h3>
-        <br />
+    <div
+        v-else
+        class="col-12 shadow-border"
+        id="tweets-location"
+        style="min-height: 500px"
+    >
+        <h3 class="py-4 chart-heading">Number Of Tweets By Location</h3>
+
         <div
             class="col-12 text-center"
             v-if="loading"

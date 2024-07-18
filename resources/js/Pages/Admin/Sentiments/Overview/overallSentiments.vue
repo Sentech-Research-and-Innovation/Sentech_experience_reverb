@@ -7,7 +7,7 @@
         >
             {{ permissionError }}
         </div>
-        <div v-else class="row">
+        <div v-else class="row" id="overview-stats">
             <div v-if="loading" class="col-lg-2 col-6 mb-lg-0 mb-3 pr-0">
                 <div class="col-12 shadow-border text-center py-5">
                     <img :src="LoadingGif" width="50" />
