@@ -29,7 +29,7 @@ class SentimentsReport extends Controller
     {
         $reportType = request()->reportType;
 
-        $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
+       return $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
 
         $sentimentsTimeline = $this->sentimentService->sentimentsTimeline($this->tweets, $this->searchFilter);
 
