@@ -34,20 +34,20 @@ Header set Cache-Control "max-age=2628000, public"
 RewriteEngine on
 
 RewriteCond %{HTTP_HOST} ^www
-RewriteRule ^(.*)$ https://sentech.webgap.xyz/$1 [R=301,L]
+RewriteRule ^(.*)$ http://sentechxperience.co.za/$1 [R=301,L]
 
 RewriteCond %{SERVER_PORT} ^443$
 RewriteCond %{HTTP_HOST} ^www\.
-RewriteRule .? https://sentech.webgap.xyz%{REQUEST_URI} [R=301,L]
+RewriteRule .? http://sentechxperience.co.za%{REQUEST_URI} [R=301,L]
 
 RewriteCond %{HTTPS} off
-RewriteRule (.*) https://sentech.webgap.xyz/$1 [R=301,L]
+RewriteRule (.*) http://sentechxperience.co.za/$1 [R=301,L]
 
 RewriteCond %{HTTP_HOST} ^www\.
-RewriteRule ^(.*)$ https://sentech.webgap.xyz/$1 [R=301,L]
+RewriteRule ^(.*)$ http://sentechxperience.co.za/$1 [R=301,L]
 
 RewriteCond %{HTTP_HOST} ^www.sentech.webgap.xyz$ [NC]
-RewriteRule .? https://sentech.webgap.xyz%{REQUEST_URI} [R=301,L]
+RewriteRule .? http://sentechxperience.co.za%{REQUEST_URI} [R=301,L]
 
 RewriteCond %{REQUEST_URI} !^public
 RewriteRule ^(.*)$ public/$1 [L]
