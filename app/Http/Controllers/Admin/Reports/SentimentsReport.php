@@ -46,7 +46,7 @@ class SentimentsReport extends Controller
         if ($reportType == "pdf") {
 
 
-          return  $fileName = time() . "sentiments.pdf";
+            $fileName = time() . "sentiments.pdf";
 
             $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 0, 0, 0);
             // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
