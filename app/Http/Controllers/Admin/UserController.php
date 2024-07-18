@@ -39,8 +39,6 @@ class UserController extends Controller
             "email" => $data['email'],
             'password' => Hash::make($randomString),
             'company_id' =>  $this->company->id
-
-
         ]);
 
         Mail::to($data['email'])->send(new ResetPasswordEmail($user));

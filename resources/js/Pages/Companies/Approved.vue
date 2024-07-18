@@ -31,11 +31,9 @@
                     <tr v-for="(company, index) in companies" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
-                        <td>{{ company.contact_person.first_name }}</td>
-                        <td>{{ company.contact_person?.email }}</td>
-                        <td>{{ company.contact_person.phoneNumber }}</td>
+                       <td>{{ company.contact_person?.email }}</td>
+                        <td>{{ company.contact_person?.phoneNumber }}</td>
                         <td>{{ company.contact_person?.position }}</td>
-
                         <!-- <td v-for="role in user.roles" :key="role.id">
                             {{ role.name }}
                         </td> -->
