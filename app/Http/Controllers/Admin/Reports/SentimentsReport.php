@@ -29,7 +29,7 @@ class SentimentsReport extends Controller
     {
         $reportType = request()->reportType;
 
-       return $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
+        $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
 
         $sentimentsTimeline = $this->sentimentService->sentimentsTimeline($this->tweets, $this->searchFilter);
 
@@ -46,7 +46,7 @@ class SentimentsReport extends Controller
         if ($reportType == "pdf") {
 
 
-            $fileName = time() . "sentiments.pdf";
+          return  $fileName = time() . "sentiments.pdf";
 
             $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 0, 0, 0);
             // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
