@@ -67,14 +67,14 @@
                                         class="nav-link px-3"
                                         >Profile</Link
                                     >
-                                    <Link
+                                    <!-- <Link
                                         href="/help"
                                         method="get"
                                         as="link"
                                         style="cursor: pointer"
                                         class="nav-link px-3"
                                         >Help</Link
-                                    >
+                                    > -->
                                     <Link
                                         style="cursor: pointer"
                                         href="/logout"

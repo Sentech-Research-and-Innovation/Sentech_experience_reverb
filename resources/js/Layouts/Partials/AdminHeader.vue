@@ -91,7 +91,7 @@
                     <Weather />
                 </a>
             </li>
-            <li class="nav-item pt-2">
+            <!-- <li class="nav-item pt-2">
                 <a class="nav-link">
                     <span class="menu-title">Settings </span>
                 </a>
@@ -100,7 +100,7 @@
                 <a class="nav-link">
                     <span class="menu-title">Help? </span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 </template>
