@@ -2,7 +2,7 @@
     <div class="row mt-3">
         <div class="col-lg-4 col-6 pr-0">
             <div class="col-12 shadow-border text-center py-3">
-                <p class="pt-lg-4 fs-5">Last Refresh Date</p>
+                <p class="pt-lg-4 fs-5">Last Active Data</p>
                 <div class="py-lg-2 value_label">
                     {{ formattedDate }}
                 </div>
@@ -40,8 +40,42 @@ import { predictionsFilterStore } from "../../../stores/predictionsFilter";
 
 export default defineComponent({
     components: {},
+    props: {
+        lastRefresh: {
+            type: String,
+            required: true,
+        },
+    },
+    setup(props) {
+        const { lastRefresh } = props;
 
-    setup() {
+        const dateObj = new Date(lastRefresh);
+
+        function formatDate(date) {
+            const months = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+            ];
+
+            const month = months[date.getMonth()];
+            const day = date.getDate();
+            const year = date.getFullYear();
+
+            return `${month} ${day}, ${year}`;
+        }
+
+        const formattedDate = formatDate(dateObj);
+
         const filterStore = predictionsFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
         const search = ref({
@@ -52,7 +86,6 @@ export default defineComponent({
 
         const inAlarmMonitoredSensorsCount = ref(0);
 
-        const formattedDate = ref("");
         const series = ref([]);
 
         const chartOptions = ref({
@@ -143,17 +176,6 @@ export default defineComponent({
         };
 
         onMounted(async () => {
-            const optionsDate = {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            };
-            const currentDate = new Date();
-            formattedDate.value = currentDate.toLocaleDateString(
-                "en-US",
-                optionsDate
-            );
-
             getPredictions();
         });
 
@@ -174,6 +196,7 @@ export default defineComponent({
             formattedDate,
             monitoredSensorsCount,
             inAlarmMonitoredSensorsCount,
+            formattedDate,
         };
     },
 });

@@ -9,9 +9,18 @@
                     />
                 </a>
 
+                <div class="bg-1">
+                    <a
+                        class="register nav-link nav-link-text"
+                        target="_blank"
+                        href="https://www.sentech.co.za/about-us/who-we-are"
+                        ><span class="">About us</span>
+                    </a>
+                </div>
+
                 <div class="nav-lg" id="sentech-nav">
-                    <div class="navbar-nav ms-auto ml-5 mr-0 pt-2">
-                        <Link
+                    <div class="navbar-nav ms-auto ml-5 mr-auto pt-2">
+                        <!-- <Link
                             class="register nav-link nav-link-text mr-2"
                             aria-current="page"
                             href="/"
@@ -41,7 +50,7 @@
                             aria-current="page"
                             href="/contactus"
                             ><span>Contact us</span>
-                        </Link>
+                        </Link> -->
 
                         <Login />
                     </div>
@@ -77,7 +86,7 @@
                                     />
                                 </a>
 
-                                <div class="col-12 pc-0 mx-0 pt-3">
+                                <div class="col-12 px-0 mx-0 pt-3">
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
@@ -85,7 +94,7 @@
                                         ><span class="">Home</span>
                                     </Link>
                                 </div>
-                                <div class="col-12 pc-0 mx-0 pt-3">
+                                <!-- <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
@@ -116,7 +125,7 @@
                                         href="/contactus"
                                         ><span class="">Contact us</span>
                                     </Link>
-                                </div>
+                                </div> -->
 
                                 <div class="col-12 px-0 mx-0">
                                     <Login />

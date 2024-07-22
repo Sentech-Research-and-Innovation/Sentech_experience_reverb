@@ -4,7 +4,7 @@
             <div class="row py-lg-4">
                 <div class="col-lg-6 px-0">
                     <div class="row">
-                        <div class="col-lg-4 col-6 pr-0">
+                        <!-- <div class="col-lg-4 col-6 pr-0">
                             <Link
                                 class="nav-link nav-link-text app-download pt-2 pb-3"
                                 aria-current="page"
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </Link>
-                        </div>
+                        </div> -->
                         <div class="col-4 pt-lg-3 pt-4">
                             <nav class="d-flex justify-content-left">
                                 <a
@@ -140,7 +140,7 @@
 
                 <div class="col-lg-6 text-end pt-lg-0 pt-4">
                     <div class="row">
-                        <div class="col-lg-3 col-4 text-start px-0">
+                        <!-- <div class="col-lg-3 col-4 text-start px-0">
                             <div class="list-group-header">Pages</div>
                             <ul
                                 class="list-group list-group-flush bg-transparent"
@@ -174,14 +174,14 @@
 
                                 <li class="list-group-item">Login</li>
                             </ul>
-                        </div>
+                        </div> -->
                         <div
                             class="col-lg-3 col-6 text-start px-0 pt-lg-0 pt-4"
                         >
                             <Register />
                         </div>
                         <div
-                            class="col-12 px-0 pt-lg-3 pt-4 list-group-item text-lg-right text-left"
+                            class="col-lg-9 px-0 pt-lg-3 pt-4 list-group-item text-lg-end text-start"
                         >
                             Copyright 2024. All rights reserved.
                         </div>

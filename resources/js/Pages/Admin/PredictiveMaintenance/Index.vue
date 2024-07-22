@@ -4,7 +4,7 @@
         <filtersVue />
     </div>
     <div class="col-12 mt-3">
-        <sensorKPIsVue />
+        <sensorKPIsVue :lastRefresh="lastRefresh" />
     </div>
     <div class="row">
         <div class="col-lg-6 col-12 pr-lg-0">
@@ -49,8 +49,12 @@ export default defineComponent({
     },
     setup(props) {
         const { predictions } = props;
+
+        const lastRefresh = predictions[0].date;
+
         return {
             predictions,
+            lastRefresh,
         };
     },
 });

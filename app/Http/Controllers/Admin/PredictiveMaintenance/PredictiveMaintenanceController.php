@@ -17,7 +17,7 @@ class PredictiveMaintenanceController extends Controller
     {
 
 
-        $predictions = Prediction::orderby('item_id', 'ASC')->get();
+        $predictions = Prediction::orderby('date', 'DESC')->get();
         return Inertia::render('Admin/PredictiveMaintenance/Index', compact('predictions'));
     }
 

@@ -5,7 +5,7 @@
             cancel-button-text="No"
             :icon="InfoFilled"
             icon-color="#626AEF"
-            title="Are you sure to approve this?"
+            title="Are you sure you want to delete this user?"
             @confirm="deleteUser"
             @cancel="cancelEvent"
         >
