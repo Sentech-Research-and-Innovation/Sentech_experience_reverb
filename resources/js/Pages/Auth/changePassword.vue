@@ -32,6 +32,7 @@
                                             >Email address</label
                                         >
                                         <input
+                                            disabled
                                             type="email"
                                             v-model="form.email"
                                             class="form-control login-form-inputs"
