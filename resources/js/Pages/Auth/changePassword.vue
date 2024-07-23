@@ -88,6 +88,7 @@
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import WebLayout from "@/Layouts/WebLayout.vue";
 import { defineComponent, onMounted, ref } from "vue";
+import axios from "axios";
 
 export default defineComponent({
     components: {
@@ -98,8 +99,13 @@ export default defineComponent({
 
     setup() {
         const token = ref("");
-
-        const form = ref({});
+        const email = ref("");
+        const form = ref({
+            email: "",
+            password: "",
+            password_confirmation: "",
+            token: "",
+        });
         const errors = ref({});
         const success = ref(false);
 
@@ -110,41 +116,46 @@ export default defineComponent({
                 await axios.post(`/reset-password`, form.value);
                 success.value = true;
             } catch (err) {
-                const res = err.response.data.errors;
+                if (err.response) {
+                    const res = err.response.data.errors;
 
-                errors.value = {
-                    email: res?.email?.[0] || "",
-                    password: res?.password?.[0] || "",
-                };
-
-                if (err.response.status == 404) {
                     errors.value = {
-                        expiredTokenMessage: err.response.data.message || "",
+                        email: res?.email?.[0] || "",
+                        password: res?.password?.[0] || "",
                     };
+
+                    if (err.response.status === 404) {
+                        errors.value.expiredTokenMessage =
+                            err.response.data.message || "";
+                    }
+                } else {
+                    errors.value.networkError =
+                        "Network error occurred. Please try again.";
                 }
             }
         };
-        onMounted(async () => {
-            // Get the current URL
+
+        onMounted(() => {
             const urlString = window.location.href;
 
-            const tokenRegex = /token\?=(.*)/;
+            // Regex to extract token and email
+            const tokenRegex = /token\?=([^&]*)/;
+            const emailRegex = /email=([^&]*)/;
 
-            const match = tokenRegex.exec(urlString);
+            const tokenMatch = tokenRegex.exec(urlString);
+            const emailMatch = emailRegex.exec(urlString);
 
-            token.value = match && match[1];
+            token.value = tokenMatch && tokenMatch[1];
+            email.value = emailMatch && decodeURIComponent(emailMatch[1]);
 
-            const emailRegex = /email=(.*)/;
-
-            const matchEmail = emailRegex.exec(urlString);
-
-            form.email.value = matchEmail && matchEmail[1];
+            form.value.email = email.value;
         });
 
-        return { token, form, submit, errors, success };
+        return { token, email, form, submit, errors, success };
     },
 });
 </script>
+
 <style scoped>
 .sentech-index-page {
     padding-top: 100px;
