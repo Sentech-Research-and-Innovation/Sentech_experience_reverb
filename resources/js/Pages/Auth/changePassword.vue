@@ -133,6 +133,12 @@ export default defineComponent({
             const match = tokenRegex.exec(urlString);
 
             token.value = match && match[1];
+
+            const emailRegex = /email=(.*)/;
+
+            const matchEmail = emailRegex.exec(urlString);
+
+            form.email.value = matchEmail && matchEmail[1];
         });
 
         return { token, form, submit, errors, success };
