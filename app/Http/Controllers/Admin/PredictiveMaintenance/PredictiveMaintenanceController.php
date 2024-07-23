@@ -10,6 +10,8 @@ use App\Models\Prediction;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Http\Request;
+
 class PredictiveMaintenanceController extends Controller
 {
 
@@ -48,6 +50,82 @@ class PredictiveMaintenanceController extends Controller
         $predictions = Prediction::all();
         return Inertia::render('Admin/PredictiveMaintenance/DetailedView/Index', compact('predictions'));
     }
+
+
+    public function predictionsFiltered(Request $request)
+    {
+        $query = Prediction::query();
+
+        $params = $request->input('params', []);
+
+        // if (isset($params['siteNames'])) {
+        //     // Check if siteNames is an array of arrays
+        //     if (is_array($params['siteNames'][0])) {
+        //         $siteNames = array_merge(...array_map('array_values', $params['siteNames']));
+        //     } else {
+        //         $siteNames = $params['siteNames'];
+        //     }
+        //     $query->whereIn('SiteName', $siteNames);
+        // }
+
+
+        if (isset($params['siteNames'])) {
+            $siteNames = $params['siteNames'];
+            $query->whereIn('SiteName', $siteNames);
+        }
+
+
+        // Flatten and process the measureDescription array if present
+        if (isset($params['measureDecription'])) {
+            $measureDescriptions = $params['measureDecription'];
+            $query->whereIn('MeasureDescription', $measureDescriptions);
+        }
+
+        // Flatten and process the deviceName array if present
+        if (isset($params['deviceName'])) {
+            $deviceNames = $params['deviceName'];
+            $query->whereIn('DeviceName', $deviceNames);
+        }
+
+        // Flatten and process the classification array if present
+
+
+        if (isset($params['classification'])) {
+            $classifications = $params['classification'];
+            $query->whereIn('Classification_x', $classifications);
+        }
+
+        // Flatten and process the alarmFlag array if present
+
+
+        // if (isset($params['alarmFlag'])) {
+        //     // Check if siteNames is an array of arrays
+        //     if (is_array($params['alarmFlag'][0])) {
+        //         $alarmFlags = array_merge(...array_map('array_values', $params['alarmFlag']));
+        //     } else {
+        //         $alarmFlags = $params['alarmFlag'];
+        //     }
+        //     $query->whereIn('alarm', $alarmFlags);
+        // }
+
+        if (isset($params['alarmFlag'])) {
+            $alarmFlags = $params['alarmFlag'];
+            $query->whereIn('alarm', $alarmFlags);
+        }
+
+        // Uncomment and adjust if date filtering is needed
+        // if (isset($params['date'])) {
+        //     $dates = $params['date'];
+        //     if (!empty($dates) && count($dates) === 2) {
+        //         $query->whereBetween('date', [$dates[0], $dates[1]]);
+        //     }
+        // }
+
+        $predictions = $query->paginate(100);
+
+        return response()->json($predictions);
+    }
+
 
 
 

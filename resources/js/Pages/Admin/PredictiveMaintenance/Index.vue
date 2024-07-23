@@ -1,4 +1,7 @@
 <template>
+    <Head :title="'Predictive Maintenance'"
+        ><title>Predictive Maintenance</title></Head
+    >
     <navigationTabsVue />
     <div class="col-12 mt-3">
         <filtersVue />
@@ -22,6 +25,8 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
+
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import navigationTabsVue from "../../../Layouts/predictions/navigationTabs.vue";
 
@@ -40,6 +45,7 @@ export default defineComponent({
         filtersVue,
         sensorKPIsVue,
         navigationTabsVue,
+        Head,
     },
     props: {
         predictions: {

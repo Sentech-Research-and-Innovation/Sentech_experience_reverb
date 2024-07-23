@@ -9,4 +9,5 @@ Route::group(['prefix' => '/admin/predictive-maintenance'], function () {
     Route::post('/predictions', [PredictiveMaintenanceController::class, 'getPredictions']);
     Route::get('/predictions/detailed-view', [PredictiveMaintenanceController::class, 'detailedView'])->middleware('role_has_permission:predictive_maintenance-read_detailed_view');
     Route::post('/predictions/alarm-flag', [PredictiveMaintenanceController::class, 'alarmFlag']);
+    Route::post('/predictions/filtered', [PredictiveMaintenanceController::class, 'predictionsFiltered']);
 });

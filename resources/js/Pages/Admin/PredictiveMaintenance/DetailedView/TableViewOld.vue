@@ -1,11 +1,12 @@
 <template>
     <div class="shadow-border col-12 py-2">
+        <!-- <el-skeleton v-if="!rows" :rows="5" animated /> -->
         <el-table
             v-loading="loading"
             :element-loading-svg="svg"
             class="custom-loading-svg"
             element-loading-svg-view-box="-10, -10, 50, 50"
-            :data="rows.data"
+            :data="rows"
             style="width: 100%"
             height="600"
         >
@@ -25,6 +26,7 @@
             <el-table-column prop="item_id" label="Sensor ID" width="300" />
             <el-table-column prop="date" label="Date" width="100" />
             <el-table-column prop="date" label="Day" width="100" />
+
             <el-table-column label="In Alarm" width="100">
                 <template #default="scope">
                     <div
@@ -44,6 +46,7 @@
                     </div>
                 </template>
             </el-table-column>
+
             <el-table-column
                 prop="target_value"
                 label="Predicted Value"
@@ -59,6 +62,7 @@
                 label="lowerTsh"
                 width="105"
             />
+
             <el-table-column
                 prop="upperPreAlarmTsh"
                 label="upperPreTsh"
@@ -70,85 +74,96 @@
                 width="105"
             />
         </el-table>
-
-        <el-pagination
-            :current-page="pagination.currentPage"
-            :page-size="pagination.perPage"
-            :total="pagination.total"
-            @current-change="handlePageChange"
-            layout="prev, pager, next"
-            style="margin-top: 20px; text-align: center"
-        />
     </div>
 </template>
 
 <script>
-import { defineComponent, ref, computed, watch } from "vue";
-import axios from "axios";
+import { defineComponent, onMounted, ref, computed, watch } from "vue";
 import { predictionsFilterStore } from "../../../../stores/predictionFiltersDetailed";
 
 export default defineComponent({
-    setup() {
-        const rows = ref({ data: [], total: 0 });
-        const loading = ref(false);
-        const svg = `
-      <path class="path" d="
-        M 30 15
-        L 28 17
-        M 25.61 25.61
-        A 15 15, 0, 0, 1, 15 30
-        A 15 15, 0, 1, 1, 27.99 7.5
-        L 15 15
-      " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`;
+    props: {
+        predictions: {
+            type: Array,
+            required: true,
+        },
+    },
+    components: {},
+    setup(props) {
+        const rows = ref([]);
+        const { predictions } = props;
 
         const filterStore = predictionsFilterStore();
         const searchFilter = computed(() => filterStore.searchFilter);
+        const loading = ref(false);
+        const svg = `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`;
+        const getPredictions = () => {
+            //loading.value = true;
+            const {
+                siteNames,
+                date,
+                measureDecription,
+                deviceName,
+                classification,
+                alarmFlag,
+            } = searchFilter.value;
 
-        const pagination = ref({
-            currentPage: 1,
-            perPage: 100,
-            total: 0,
-        });
+            const filteredPredictions = predictions.filter((prediction) => {
+                // const predictionDate = new Date(prediction.date).toISOString(); // Convert prediction date to ISO 8601 format
+                // const isDateInRange =
+                //     date[0] <= predictionDate && predictionDate <= date[1];
 
-        const getPredictions = async (page = 1) => {
-            loading.value = true;
-            try {
-                const response = await axios.post(
-                    "/admin/predictive-maintenance/predictions/filtered",
-                    {
-                        params: searchFilter.value,
-                        page: page,
-                        per_page: pagination.value.perPage,
-                    }
+                const isSiteNameMatch = siteNames
+                    .flat()
+                    .includes(prediction.SiteName);
+                const isMeasureDescriptionMatch = measureDecription
+                    .flat()
+                    .includes(prediction.MeasureDescription);
+                const isDeviceNameMatch = deviceName
+                    .flat()
+                    .includes(prediction.DeviceName);
+                const isClassificationMatch = classification
+                    .flat()
+                    .includes(prediction.Classification_x);
+                const isAlarmFlagMatch = alarmFlag
+                    .flat()
+                    .some((flag) => flag === prediction.alarm);
+
+                return (
+                    isSiteNameMatch &&
+                    //isDateInRange &&
+                    isMeasureDescriptionMatch &&
+                    isDeviceNameMatch &&
+                    isClassificationMatch &&
+                    isAlarmFlagMatch
                 );
-                rows.value = response.data;
-                pagination.value.total = response.data.total; // Update total count
-                pagination.value.currentPage = response.data.current_page; // Update current page
-            } catch (error) {
-                console.error("Error fetching predictions:", error);
-            } finally {
-                loading.value = false;
-            }
+            });
+
+            rows.value = filteredPredictions;
+            loading.value = false;
         };
 
-        const handlePageChange = (page) => {
-            getPredictions(page);
-        };
+        getPredictions();
 
-        watch(
-            searchFilter,
-            () => {
+        watch(searchFilter, () => {
+            loading.value = true;
+            setTimeout(() => {
                 getPredictions();
-            },
-            { immediate: true }
-        );
+            }, 2000);
+        });
 
         return {
             rows,
             loading,
             svg,
-            pagination,
-            handlePageChange,
         };
     },
 });

@@ -1,4 +1,7 @@
 <template>
+    <Head :title="'Predictive Maintenance'"
+        ><title>Predictive Maintenance</title></Head
+    >
     <navigationTabsVue />
     <div class="col-12">
         <deatiledViewFiltersVue :predictions="predictions" />
@@ -18,6 +21,8 @@ import navigationTabsVue from "../../../../Layouts/predictions/navigationTabs.vu
 
 import TableViewVue from "./TableView.vue";
 
+import { Head, Link } from "@inertiajs/inertia-vue3";
+
 export default defineComponent({
     props: {
         predictions: {
@@ -30,6 +35,7 @@ export default defineComponent({
         deatiledViewFiltersVue,
         navigationTabsVue,
         TableViewVue,
+        Head,
     },
     setup(props) {
         const { predictions } = props;
