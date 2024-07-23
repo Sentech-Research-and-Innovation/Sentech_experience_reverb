@@ -1,1 +1,0 @@
-import{P as t}from"./app-b2866e10.js";const r=t("filter",{state:()=>({date:null,keywords:null,sentimentTypes:null}),getters:{searchFilter:e=>({date:e.date,keywords:e.keywords,sentimentTypes:e.sentimentTypes})},actions:{},persist:!0});export{r as u};
