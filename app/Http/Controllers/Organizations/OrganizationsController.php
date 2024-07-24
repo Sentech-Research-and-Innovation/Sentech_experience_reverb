@@ -71,9 +71,12 @@ class OrganizationsController extends Controller
 
         $company = company::find($company_id);
 
-        $user = User::find($company->contact_person_id);
+        //$user = User::find($company->contact_person_id);
 
-        $user->sendAccountAprrovalNotification();
+        $status = Password::sendResetLink(
+            $request->only('email'),
+
+        );
 
 
         Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);

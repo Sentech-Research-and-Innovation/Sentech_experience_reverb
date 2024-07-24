@@ -26,8 +26,6 @@ class User extends Authenticatable
     use HasRoles;
     use LaravelPermissionToVueJS;
 
-    //protected $guard_name = "api";
-
     /**
      * The attributes that are mass assignable.
      *
@@ -80,9 +78,8 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        $email = $this->email;
         $front_url = config('app.url');
-        $url = $front_url . '/change_password' . '/token?=' . $token . '&email=' . $email;
+        $url = $front_url . '/change_password' . '/token?=' . $token;
 
         $this->notify(new ResetPasswordNotification($url));
     }

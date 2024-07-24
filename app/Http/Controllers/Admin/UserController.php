@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Password;
+use App\Notifications\CreateUserNotification;
 
 
 
@@ -44,12 +45,12 @@ class UserController extends Controller
 
         // Mail::to($data['email'])->send(new ResetPasswordEmail($user));
 
-        // $status = Password::sendResetLink(
-        //     $request->only('email'),
+        $status = Password::sendResetLink(
+            $request->only('email'),
 
-        // );
+        );
 
-        $user->SendCreateUserNotification();
+
 
         $user->assignRole($data['role']);
 
