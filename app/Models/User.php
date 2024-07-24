@@ -13,7 +13,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
-use App\Notifications\ResetPasswordNotification;
+use App\Notifications\AccountAprrovalNotification;
+use App\Notifications\CreateUserNotification;
+
+use Illuminate\Support\Str;
 
 
 class User extends Authenticatable
@@ -78,12 +81,23 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
-    public function sendPasswordResetNotification($token)
+    public function sendAccountAprrovalNotification()
     {
+        $token = Str::random(60);
         $email = $this->email;
         $front_url = config('app.url');
         $url = $front_url . '/change_password' . '/token?=' . $token . '&email=' . $email;
 
-        $this->notify(new ResetPasswordNotification($url));
+        $this->notify(new AccountAprrovalNotification($url));
+    }
+
+    public function SendCreateUserNotification()
+    {
+        $token = Str::random(60);
+        $email = $this->email;
+        $front_url = config('app.url');
+        $url = $front_url . '/change_password' . '/token?=' . $token . '&email=' . $email;
+
+        $this->notify(new CreateUserNotification($url));
     }
 }

@@ -14,6 +14,7 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Password;
 
 
+
 class UserController extends Controller
 {
 
@@ -41,7 +42,14 @@ class UserController extends Controller
             'company_id' =>  $this->company->id
         ]);
 
-        Mail::to($data['email'])->send(new ResetPasswordEmail($user));
+        // Mail::to($data['email'])->send(new ResetPasswordEmail($user));
+
+        // $status = Password::sendResetLink(
+        //     $request->only('email'),
+
+        // );
+
+        $user->SendCreateUserNotification();
 
         $user->assignRole($data['role']);
 

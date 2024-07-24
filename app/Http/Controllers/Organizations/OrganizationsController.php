@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Models\Notification;
+use App\Notifications\AccountAprrovalNotification;
 
 
 
@@ -60,15 +61,20 @@ class OrganizationsController extends Controller
     public function approveCompany($company_id, Request $request)
     {
 
-        $status = Password::sendResetLink(
-            $request->only('email'),
+        // $status = Password::sendResetLink(
+        //     $request->only('email'),
 
-        );
+        // );
 
         company::where('id', $company_id)->update(['active' => true, 'approved' => 1]);
 
 
-        $company = company::find($company_id)->first();
+        $company = company::find($company_id);
+
+        $user = User::find($company->contact_person_id);
+
+        $user->sendAccountAprrovalNotification();
+
 
         Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);
 

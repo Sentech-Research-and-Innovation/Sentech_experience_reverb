@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ResetPasswordNotification extends Notification
+class CreateUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,6 +16,7 @@ class ResetPasswordNotification extends Notification
     /**
      * Create a new notification instance.
      *
+     * @param string $url
      * @return void
      */
     public function __construct(string $url)
@@ -43,10 +44,12 @@ class ResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Account Approvedd.')
-            ->line('Congrats your account has been approve, click the reset your password, to start using the system.')
-            ->action('Click to reset', $this->url)
-            ->line('Thank you for using our application!');
+            ->subject('Account Created')
+            ->line('Congratulations! Your account has been Created.')
+            ->line('Click the button below to reset your password and start using our system:')
+            ->action('Reset Password', $this->url)
+            ->line('This password reset link will expire in 60 minutes.')
+            ->line('Thank you for using our application.');
     }
 
     /**
