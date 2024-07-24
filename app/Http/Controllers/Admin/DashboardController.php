@@ -15,7 +15,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-
         $url = url()->previous();
         $refresh = false;
 
@@ -24,6 +23,8 @@ class DashboardController extends Controller
         $result = $matches[0];
 
         if (!$result) {
+            $refresh = true;
+        } else if (strpos($result, 'token') !== false) {
             $refresh = true;
         }
 
