@@ -1,1 +1,0 @@
-import{f as a}from"./app-fb1ccdf2.js";function p(o=[]){return{groupedData:a(()=>{if(!o.value||!Array.isArray(o.value))return{};const r={};for(const u of o.value)r[u.groupName]||(r[u.groupName]=[]),r[u.groupName].push(u);return r})}}export{p as u};
