@@ -27,7 +27,7 @@ class SentimentsReport extends Controller
 
     public function index()
     {
-        $reportType = request()->reportType;
+        return $reportType = request()->reportType;
 
         $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
 
