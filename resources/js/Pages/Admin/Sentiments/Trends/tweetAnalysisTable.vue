@@ -12,7 +12,7 @@
                 </div>
                 <div class="row pt-3" v-if="!loading">
                     <div>
-                        <div class="col-12 mt-3 mb-5 px-4">
+                        <!-- <div class="col-12 mt-3 mb-5 px-4">
                             <div class="row">
                                 <div class="col-4 sentiments-counts">
                                     <div class="sentiments-labels">
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-12" style="height: 500px">
                             <vue-scroll>
                                 <div class="row pb-3">
