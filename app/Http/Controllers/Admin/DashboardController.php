@@ -13,6 +13,18 @@ use App\Models\ActivityLog;
 
 class DashboardController extends Controller
 {
+
+    protected $company;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->company = auth()->user()->company;
+            return $next($request);
+        });
+    }
+
+
     public function index()
     {
         $url = url()->previous();
@@ -41,10 +53,11 @@ class DashboardController extends Controller
         $endDate = isset($filterDate[1]) ? Carbon::parse($filterDate[1]) : null;
 
         $activities = ActivityLog::with(['user.roles', 'user' => function ($query) use ($searchText) {
-            $query->where(function ($innerQuery) use ($searchText) {
-                $innerQuery->where('first_name', 'LIKE', "%$searchText%")
-                    ->orWhere('last_name', 'LIKE', "%$searchText%");
-            });
+            $query->where('company_id', $this->company->id)
+                ->where(function ($innerQuery) use ($searchText) {
+                    $innerQuery->where('first_name', 'LIKE', "%$searchText%")
+                        ->orWhere('last_name', 'LIKE', "%$searchText%");
+                });
         }])
             ->when(!is_null($startDate) && !is_null($endDate), function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('created_at', [$startDate, $endDate]);
@@ -56,7 +69,8 @@ class DashboardController extends Controller
                             ->orWhere('last_name', 'LIKE', "%$searchText%");
                     });
             })
-            ->orderBy('created_at', 'desc')->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         foreach ($activities as $activity) {
             $dateTimeString = $activity->created_at;

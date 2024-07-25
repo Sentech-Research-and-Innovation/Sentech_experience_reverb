@@ -13,7 +13,7 @@
                     <div class="col-12 pending-companies rounded py-4 px-5">
                         <div class="tweets-label pt-4">Pending companies</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>321</strong>
+                            <strong>8</strong>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     >
                         <div class="tweets-label pt-4">Company Requests</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>20</strong>
+                            <strong>2</strong>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     >
                         <div class="tweets-label pt-4">System users</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>321</strong>
+                            <strong>16</strong>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     >
                         <div class="tweets-label pt-4">Customer feedback</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>321</strong>
+                            <strong>0</strong>
                         </div>
                     </div>
                 </div>

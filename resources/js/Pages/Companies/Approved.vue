@@ -24,22 +24,26 @@
                         <th scope="col">Contact Person Email</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Position</th>
-                        <th scope="col">Active</th>
+                        <!-- <th scope="col">Active</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(company, index) in companies" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
-                       <td>{{ company.contact_person?.email }}</td>
+                        <td>{{ company.contact_person?.first_name }}</td>
+
+                        <td>{{ company.contact_person?.email }}</td>
                         <td>{{ company.contact_person?.phoneNumber }}</td>
                         <td>{{ company.contact_person?.position }}</td>
+
+                        <!-- <td>{{ company }}</td> -->
                         <!-- <td v-for="role in user.roles" :key="role.id">
-                            {{ role.name }}
+                            {{ role?.name }}
                         </td> -->
-                        <td>
+                        <!-- <td>
                             <el-switch v-model="active" />
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
             </table>

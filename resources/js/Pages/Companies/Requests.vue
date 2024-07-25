@@ -62,13 +62,13 @@
                                 </template>
                             </el-popconfirm>
 
-                            <el-button
+                            <!-- <el-button
                                 v-if="can('companies-decline_requests')"
                                 type="danger"
                                 :icon="CircleCloseFilled"
                                 class="fs-5"
                                 @click="company.centerDialogVisible = true"
-                            />
+                            /> -->
                             <el-dialog
                                 v-model="company.centerDialogVisible"
                                 :title="'Decline ' + company.company_name"

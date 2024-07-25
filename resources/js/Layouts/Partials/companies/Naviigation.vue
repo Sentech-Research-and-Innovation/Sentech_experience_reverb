@@ -37,14 +37,14 @@
                 </li>
             </ul>
             <ul>
-                <div class="col-12 mt-4 d-flex px-0 mx-0">
+                <!-- <div class="col-12 mt-4 d-flex px-0 mx-0">
                     <el-input
                         class="w-100 mr-2"
                         placeholder="Serach by name"
                         :prefix-icon="Search"
                     />
                     <el-button type="primary" class="w-30">Go</el-button>
-                </div>
+                </div> -->
             </ul>
         </nav>
     </div>
