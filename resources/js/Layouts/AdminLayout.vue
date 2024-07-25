@@ -7,7 +7,7 @@
         </nav>
         <!-- partial -->
 
-        <div class="main-panel">
+        <div class="main-panel col-10 px-0">
             <div class="col-12 px-0">
                 <div class="col-12 py-4">
                     <div class="row">

@@ -7,7 +7,7 @@
         <deatiledViewFiltersVue :predictions="predictions" />
     </div>
 
-    <div class="">
+    <div class="col-12">
         <TableViewVue :predictions="predictions" />
     </div>
 </template>

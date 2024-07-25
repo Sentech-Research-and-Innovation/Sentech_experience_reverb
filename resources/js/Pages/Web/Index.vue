@@ -129,43 +129,38 @@
                                         <div class="col-lg-4 px-2">
                                             <div class="col-12 blue-bg py-3">
                                                 <div
-                                                    class="col-12 fs-4 px-0 text-center"
+                                                    class="col-12 fs-4 px-0 text-center pt-3"
                                                 >
                                                     Feedback
-                                                </div>
-                                                <div
-                                                    class="col-12 fs-6 px-0 text-center pt-1"
-                                                >
-                                                    Lorem ipsum dolor sit
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 pt-lg-0 pt-4 px-2">
                                             <div class="col-12 green-bg py-3">
                                                 <div
-                                                    class="col-12 fs-4 px-0 text-center"
+                                                    class="col-12 fs-4 px-0 text-center pt-3"
                                                 >
                                                     Report
                                                 </div>
-                                                <div
+                                                <!-- <div
                                                     class="col-12 fs-6 px-0 text-center pt-1"
                                                 >
                                                     Lorem ipsum dolor sit
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="col-lg-4 px-2 pt-lg-0 pt-4">
                                             <div class="col-12 yellow-bg py-3">
                                                 <div
-                                                    class="col-12 fs-4 px-0 text-center"
+                                                    class="col-12 fs-4 px-0 text-center pt-3"
                                                 >
                                                     Learn more
                                                 </div>
-                                                <div
+                                                <!-- <div
                                                     class="col-12 fs-6 px-0 text-center pt-1"
                                                 >
                                                     Lorem ipsum dolor sit
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>

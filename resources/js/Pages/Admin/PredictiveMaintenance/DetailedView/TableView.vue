@@ -159,6 +159,10 @@ export default defineComponent({
     padding: 0px !important;
 }
 
+.el-table {
+    width: 80%;
+}
+
 .el-table .cell {
     padding: 1px !important;
     text-align: center;
