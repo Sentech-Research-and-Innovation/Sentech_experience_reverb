@@ -33,8 +33,8 @@ class SentimentsReport extends Controller
 
         $sentimentsTimeline = $this->sentimentService->sentimentsTimeline($this->tweets, $this->searchFilter);
 
-        $tweetsByLocation = $this->sentimentService->tweetsByLocation($this->tweets, $this->searchFilter);
-        return $tweets = Tweet::get();
+        return $tweetsByLocation = $this->sentimentService->tweetsByLocation($this->tweets, $this->searchFilter);
+        $tweets = Tweet::get();
         $tweetContent = $this->trendsService->tweetsContent($tweets, $this->searchFilter);
 
         return $data = [
