@@ -14,7 +14,6 @@ class SentimentsReport extends Controller
 {
     protected $sentimentService;
     protected $tweets;
-    protected $tweet2;
     protected $searchFilter;
     protected $trendsService;
 
@@ -22,7 +21,6 @@ class SentimentsReport extends Controller
     {
         $this->sentimentService = $sentimentService;
         $this->tweets = Tweet::all();
-        $this->tweet2 = Tweet::get();
         $this->searchFilter = request()->searchFilter;
         $this->trendsService = $trendsService;
     }
@@ -37,7 +35,7 @@ class SentimentsReport extends Controller
 
         $tweetsByLocation = $this->sentimentService->tweetsByLocation($this->tweets, $this->searchFilter);
         //$tweets = Tweet::get();
-        return $tweetContent = $this->trendsService->tweetsContent($this->tweet2, $this->searchFilter);
+        return $tweetContent = $this->trendsService->tweetsContent($this->tweets, $this->searchFilter);
 
         return $data = [
             "overallSentiments" => $overallSentiments,
