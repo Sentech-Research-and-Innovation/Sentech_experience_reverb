@@ -27,14 +27,14 @@ class SentimentsReport extends Controller
 
     public function index()
     {
-        return $reportType = request()->reportType;
+        $reportType = request()->reportType;
 
         $overallSentiments = $this->sentimentService->overallSentiments($this->tweets, $this->searchFilter);
 
         $sentimentsTimeline = $this->sentimentService->sentimentsTimeline($this->tweets, $this->searchFilter);
 
         $tweetsByLocation = $this->sentimentService->tweetsByLocation($this->tweets, $this->searchFilter);
-        $tweets = Tweet::get();
+        return $tweets = Tweet::get();
         $tweetContent = $this->trendsService->tweetsContent($tweets, $this->searchFilter);
 
         return $data = [
