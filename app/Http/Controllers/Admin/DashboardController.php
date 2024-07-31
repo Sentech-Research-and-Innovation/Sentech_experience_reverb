@@ -38,7 +38,10 @@ class DashboardController extends Controller
             $refresh = true;
         } else if (strpos($result, 'token') !== false) {
             $refresh = true;
+        } else if (strpos($result, 'contactus') !== false) {
+            $refresh = true;
         }
+
 
         return Inertia::render('Admin/Dashboard', compact('refresh'));
     }

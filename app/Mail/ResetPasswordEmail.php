@@ -10,16 +10,16 @@ class ResetPasswordEmail extends Mailable
 {
     protected $user;
 
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }
 
     public function build()
     {
-        return $this->view('emails.reset_password')
+        return $this->view('emails.reset_password')->subject('Feedback Form Submission')
             ->with([
-                'reset_link' => url('/password/reset/' . $this->user->password_reset_token),
+                'user' => $this->user
             ]);
     }
 }

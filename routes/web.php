@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Web\WeatherController;
 use App\Http\Controllers\Admin\GetNotifications;
 use App\Http\Controllers\Web\NetworkController;
+use App\Http\Controllers\Web\WebController;
 
 
 
@@ -15,22 +16,13 @@ Route::get('/', function () {
     ]);
 })->name('landing');
 
-Route::get('/services', function () {
-    return Inertia::render('Web/services');
-})->name('services');
+// Route::get('/contactus', function () {
+//     return Inertia::render('Web/contactus');
+// })->name('contactus');
 
-Route::get('/aboutus', function () {
-    return Inertia::render('Web/aboutus');
-})->name('aboutus');
 
-Route::get('/news', function () {
-    return Inertia::render('Web/news');
-})->name('news');
-
-Route::get('/contactus', function () {
-    return Inertia::render('Web/contactus');
-})->name('contactus');
-
+Route::get('/contactus', [WebController::class, 'contactus']);
+Route::post('/feedback', [WebController::class, 'feedback']);
 
 
 Route::get('/web/weather', [WeatherController::class, 'create']);

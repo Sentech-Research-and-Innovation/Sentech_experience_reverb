@@ -2,16 +2,17 @@
 <html>
 
 <head>
-    <title>Password Reset</title>
+    <title>Feedback Form Submission</title>
+
 </head>
 
 <body>
-    {{-- <p>Hello {{ $user->name }},</p> --}}
-    <p>You are receiving this email because we received a password reset request for your account.</p>
-    <p>Please click the link below to reset your password:</p>
-    <a href="{{ $reset_link }}">Reset Password</a>
-    <p>If you did not request a password reset, no further action is required.</p>
-    <p>Thank you!</p>
+    <h1>Feedback Form Submission</h1>
+
+    <p><strong>Name:</strong> {{ $user['name'] }}</p>
+    <p><strong>Email:</strong> {{ $user['email'] }}</p>
+    <p><strong>Comment:</strong></p>
+    <p>{{ $user['comment'] }}</p>
 </body>
 
 </html>

@@ -3,6 +3,7 @@
   array (
     'name' => 'Sentech',
     'env' => 'local',
+    'admin_email' => 'hello@example.com',
     'debug' => true,
     'url' => 'http://127.0.0.1:8000',
     'asset_url' => NULL,

@@ -124,9 +124,22 @@
                                         <WeatherWidgetVue />
                                     </el-tooltip>
                                 </div>
-                                <div
-                                    class="col-lg-6 pt-lg-0 pt-4 px-lg-0 px-4"
-                                ></div>
+                                <div class="col-lg-6 pt-lg-0 pt-4 px-lg-0 px-3">
+                                    <a href="/contactus" style="color: #ffff">
+                                        <div class="blue-bg py-3">
+                                            <div
+                                                class="col-12 fs-4 px-0 text-center"
+                                            >
+                                                Feedback
+                                            </div>
+                                            <div
+                                                class="col-12 fs-6 px-0 text-center pt-1"
+                                            >
+                                                Send us a message
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

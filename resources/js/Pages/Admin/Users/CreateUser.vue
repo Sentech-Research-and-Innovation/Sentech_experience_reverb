@@ -103,7 +103,12 @@ export default defineComponent({
 
         const errors = ref({});
 
-        const form = ref({});
+        const form = ref({
+            first_name: "",
+            last_name: "",
+            email: "",
+            role: "",
+        });
 
         const showing = ref(false);
 

@@ -9,15 +9,6 @@
                     />
                 </a>
 
-                <div class="bg-1">
-                    <a
-                        class="register nav-link nav-link-text"
-                        target="_blank"
-                        href="https://www.sentech.co.za/about-us/who-we-are"
-                        ><span class="">About us</span>
-                    </a>
-                </div>
-
                 <div class="nav-lg" id="sentech-nav">
                     <div class="navbar-nav ms-auto ml-5 mr-auto pt-2">
                         <!-- <Link
@@ -38,19 +29,20 @@
                             aria-current="page"
                             href="/aboutus"
                             ><span>About us</span>
-                        </Link>
+                        </Link> -->
                         <Link
                             class="nav-link nav-link-text mr-2"
                             aria-current="page"
-                            href="/news"
-                            ><span>News</span>
+                            href="/"
+                            ><span>Home</span>
                         </Link>
-                        <Link
+                        <a
                             class="nav-link nav-link-text mr-5"
                             aria-current="page"
-                            href="/contactus"
-                            ><span>Contact us</span>
-                        </Link> -->
+                            target="_blank"
+                            href="https://www.sentech.co.za/about-us/who-we-are"
+                            ><span>About us</span>
+                        </a>
 
                         <Login />
                     </div>
@@ -86,13 +78,21 @@
                                     />
                                 </a>
 
-                                <div class="col-12 px-0 mx-0 pt-3">
+                                <div class="col-12 px-3 mx-0 pt-3">
                                     <Link
                                         class="register nav-link nav-link-text"
                                         aria-current="page"
                                         href="/"
                                         ><span class="">Home</span>
                                     </Link>
+
+                                    <a
+                                        class="nav-link nav-link-text mr-5"
+                                        aria-current="page"
+                                        target="_blank"
+                                        href="https://www.sentech.co.za/about-us/who-we-are"
+                                        ><span>About us</span>
+                                    </a>
                                 </div>
                                 <!-- <div class="col-12 pc-0 mx-0 pt-3">
                                     <Link
