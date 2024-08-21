@@ -1,5 +1,5 @@
 <template>
-    <Head :title="'Password Reset'"><title>Password Reset</title></Head>
+    <Head :title="'Contact Us'"><title>Contact Us</title></Head>
     <WebLayout>
         <div class="sentech-index-page">
             <div class="container">

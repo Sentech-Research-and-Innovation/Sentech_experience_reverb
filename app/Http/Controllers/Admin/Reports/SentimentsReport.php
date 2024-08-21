@@ -48,7 +48,32 @@ class SentimentsReport extends Controller
 
             $fileName = time() . "sentiments.pdf";
 
-            $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 0, 0, 0);
+            //             Browsershot::html($someHtml)
+            //    ->showBrowserHeaderAndFooter()
+            //    ->headerHtml($someHtml)
+            //    ->footerHtml($someHtml)
+            //    ->save('example.pdf');
+            // /$someHtml = "hallo";
+
+            // $style = '<style>
+            // .footer{
+            // width:1000px;
+            // color:red;
+            // background-color:#000000;
+            // display:block;
+            // font-size:30px;
+            // -webkit-print-color-adjust: exact
+            //  }
+            // </style>';
+
+
+            // $html = '<footer><div class="footer">My foorter</div></footer>';
+
+            $footerHtml =  view('reports/footer')->render();
+            $headerHtml =  view('reports/header')->render();
+
+            $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 25, 17, 25)
+                ->showBrowserHeaderAndFooter()->footerHtml($footerHtml)->headerHtml($headerHtml)->showBackground();
             // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
 
             // ->setNpmBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();

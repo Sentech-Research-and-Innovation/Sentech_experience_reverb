@@ -23,12 +23,19 @@ class PredictiveMaintenanceReportsController extends Controller
         $startDate = request()->searchData['searchFilter']['date'][0];
         $endDate = request()->searchData['searchFilter']['date'][1];
 
+        // $startDate = "2024-01-01T08:54:00.000Z";
+        // $endDate = "2024-12-26T08:54:00.000Z";
+        // $siteNamesSearch = ["PORT ELIZABETH", "CONSTANTIABERG", "JOHANNESBURG"];
+
 
         if ($reportType == "pdf") {
             return $this->pdf($siteNamesSearch, $startDate, $endDate);
         } else {
             return $this->csv($siteNamesSearch, $startDate, $endDate);
         }
+
+
+        // return $this->pdf($siteNamesSearch, $startDate, $endDate);
     }
 
     private function csv($siteNamesSearch, $startDate, $endDate)
@@ -48,11 +55,29 @@ class PredictiveMaintenanceReportsController extends Controller
         $callback = function () use ($predictions) {
             $csvContent = fopen('php://output', 'w');
             fputcsv($csvContent, [
-                'id', 'item_id', 'target_value', 'alarm', 'SiteName', 'SiteCode',
-                'Classification_x', 'OC', 'Region_x', 'Province', 'DeviceName',
-                'DeviceIP', 'MeasureDescription', 'lowerPreAlarmTsh', 'upperPreAlarmTsh',
-                'lowerAlarmTsh', 'upperAlarmTsh', 'oid', 'oidIndex', 'Latitude', 'Longitude',
-                'updated_at', 'created_at'
+                'id',
+                'item_id',
+                'target_value',
+                'alarm',
+                'SiteName',
+                'SiteCode',
+                'Classification_x',
+                'OC',
+                'Region_x',
+                'Province',
+                'DeviceName',
+                'DeviceIP',
+                'MeasureDescription',
+                'lowerPreAlarmTsh',
+                'upperPreAlarmTsh',
+                'lowerAlarmTsh',
+                'upperAlarmTsh',
+                'oid',
+                'oidIndex',
+                'Latitude',
+                'Longitude',
+                'updated_at',
+                'created_at'
             ]);
 
             foreach ($predictions as $row) {
@@ -129,14 +154,23 @@ class PredictiveMaintenanceReportsController extends Controller
         ];
 
 
+
+        // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
+
+        // ->setNpmBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
+        //   ->storeAs('pdfs/', $fileName);
+
+
         $fileName = time() . ".pdf";
 
-        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 0, 0, 0);
-            // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
+        $footerHtml =  view('reports/footer')->render();
+        $headerHtml =  view('reports/header')->render();
 
-            // ->setNpmBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
-        //   ->storeAs('pdfs/', $fileName);
+        $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 10, 17, 10)
+            ->showBrowserHeaderAndFooter()->footerHtml($footerHtml)->headerHtml($headerHtml)->showBackground();
         return $pdfStoredPath->download('report' . '.pdf');
+
+        //  return view("reports/index", compact('data'));
     }
 
     private function dateFormat($date)

@@ -28,23 +28,18 @@
             -webkit-print-color-adjust: exact;
         }
 
+        body {
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+        }
+
         .reports {
-            color: #010440 !important;
+            color: #144f9f !important;
         }
 
-        .line-breaker {
-            background-color: #f2c744;
-            height: 4px;
-        }
-
-        .line-breaker2 {
-            background-color: #f2c744;
-            height: 2px;
-            margin-top: 10px;
-        }
 
         .overview {
-            background-color: #e3f6f5;
+            background-color: #F4F5F5;
         }
 
         .kpi-bg {
@@ -53,22 +48,24 @@
         }
 
         .kpi-name {
-            color: #2b6360;
-            font-family: 'Roboto Serif', serif !important;
-            font-weight: 500 !important
-        }
-
-        .section-heading {
-            font-family: 'Roboto Serif', serif !important;
-            font-weight: 600 !important;
+            color: #666666;
+            font-weight: 400 !important;
             font-size: 18px;
-
         }
+
 
         .kpi-value {
             font-weight: 700;
+            font-size: 20px;
+            line-height: 20px;
+            color: #ffffff !important
+        }
+
+        .kpi-value-number {
+            font-weight: 700;
             font-size: 35px;
-            color: #020440 !important
+            line-height: 35px;
+            color: #FFFFFF !important
         }
 
         .kpi-value-date {
@@ -77,29 +74,52 @@
             color: #020440 !important
         }
 
-        .kpi-value-sites {
-            font-weight: 700;
-            font-size: 10px !important;
-            color: #020440 !important
-        }
-
-
-
         .kpi-name-label {
-            color: #2b6360;
-            font-weight: bold;
-            font-size: 12px
+            color: #ffffff;
+            font-weight: 100;
+            font-size: 13px
         }
 
         .img-width {
-            width: 130px;
+            width: 250px;
             margin-top: 10px;
-            height: 30px
+            height: 43px
         }
 
         h2 {
-            font-family: 'Roboto Serif', serif !important;
-            font-weight: 800 !important
+            font-weight: 700;
+            font-size: 35px;
+            line-height: 15px
+        }
+
+        .site-name-bg {
+            background-color: #FFA430;
+            min-height: 125px
+        }
+
+        .sensors-bg {
+            background-color: #8DB03E;
+            min-height: 125px
+        }
+
+        .date-bg {
+            background-color: #2FA4C3;
+            min-height: 125px
+        }
+
+        .alarm-bg {
+            background-color: #D82A1A;
+            min-height: 125px
+        }
+
+        .class-bg {
+            background-color: #5D6B6B;
+            min-height: 125px
+        }
+
+        .device-bg {
+            background-color: #0C49A3;
+            min-height: 125px
         }
     </style>
 
@@ -107,157 +127,103 @@
 
 <body>
 
-    <div class="col-12  mb-3 mx-0 px-0">
-        <div class="reports col-12 px-4">
+    <div class="col-12  mb-3 mx-0 pt-5">
+        <div class="reports col-12 px-0">
             <div class="d-flex justify-content-between">
                 <div class="col-6 pb-2">
+                    <h6 class="py-1 kpi-name">Predictive maintenance report</h6>
                     <h2>Engage 360 Platform</h2>
-                    {{-- <div class="col-12 py-1">
-                        <i class="fas fa-envelope"></i> frfrfrfrf
-                    </div> --}}
-                    <h6 class="pt-2 kpi-name">Predictive maintenance report</h6>
                 </div>
-                <div class="col-6 pb-2 d-flex justify-content-end">
-                    <img src="{{ public_path('sentech-logo2.png') }}" class="
-                            img-width " />
+                <div class="col-6 pb-2 d-flex justify-content-end"> <img src="{{ public_path('sentech-logo2.png') }}"
+                        class="img-width " />
                 </div>
             </div>
-
-
-
         </div>
-        <div class="line-breaker col-12"></div>
 
-        <div class="col-12 py-4 overview rounded my-4">
-            <div class="col-12 px-4">
-                <div class="col-12">
-                    <h4 class="section-heading">Overview KPIs and metrics</h4>
-                </div>
-                <div class="line-breaker2 col-12"></div>
+        <div class="col-12 pt-5 mt-5">
+            <h4 class="kpi-name">Overview KPIs and metrics</h4>
+        </div>
+        <div class="col-12 py-3 overview rounded mb-4">
+            <div class="col-12 px-3">
 
-
-                <div class="col-12 pt-4 px-0 mx-0">
+                <div class="col-12 px-0 mx-0">
                     <div class="d-flex justify-content-between">
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">SITE NAMES</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-5 pt-1">
-                                        <i class="fas fa-sitemap"
-                                            style="
-                                                    color: #010440;
-                                                    font-size: 50px;
-                                                    background-color: #fff;
-                                                "></i>
-                                    </div>
+                            <div class="col-12 rounded py-3 px-3 site-name-bg">
+                                <span class="kpi-name-label">Site names</span>
 
-                                    <div class="col-7 kpi-value-sites">
-                                        @foreach ($data['sensorInAlarmBySite'] as $site)
-                                            {{ htmlspecialchars(implode(', ', $site)) }}
-                                            <br />
-                                        @endforeach
 
-                                    </div>
+
+                                <div class="col-12 kpi-value">
+                                    @foreach ($data['sensorInAlarmBySite'] as $site)
+                                        {{ ucwords(strtolower(htmlspecialchars(implode(' ', $site)))) }}
+                                        <br />
+                                    @endforeach
+
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-4 px-2">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">MONITORED SENSORS</sapn>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="col-6 pt-1">
+                            <div class="col-12  rounded sensors-bg py-3 px-3">
+                                <span class="kpi-name-label">Monitored sensors</span>
 
-                                            <i class="fas fa-cubes"
-                                                style="
-                                                    color: #010440;
-                                                    font-size: 45px;
-                                                    background-color: #fff;
-                                                "></i>
-                                        </div>
-                                        <div class="col-6 kpi-value">{{ $data['monitoredSensorCount'] }}</div>
-                                    </div>
+
+                                <div class="col-12 kpi-value-number">{{ $data['monitoredSensorCount'] }}</div>
+
+
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">DATE BETWEEN</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-6 pt-1">
-                                        <i class="fas fa-calendar-alt"
-                                            style="
-                                                    color: #010440;
-                                                    font-size: 45px;
-                                                    background-color: #fff;
-                                                "></i>
-                                    </div>
-                                    <div class="col-6 kpi-value-date">
-                                        {{ $data['start_date'] }}<br />
-                                        {{ $data['end_date'] }}
-                                    </div>
+                            <div class="col-12 date-bg rounded py-3 px-3">
+                                <span class="kpi-name-label">Date between</span>
+
+
+                                <div class="col-12 kpi-value">
+                                    {{ $data['start_date'] }}<br />
+                                    {{ $data['end_date'] }}
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                 </div>
+
                 <!-- new line -->
                 <div class="col-12 pt-2 px-0 mx-0">
                     <div class="d-flex justify-content-between">
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">ALARM FLAGS</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-6 pt-1">
-                                        <i class="fas fa-bell"
-                                            style="
-                                                    color: #010440;
-                                                    font-size: 45px;
-                                                    background-color: #fff;
-                                                "></i>
-                                    </div>
-                                    <div class="col-6 kpi-value-sites">
-                                        @foreach ($data['alarmStatusCount'] as $statusCount)
-                                            {{ htmlspecialchars(implode(', ', $statusCount)) }}
-                                            <br />
-                                        @endforeach
-                                    </div>
+                            <div class="col-12 kpi-bg rounded alarm-bg py-3 px-3">
+                                <span class="kpi-name-label">Alarm flags</span>
+
+                                <div class="col-12 kpi-value">
+                                    @foreach ($data['alarmStatusCount'] as $statusCount)
+                                        {{ htmlspecialchars(implode(' ', $statusCount)) }}
+                                        <br />
+                                    @endforeach
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-4 px-2">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">CLASSIFICATION</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-6 pt-1">
-                                        <i class="fas fa-trophy"
-                                            style="
-                                                    color: #010440;
-                                                    font-size: 45px;
-                                                    background-color: #fff;
-                                                "></i>
-                                    </div>
-                                    <div class="col-6 kpi-value-sites">
-                                        @foreach ($data['classSatusCount'] as $classSatusCount)
-                                            {{ htmlspecialchars(implode(', ', $classSatusCount)) }}
-                                            <br />
-                                        @endforeach
-                                    </div>
+                            <div class="col-12 kpi-bg rounded class-bg py-3 px-3">
+                                <span class="kpi-name-label">Classification</span>
+
+                                <div class="col-12 kpi-value">
+                                    @foreach ($data['classSatusCount'] as $classSatusCount)
+                                        {{ htmlspecialchars(implode(' ', $classSatusCount)) }}
+                                        <br />
+                                    @endforeach
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded py-3 px-4">
-                                <span class="kpi-name-label">DEVICES</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="col-6 pt-1">
-                                        <i class="fas fa-desktop"
-                                            style="
-                                                    color: #010440;
-                                                    font-size: 30px;
-                                                    background-color: #fff;
-                                                "></i>
-                                    </div>
-                                    <div class="col-6 kpi-value">{{ $data['deviceNamesCount'] }}</div>
-                                </div>
+                            <div class="col-12 kpi-bg rounded device-bg py-3 px-3">
+                                <span class="kpi-name-label">Devices</span>
+
+                                <div class="col-6 kpi-value-number">{{ $data['deviceNamesCount'] }}</div>
                             </div>
                         </div>
                     </div>
@@ -265,36 +231,27 @@
             </div>
         </div>
 
-        <div class="col-12 px-4">
-            <h4 class="section-heading">Count of Sensors in Alarm State by Date</h4>
-            <div class="line-breaker2" style="margin-bottom:20px"></div>
-            <div class="d-flex">
-                <div style="width: 65%">
-                    <canvas id="myChart"></canvas>
-                </div>
-                <div style="width: 33%; margin-left:2%; margin-top:2px" class=" d-flex justify-content-center">
-                    <div style="width:80%">
-                        <canvas id="myChart2"></canvas>
-                    </div>
-                </div>
-            </div>
+
+        <div class="col-12 pt-5">
+            <h4 class="kpi-name">Count of sensors in alarm state by date</h4>
         </div>
 
+        <div class="col-12 py-3 overview rounded mb-4">
 
-        {{-- <div style="width:1200px">
-            <h4 class="section-heading">Count of Sensors in Alarm State by Date</h4>
-            <div class="line-breaker2" style="margin-bottom:20px"></div>
-            <div class="d-flex">
-                <div style="width: 60%">
-                    <canvas id="myChart"></canvas>
-                </div>
-                <div style="width: 38%; margin-left:2%; margin-top:20px" class=" d-flex justify-content-center">
-                    <div style="width:68%">
-                        <canvas id="myChart2"></canvas>
+            <div class="col-12 px-4">
+                <div class="d-flex">
+                    <div style="width: 65%">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div style="width: 33%; margin-left:2%; margin-top:30px" class=" d-flex justify-content-end">
+                        <div style="width:80%">
+                            <canvas id="myChart2"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> --}}
+
+        </div>
     </div>
 
 
@@ -302,6 +259,9 @@
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -370,7 +330,7 @@
             data: {
                 labels: ['Normal', 'Alarm', 'Pre-Alarm'],
                 datasets: [{
-                    backgroundColor: ["#41e809", "#e80909", "#ffc107"],
+                    backgroundColor: ["#5D6B6B", "#D82A1A", "#FFA430"],
                     data: [normalCount, alarmCount, preAlarmCount],
                 }, ],
             },
@@ -379,14 +339,47 @@
                     duration: 0,
                 },
                 plugins: {
-                    datalabels: {
-                        display: true,
 
+                    legend: {
+                        position: 'bottom',
+                        align: "center",
 
+                        labels: {
+                            pointStyle: "circle",
+
+                            usePointStyle: true,
+
+                            padding: 13,
+                            font: {
+                                size: 11
+                            }
+                        }
                     },
 
+                    datalabels: {
+                        color: '#ffff',
+                        display: false,
+
+                        formatter: (value, context) => {
+                            let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b,
+                                0);
+                            let percentage = (value / total * 100).toFixed(2) + '%';
+                            return percentage;
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        backgroundColor: '',
+                        borderRadius: 3,
+                        align: 'center',
+                        // anchor: 'right',
+                        //align: 'start',
+                    }
                 },
+
             },
+            plugins: [ChartDataLabels]
 
         });
 
