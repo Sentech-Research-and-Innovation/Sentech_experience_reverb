@@ -151,7 +151,7 @@ export default defineComponent({
                         reportType: activeType.value,
                     },
                     {
-                        responseType: "blob", // Use this if the response is a file
+                        responseType: "blob",
                     }
                 );
 
