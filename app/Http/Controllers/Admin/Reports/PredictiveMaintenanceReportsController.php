@@ -167,7 +167,7 @@ class PredictiveMaintenanceReportsController extends Controller
         // $headerHtml =  view('reports/header')->render();
 
         $pdfStoredPath = PDF::loadView('reports/index', compact('data'))->margins(10, 10, 17, 10);
-        return $pdfStoredPath->download('report' . '.pdf');
+        return $pdfStoredPath->download('predictive-maintenance-report' . '.pdf');
 
         //  return view("reports/index", compact('data'));
     }
