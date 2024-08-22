@@ -71,11 +71,10 @@ class SentimentsReport extends Controller
 
 
 
-            $footerHtml =  view('reports/footer')->render();
-            $headerHtml =  view('reports/header')->render();
+            // $footerHtml =  view('reports/footer')->render();
+            // $headerHtml =  view('reports/header')->render();
 
-            $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 25, 17, 25)
-                ->showBrowserHeaderAndFooter()->footerHtml($footerHtml)->headerHtml($headerHtml)->showBackground();
+            $pdfStoredPath = PDF::loadView('reports/sentiments', compact('data'))->margins(10, 25, 17, 25);
             // ->setNodeBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/node')
 
             // ->setNpmBinary('/home/ubuntu/.nvm/versions/node/v16.0.0/bin/npm')->noSandbox();
