@@ -49,14 +49,14 @@
         .kpi-name {
             color: #666666;
             font-weight: 400 !important;
-            font-size: 18px;
+            font-size: 15px;
         }
 
 
         .kpi-value {
             font-weight: 700;
-            font-size: 20px;
-            line-height: 20px;
+            font-size: 16px;
+            line-height: 16px;
             color: #ffffff !important
         }
 
@@ -80,9 +80,9 @@
         }
 
         .img-width {
-            width: 250px;
+            width: 200px;
             margin-top: 10px;
-            height: 43px
+            height: 30px
         }
 
         h2 {

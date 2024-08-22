@@ -110,7 +110,7 @@
         .kpi-name {
             color: #666666;
             font-weight: 400 !important;
-            font-size: 15px;
+            font-size: 18px;
         }
 
         .tweet-text {
