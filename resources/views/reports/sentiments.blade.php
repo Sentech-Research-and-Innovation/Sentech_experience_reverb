@@ -45,10 +45,10 @@
             top: 0;
         }
 
-        .footer {
+        /* .footer {
             position: fixed;
             bottom: 0;
-        }
+        }*/
 
         .reports {
             color: #144f9f !important;
