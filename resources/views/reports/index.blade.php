@@ -41,10 +41,6 @@
             background-color: #F4F5F5;
         }
 
-        .kpi-bg {
-            background-color: #ffffff;
-            min-height: 120px
-        }
 
         .kpi-name {
             color: #666666;
@@ -62,16 +58,11 @@
 
         .kpi-value-number {
             font-weight: 700;
-            font-size: 35px;
-            line-height: 35px;
+            font-size: 25px;
+            line-height: 25px;
             color: #FFFFFF !important
         }
 
-        .kpi-value-date {
-            font-weight: 700;
-            font-size: 13px;
-            color: #020440 !important
-        }
 
         .kpi-name-label {
             color: #ffffff;
@@ -80,9 +71,9 @@
         }
 
         .img-width {
-            width: 200px;
-            margin-top: 10px;
-            height: 30px
+            width: 220px;
+            margin-top: 15px;
+            height: 35px
         }
 
         h2 {
@@ -193,7 +184,7 @@
                 <div class="col-12 pt-2 px-0 mx-0">
                     <div class="d-flex justify-content-between">
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded alarm-bg py-3 px-3">
+                            <div class="col-12 rounded alarm-bg py-3 px-3">
                                 <span class="kpi-name-label">Alarm flags</span>
 
                                 <div class="col-12 kpi-value">
@@ -206,7 +197,7 @@
 
                         </div>
                         <div class="col-4 px-2">
-                            <div class="col-12 kpi-bg rounded class-bg py-3 px-3">
+                            <div class="col-12 rounded class-bg py-3 px-3">
                                 <span class="kpi-name-label">Classification</span>
 
                                 <div class="col-12 kpi-value">
@@ -219,7 +210,7 @@
 
                         </div>
                         <div class="col-4">
-                            <div class="col-12 kpi-bg rounded device-bg py-3 px-3">
+                            <div class="col-12 rounded device-bg py-3 px-3">
                                 <span class="kpi-name-label">Devices</span>
 
                                 <div class="col-6 kpi-value-number">{{ $data['deviceNamesCount'] }}</div>
