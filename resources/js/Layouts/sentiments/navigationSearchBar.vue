@@ -405,14 +405,18 @@ export default defineComponent({
                         reportType: activeType.value,
                     },
                     {
-                        responseType: "blob", // Important to handle binary data like PDF
+                        responseType: "blob",
                     }
                 );
 
                 loading.value = false;
 
+                console.log("Response received:", response);
+
                 const contentDisposition =
                     response.headers["content-disposition"];
+                console.log("Content-Disposition header:", contentDisposition);
+
                 if (contentDisposition) {
                     const filenameRegex =
                         /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -424,12 +428,14 @@ export default defineComponent({
                         filename = matches[1].replace(/['"]/g, "");
                     }
 
-                    // Set correct MIME type for the file
+                    console.log("Filename determined:", filename);
+
                     const mimeType =
                         activeType.value === "pdf"
                             ? "application/pdf"
                             : "text/csv";
                     const blob = new Blob([response.data], { type: mimeType });
+                    console.log("Blob created with MIME type:", mimeType);
 
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
@@ -439,10 +445,12 @@ export default defineComponent({
                     a.click();
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(url);
+                } else {
+                    console.error("Content-Disposition header is missing");
                 }
             } catch (error) {
-                console.error("Error generating or downloading report:", error);
                 loading.value = false;
+                console.error("Error occurred while printing report:", error);
             }
         };
 

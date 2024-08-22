@@ -149,25 +149,39 @@ export default defineComponent({
                     {
                         searchData: search.value,
                         reportType: activeType.value,
+                    },
+                    {
+                        responseType: "blob", // Use this if the response is a file
                     }
                 );
 
                 loading.value = false;
 
+                console.log("Response received:", response);
+
                 const contentDisposition =
                     response.headers["content-disposition"];
+                console.log("Content-Disposition header:", contentDisposition);
+
                 if (contentDisposition) {
                     const filenameRegex =
                         /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                     const matches = filenameRegex.exec(contentDisposition);
-                    let filename = "report.csv";
+                    let filename = `Sentiment analysis report.${
+                        activeType.value === "pdf" ? "pdf" : "csv"
+                    }`;
                     if (matches != null && matches[1]) {
                         filename = matches[1].replace(/['"]/g, "");
                     }
 
-                    const blob = new Blob([response.data], {
-                        type: "text/csv",
-                    });
+                    console.log("Filename determined:", filename);
+
+                    const mimeType =
+                        activeType.value === "pdf"
+                            ? "application/pdf"
+                            : "text/csv";
+                    const blob = new Blob([response.data], { type: mimeType });
+                    console.log("Blob created with MIME type:", mimeType);
 
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
