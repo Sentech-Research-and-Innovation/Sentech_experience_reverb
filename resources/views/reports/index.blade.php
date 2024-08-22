@@ -88,8 +88,8 @@
 
         h2 {
             font-weight: 700;
-            font-size: 35px;
-            line-height: 15px
+            font-size: 25px;
+            line-height: 25px
         }
 
         .site-name-bg {
