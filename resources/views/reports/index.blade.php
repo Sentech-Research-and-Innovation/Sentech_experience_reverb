@@ -11,9 +11,8 @@
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100;0,8..144,600;0,8..144,800;1,8..144,500&display=swap"
+        href="{{ asset('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100;0,8..144,600;0,8..144,800;1,8..144,500&display=swap') }}"
         rel="stylesheet">
-
 
     <!--This only works pdf -->
     <link rel="stylesheet" href="{{ public_path('reportscss/theme.css') }}">
