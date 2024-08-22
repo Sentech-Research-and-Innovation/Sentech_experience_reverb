@@ -394,14 +394,20 @@ export default defineComponent({
             loading.value = true;
 
             try {
-                const response = await axios.post("/admin/reports/sentiments", {
-                    searchFilter: {
-                        date: inputdate.value,
-                        keywords: keywords.value,
-                        sentimentTypes: sentimentType.value,
+                const response = await axios.post(
+                    "/admin/reports/sentiments",
+                    {
+                        searchFilter: {
+                            date: inputdate.value,
+                            keywords: keywords.value,
+                            sentimentTypes: sentimentType.value,
+                        },
+                        reportType: activeType.value,
                     },
-                    reportType: activeType.value,
-                });
+                    {
+                        responseType: "blob", // Important to handle binary data like PDF
+                    }
+                );
 
                 loading.value = false;
 
@@ -411,14 +417,19 @@ export default defineComponent({
                     const filenameRegex =
                         /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                     const matches = filenameRegex.exec(contentDisposition);
-                    let filename = "report.csv";
+                    let filename = `Sentiment analysis report.${
+                        activeType.value === "pdf" ? "pdf" : "csv"
+                    }`;
                     if (matches != null && matches[1]) {
                         filename = matches[1].replace(/['"]/g, "");
                     }
 
-                    const blob = new Blob([response.data], {
-                        type: "text/csv",
-                    });
+                    // Set correct MIME type for the file
+                    const mimeType =
+                        activeType.value === "pdf"
+                            ? "application/pdf"
+                            : "text/csv";
+                    const blob = new Blob([response.data], { type: mimeType });
 
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement("a");
