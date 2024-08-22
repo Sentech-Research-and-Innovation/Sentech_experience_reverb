@@ -117,11 +117,11 @@
 
 <body>
 
-    <div class="col-12  mb-3 mx-0 pt-5">
+    <div class="col-12  mb-3 mx-0">
         <div class="reports col-12 px-0">
             <div class="d-flex justify-content-between">
                 <div class="col-6 pb-2">
-                    <h6 class="py-1 kpi-name">Predictive maintenance report</h6>
+                    <h6 class=" kpi-name">Predictive maintenance report</h6>
                     <h2>Engage 360 Platform</h2>
                 </div>
                 <div class="col-6 pb-2 d-flex justify-content-end"> <img src="{{ public_path('sentech-logo2.png') }}"
