@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\Network;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\FrequencyFinder;
 
 class NetworkController extends Controller
 {
@@ -55,51 +56,14 @@ class NetworkController extends Controller
 
     public function getAlarmsDataByProvince($province)
     {
-        // return $latestRecords = Network::where('Province', $province)
-        //     ->select('SiteName', DB::raw('MAX(DeviceName) as DeviceName'), DB::raw('MAX(EventInDateTime) as EventInDateTime'), DB::raw('MAX(EventOutDateTime) as EventOutDateTime'))
-        //     ->groupBy('SiteName')
-        //     ->get();
-
-        // return $latestRecords = Network::where('Province', $province)
-        //     ->where('DeviceName', 'like', '%DVMS4%')
-        //     ->orderBy('SiteName')
-        //     ->get()
-        //     ->groupBy('SiteName');
-        $data = Network::where('Province', $province)
-            ->where(function ($query) {
-                $query->where('DeviceName', 'like', '%DVMS4%')
-                    ->orWhere('DeviceName', 'like', '%TX%');
-            })
-            ->where(function ($query) {
-                $query->where('MeasureDescription', 'like', '%TS Sync Loss%')
-                    ->orWhere('MeasureDescription', 'like', '%FWD Power%')
-                    ->orWhere('MeasureDescription', 'like', '%Forward Power%');
-            })
-            ->select('SiteName', 'MeasureDescription', 'DeviceIP', 'FormattedDateTimeEvent', 'DeviceName')
-            ->orderBy('SiteName')
+        $req = FrequencyFinder::where('province_code', $province)->where('serv_name', "<>", "null")
             ->get()
-            ->groupBy('SiteName', 'MeasureDescription', 'DeviceIP');
+            ->groupBy('station_name');
 
-
-        $latestRecords = [];
-
-        foreach ($data as $siteName => $records) {
-            foreach ($records as $record) {
-                $key = $record['SiteName'] . $record['DeviceIP'];
-
-                if (!isset($latestRecords[$key]) || $record['FormattedDateTimeEvent'] > $latestRecords[$key]['FormattedDateTimeEvent']) {
-                    $latestRecords[$key] = $record;
-                }
-            }
-        }
-
-        $filteredData = array_values($latestRecords);
-
-
-        return $filteredData;
+        return $req;
     }
 
-
+    //
 
 
 

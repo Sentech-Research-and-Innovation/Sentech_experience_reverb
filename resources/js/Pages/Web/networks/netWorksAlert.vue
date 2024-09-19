@@ -8,8 +8,8 @@
         <div class="row pt-lg-4 pt-2">
             <div class="col-lg-4 col-6 px-2">
                 <div
-                    class="col-12 network-container-warning py-1 mx-0"
-                    @click="setNetWorkProvince('Eastern Cape')"
+                    class="col-12 network-container-good py-1 mx-0"
+                    @click="setNetWorkProvince('EC')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -19,14 +19,15 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Eastern Cape</strong> <br />
-                                <span> OFF Line (4) </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Eastern Cape
+                                </div>
                             </div>
 
                             <div
-                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
-                                <i class="fa-solid fa-exclamation"></i>
+                                <i class="fa-solid fa-check"></i>
                             </div>
                         </div>
                     </el-tooltip>
@@ -34,8 +35,8 @@
             </div>
             <div class="col-lg-4 col-6 px-2">
                 <div
-                    class="col-12 network-container-warning py-1"
-                    @click="setNetWorkProvince('Western Cape')"
+                    class="col-12 network-container-good py-1"
+                    @click="setNetWorkProvince('WC')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -45,13 +46,15 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Western Cape</strong> <br />
-                                <span> OFF Line (4) </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Western Cape
+                                </div>
                             </div>
+
                             <div
-                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
-                                <i class="fa-solid fa-exclamation"></i>
+                                <i class="fa-solid fa-check"></i>
                             </div>
                         </div>
                     </el-tooltip>
@@ -60,7 +63,7 @@
             <div class="col-lg-4 col-6 px-2 pt-lg-0 pt-3">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('Kwazulu Natal')"
+                    @click="setNetWorkProvince('KN')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -70,9 +73,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Kwazulu Natal</strong> <br />
-                                <span>All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Kwazulu Natal
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
@@ -84,8 +89,8 @@
             </div>
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
-                    class="col-12 network-container-warning py-1"
-                    @click="setNetWorkProvince('Gauteng')"
+                    class="col-12 network-container-good py-1"
+                    @click="setNetWorkProvince('GP')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -95,13 +100,15 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Gauteng</strong> <br />
-                                <span> OFF Line (4) </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Gauteng
+                                </div>
                             </div>
+
                             <div
-                                class="status-warning pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
+                                class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
-                                <i class="fa-solid fa-exclamation"></i>
+                                <i class="fa-solid fa-check"></i>
                             </div>
                         </div>
                     </el-tooltip>
@@ -111,7 +118,7 @@
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('Mpumalanga')"
+                    @click="setNetWorkProvince('MP')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -121,9 +128,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Mpumalanga</strong> <br />
-                                <span> All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Mpumalanga
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
@@ -136,7 +145,7 @@
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('Free State')"
+                    @click="setNetWorkProvince('FS')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -146,9 +155,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Free State</strong> <br />
-                                <span> All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Free State
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
@@ -161,7 +172,7 @@
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('Limpopo')"
+                    @click="setNetWorkProvince('LP')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -171,9 +182,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Limpopo</strong> <br />
-                                <span> All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Limpopo
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
@@ -186,7 +199,7 @@
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('Northern Cape')"
+                    @click="setNetWorkProvince('NC')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -196,9 +209,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>Northern Cape</strong> <br />
-                                <span> All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    Northern Cape
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >
@@ -211,7 +226,7 @@
             <div class="col-lg-4 col-6 pt-3 px-2">
                 <div
                     class="col-12 network-container-good py-1"
-                    @click="setNetWorkProvince('North West')"
+                    @click="setNetWorkProvince('NW')"
                 >
                     <el-tooltip
                         class="box-item"
@@ -221,9 +236,11 @@
                     >
                         <div class="d-flex justify-content-between py-lg-2">
                             <div class="py-1 text-start">
-                                <strong>North West</strong> <br />
-                                <span> All Good </span>
+                                <div style="font-size: 17px; margin-top: 6px">
+                                    North West
+                                </div>
                             </div>
+
                             <div
                                 class="status-good pt-lg-2 pb-3 px-lg-2 pt-1 text-center mt-lg-1 mt-2"
                             >

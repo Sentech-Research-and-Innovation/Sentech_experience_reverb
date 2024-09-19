@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\WeatherController;
 use App\Http\Controllers\Admin\GetNotifications;
 use App\Http\Controllers\Web\NetworkController;
 use App\Http\Controllers\Web\WebController;
+use App\Http\Controllers\ImportController;
+
 
 
 
@@ -40,6 +42,8 @@ Route::get('/web/network/index', [NetworkController::class, 'index']);
 
 Route::get('/web/network/province/cities/{province}', [NetworkController::class, 'provinceCities']);
 Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlarmsDataByProvince']);
+Route::get('/import', [ImportController::class, 'index']);
+
 
 
 

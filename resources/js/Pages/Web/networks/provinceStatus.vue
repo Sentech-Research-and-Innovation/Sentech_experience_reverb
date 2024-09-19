@@ -28,21 +28,24 @@
                                     style="cursor: pointer"
                                     :class="{
                                         'selected-province':
-                                            radio1 === province,
+                                            radio1 === province.value,
                                     }"
                                 >
                                     <div class="col-8 province text-start pt-1">
                                         <label class="radio-container"
-                                            >{{ province }}
+                                            >{{ province.label }}
                                             <input
                                                 type="radio"
                                                 v-model="radio1"
-                                                :value="province"
+                                                :value="province.value"
                                             />
 
                                             <span class="checkmark">
                                                 <i
-                                                    v-if="radio1 === province"
+                                                    v-if="
+                                                        radio1 ===
+                                                        province.label
+                                                    "
                                                     class="far fa-dot-circle"
                                                 ></i>
                                             </span>
@@ -50,16 +53,6 @@
                                     </div>
                                     <div class="col-3 text-start pt-1">
                                         <i
-                                            v-if="
-                                                province == 'Gauteng' ||
-                                                province == 'Western Cape' ||
-                                                province == 'Eastern Cape'
-                                            "
-                                            class="fas fa-exclamation-circle text-danger fa-lg"
-                                        ></i>
-
-                                        <i
-                                            v-else
                                             class="fa-solid fa-circle-check text-success fa-lg"
                                         ></i>
                                     </div>
@@ -77,28 +70,29 @@
                                     :key="index"
                                 >
                                     <div
-                                        class="d-flex justify-content-end pt-3 pb-2 default-province"
+                                        class="d-flex justify-content-end pt-3 pb-2"
                                         style="cursor: pointer"
                                         :class="{
                                             'selected-province':
-                                                radio1 === province,
+                                                radio1 === province.value,
                                         }"
                                     >
                                         <div
                                             class="col-8 province text-start pt-1"
                                         >
                                             <label class="radio-container"
-                                                >{{ province }}
+                                                >{{ province.label }}
                                                 <input
                                                     type="radio"
                                                     v-model="radio1"
-                                                    :value="province"
+                                                    :value="province.value"
                                                 />
 
                                                 <span class="checkmark">
                                                     <i
                                                         v-if="
-                                                            radio1 === province
+                                                            radio1 ===
+                                                            province.label
                                                         "
                                                         class="far fa-dot-circle"
                                                     ></i>
@@ -107,17 +101,6 @@
                                         </div>
                                         <div class="col-3 text-start pt-1">
                                             <i
-                                                v-if="
-                                                    province == 'Gauteng' ||
-                                                    province ==
-                                                        'Western Cape' ||
-                                                    province == 'Eastern Cape'
-                                                "
-                                                class="fas fa-exclamation-circle text-danger fa-lg"
-                                            ></i>
-
-                                            <i
-                                                v-else
                                                 class="fa-solid fa-circle-check text-success fa-lg"
                                             ></i>
                                         </div>
@@ -126,103 +109,68 @@
                             </vue-horizontal>
                         </div>
 
-                        <div class="col-lg-9 col-12 text-start pr-0">
-                            <!-- <div
-                                class="col-12 px-0 mx-0 shadow-sm shadow-border py-4 px-4"
-                               >
-                                <div class="row px-4">
-                                    <div
-                                        class="col-4 px-0 fs-6 pt-1"
-                                        style="font-weight: 500"
-                                    >
-                                        Filter
-                                    </div>
-                                    <div class="col-8 px-0 fs-6 text-end">
-                                        <div class="row">
-                                            <div class="col-6 pt-1">
-                                                Select City
-                                            </div>
-                                            <div class="col-6">
-                                                <el-select
-                                                    v-model="value"
-                                                    placeholder="Select"
-                                                    style="width: 240px"
-                                                >
-                                                    <el-option
-                                                        v-for="item in options"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value"
-                                                        :disabled="
-                                                            item.disabled
-                                                        "
-                                                    />
-                                                </el-select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                        <div class="col-lg-9 col-12">
                             <div
-                                v-if="alarms"
-                                class="col-12 px-0 mx-0 pb-4 px-lg-4 mt-0"
+                                v-for="(stations, station_name) in alarms"
+                                :key="station_name"
+                                class="mb-4 shadow-sm alert alert-default py-4 px-4"
+                                style="border: none !important"
                             >
-                                <div v-if="isObjectEmpty(alarms)">
+                                <div class="col-12 px-0">
+                                    <h5 class="fs-6">{{ station_name }}</h5>
+                                </div>
+                                <!-- Loop through the stations under each group -->
+                                <div class="row">
                                     <div
-                                        class="row"
-                                        v-for="(records, siteName) in alarms"
-                                        :key="siteName"
+                                        class="col-lg-4 py-2"
+                                        v-for="station in stations"
+                                        :key="station.id"
                                     >
-                                        <div class="col-12 pb-2">
-                                            <h5>{{ siteName }}</h5>
-                                        </div>
-
                                         <div
-                                            class="col-lg-3 col-6"
-                                            v-for="(record, index) in records"
-                                            :key="index"
+                                            class="col-12 network-container-good px-0 shadow-sm py-3"
                                         >
+                                            <div class="col-12 text-start pb-1">
+                                                Name:
+                                            </div>
                                             <div
-                                                class="col-12 alert alert-default px-0 shadow-sm"
+                                                class="col-12 text-start description"
                                             >
-                                                <div class="col-12 description">
-                                                    {{
-                                                        formatDeviceName(
-                                                            record.DeviceName
-                                                        )
-                                                    }}
+                                                {{ station.serv_name }}
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div
+                                                        class="col-12 text-start pb-1 pt-2"
+                                                    >
+                                                        Frequency:
+                                                    </div>
+                                                    <div
+                                                        class="col-12 description text-start"
+                                                    >
+                                                        {{ station.tx_freq }}
+                                                    </div>
                                                 </div>
-                                                <div class="col-12 time pt-2">
-                                                    <i
-                                                        class="fa-regular fa-clock"
-                                                    ></i>
-                                                    {{
-                                                        formatDateTime(
-                                                            record.FormattedDateTimeEvent
-                                                        )
-                                                    }}
+
+                                                <div class="col-6">
+                                                    <div
+                                                        class="col-12 text-start pb-1 pt-2"
+                                                    >
+                                                        Channel:
+                                                    </div>
+                                                    <div
+                                                        class="col-12 description text-start"
+                                                    >
+                                                        <!--<i
+                                                    class="fa-regular fa-clock"
+                                                ></i> -->
+                                                        {{ station.tx_channel }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div v-else class="text-center col-12 pt-lg-5">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        width="100"
-                                        fill="#17c964"
-                                    >
-                                        <path
-                                            d="m15.09 2 1.72 3.048 3.28.78-.308 3.515L22 12l-2.218 2.657.309 3.514-3.282.781-1.718 3.038L12 20.6 8.91 22l-1.72-3.038-3.28-.781.308-3.524L2 12l2.218-2.667L3.91 5.81l3.282-.772L8.909 2 12 3.39zm1.559 6.293a.954.954 0 0 0-1.284-.084l-.091.084-4.988 5.16-1.56-1.62a.954.954 0 0 0-1.284-.084l-.09.083-.069.07a1.02 1.02 0 0 0-.08 1.316l.08.095 2.305 2.4a.974.974 0 0 0 1.3.083l.095-.083 5.734-5.94a1.02 1.02 0 0 0 .08-1.316l-.08-.095-.068-.07"
-                                        ></path>
-                                    </svg>
-
-                                    <div>
-                                        <p>
-                                            There are no network alerts at the
-                                            moment
-                                        </p>
-                                    </div>
+                                    <!-- Add more details as needed -->
                                 </div>
                             </div>
                         </div>
@@ -251,59 +199,57 @@ export default defineComponent({
     },
     setup() {
         const provinces = ref([
-            "Eastern Cape",
-            "Western Cape",
-            "Gauteng",
-            "Kwazulu Natal",
-            "Mpumalanga",
-            "Free State",
-            "Northern Cape",
-            "North West",
-            "Limpopo",
+            {
+                label: "Eastern Cape",
+                value: "EC",
+            },
+            {
+                label: "Western Cape",
+                value: "WC",
+            },
+            {
+                label: "Gauteng",
+                value: "GP",
+            },
+            {
+                label: "Kwazulu Natal",
+                value: "KN",
+            },
+            {
+                label: "Mpumalanga",
+                value: "MP",
+            },
+            {
+                label: "Free State",
+                value: "FS",
+            },
+            {
+                label: "Northern Cape",
+                value: "NC",
+            },
+            {
+                label: "North West",
+                value: "NW",
+            },
+            {
+                label: "Limpopo",
+                value: "LP",
+            },
         ]);
 
         const filterStore = useFilterProvince();
         const radio1 = ref(filterStore.province);
 
         const province = ref(filterStore.province);
-        const value = ref("");
-        const options = ref([]);
-        const alarms = ref({});
-        const getCitiesByProvince = async () => {
-            try {
-                const res = await axios.get(
-                    `/web/network/province/cities/${province.value}`
-                );
-                if (res.status === 200) {
-                    const cities = res.data;
+        const alarms = ref();
 
-                    cities.forEach((city) => {
-                        options.value.push({
-                            value: city.SiteName,
-                            label: city.SiteName,
-                        });
-                    });
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
         const getAlarmsData = async () => {
             try {
                 const res = await axios.get(
                     `/web/network/alarms/${province.value}`
                 );
                 if (res.status === 200) {
-                    const data = res.data;
-
-                    alarms.value = data.reduce((acc, item) => {
-                        const siteName = item.SiteName;
-                        if (!acc[siteName]) {
-                            acc[siteName] = [];
-                        }
-                        acc[siteName].push(item);
-                        return acc;
-                    }, {});
+                    alarms.value = res.data;
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -312,72 +258,46 @@ export default defineComponent({
 
         const setNetWorkProvince = async (provinceNew) => {
             filterStore.province = await provinceNew;
-            options.value = [];
-            await getCitiesByProvince();
-        };
-
-        const formatDeviceName = (deviceName) => {
-            const parts = deviceName.split("-");
-            if (parts.length > 1) {
-                const partsTrim = parts[1].replace(/Tx\s*/, "").trim();
-                if (partsTrim == "Mux1" || partsTrim == "Mux2") {
-                    return "Multichoice";
-                } else {
-                    return partsTrim;
-                }
-            } else {
-                // If no hyphen, return the original string
-                return deviceName.trim();
-            }
-        };
-
-        const formatDateTime = (dateTimeString) => {
-            const options = {
-                hour: "numeric",
-                minute: "numeric",
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-            };
-
-            const dateTime = new Date(dateTimeString);
-            return dateTime.toLocaleString("en-ZA", options);
-        };
-        const isObjectEmpty = (obj) => {
-            return Object.keys(obj).length !== 0;
         };
 
         watch(radio1, (newFilter, oldFilter) => {
             filterStore.province = newFilter;
-            options.value = [];
+
             alarms.value = [];
             province.value = newFilter;
-            getCitiesByProvince();
+
             getAlarmsData();
         });
 
         onMounted(async () => {
-            await getCitiesByProvince();
             await getAlarmsData();
         });
 
         return {
-            isObjectEmpty,
             radio1,
             WarningFilled,
-            value,
-            options,
+
             setNetWorkProvince,
             provinces,
             alarms,
-            formatDateTime,
-            formatDeviceName,
         };
     },
 });
 </script>
 
 <style scoped>
+.network-container-good {
+    border-left: 7px solid #17c964;
+
+    font-size: 15px;
+    text-align: right;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #000;
+    border-bottom: 1px solid #144f9f;
+    border-right: 1px solid #144f9f;
+    border-top: 1px solid #144f9f;
+}
 .sentech-index-page {
     padding-top: 100px;
     min-height: 100vh;
