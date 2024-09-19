@@ -1,9 +1,12 @@
 <template>
     <div class="col-12 px-lg-0 py-lg-0 px-4 py-4 mx-0">
-        <div class="networkHeading pb-lg-3 pb-2 pt-1">Network Status</div>
+        <div class="networkHeading pb-lg-3 pb-2 pt-1">
+            Broadcast frequency finder
+        </div>
         <p class="networkHeadingText">
-            Information on network outages affecting provinces. Select your
-            province to view details about current disruptions.
+            Use our Broadcast Frequency Finder to explore radio and TV station
+            frequencies in your area and ensure you’re always connected to your
+            favorite shows
         </p>
         <div class="row pt-lg-4 pt-2">
             <div class="col-lg-4 col-6 px-2">

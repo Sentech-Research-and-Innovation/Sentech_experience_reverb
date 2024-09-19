@@ -4,7 +4,7 @@
         <div class="container">
             <div class="sentech-index-page" style="background-color: #ffff">
                 <div class="hearder-text pt-5 col-12 px-0 mx-0">
-                    Network status
+                    Frequency finder
                 </div>
                 <div class="col-12 pt-4 px-0">
                     <div class="row">
