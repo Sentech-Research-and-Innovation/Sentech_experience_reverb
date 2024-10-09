@@ -11,7 +11,7 @@
             @hideModal="showing = false"
         >
             <div>
-                <div class="col-12 pb-5 pt-0">
+                <div class="col-12 pb-5 pt-0 px-4">
                     <label for="RoleName" class="form-label">Role Name</label>
                     <input
                         type="text"
@@ -31,7 +31,7 @@
                         >
                             <div class="row mb-2 border">
                                 <div class="col-3 border-right py-3">
-                                    <strong>{{ groupName }}</strong>
+                                    <h4>{{ groupName }}</h4>
                                 </div>
                                 <div class="col-9 py-3">
                                     <div class="row">

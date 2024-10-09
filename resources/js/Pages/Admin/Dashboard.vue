@@ -10,16 +10,16 @@
         <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
             <div class="row">
                 <div class="col-lg-3 col-6 pr-0">
-                    <div class="col-12 pending-companies rounded py-4 px-5">
+                    <div class="col-12 pending-companies rounded py-4 pl-4">
                         <div class="tweets-label pt-4">Pending companies</div>
                         <div class="tweets-value pb-3 pt-3">
                             <strong>8</strong>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-6 pr-lg-3">
+                <div class="col-lg-3 col-6">
                     <div
-                        class="col-12 company-requests rounded py-4 tweet-box px-5"
+                        class="col-12 company-requests rounded py-4 tweet-box pl-4"
                     >
                         <div class="tweets-label pt-4">Company Requests</div>
                         <div class="tweets-value pb-3 pt-3">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-lg-3 col-6 pr-0 pt-lg-0 pt-3 pl-lg-0">
                     <div
-                        class="col-12 system-users rounded py-4 tweet-box px-5"
+                        class="col-12 system-users rounded py-4 tweet-box pl-4"
                     >
                         <div class="tweets-label pt-4">System users</div>
                         <div class="tweets-value pb-3 pt-3">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-lg-3 col-6 pt-3 pt-lg-0">
                     <div
-                        class="col-12 customer-feedback rounded py-4 tweet-box px-5"
+                        class="col-12 customer-feedback rounded py-4 tweet-box pl-4"
                     >
                         <div class="tweets-label pt-4">Customer feedback</div>
                         <div class="tweets-value pb-3 pt-3">
@@ -180,5 +180,16 @@ export default defineComponent({
 }
 .tweets-label {
     font-size: 20px;
+}
+
+@media (max-width: 480px) {
+    .tweets-label {
+        font-size: 14px;
+    }
+
+    .tweets-value {
+        font-size: 30px;
+        font-weight: 500;
+    }
 }
 </style>

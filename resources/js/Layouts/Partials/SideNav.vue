@@ -5,7 +5,7 @@
     >
         <div class="position-sticky pt-3">
             <div class="cm-logo">
-                <img src="sentech-logo2.png" alt="Sentech Logo" />
+                <img src="sentech-logo2.png1" alt="Sentech Logo" />
             </div>
 
             <ul class="nav flex-column">

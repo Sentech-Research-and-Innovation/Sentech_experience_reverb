@@ -12,8 +12,12 @@
             <table class="table">
                 <tbody>
                     <tr v-for="(role, index) in roles" :key="index">
-                        <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ extractRole(role.name) }}</td>
+                        <th scope="row">
+                            <h4>{{ index + 1 }}</h4>
+                        </th>
+                        <td>
+                            <h4>{{ extractRole(role.name) }}</h4>
+                        </td>
                         <td>
                             <div class="d-flex justify-content-end">
                                 <div class="col-lg-3 col-6">

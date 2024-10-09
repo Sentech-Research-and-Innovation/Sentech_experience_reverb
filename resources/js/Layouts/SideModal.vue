@@ -11,7 +11,9 @@
                     >&times;</span
                 >
             </button>
-            <h1 class="mt-5 px-4">{{ content.create.title }}</h1>
+            <div class="mt-5 px-4 side modal_tittle pb-4">
+                {{ content.create.title }}
+            </div>
             <div class="content">
                 <div class="body">
                     <slot></slot>

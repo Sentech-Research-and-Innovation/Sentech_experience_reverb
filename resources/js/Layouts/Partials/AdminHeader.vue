@@ -2,10 +2,10 @@
     <div style="min-height: 100vh; position: fixed">
         <div class="col-12 pt-lg-4">
             <div class="col-12 text-start pt-lg-4 pb-lg-5 mb-3 admin-logo">
-                <!-- <img :src="Logo" alt="Sentech Logo" height="45" /> -->
+                <!--<img :src="Logo" alt="Sentech Logo" height="45" /> -->
             </div>
         </div>
-        <ul class="nav list-group text-start mx-lg-1">
+        <ul class="nav list-group text-start mx-lg-0">
             <li
                 class="nav-item"
                 :class="{ active: $page.url === '/admin/dashboard' }"

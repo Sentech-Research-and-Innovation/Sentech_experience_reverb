@@ -115,14 +115,7 @@
                             </div>
                             <div class="row pt-lg-5 mt-lg-4">
                                 <div class="col-md-6 px-0 pr-lg-4">
-                                    <el-tooltip
-                                        class="box-item"
-                                        effect="light"
-                                        content="Click province to see more details"
-                                        placement="top"
-                                    >
-                                        <WeatherWidgetVue />
-                                    </el-tooltip>
+                                    <WeatherWidgetVue />
                                 </div>
                                 <div class="col-lg-6 pt-lg-0 pt-4 px-lg-0 px-3">
                                     <a href="/contactus" style="color: #ffff">

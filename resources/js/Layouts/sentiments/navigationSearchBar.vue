@@ -1,12 +1,9 @@
 <template>
-    <div
-        class="col-12 px-0"
-        style="background-color: #ffff; border-bottom: 1px solid #c7cdd2"
-    >
+    <div class="col-12 px-0 nav-wrap d-none d-lg-block d-md-none d-xl-block">
         <div class="row">
             <div class="col-5">
                 <nav
-                    class="navbar navbar-expand-lg navbar-light1 py-3 mb-0 d-none d-lg-block d-xl-block"
+                    class="navbar navbar-expand-lg navbar-light1 py-3 mb-0"
                     style="border: none"
                 >
                     <div class="navbar-collapse">
@@ -18,8 +15,9 @@
                                     style="
                                         font-size: 18px;
                                         height: 0px;
-                                        wdith: 0px;
+                                        width: 0px;
                                         border: none;
+                                        background: none !important;
                                     "
                                     :icon="QuestionFilled"
                                     @click="open = true"
@@ -94,7 +92,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="col-7 my-2 my-lg-0 text-end pt-3 px-4">
+            <div class="col-7 my-2 my-lg-0 text-end pt-3 px-4 left-nav">
                 <div class="row">
                     <div class="col-2 mr-0 px-1">
                         <SelectDroptownVue
@@ -115,14 +113,16 @@
                     </div>
 
                     <div class="col-3 text-start px-1" id="keywords">
-                        <input
-                            type="text"
+                        <el-input
                             v-model="keywords"
-                            class="form-control keyword-input"
+                            class="w-100 search-input"
+                            placeholder="Serach by name"
+                            :prefix-icon="Search"
                         />
                     </div>
                     <div class="col-1 mx-0 px-0 text-start" id="search-botton">
                         <button
+                            style="border: none !important"
                             class="btn btn-sm btn-primary btn-search"
                             @click="changePropValue"
                         >
@@ -260,11 +260,11 @@
     </div>
 
     <div
-        class="col-12 d-xl-none d-xxl-block d-lg-none py-0 px-3 mb-3 mobile-nav"
+        class="col-12 d-xl-none d-xxl-none d-md-block d-lg-none py-2 px-3 mb-3 mobile-nav"
     >
-        <vue-horizontal class="px-5 pt-3">
+        <vue-horizontal class="px-0 pt-4">
             <div
-                class="col-2"
+                class="col-4 text-center mr-4"
                 :class="{
                     active: $page.url === '/admin/sentiments/all',
                 }"
@@ -272,7 +272,7 @@
                 <a class="nav-a" href="/admin/sentiments/all">All</a>
             </div>
             <div
-                class="col-4"
+                class="col-4 text-center mr-4"
                 :class="{
                     active: $page.url === '/admin/sentiments/overview',
                 }"
@@ -281,7 +281,7 @@
             </div>
 
             <div
-                class="col-5 text-start"
+                class="col-4 text-center mr-4"
                 :class="{
                     active: $page.url === '/admin/sentiments/timelines',
                 }"
@@ -291,7 +291,7 @@
                 >
             </div>
             <div
-                class="col-4 text-start"
+                class="col-4 text-center mr-4"
                 :class="{
                     active: $page.url === '/admin/sentiments/trends',
                 }"
@@ -299,7 +299,7 @@
                 <a class="nav-a" href="/admin/sentiments/trends">Trends</a>
             </div>
             <div
-                class="col-4 text-end"
+                class="col-4 text-center mr-4"
                 :class="{
                     active: $page.url === '/admin/sentiments/others',
                 }"
@@ -308,7 +308,11 @@
                     >Others</a
                 >
             </div>
-            <div class="col-8 pr-0 mx-0 pb-2">
+
+            <!-- @click="printReport" -->
+        </vue-horizontal>
+        <div class="row pt-3">
+            <div class="col-7 pr-0 pb-2">
                 <VueDatePicker
                     v-model="inputdate"
                     :enable-time-picker="false"
@@ -317,24 +321,24 @@
                 ></VueDatePicker>
             </div>
 
-            <div class="col-10 d-flex justify-content-start text-start">
-                <input
-                    type="text"
+            <div class="col-4 px-1">
+                <el-input
                     v-model="keywords"
-                    class="form-control keyword-input"
+                    class="w-100 search-input"
+                    placeholder="Serach by name"
+                    :prefix-icon="Search"
                 />
             </div>
-            <div class="col-2 mx-0 d-flex justify-content-end">
+            <div class="col-1 text-start px-0">
                 <button
-                    class="btn btn-sm btn-primary search-btn"
+                    style="border: none !important; height: 32px"
+                    class="btn btn-sm btn-primary btn-search"
                     @click="changePropValue"
                 >
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-
-            <!-- @click="printReport" -->
-        </vue-horizontal>
+        </div>
     </div>
 </template>
 
@@ -532,12 +536,6 @@ export default defineComponent({
     background-color: #144f9f !important;
     color: #ffff;
     height: 32.5px;
-}
-
-.reportsLink {
-    color: #144f9f;
-    cursor: pointer;
-    font-size: 20px !important;
 }
 </style>
 

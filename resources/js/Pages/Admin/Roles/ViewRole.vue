@@ -12,7 +12,9 @@
         <div>
             <div>
                 <div class="col-12 pt-4 pb-2 text-start">
-                    <h5>Edit Permissions for {{ roleName }} Role</h5>
+                    <h4 class="form-labe">
+                        Edit Permissions for {{ roleName }} Role
+                    </h4>
                 </div>
                 <div class="col-12 py-4 px-0border text-start">
                     <div
@@ -46,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12 border-right py-3">
-                                <h5>{{ groupName }}</h5>
+                                <h4>{{ groupName }}</h4>
                             </div>
                         </div>
                     </div>

@@ -11,22 +11,46 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Surname</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Action</th>
+                        <th scope="col table-cell">
+                            <span class="table-cell">#</span>
+                        </th>
+                        <th scope="col">
+                            <span class="table-cell">Name</span>
+                        </th>
+                        <th scope="col">
+                            <span class="table-cell">Surname</span>
+                        </th>
+                        <th scope="col">
+                            <span class="table-cell">Email Address</span>
+                        </th>
+                        <th scope="col">
+                            <span class="table-cell">Role</span>
+                        </th>
+                        <th scope="col">
+                            <span class="table-cell">Action</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(user, index) in users" :key="index">
-                        <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
+                        <th scope="row">
+                            <span class="table-cell">{{ index + 1 }}</span>
+                        </th>
                         <td>
-                            {{ user.roles[0]?.name }}
+                            <span class="table-cell">{{
+                                user.first_name
+                            }}</span>
+                        </td>
+                        <td>
+                            <span class="table-cell">{{ user.last_name }}</span>
+                        </td>
+                        <td>
+                            <span class="table-cell">{{ user.email }}</span>
+                        </td>
+                        <td>
+                            <span class="table-cell">
+                                {{ user.roles[0]?.name }}
+                            </span>
                         </td>
 
                         <td>

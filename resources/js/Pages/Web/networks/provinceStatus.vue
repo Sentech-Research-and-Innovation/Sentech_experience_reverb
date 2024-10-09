@@ -25,7 +25,6 @@
                             >
                                 <div
                                     class="d-flex justify-content-end pt-3 pb-2"
-                                    style="cursor: pointer"
                                     :class="{
                                         'selected-province':
                                             radio1 === province.value,
@@ -116,61 +115,80 @@
                                 class="mb-4 shadow-sm alert alert-default py-4 px-4"
                                 style="border: none !important"
                             >
-                                <div class="col-12 px-0">
+                                <!-- Accordion Header -->
+                                <div
+                                    class="accordion-header"
+                                    @click="toggleAccordion(station_name)"
+                                >
                                     <h5 class="fs-6">{{ station_name }}</h5>
+                                    <i
+                                        :class="
+                                            accordionState[station_name]
+                                                ? 'fa-solid fa-chevron-up'
+                                                : 'fa-solid fa-chevron-down'
+                                        "
+                                    ></i>
                                 </div>
-                                <!-- Loop through the stations under each group -->
-                                <div class="row">
-                                    <div
-                                        class="col-lg-4 py-2"
-                                        v-for="station in stations"
-                                        :key="station.id"
-                                    >
-                                        <div
-                                            class="col-12 network-container-good px-0 shadow-sm py-3"
-                                        >
-                                            <div class="col-12 text-start pb-1">
-                                                Name:
-                                            </div>
-                                            <div
-                                                class="col-12 text-start description"
-                                            >
-                                                {{ station.serv_name }}
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div
-                                                        class="col-12 text-start pb-1 pt-2"
-                                                    >
-                                                        Frequency:
-                                                    </div>
-                                                    <div
-                                                        class="col-12 description text-start"
-                                                    >
-                                                        {{ station.tx_freq }}
-                                                    </div>
+                                <!-- Accordion Content -->
+                                <div
+                                    v-show="accordionState[station_name]"
+                                    class="accordion-body"
+                                >
+                                    <div class="row">
+                                        <div
+                                            class="col-lg-4 py-2"
+                                            v-for="station in stations"
+                                            :key="station.id"
+                                        >
+                                            <div
+                                                class="col-12 network-container-good px-0 shadow-sm py-3"
+                                            >
+                                                <div
+                                                    class="col-12 text-start pb-1"
+                                                >
+                                                    Name:
+                                                </div>
+                                                <div
+                                                    class="col-12 text-start description"
+                                                >
+                                                    {{ station.serv_name }}
                                                 </div>
 
-                                                <div class="col-6">
-                                                    <div
-                                                        class="col-12 text-start pb-1 pt-2"
-                                                    >
-                                                        Channel:
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="col-12 text-start pb-1 pt-2"
+                                                        >
+                                                            Frequency:
+                                                        </div>
+                                                        <div
+                                                            class="col-12 description text-start"
+                                                        >
+                                                            {{
+                                                                station.tx_freq
+                                                            }}
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        class="col-12 description text-start"
-                                                    >
-                                                        <!--<i
-                                                    class="fa-regular fa-clock"
-                                                ></i> -->
-                                                        {{ station.tx_channel }}
+
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="col-12 text-start pb-1 pt-2"
+                                                        >
+                                                            Channel:
+                                                        </div>
+                                                        <div
+                                                            class="col-12 description text-start"
+                                                        >
+                                                            {{
+                                                                station.tx_channel
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Add more details as needed -->
                                 </div>
                             </div>
                         </div>
@@ -243,6 +261,8 @@ export default defineComponent({
         const province = ref(filterStore.province);
         const alarms = ref();
 
+        const accordionState = ref({});
+
         const getAlarmsData = async () => {
             try {
                 const res = await axios.get(
@@ -250,6 +270,9 @@ export default defineComponent({
                 );
                 if (res.status === 200) {
                     alarms.value = res.data;
+                    res.data.forEach(
+                        (station) => (accordionState.value[station] = false)
+                    );
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -258,6 +281,11 @@ export default defineComponent({
 
         const setNetWorkProvince = async (provinceNew) => {
             filterStore.province = await provinceNew;
+        };
+
+        const toggleAccordion = (station_name) => {
+            accordionState.value[station_name] =
+                !accordionState.value[station_name];
         };
 
         watch(radio1, (newFilter, oldFilter) => {
@@ -276,16 +304,39 @@ export default defineComponent({
         return {
             radio1,
             WarningFilled,
-
+            toggleAccordion,
             setNetWorkProvince,
             provinces,
             alarms,
+            accordionState,
         };
     },
 });
 </script>
 
 <style scoped>
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.accordion-body {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+.accordion-header h5 {
+    margin: 0;
+}
+
 .network-container-good {
     border-left: 7px solid #17c964;
 

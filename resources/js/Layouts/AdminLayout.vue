@@ -1,45 +1,43 @@
 <template>
     <div class="container-fluid page-body-wrapper" style="min-height: 100vh">
-        <nav class="sidebar d-none d-lg-block d-xl-block" style="">
-            <div class="pl-4">
+        <nav class="sidebar d-none d-lg-none d-xl-block d-m-none" style="">
+            <div class="pl-0">
                 <AdminHeaderVue />
             </div>
         </nav>
         <!-- partial -->
 
-        <div class="main-panel col-10 px-0">
+        <div class="main-panel col-xl-10 col-lg-12 px-0">
             <div class="col-12 px-0">
                 <div class="col-12 py-4">
                     <div class="row">
                         <el-backtop :right="100" :bottom="100" />
                         <div
-                            class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-none"
+                            class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-block"
                         >
-                            <div class="d-xl-none d-xxl-block d-lg-none">
-                                <el-button
-                                    type="primary"
-                                    style="margin-left: 16px"
-                                    @click="drawer = true"
-                                    class="py-0"
-                                >
-                                    <i class="fa-solid fa-bars"></i>
-                                </el-button>
+                            <el-button
+                                type="primary"
+                                style="margin-left: 16px"
+                                @click="drawer = true"
+                                class="py-0"
+                            >
+                                <i class="fa-solid fa-bars"></i>
+                            </el-button>
 
-                                <el-drawer
-                                    v-model="drawer"
-                                    :direction="direction"
-                                    size="80%"
-                                    :with-header="false"
+                            <el-drawer
+                                v-model="drawer"
+                                :direction="direction"
+                                size="80%"
+                                :with-header="false"
+                                style="overflow: hidden !important"
+                            >
+                                <nav
+                                    class="sidebar"
                                     style="overflow: hidden !important"
                                 >
-                                    <nav
-                                        class="sidebar"
-                                        style="overflow: hidden !important"
-                                    >
-                                        <AdminHeaderVue />
-                                    </nav>
-                                </el-drawer>
-                            </div>
+                                    <AdminHeaderVue />
+                                </nav>
+                            </el-drawer>
                         </div>
 
                         <div class="col-lg-12 col-8 pt-0 text-end px-0">
@@ -50,22 +48,22 @@
                                 virtual-triggering
                             >
                                 <div>
-                                    <Link
+                                    <a
                                         href="/admin/dashboard"
                                         method="get"
                                         as="link"
                                         style="cursor: pointer"
                                         class="nav-link px-3"
-                                        >Dashboard</Link
+                                        >Dashboard</a
                                     >
 
-                                    <Link
+                                    <a
                                         href="/profile/index"
                                         method="get"
                                         as="link"
                                         style="cursor: pointer"
                                         class="nav-link px-3"
-                                        >Profile</Link
+                                        >Profile</a
                                     >
                                     <!-- <Link
                                         href="/help"

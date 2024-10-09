@@ -50,11 +50,31 @@ border-bottom: 1px solid #c7cdd2; background-color: #ffffff
 .light .admin-logo{
     background-image: url("sentech-logo.png");
     background-repeat: no-repeat;
-    background-size: 200px 43px;
+    background-size: 170px 38px;
 }
 
 .light .chart-heading{
     color:#000 !important
+}
+
+.light .nav-wrap{
+    background-color:#ffff;
+
+    border-bottom: 1px solid #c7cdd2
+    
+}
+
+.light .reportsLink {
+    color: #144f9f;
+    cursor: pointer;
+    font-size: 20px !important;
+}
+
+.light .modal_tittle{
+    font-size:25px;
+    font-weight: 500;
+    color:#000 !important 
+
 }
 
 

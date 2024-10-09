@@ -36,8 +36,7 @@
                             <div class="col-2 text-center pt-3">
                                 <i
                                     v-if="notification.active == 1"
-                                    class="fa-solid fa-bell fa-lg"
-                                    style="color: #409eff"
+                                    class="fa-regular fa-bell fa-lg icon-color"
                                 ></i>
                                 <i
                                     v-else
@@ -47,7 +46,8 @@
                             <div
                                 class="notificationsFalse py-2 col-10 px-0"
                                 :class="{
-                                    notificationsTrue: notification.active == 1,
+                                    notificationsFalse:
+                                        notification.active == 1,
                                 }"
                             >
                                 <Link
@@ -103,7 +103,8 @@ export default defineComponent({
             const activeNotifications = response.data.filter(
                 (notification) => notification.active === 1
             );
-            notificationsCount.value = activeNotifications.length;
+            // notificationsCount.value = activeNotifications.length;
+            notificationsCount.value = 0;
         };
 
         onMounted(() => {

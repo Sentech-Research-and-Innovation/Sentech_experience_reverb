@@ -14,11 +14,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Company Name</th>
-                        <th scope="col">Contact Person</th>
-                        <th scope="col">Contact Person Email</th>
-                        <th scope="col"></th>
+                        <th scope="col table-cell">#</th>
+                        <th scope="col table-cell">Company Name</th>
+                        <th scope="col table-cell">Contact Person</th>
+                        <th scope="col table-cell">Contact Person Email</th>
+                        <th scope="col table-cell"></th>
                     </tr>
                 </thead>
                 <tbody>

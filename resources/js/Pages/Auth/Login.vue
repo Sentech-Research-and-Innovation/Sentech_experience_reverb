@@ -63,7 +63,7 @@
                                 >
                                     <span class="pr-4">Login</span>
 
-                                    <img src="arrow-right.png" width="40" />
+                                    <i class="fas fa-arrow-right"></i>
                                 </div>
                             </div>
                         </div>

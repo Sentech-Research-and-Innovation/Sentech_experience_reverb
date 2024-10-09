@@ -178,7 +178,7 @@ color:#fff
 
 }
 .dark .company .table{
-    --bs-table-color-state:#144f9f;
+    --bs-table-color-state:#fff;
     --bs-body-bg:#263140;
     --bs-border-color: #121822;
 }
@@ -345,7 +345,7 @@ border-color:#494848  !important;
 .dark .admin-logo{
     background-image: url("sentech-white-logo.png");
     background-repeat: no-repeat;
-    background-size: 200px 43px;
+    background-size: 170px 38px;
 }
 
 .dark .nav-link{
@@ -354,6 +354,40 @@ border-color:#494848  !important;
 
 .dark .chart-heading{
     color:#fff !important
+}
+
+.dark .left-nav{
+    background-color:#263140
+}
+.dark .nav-wrap{
+    background-color:#263140
+}
+
+.dark .reportsLink {
+    color: #144f9f;
+    cursor: pointer;
+    font-size: 20px !important;
+    background:none !important;
+}
+
+.dark .dp__theme_dark{
+    --dp-background-color:#373e48 !important;
+    --dp-text-color:#a8abb2 !important;
+    --dp-border-color:#373e48 !important
+}
+.dark .form-check-label, .dark  .form-label{
+    color:#fff !important 
+}
+
+.dark .modal_tittle{
+    font-size:25px;
+    font-weight: 500;
+    color:#fff !important 
+
+}
+
+.dark .table-cell{
+    color:#fff !important 
 }
 
 
