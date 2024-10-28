@@ -76,7 +76,7 @@
                                     >Trends</a
                                 >
                             </li>
-                            <li
+                            <!-- <li
                                 class="nav-item mr-0"
                                 :class="{
                                     active:
@@ -87,7 +87,7 @@
                                 <a class="nav-a" href="/admin/sentiments/others"
                                     >Others</a
                                 >
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                 </nav>

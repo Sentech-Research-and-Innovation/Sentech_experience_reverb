@@ -91,8 +91,10 @@ export default defineComponent({
                             //     continue;
                             // }
                             // places.value.push(place);
+                            const label = place === "" ? "Unknown" : place;
 
-                            chartOptions.value.labels.push(place);
+                            chartOptions.value.labels.push(label);
+                            //   chartOptions.value.labels.push(place);
                             values.value.push(res.data[place]);
                         }
                     }

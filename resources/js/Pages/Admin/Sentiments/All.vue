@@ -18,9 +18,9 @@
                 <tweetContent />
             </div>
 
-            <div class="col-12 pt-3 px-lg-3 px-0">
+            <!-- <div class="col-12 pt-3 px-lg-3 px-0">
                 <vectorMap />
-            </div>
+            </div>-->
         </div>
     </div>
 </template>

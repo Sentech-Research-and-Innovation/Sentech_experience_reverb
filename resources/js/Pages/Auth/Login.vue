@@ -132,7 +132,7 @@ export default {
         const filterStore = useFilterStore();
         filterStore.date = [
             "2024-01-01T08:54:00.000Z",
-            "2024-08-26T08:54:00.000Z",
+            "2024-12-26T08:54:00.000Z",
         ];
         filterStore.sentimentTypes = ["POSITIVE", "NEUTRAL", "NEGATIVE"];
 

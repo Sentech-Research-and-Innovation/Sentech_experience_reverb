@@ -113,18 +113,19 @@
                                     />
                                 </div> -->
                                 <Notifications />
-
-                                <span
-                                    class="initials-background"
-                                    ref="buttonRef"
-                                    style="padding: 0px; cursor: pointer"
-                                >
-                                    {{
-                                        $page.props.auth.user.first_name
-                                            .charAt(0)
-                                            .toUpperCase()
-                                    }}
-                                </span>
+                                <div class="col-lg-0 col-xl-0 col-2">
+                                    <div
+                                        class="initials-background"
+                                        ref="buttonRef"
+                                        style="padding: 0px; cursor: pointer"
+                                    >
+                                        {{
+                                            $page.props.auth.user.first_name
+                                                .charAt(0)
+                                                .toUpperCase()
+                                        }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
