@@ -31,4 +31,5 @@ Route::middleware('auth:sanctum')->group(function () {
     require __DIR__ . '/admin/admin.php';
     require __DIR__ . '/admin/predictive-maintenance.php';
     require __DIR__ . '/admin/company.php';
+    require __DIR__ . '/admin/profile.php';
 });

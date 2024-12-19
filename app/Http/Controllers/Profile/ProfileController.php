@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -22,6 +23,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
 
+        return Auth::user();
 
         $requestData = $request->all();
         $validator = Validator::make($requestData, [
@@ -37,7 +39,7 @@ class ProfileController extends Controller
             ], 422);
         }
 
-        $user = $request->user();
+        return  $user = $request->user();
         $data =  $request->toArray();
 
         $user->update($data);
