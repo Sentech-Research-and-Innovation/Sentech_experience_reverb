@@ -37,7 +37,8 @@ class TrendsController extends Controller
     public function tweetsContent()
     {
 
-        $tweets = Tweet::limit(100)->get();
+        $tweets = Tweet::orderBy('date', 'desc')->limit(100)->get();
+
 
         $response = $this->sentimentService->tweetsContent($tweets, $this->searchFilter);
 

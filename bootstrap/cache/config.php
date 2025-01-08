@@ -1,17 +1,17 @@
 <?php return array (
   'app' => 
   array (
-    'name' => 'Sentech',
+    'name' => 'Total user experience',
     'env' => 'local',
-    'admin_email' => 'hello@example.com',
+    'admin_email' => 'dev@webgap.xyz',
     'debug' => true,
-    'url' => 'http://127.0.0.1:8000',
+    'url' => 'https://www.sentechxperience.co.za',
     'asset_url' => NULL,
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:UQ1iaWEZ4bBca7KWZEW4Wom3uEACyDAcp7CQ0vVdZEM=',
+    'key' => 'base64:RI3wSP1pObpO1bQFBcfkZMHQSQy9Nm1Dg72HpyoEM38=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -209,7 +209,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\laragon\\www\\total-user-experience\\storage\\framework/cache/data',
+        'path' => '/var/www/html/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -253,7 +253,7 @@
         'driver' => 'octane',
       ),
     ),
-    'prefix' => 'sentech_cache_',
+    'prefix' => 'total_user_experience_cache_',
   ),
   'cors' => 
   array (
@@ -292,7 +292,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'sentech',
+        'database' => 'sentechxperiencedb',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -300,11 +300,11 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => '127.0.0.1',
+        'host' => 'sentechxperiencedb.cddzdi76zvci.af-south-1.rds.amazonaws.com',
         'port' => '3306',
-        'database' => 'sentech',
-        'username' => 'root',
-        'password' => '',
+        'database' => 'sentechxperiencedb',
+        'username' => 'admin',
+        'password' => 'TxP$U2wP',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -320,11 +320,11 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => '127.0.0.1',
+        'host' => 'sentechxperiencedb.cddzdi76zvci.af-south-1.rds.amazonaws.com',
         'port' => '3306',
-        'database' => 'sentech',
-        'username' => 'root',
-        'password' => '',
+        'database' => 'sentechxperiencedb',
+        'username' => 'admin',
+        'password' => 'TxP$U2wP',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -335,11 +335,11 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => '127.0.0.1',
+        'host' => 'sentechxperiencedb.cddzdi76zvci.af-south-1.rds.amazonaws.com',
         'port' => '3306',
-        'database' => 'sentech',
-        'username' => 'root',
-        'password' => '',
+        'database' => 'sentechxperiencedb',
+        'username' => 'admin',
+        'password' => 'TxP$U2wP',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -352,7 +352,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'sentech_database_',
+        'prefix' => 'total_user_experience_database_',
       ),
       'default' => 
       array (
@@ -382,14 +382,14 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\total-user-experience\\storage\\app',
+        'root' => '/var/www/html/storage/app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/public',
-        'url' => 'http://127.0.0.1:8000/storage',
+        'root' => '/var/www/html/storage/app/public',
+        'url' => 'https://www.sentechxperience.co.za/storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -412,7 +412,7 @@
     ),
     'links' => 
     array (
-      'C:\\laragon\\www\\total-user-experience\\public\\storage' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/public',
+      '/var/www/html/public/storage' => '/var/www/html/storage/app/public',
     ),
   ),
   'fortify-options' => 
@@ -511,7 +511,7 @@
       'maxmind_database' => 
       array (
         'class' => 'Torann\\GeoIP\\Services\\MaxMindDatabase',
-        'database_path' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/geoip.mmdb',
+        'database_path' => '/var/www/html/storage/app/geoip.mmdb',
         'update_url' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&suffix=tar.gz',
         'locales' => 
         array (
@@ -533,7 +533,7 @@
         'class' => 'Torann\\GeoIP\\Services\\IPApi',
         'secure' => true,
         'key' => NULL,
-        'continent_path' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/continents.json',
+        'continent_path' => '/var/www/html/storage/app/continents.json',
         'lang' => 'en',
       ),
       'ipgeolocation' => 
@@ -541,7 +541,7 @@
         'class' => 'Torann\\GeoIP\\Services\\IPGeoLocation',
         'secure' => true,
         'key' => NULL,
-        'continent_path' => 'C:\\laragon\\www\\total-user-experience\\storage\\app/continents.json',
+        'continent_path' => '/var/www/html/storage/app/continents.json',
         'lang' => 'en',
       ),
       'ipdata' => 
@@ -634,14 +634,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\laragon\\www\\total-user-experience\\storage\\logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\laragon\\www\\total-user-experience\\storage\\logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -706,7 +706,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\laragon\\www\\total-user-experience\\storage\\logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
       ),
     ),
   ),
@@ -718,11 +718,11 @@
       'smtp' => 
       array (
         'transport' => 'smtp',
-        'host' => 'sandbox.smtp.mailtrap.io',
+        'host' => 'mail.webgap.xyz',
         'port' => '587',
         'encryption' => 'tls',
-        'username' => '13467686d7467f',
-        'password' => '9c1a49d9332efb',
+        'username' => 'dev@webgap.xyz',
+        'password' => 'WebGap@919',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -764,15 +764,15 @@
     ),
     'from' => 
     array (
-      'address' => 'hello@example.com',
-      'name' => 'Sentech',
+      'address' => 'dev@webgap.xyz',
+      'name' => 'Total user experience',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\laragon\\www\\total-user-experience\\resources\\views/vendor/mail',
+        0 => '/var/www/html/resources/views/vendor/mail',
       ),
     ),
   ),
@@ -806,9 +806,23 @@
     'cache' => 
     array (
       'expiration_time' => 
-      \DateInterval::__set_state(array(
-         'from_string' => true,
-         'date_string' => '24 hours',
+      DateInterval::__set_state(array(
+         'y' => 0,
+         'm' => 0,
+         'd' => 0,
+         'h' => 24,
+         'i' => 0,
+         's' => 0,
+         'f' => 0.0,
+         'weekday' => 0,
+         'weekday_behavior' => 0,
+         'first_last_day_of' => 0,
+         'invert' => 0,
+         'days' => false,
+         'special_type' => 0,
+         'special_amount' => 0,
+         'have_weekday_relative' => 0,
+         'have_special_relative' => 0,
       )),
       'key' => 'spatie.permission.cache',
       'store' => 'default',
@@ -917,7 +931,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\laragon\\www\\total-user-experience\\storage\\framework/sessions',
+    'files' => '/var/www/html/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -926,7 +940,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'sentech_session',
+    'cookie' => 'total_user_experience_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,
@@ -969,9 +983,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\laragon\\www\\total-user-experience\\resources\\views',
+      0 => '/var/www/html/resources/views',
     ),
-    'compiled' => 'C:\\laragon\\www\\total-user-experience\\storage\\framework\\views',
+    'compiled' => '/var/www/html/storage/framework/views',
   ),
   'inertia' => 
   array (
@@ -985,7 +999,7 @@
       'ensure_pages_exist' => true,
       'page_paths' => 
       array (
-        0 => 'C:\\laragon\\www\\total-user-experience\\resources\\js/Pages',
+        0 => '/var/www/html/resources/js/Pages',
       ),
       'page_extensions' => 
       array (
@@ -1127,7 +1141,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\laragon\\www\\total-user-experience\\storage\\framework/cache/laravel-excel',
+      'local_path' => '/var/www/html/storage/framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -1211,7 +1225,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\laragon\\www\\total-user-experience',
+    'remote_sites_path' => '/var/www/html',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
