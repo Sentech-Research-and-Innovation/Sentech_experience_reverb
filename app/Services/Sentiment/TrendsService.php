@@ -3,23 +3,22 @@
 namespace App\Services\Sentiment;
 
 use DateTime;
+use App\Models\Sentiment as Tweet;
 
 class TrendsService
 {
 
 
-    public function tweetsContent($tweets, $searchFilter)
+    public function tweetsContent($searchFilter)
     {
-
         $positiveTweets = 0;
         $negativeTweets = 0;
         $neutralTweets = 0;
-
         $tweetsContent = [];
 
-        $filterDate = $searchFilter['date'];
-        $keyword = $searchFilter['keywords'];
-        $sentimentTypes = $searchFilter['sentimentTypes'];
+        $filterDate = $searchFilter['date'] ?? null;
+        $keyword = $searchFilter['keywords'] ?? null;
+        $sentimentTypes = $searchFilter['sentimentTypes'] ?? null;
 
         $startDate = null;
         $endDate = null;
@@ -29,10 +28,10 @@ class TrendsService
             $endDate = new DateTime($filterDate[1]);
         }
 
-        //  $tweets = Tweet::limit(100);
+        // Initialize the query builder
+        $tweets = Tweet::query();
 
-        // return$tweets = Tweet::all();
-
+        // Apply keyword filter
         if (!empty($keyword)) {
             $tweets->where(function ($q) use ($keyword) {
                 $q->where('text', 'like', '%' . $keyword . '%')
@@ -40,10 +39,12 @@ class TrendsService
             });
         }
 
+        // Apply sentiment types filter
         if (!empty($sentimentTypes)) {
             $tweets->whereIn('sentiment', $sentimentTypes);
         }
 
+        // Apply date range filter
         if ($startDate !== null) {
             $tweets->where('date', '>=', $startDate);
         }
@@ -52,18 +53,21 @@ class TrendsService
             $tweets->where('date', '<=', $endDate);
         }
 
-        // $tweets = $tweets->get();
+        // Apply ordering and limit
+        $tweets = $tweets->orderBy('date', 'desc')->limit(100)->get();
 
+        // Process tweets
         foreach ($tweets as $tweet) {
-            // Update sentiment counts based on tweet's sentiment
+            // Update sentiment counts
             if ($tweet->sentiment === 'POSITIVE') {
                 $positiveTweets++;
             } elseif ($tweet->sentiment === 'NEGATIVE') {
                 $negativeTweets++;
-            } elseif ($tweet->sentiment == 'NEUTRAL') {
+            } elseif ($tweet->sentiment === 'NEUTRAL') {
                 $neutralTweets++;
             }
 
+            // Build tweet content
             $tweetsContent[] = [
                 "text" => $tweet->text,
                 "sentiment" => $tweet->sentiment,
@@ -72,7 +76,8 @@ class TrendsService
             ];
         }
 
-        return $response = [
+        // Return response
+        return [
             "positiveTweets" => $positiveTweets,
             "negativeTweets" => $negativeTweets,
             "neutralTweets" => $neutralTweets,
