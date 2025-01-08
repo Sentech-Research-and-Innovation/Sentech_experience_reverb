@@ -40,7 +40,7 @@ class TrendsController extends Controller
         $tweets = Tweet::orderBy('date', 'desc')->limit(100)->get();
 
 
-        $response = $this->sentimentService->tweetsContent($tweets, $this->searchFilter);
+        $response = $this->sentimentService->tweetsContent($this->searchFilter);
 
         return response()->json($response, 200);
     }
