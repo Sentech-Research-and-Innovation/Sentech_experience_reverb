@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\Prediction;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -26,8 +27,16 @@ class PredictiveMaintenanceController extends Controller
     public function getPredictions()
     {
         $siteNamesSearch = request()->searchData['searchFilter']['siteNames'];
-        $startDate = request()->searchData['searchFilter']['date'][0];
-        $endDate = request()->searchData['searchFilter']['date'][1];
+
+        if (request()->searchData['searchFilter']['date'] !== null) {
+            $startDate = request()->searchData['searchFilter']['date'][0];
+            $endDate =  Carbon::parse(request()->searchData['searchFilter']['date'][1])->addDay();
+        } else {
+
+            $startDate = Prediction::min('date');
+            $endDate = Prediction::max('date');
+        }
+
 
         // return $startDate = \DateTime::createFromFormat('Y-m-d', $startDate);
         // $endDate = \DateTime::createFromFormat('Y-m-d', $endDate);

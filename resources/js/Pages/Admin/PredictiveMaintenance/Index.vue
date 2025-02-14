@@ -56,7 +56,7 @@ export default defineComponent({
     setup(props) {
         const { predictions } = props;
 
-        const lastRefresh = predictions[0].date;
+        const lastRefresh = predictions[0].created_at;
 
         return {
             predictions,

@@ -131,8 +131,8 @@ export default {
     created() {
         const filterStore = useFilterStore();
         filterStore.date = [
-            "2024-01-01T08:54:00.000Z",
-            "2024-12-26T08:54:00.000Z",
+            "2025-01-01T08:54:00.000Z",
+            "2025-12-26T08:54:00.000Z",
         ];
         filterStore.sentimentTypes = ["POSITIVE", "NEUTRAL", "NEGATIVE"];
 
@@ -143,10 +143,7 @@ export default {
             "CONSTANTIABERG",
             "JOHANNESBURG",
         ];
-        filterPredictions.date = [
-            "2024-01-01T08:54:00.000Z",
-            "2024-12-26T08:54:00.000Z",
-        ];
+        filterPredictions.date = null;
 
         // //prediction detailevue filters
         // const filterPredictionsDetailed = predictionsFilterDetailedStore();
