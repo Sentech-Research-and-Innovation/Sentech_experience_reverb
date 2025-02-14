@@ -80,6 +80,8 @@ class ProcessCsvData extends Command
                     "oidIndex" => $row['oidIndex'],
                     "Latitude" => $row['Latitude (#)'],
                     "Longitude" => $row['Longitude (#)'],
+                    "created_at" => date('Y-m-d H:i:s'),
+                    "updated_at" => date('Y-m-d H:i:s'),
                 ];
             }
 

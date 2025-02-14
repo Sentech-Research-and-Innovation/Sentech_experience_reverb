@@ -2,7 +2,7 @@
     <div class="row mt-3">
         <div class="col-lg-4 col-6 pr-0">
             <div class="col-12 shadow-border text-center py-3">
-                <p class="pt-lg-4 fs-5">Last Active Data</p>
+                <p class="pt-lg-4 fs-5">Last Refresh</p>
                 <div class="py-lg-2 value_label">
                     {{ formattedDate }}
                 </div>
@@ -20,7 +20,14 @@
             <div class="col-12 shadow-border text-center py-1">
                 <p class="pt-2 fs-5">7 day In-Alarm sensor count</p>
 
-                <div class="pt-2" v-if="series[0]">
+                <div class="py-3" v-if="series[0] == 'NaN'">
+                    <div class="py-lg-2 value_label">
+                        <p></p>
+                        {{ monitoredSensorsCount }}
+                    </div>
+                </div>
+
+                <div class="pt-2" v-if="series[0] && series[0] !== 'NaN'">
                     <apexchart
                         type="radialBar"
                         height="190"
@@ -28,7 +35,6 @@
                         :series="[series[0]]"
                     ></apexchart>
                 </div>
-                <div class="py-4" v-else>Loading..</div>
             </div>
         </div>
     </div>

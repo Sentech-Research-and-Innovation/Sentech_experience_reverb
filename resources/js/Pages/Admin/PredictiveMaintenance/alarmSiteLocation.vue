@@ -20,6 +20,18 @@
             >
             </vuevectormap>
         </div>
+        <div v-else>
+            <vuevectormap
+                width="100%"
+                height="290"
+                :options="{
+                    markers,
+                    markerStyle,
+                    labels,
+                }"
+            >
+            </vuevectormap>
+        </div>
     </div>
 </template>
 
