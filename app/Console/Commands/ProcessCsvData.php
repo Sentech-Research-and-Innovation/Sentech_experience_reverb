@@ -5,11 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Prediction;
-use Illuminate\Support\Facades\Log;
-
 use Carbon\Carbon;
 
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '512M');
 class ProcessCsvData extends Command
 {
     protected $signature = 'csv:process';
@@ -41,6 +39,7 @@ class ProcessCsvData extends Command
     private function processCsvFile($filePath)
     {
         $fileContents = Storage::disk('s3')->get($filePath);
+
         $csvData = str_getcsv($fileContents, "\n");
 
         $header = str_getcsv(array_shift($csvData));
@@ -51,7 +50,7 @@ class ProcessCsvData extends Command
             $parsedData[] = array_combine($header, str_getcsv($row));
         }
 
-        Log::info('Parsed Data:', $parsedData); // Log the parsed data before inserting
+        $this->info("data '$csvData[0]'");
 
         Prediction::truncate();
 
@@ -87,8 +86,6 @@ class ProcessCsvData extends Command
                     "updated_at" => date('Y-m-d H:i:s'),
                 ];
             }
-
-            Log::info('Inserting chunk:', $insertData); // Log the data before inserting
 
             Prediction::insert($insertData);
         }
