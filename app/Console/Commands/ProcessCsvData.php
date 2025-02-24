@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Prediction;
 use Carbon\Carbon;
 
-ini_set('memory_limit', '512M');
+ini_set('memory_limit', '1024M');
 class ProcessCsvData extends Command
 {
     protected $signature = 'csv:process';
