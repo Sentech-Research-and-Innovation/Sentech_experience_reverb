@@ -24,7 +24,8 @@ class WebController extends Controller
         ]);
 
         $adminEmail = config('app.admin_email');
-        Mail::to($adminEmail)->send(new ResetPasswordEmail($data));
+        Mail::to($adminEmail)
+	->send(new ResetPasswordEmail($data));
         return request();
     }
 }

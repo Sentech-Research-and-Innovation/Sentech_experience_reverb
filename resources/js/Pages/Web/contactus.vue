@@ -1,5 +1,5 @@
 <template>
-    <Head :title="'Contact Us'"><title>Contact Us</title></Head>
+    <Head title="Contact Us" />
     <WebLayout>
         <div class="sentech-index-page">
             <div class="container">
@@ -165,3 +165,4 @@ label {
     font-size: 20px;
 }
 </style>
+Uncaught SyntaxError: Unexpected token '}'Uncaught SyntaxError: Unexpected token '}'

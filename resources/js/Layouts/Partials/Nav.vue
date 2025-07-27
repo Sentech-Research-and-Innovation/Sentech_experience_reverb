@@ -40,7 +40,7 @@
                             class="nav-link nav-link-text mr-5"
                             aria-current="page"
                             target="_blank"
-                            href="https://www.sentech.co.za/about-us/who-we-are"
+                            href="https://www.sentech.co.za/about-us"
                             ><span>About us</span>
                         </a>
 

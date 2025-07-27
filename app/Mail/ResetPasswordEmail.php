@@ -17,7 +17,8 @@ class ResetPasswordEmail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.reset_password')->subject('Feedback Form Submission')
+        return $this->view('emails.reset_password')
+		->subject('Feedback Form Submission')
             ->with([
                 'user' => $this->user
             ]);

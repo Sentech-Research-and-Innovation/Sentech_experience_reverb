@@ -30,7 +30,7 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-    'admin_email' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+    'admin_email' => env('MAIL_FROM_ADDRESS', 'WOW@TUKS.CO.ZA'),
 
     /*
     |--------------------------------------------------------------------------
