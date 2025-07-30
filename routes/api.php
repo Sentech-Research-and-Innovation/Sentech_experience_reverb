@@ -23,6 +23,15 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('/user', [AuthenticatedSessionController::class, 'user'])->middleware('auth:sanctum');
 Route::post('/logout', [AuthenticatedSessionController::class, 'logoutMobile'])->middleware('auth:sanctum');
 
+///adding the clocking system
+
+Route::get('/notifications/unread-count', function () {
+    return response()->json([
+        'count' => Notification::whereJsonContains('model_ids->to_company_id', 1)->count()
+    ]);
+});
+
+/////
 
 Route::middleware('auth:sanctum')->group(function () {
     require __DIR__ . '/admin/roles.php';
