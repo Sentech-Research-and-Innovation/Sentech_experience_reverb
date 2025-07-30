@@ -35,11 +35,6 @@
                         <div class="d-flex">
                             <div class="col-2 text-center pt-3">
                                 <i
-                                    v-if="notification.active == 1"
-                                    class="fa-regular fa-bell fa-lg icon-color"
-                                ></i>
-                                <i
-                                    v-else
                                     class="fa-regular fa-bell fa-lg icon-color"
                                 ></i>
                             </div>
@@ -54,8 +49,6 @@
                                     :href="notification.link"
                                     class="link-not"
                                 >
-                                    <!-- Display the notification details -->
-
                                     <span style="font-weight: 500">
                                         {{ notification.notification_type }}
                                     </span>
@@ -80,35 +73,44 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
-
-import { defineComponent, onMounted, ref, unref } from "vue";
-
+import { defineComponent, onMounted, ref } from "vue";
 import { BellFilled } from "@element-plus/icons-vue";
-import { ElIcon } from "element-plus";
 
 export default defineComponent({
     components: { Link },
 
     setup() {
-        const notifications = ref(null);
+        const notifications = ref([]);
         const notificationsCount = ref(0);
-
         const buttonRef = ref();
         const popoverRef = ref();
 
-        const notificationsApi = async () => {
-            const response = await axios.get("/admin/notifications");
-            notifications.value = response.data;
+        const fetchNotifications = async () => {
+            try {
+                const response = await axios.get("/admin/notifications");
+                notifications.value = response.data;
+            } catch (error) {
+                console.error("Failed to fetch notifications", error);
+            }
+        };
 
-            const activeNotifications = response.data.filter(
-                (notification) => notification.active === 1
-            );
-            // notificationsCount.value = activeNotifications.length;
-            notificationsCount.value = 0;
+        const fetchUnreadCount = async () => {
+            try {
+                const response = await axios.get("/api/notifications/unread-count");
+                notificationsCount.value = response.data.count;
+            } catch (error) {
+                console.error("Failed to fetch unread count", error);
+            }
         };
 
         onMounted(() => {
-            notificationsApi();
+            fetchNotifications();
+            fetchUnreadCount();
+
+            // Optional: Refresh count every 60 seconds
+            setInterval(() => {
+                fetchUnreadCount();
+            }, 60000);
         });
 
         return {
@@ -150,6 +152,7 @@ export default defineComponent({
     color: #737272;
 }
 </style>
+
 <style>
 .notifications-container {
     width: 400px !important;
