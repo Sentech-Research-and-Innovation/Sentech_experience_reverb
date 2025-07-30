@@ -89,23 +89,19 @@ export default defineComponent({
             try {
                 const response = await axios.get("/admin/notifications");
                 notifications.value = response.data;
+        
+                const activeNotifications = response.data.filter(
+                    (notification) => notification.active === 1
+                );
+                notificationsCount.value = activeNotifications.length;
             } catch (error) {
                 console.error("Failed to fetch notifications", error);
             }
         };
 
-        const fetchUnreadCount = async () => {
-            try {
-                const response = await axios.get("/api/notifications/unread-count");
-                notificationsCount.value = response.data.count;
-            } catch (error) {
-                console.error("Failed to fetch unread count", error);
-            }
-        };
 
         onMounted(() => {
             fetchNotifications();
-            fetchUnreadCount();
 
             // Optional: Refresh count every 60 seconds
             setInterval(() => {
