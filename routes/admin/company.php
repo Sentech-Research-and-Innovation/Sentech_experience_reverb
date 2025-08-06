@@ -9,3 +9,6 @@ Route::get('/organizantions/request', [OrganizationsController::class, 'request'
 Route::get('/organizantions/pending', [OrganizationsController::class, 'pending'])->middleware('role_has_permission:companies-read_pending');
 Route::post('/organizantions/create', [OrganizationsController::class, 'create'])->middleware('role_has_permission:companies-create_company');
 Route::post('/organizantions/approve/{company_id}', [OrganizationsController::class, 'approveCompany'])->middleware('role_has_permission:companies-approve_requests');
+Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany'])->middleware('role_has_permission:companies-approve_requests'); //just added
+                                                                                                                                                                                //role_has_permission:companies-approve_requests - this makes sense since the person who can approve can also delete but logically is incorrect
+
