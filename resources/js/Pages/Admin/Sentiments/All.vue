@@ -30,7 +30,7 @@
             <div class="custom-banner-text">
                 <h3 class="custom-banner-heading">Sentiment analysis is currently under construction</h3>
                 <p class="custom-banner-subtext">
-                    The R&amp;I team is currently working on Sentiment analysis
+                    The R&amp;I team is working on it. Click "Continue" to keep browsing.
                 </p>
             </div>
             <button class="custom-banner-button" @click="closeBanner">Continue</button>
