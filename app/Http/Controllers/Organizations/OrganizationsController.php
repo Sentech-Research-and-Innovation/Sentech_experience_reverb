@@ -90,8 +90,39 @@ class OrganizationsController extends Controller
         ], 200);
     }
 
-    public function declineCompany()
+    
+     public function declineCompany($company_id, $message)
     {
+
+        // Find the company
+        $company = Company::find($company_id);
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
+        // Get the contact person (admin user)
+        $adminUser = $company->contactPerson;
+
+        // Deactivate related notifications
+        Notification::whereJsonContains('model_ids->from_compay_id', $company_id)
+            ->update(['status' => 'inactive']);
+
+        // Log the activity
+        $this->StoreActivity("Declined company request: " . $company->company_name);
+
+        // Send email to company admin
+        if ($adminUser) {
+            
+            Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
+            
+            // Delete user
+            $adminUser->delete();
+        }
+
+        // Delete company
+        $company->delete();
+
+        return response()->json(['status' => true, 'message' => 'Company registration request deleted.']);
     }
 
     public function create(CreateUserRequest $request)
