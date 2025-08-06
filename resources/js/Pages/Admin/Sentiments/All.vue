@@ -24,14 +24,16 @@
         </div>
     </div>
 
-    <!-- 🔔 Fixed Pop-up Notification at Bottom of Screen -->
-    <div v-if="showPopup" class="popup-banner">
-        <div class="popup-message">
-            <strong>The site is under construction</strong>
+    <!--Fixed Pop-up Notification at Bottom of Screen -->
+    <div v-if="showPopup" class="popup-container">
+        <div class="popup-banner">
+            <div class="popup-message">
+                <strong>The site is under construction</strong>
+            </div>
+            <button class="popup-button" @click="showPopup = false">
+                Continue
+            </button>
         </div>
-        <button class="popup-button" @click="showPopup = false">
-            Continue
-        </button>
     </div>
 </template>
 
@@ -75,16 +77,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* ✅ Fixed pop-up style */
-.popup-banner {
+/* Container that positions the popup relative to main content */
+.popup-container {
     position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    left: var(--sidebar-width, 250px); /* adjust if your sidebar width is fixed */
+    width: calc(100% - var(--sidebar-width, 250px));
+    padding: 0 1rem;
+    z-index: 1050;
+}
+
+/* Banner styling */
+.popup-banner {
     background-color: #222;
     color: white;
     padding: 1rem 2rem;
-    z-index: 1050;
+    border-radius: 5px 5px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
