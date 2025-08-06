@@ -13,7 +13,7 @@
                     <div class="col-12 pending-companies rounded py-4 pl-4">
                         <div class="tweets-label pt-4">Pending companies</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.pending_companies }}</strong> <!-- ✅ Dynamic -->
+                            <strong>{{ stats.pending_companies }}</strong> <!--  Dynamic -->
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                     <div class="col-12 company-requests rounded py-4 tweet-box pl-4">
                         <div class="tweets-label pt-4">Company Requests</div>
                         <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.company_requests }}</strong> <!-- ✅ Dynamic -->
+                            <strong>{{ stats.company_requests }}</strong> <!-- Dynamic -->
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ export default defineComponent({
         // Fetch dashboard stats
         const getDashboardStats = async () => {
             try {
-                const response = await axios.get("/admin/dashboard/stats");
+                const response = await axios.get("/api/admin/dashboard/stats");
                 stats.value = response.data;
             } catch (error) {
                 console.error("Failed to fetch dashboard stats", error);
