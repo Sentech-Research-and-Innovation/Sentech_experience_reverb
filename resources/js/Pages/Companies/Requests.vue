@@ -1,6 +1,7 @@
 <template>
     <Head :title="'Companies'"><title>Companies</title></Head>
 
+
     <div class="col-12 pt-5">
         <div class="row px-0 pb-3">
             <div class="col-6">
@@ -8,6 +9,7 @@
             </div>
             <div class="col-6"><CreateCompany /></div>
         </div>
+
 
         <div class="company-nav-header col-12 px-0">
             <NaviigationVue />
@@ -62,13 +64,14 @@
                                 </template>
                             </el-popconfirm>
 
-                            <!-- <el-button
+
+                            <el-button
                                 v-if="can('companies-decline_requests')"
                                 type="danger"
                                 :icon="CircleCloseFilled"
                                 class="fs-5"
                                 @click="company.centerDialogVisible = true"
-                            /> -->
+                            />
                             <el-dialog
                                 v-model="company.centerDialogVisible"
                                 :title="'Decline ' + company.company_name"
@@ -93,7 +96,7 @@
                                         >
                                         <el-button
                                             type="danger"
-                                            @click="decline(company.id)"
+                                            @click="decline(company.id, declineMessage)"
                                         >
                                             Confirm
                                         </el-button>
@@ -115,14 +118,18 @@
     </div>
 </template>
 
+
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+
 
 import { defineComponent, ref } from "vue";
 import CreateCompany from "./CreateCompany.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LoadingGif from "../../assets/loading.gif";
 import NaviigationVue from "../../Layouts/Partials/companies/Naviigation.vue";
+import { ElMessage } from 'element-plus';
+
 
 import {
     View,
@@ -131,11 +138,14 @@ import {
     InfoFilled,
 } from "@element-plus/icons-vue";
 
+
 export default defineComponent({
     name: "Requests",
     layout: AdminLayout,
 
+
     components: { CreateCompany, Link, Head, NaviigationVue },
+
 
     props: {
         companies: {
@@ -144,12 +154,14 @@ export default defineComponent({
         },
     },
 
+
     setup(props) {
         const { companies } = props;
         const loading = ref(false);
         const centerDialogVisible = ref(false);
         const declineMessage = ref("");
         const companyDialogStates = companies.map(() => ref(false));
+
 
         const approve = async (companyid, email) => {
             loading.value = true;
@@ -161,9 +173,24 @@ export default defineComponent({
             } catch (err) {}
         };
 
-        const decline = async (companyid) => {
-            console.log(companyid, declineMessage.value);
-        };
+
+        const decline = async (companyId,declineMessage) => {
+            try {
+                await router.post(`/organization/declineCompany/${companyId}/${encodeURIComponent(declineMessage.value)}`, {}, {
+                    onSuccess: () => {
+                        ElMessage.success("Request declined successfully.");
+                    },
+                    onError: () => {
+                        ElMessage.error("An error occurred while declining the request.");
+                    }
+                });
+            } catch (error) {
+                ElMessage.error("Unexpected error occurred.");
+            }
+            };
+
+
+
 
         return {
             approve,
