@@ -23,10 +23,24 @@
             </div>-->
         </div>
     </div>
+
+    <!-- 🔔 Pop-up Notification at Bottom -->
+    <div
+        v-if="showPopup"
+        class="fixed bottom-0 left-0 w-100 bg-dark text-white p-4 d-flex justify-content-between align-items-center shadow"
+        style="z-index: 1050"
+    >
+        <div class="me-3">
+            <strong>The site is under construction</strong>
+        </div>
+        <button class="btn btn-light" @click="showPopup = false">
+            Continue
+        </button>
+    </div>
 </template>
 
 <script>
-import { defineComponent, ref, watch, onMounted } from "vue";
+import { defineComponent, ref } from "vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import timelineChart from "./Overview/sentimentsTimeline.vue";
@@ -56,7 +70,29 @@ export default defineComponent({
         navigationSearchBar,
     },
     setup() {
-        return {};
+        // 🚨 This controls the pop-up visibility
+        const showPopup = ref(true);
+
+        return {
+            showPopup,
+        };
     },
 });
 </script>
+
+<style scoped>
+/* Optional: smooth fade in */
+.fixed {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+</style>
