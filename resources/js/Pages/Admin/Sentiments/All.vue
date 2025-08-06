@@ -24,16 +24,12 @@
         </div>
     </div>
 
-    <!-- 🔔 Pop-up Notification at Bottom -->
-    <div
-        v-if="showPopup"
-        class="fixed bottom-0 left-0 w-100 bg-dark text-white p-4 d-flex justify-content-between align-items-center shadow"
-        style="z-index: 1050"
-    >
-        <div class="me-3">
+    <!-- 🔔 Fixed Pop-up Notification at Bottom of Screen -->
+    <div v-if="showPopup" class="popup-banner">
+        <div class="popup-message">
             <strong>The site is under construction</strong>
         </div>
-        <button class="btn btn-light" @click="showPopup = false">
+        <button class="popup-button" @click="showPopup = false">
             Continue
         </button>
     </div>
@@ -70,9 +66,7 @@ export default defineComponent({
         navigationSearchBar,
     },
     setup() {
-        // 🚨 This controls the pop-up visibility
-        const showPopup = ref(true);
-
+        const showPopup = ref(true); // Controls the visibility of the popup
         return {
             showPopup,
         };
@@ -81,18 +75,41 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Optional: smooth fade in */
-.fixed {
-    animation: fadeIn 0.5s ease-in-out;
+/* ✅ Fixed pop-up style */
+.popup-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    color: white;
+    padding: 1rem 2rem;
+    z-index: 1050;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.4s ease;
 }
-@keyframes fadeIn {
+
+.popup-button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(100%);
     }
     to {
         opacity: 1;
-        transform: translateY(0%);
+        transform: translateY(0);
     }
 }
 </style>
