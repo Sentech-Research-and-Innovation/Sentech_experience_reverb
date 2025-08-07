@@ -34,7 +34,9 @@ Route::get('/notifications/unread-count', function () {
 /////
 
 //asdding something to the dashboard
-Route::get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats']);
+// Route::get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats']);
+Route::middleware('auth:sanctum')->get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     require __DIR__ . '/admin/roles.php';
