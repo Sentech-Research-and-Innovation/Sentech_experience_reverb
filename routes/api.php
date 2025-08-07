@@ -35,7 +35,18 @@ Route::get('/notifications/unread-count', function () {
 
 //asdding something to the dashboard
 // Route::get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats']);
-Route::middleware('auth:sanctum')->get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats']);
+Route::get('/admin/dashboard/stats', function(){
+
+    return response()->json([
+            // 'pending_companies' => Company::count(),
+            // 'company_requests' => Company::count(), // or however you define this
+            // 'system_users' => User::count(),
+            // // // 'customer_feedback' => Feedback::count(), // adjust model if it's named differently
+            // 'customer_feedback' => User::count(),
+            'test' => 'Dashboard stats working!',
+        ]);
+    
+    });
 
 
 Route::middleware('auth:sanctum')->group(function () {
