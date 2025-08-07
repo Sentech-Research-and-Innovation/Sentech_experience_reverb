@@ -53,7 +53,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, onMounted, ref } from "vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import ActivityLog from "./ActivityLog.vue";
 
 export default defineComponent({
