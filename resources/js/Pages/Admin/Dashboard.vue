@@ -92,7 +92,7 @@ export default defineComponent({
         // Fetch dashboard stats
         const getDashboardStats = async () => {
             try {
-                const response = await axios.get("/api/admin/dashboard/stats");
+                const response = await axios.get("/admin/dashboard/stats");
                 stats.value = response.data;
             } catch (error) {
                 console.error("Failed to fetch dashboard stats", error);
