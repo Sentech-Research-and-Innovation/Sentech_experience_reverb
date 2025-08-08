@@ -97,12 +97,12 @@ class DashboardController extends Controller
     public function getDashboardStats()
     {
         return response()->json([
-            // 'pending_companies' => Company::count(),
-            // 'company_requests' => Company::count(), // or however you define this
-            // 'system_users' => User::count(),
-            // // // 'customer_feedback' => Feedback::count(), // adjust model if it's named differently
-            // 'customer_feedback' => User::count(),
-            'test' => 'Dashboard stats working!',
+            'pending_companies' => Company::count(),
+            'company_requests' => Company::count(), // or however you define this
+            'system_users' => User::count(),
+            // // 'customer_feedback' => Feedback::count(), // adjust model if it's named differently
+            'customer_feedback' => User::count(),
+            // 'test' => 'Dashboard stats working!',
         ]);
     }
     
