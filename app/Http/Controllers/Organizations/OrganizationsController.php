@@ -111,13 +111,13 @@ class OrganizationsController extends Controller
         $this->StoreActivity("Declined company request: " . $company->company_name);
 
         // Send email to company admin
-        if ($adminUser) {
+        // if ($adminUser) {
             
-            Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
+        //     Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
             
-            // Delete user
-            $adminUser->delete();
-        }
+        //     // Delete user
+        //     $adminUser->delete();
+        // }
 
         // Delete company
         $company->delete();
