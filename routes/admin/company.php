@@ -12,4 +12,5 @@ Route::post('/organizantions/approve/{company_id}', [OrganizationsController::cl
 // Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany'])->middleware('role_has_permission:companies-approve_requests'); //just added
                                                                                                                                                                                 //role_has_permission:companies-approve_requests - this makes sense since the person who can approve can also delete but logically is incorrect
 
-Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany']);
+// Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany']);
+Route::post('/organization/declineCompany/{company}', [OrganizationsController::class, 'declineCompany']);
