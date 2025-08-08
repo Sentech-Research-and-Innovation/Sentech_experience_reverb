@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\DashboardController;
 
-use App\Models\Company;
-use App\Models\User;
 
 
 /*
@@ -35,7 +33,7 @@ Route::get('/notifications/unread-count', function () {
 
 /////
 
-//asdding something to the dashboard
+
 
 
 
