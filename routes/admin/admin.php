@@ -12,7 +12,7 @@ use App\Models\User;
 
 Route::get('/admin/notifications', [GetNotifications::class, 'index'])->middleware('auth');
 
-Route::get('/dashboard/stats', [DashboardController::class, 'getDashboardStats'])->middleware('auth');
+Route::get('/admin/dashboard/stats', [DashboardController::class, 'getDashboardStats'])->middleware('auth');
 // Route::get('/admin/dashboard/stats', function(){
 
 //     return response()->json([
