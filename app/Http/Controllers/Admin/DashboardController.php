@@ -13,6 +13,8 @@ use App\Models\ActivityLog;
 use App\Models\Company;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
+
 
 
 class DashboardController extends Controller
@@ -96,13 +98,16 @@ class DashboardController extends Controller
 
     public function getDashboardStats()
     {
+        $user = Auth::user(); // Get currently logged-in user
+
+        // Get the company the user belongs to
+        $company = $user->company;
+    
         return response()->json([
-            'pending_companies' => Company::count(),
-            'company_requests' => Company::count(), // or however you define this
-            'system_users' => User::count(),
-            // // 'customer_feedback' => Feedback::count(), // adjust model if it's named differently
-            'customer_feedback' => User::count(),
-            // 'test' => 'Dashboard stats working!',
+            'pending_companies' => Company::where('status', 'pending')->count(), // optional: all pending
+            'company_requests' => Company::count(), // or specific to user's company
+            'system_users' => $company ? $company->users()->count() : 0,
+            'customer_feedback' => $company ? $company->feedbacks()->count() : 0,
         ]);
     }
     
