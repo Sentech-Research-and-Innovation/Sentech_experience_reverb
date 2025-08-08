@@ -91,9 +91,9 @@ class OrganizationsController extends Controller
     }
 
     
-     public function declineCompany($company_id, $message)
+     public function declineCompany($company_id, Request $request)
     {
-
+        $message = $request->input('message');
         // Find the company
         $company = Company::find($company_id);
         if (!$company) {
