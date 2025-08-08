@@ -104,11 +104,10 @@ class DashboardController extends Controller
         $company = $user->company;
     
         return response()->json([
-            'pending_companies' => Company::count(), // optional: all pending
-            'company_requests' => Company::count(), // or specific to user's company
-            'system_users' => $company ? $company->users()->count() : 0,
-            // 'customer_feedback' => $company ? $company->feedbacks()->count() : 0,
-            'customer_feedback' => Company::count(),
+            'company_requests' => Company::where('approved', 0)->count(),
+        'pending_companies' => Company::where('approved', 1)->count(),
+        'system_users' => $company ? $company->users()->count() : 0,
+        'customer_feedback' => Company::where('approved', 2)->count(),
         ]);
     }
     
