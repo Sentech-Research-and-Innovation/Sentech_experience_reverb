@@ -177,7 +177,9 @@ export default defineComponent({
         const decline = async (companyId,declineMessage) => {
             try {
                 console.log("Company ID:", companyId);
-                await router.post(`/organization/declineCompany/${companyId}/${encodeURIComponent(declineMessage.value)}`, {}, {
+                await router.post(`/organization/declineCompany/${companyId}`, {
+                    message: declineMessage.value,
+                }, {
                     onSuccess: () => {
                         ElMessage.success("Request declined successfully.");
                     },
@@ -185,6 +187,8 @@ export default defineComponent({
                         ElMessage.error("An error occurred while declining the request.");
                     }
                 });
+
+                
             } catch (error) {
                 ElMessage.error("Unexpected error occurred.");
             }
