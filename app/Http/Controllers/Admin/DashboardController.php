@@ -107,7 +107,8 @@ class DashboardController extends Controller
             'pending_companies' => Company::count(), // optional: all pending
             'company_requests' => Company::count(), // or specific to user's company
             'system_users' => $company ? $company->users()->count() : 0,
-            'customer_feedback' => $company ? $company->feedbacks()->count() : 0,
+            // 'customer_feedback' => $company ? $company->feedbacks()->count() : 0,
+            'customer_feedback' => Company::count(),
         ]);
     }
     
