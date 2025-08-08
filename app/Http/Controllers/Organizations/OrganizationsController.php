@@ -93,6 +93,8 @@ class OrganizationsController extends Controller
     
      public function declineCompany($company_id, Request $request)
     {
+        console.log("we are in the function");
+
         $message = $request->input('message');
         // Find the company
         $company = Company::find($company_id);
@@ -121,6 +123,12 @@ class OrganizationsController extends Controller
 
         // Delete company
         $company->delete();
+
+        if (!$deleted) {
+            console.log("delete was not successful");
+        }
+
+        console.log("delete was successful");
 
         return response()->json(['status' => true, 'message' => 'Company registration request deleted.']);
     }
