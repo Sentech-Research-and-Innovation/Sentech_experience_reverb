@@ -177,7 +177,7 @@ export default defineComponent({
         const decline = async (companyId,declineMessage) => {
             try {
                 console.log("Company ID:", companyId);
-                await router.post(`/organization/declineCompany/${companyId}`, {
+                await router.post(`/organizantions/declineCompany/${companyId}`, {
                     message: declineMessage.value,
                 });
 
