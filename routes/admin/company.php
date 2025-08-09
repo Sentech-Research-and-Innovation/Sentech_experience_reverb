@@ -13,4 +13,8 @@ Route::post('/organizantions/approve/{company_id}', [OrganizationsController::cl
                                                                                                                                                                                 //role_has_permission:companies-approve_requests - this makes sense since the person who can approve can also delete but logically is incorrect
 
 // Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany']);
-Route::post('/organization/declineCompany/{company}', [OrganizationsController::class, 'declineCompany']);
+// Route::post('/organization/declineCompany/{company}', [OrganizationsController::class, 'declineCompany']);
+Route::post('/organization/declineCompany/{company}', function ($company) {
+    Log::info("Decline Company route hit. Company ID: " . $company);
+    return app(OrganizationsController::class)->declineCompany($company, request());
+});
