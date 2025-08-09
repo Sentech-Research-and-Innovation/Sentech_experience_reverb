@@ -175,12 +175,14 @@ export default defineComponent({
 
 
         const decline = async (companyId,declineMessage) => {
+            loading.value = true;
             try {
                 console.log("Company ID:", companyId);
                 await router.post(`/organizantions/declineCompany/${companyId}`, {
-                    message: declineMessage.value,
+                    // message: declineMessage.value,
+                    message: "wow",
                 });
-
+                location.reload();
                 
             } catch (err) {}
             };
