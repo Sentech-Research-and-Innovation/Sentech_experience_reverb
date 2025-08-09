@@ -179,13 +179,6 @@ export default defineComponent({
                 console.log("Company ID:", companyId);
                 await router.post(`/organization/declineCompany/${companyId}`, {
                     message: declineMessage.value,
-                }, {
-                    onSuccess: () => {
-                        ElMessage.success("Request declined successfully.");
-                    },
-                    onError: () => {
-                        ElMessage.error("An error occurred while declining the request.");
-                    }
                 });
 
                 
