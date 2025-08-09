@@ -8,7 +8,8 @@ use App\Http\Controllers\Web\NetworkController;
 use App\Http\Controllers\Web\WebController;
 use App\Http\Controllers\ImportController;
 
-
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\OrganizationsController;
 
 
 Route::get('/', function () {
@@ -45,7 +46,10 @@ Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlar
 Route::get('/import', [ImportController::class, 'index']);
 
 
-
+Route::post('/organization/declineCompany/{company}', function ($company) {
+    Log::info("Decline Company route hit. Company ID: " . $company);
+    return app(OrganizationsController::class)->declineCompany($company, request());
+})->name('organization.declineCompany');
 
 
 require __DIR__ . '/auth.php';
