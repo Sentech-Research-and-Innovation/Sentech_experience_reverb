@@ -182,9 +182,7 @@ export default defineComponent({
                 });
 
                 
-            } catch (error) {
-                ElMessage.error("Unexpected error occurred.");
-            }
+            } catch (err) {}
             };
 
 
