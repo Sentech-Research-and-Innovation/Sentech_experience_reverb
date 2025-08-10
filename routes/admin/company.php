@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\Organizations\OrganizationsController;
+use Illuminate\Support\Facades\Log;
+
 
 
 Route::get('/organizantions/approved', [OrganizationsController::class, 'approved'])->middleware('role_has_permission:companies-read_approved');
