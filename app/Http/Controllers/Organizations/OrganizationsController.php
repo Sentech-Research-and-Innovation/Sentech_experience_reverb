@@ -122,7 +122,7 @@ class OrganizationsController extends Controller
         // }
 
         // Delete company
-        $company->delete();
+       $deleted = $company->delete();
 
         if (!$deleted) {
             Log::info("Company was not deleted successfully: " . $company->company_name);
