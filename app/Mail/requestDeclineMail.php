@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RequestDeclinedMail extends Mailable
+class RequestDeclineMail extends Mailable
 {
     use Queueable, SerializesModels;
 
