@@ -95,8 +95,6 @@ class OrganizationsController extends Controller
     
      public function declineCompany($company_id, Request $request)
     {
-        Log::info("We are in the function");
-
         $message = $request->input('message');
         // Find the company
         $company = Company::find($company_id);
@@ -114,22 +112,14 @@ class OrganizationsController extends Controller
         $this->StoreActivity("Declined company request: " . $company->company_name);
 
         // Send email to company admin
-        // if ($adminUser) {
+        if ($adminUser) {
             
-        //     Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
-            
-        //     // Delete user
-        //     $adminUser->delete();
-        // }
-
-        // Delete company
-       $deleted = $company->delete();
-
-        if (!$deleted) {
-            Log::info("Company was not deleted successfully: " . $company->company_name);
+            Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
+            Log::info("Email sent to the sure ");
+            // Delete user
+            $adminUser->delete();
+        Log::info("user deleted ");
         }
-
-        Log::info("Company deleted successfully: " . $company->company_name);
 
         return response()->json(['status' => true, 'message' => 'Company registration request deleted.']);
     }
