@@ -14,7 +14,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Models\Notification;
 use App\Notifications\AccountAprrovalNotification;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\requestDeclineMail;
 
@@ -116,12 +115,9 @@ class OrganizationsController extends Controller
         if ($adminUser) {
             
             Mail::to($adminUser->email)->send(new RequestDeclineMail($adminUser->first_name, $message));
-            Log::info("Email sent to the sure ");
+
             // Delete user
             $deleted = $company->delete();
-            if (!$deleted) {
-                Log::info("Company was not deleted successfully: " . $company->company_name);
-            }
         }
 
         return response()->json(['status' => true, 'message' => 'Company registration request deleted.']);
