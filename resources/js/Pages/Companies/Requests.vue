@@ -178,9 +178,9 @@ export default defineComponent({
             loading.value = true;
             try {
                 console.log("Company ID:", companyId);
-                await router.post(`/organizantions/declineCompany/${companyId}`, {
-                    // message: declineMessage.value,
-                    message: "wow",
+                await axios.post(`/organizantions/declineCompany/${companyId}`, {
+                    message: declineMessage.value,
+                    // message: "wow",
                 });
                 location.reload();
                 
