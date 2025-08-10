@@ -108,8 +108,7 @@ class OrganizationsController extends Controller
         $adminUser = $company->contactPerson;
 
         // Deactivate related notifications
-        Notification::whereJsonContains('model_ids->from_compay_id', $company_id)
-            ->update(['status' => 'inactive']);
+        Notification::whereJsonContains('model_ids', ['from_compay_id' => intval($company_id)])->update(['active' => false]);
 
         // Log the activity
         $this->StoreActivity("Declined company request: " . $company->company_name);
