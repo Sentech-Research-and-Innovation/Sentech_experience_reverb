@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\Organizations\OrganizationsController;
-use Illuminate\Support\Facades\Log;
-
 
 
 Route::get('/organizantions/approved', [OrganizationsController::class, 'approved'])->middleware('role_has_permission:companies-read_approved');
@@ -13,10 +11,3 @@ Route::post('/organizantions/create', [OrganizationsController::class, 'create']
 Route::post('/organizantions/approve/{company_id}', [OrganizationsController::class, 'approveCompany'])->middleware('role_has_permission:companies-approve_requests');
 Route::post('/organizantions/declineCompany/{company}', [OrganizationsController::class, 'declineCompany'])->middleware('role_has_permission:companies-approve_requests'); //just added
                                                                                                                                                                                 //role_has_permission:companies-approve_requests - this makes sense since the person who can approve can also delete but logically is incorrect
-
-// Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany']);
-// Route::post('/organization/declineCompany/{company}', [OrganizationsController::class, 'declineCompany']);
-// Route::post('/organizantions/declineCompany/{company}', function ($company) {
-//     Log::info("Decline Company route hit. Company ID: " . $company);
-//     return app(OrganizationsController::class)->declineCompany($company, request());
-// });
