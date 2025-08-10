@@ -115,7 +115,7 @@ class OrganizationsController extends Controller
         // Send email to company admin
         if ($adminUser) {
             
-            Mail::to($adminUser->email)->send(new RequestDeclinedMail($adminUser->first_name, $message));
+            Mail::to($adminUser->email)->send(new RequestDeclineMail($adminUser->first_name, $message));
             Log::info("Email sent to the sure ");
             // Delete user
             $adminUser->delete();
