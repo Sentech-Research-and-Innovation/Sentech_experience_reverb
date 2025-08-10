@@ -14,7 +14,7 @@ Route::post('/organizantions/declineCompany/{company}', [OrganizationsController
 
 // Route::post('/organization/declineCompany/{company}/{message}', [OrganizationsController::class, 'declineCompany']);
 // Route::post('/organization/declineCompany/{company}', [OrganizationsController::class, 'declineCompany']);
-Route::post('/organizantions/declineCompany/{company}', function ($company) {
-    Log::info("Decline Company route hit. Company ID: " . $company);
-    return app(OrganizationsController::class)->declineCompany($company, request());
-});
+// Route::post('/organizantions/declineCompany/{company}', function ($company) {
+//     Log::info("Decline Company route hit. Company ID: " . $company);
+//     return app(OrganizationsController::class)->declineCompany($company, request());
+// });
