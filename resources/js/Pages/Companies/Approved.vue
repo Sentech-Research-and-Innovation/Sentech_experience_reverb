@@ -94,13 +94,14 @@ export default defineComponent({
         const { companies } = props;
 
         const decline = async (companyid, email) => {
+            loading.value = true;
             try {
                 await axios.post(`/organizantions/declineCompany_1/${companyid}`, {
                     email: email,
                 });
                 location.reload();
             } catch (err) {
-                console.error(err);
+                loading.value = false;
             }
         };
 
