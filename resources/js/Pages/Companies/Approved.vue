@@ -22,7 +22,7 @@
                         <th scope="col table-cell">Company Name</th>
                         <th scope="col table-cell">Contact Person</th>
                         <th scope="col table-cell">Position</th>
-                        <!-- <th scope="col table-cell" >Active</th> -->
+                        <th scope="col table-cell">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +30,7 @@
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
                         <td>
-                             <a 
+                            <a 
                                 :href="`/profile/${company.contact_person?.id}`"
                                 class="table-cell text-primary link-style"
                                 style="cursor: pointer;">
@@ -38,13 +38,27 @@
                             </a>
                         </td>
                         <td>{{ company.contact_person?.position }}</td>
-                        <!-- <td>{{ company }}</td> -->
-                        <!-- <td v-for="role in user.roles" :key="role.id">
-                            {{ role?.name }}
-                        </td> -->
-                        <!-- <td>
-                            <el-switch v-model="active" />
-                        </td> -->
+                        <td>
+                            <el-popconfirm
+                                confirm-button-text="Yes"
+                                cancel-button-text="No"
+                                :icon="InfoFilled"
+                                icon-color="#f44336"
+                                title="Are you sure to delete this?"
+                                @confirm="
+                                    decline(
+                                        company.id,
+                                        company.contact_person?.email
+                                    )
+                                "
+                            >
+                                <template #reference>
+                                    <el-button type="danger">
+                                        Delete
+                                    </el-button>
+                                </template>
+                            </el-popconfirm>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -59,7 +73,7 @@ import { defineComponent, ref } from "vue";
 import CreateCompany from "./CreateCompany.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Search } from "@element-plus/icons-vue";
-
+import { InfoFilled } from "@element-plus/icons-vue";
 import NaviigationVue from "../../Layouts/Partials/companies/Naviigation.vue";
 
 export default defineComponent({
@@ -79,10 +93,23 @@ export default defineComponent({
         const active = ref(true);
         const { companies } = props;
 
+        const decline = async (companyid, email) => {
+            try {
+                await axios.post(`/organizantions/declineCompany_1/${companyid}`, {
+                    email: email,
+                });
+                location.reload();
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
         return {
             companies,
             Search,
             active,
+            decline,
+            InfoFilled
         };
     },
 });
@@ -90,12 +117,11 @@ export default defineComponent({
 
 <style>
 .link-style {
-    font-weight: bold; /* Bold by default */
-    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .link-style:hover {
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
 }
-    
 </style>
