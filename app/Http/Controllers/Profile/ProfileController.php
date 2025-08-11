@@ -25,22 +25,9 @@ class ProfileController extends Controller
 
     public function show($id)
     {
-         try {
-                // Try to find the user by ID and load the related 'company' and 'roles'
-                $user = User::with('company', 'roles')->findOrFail($id);
-        
-                // If the user is found, log the info
-                Log::info('Displaying profile for user with ID: ' . $id);
-        
-                // Render the profile page via Inertia.js
-                return Inertia::render('Profile/Index', compact('user'));
-            } catch (ModelNotFoundException $e) {
-                // If the user is not found, log the warning
-                Log::warning('User with ID ' . $id . ' not found.');
-        
-                // Handle the error (optional: return a custom 404 response)
-                abort(404);
-            }
+        $user = User::with('company', 'roles')->findOrFail($id);
+        return Inertia::render('Profile/Index_1', compact('user'));
+            
     }
 
     public function update(Request $request)
