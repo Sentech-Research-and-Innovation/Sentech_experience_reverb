@@ -21,8 +21,6 @@
                         <th scope="col table-cell">#</th>
                         <th scope="col table-cell">Company Name</th>
                         <th scope="col table-cell">Contact Person</th>
-                        <th scope="col table-cell">Contact Person Email</th>
-                        <th scope="col table-cell">Phone Number</th>
                         <th scope="col table-cell">Position</th>
                         <!-- <th scope="col table-cell" >Active</th> -->
                     </tr>
@@ -31,12 +29,15 @@
                     <tr v-for="(company, index) in companies" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
-                        <td>{{ company.contact_person?.first_name }}</td>
-
-                        <td>{{ company.contact_person?.email }}</td>
-                        <td>{{ company.contact_person?.phoneNumber }}</td>
+                        <td>
+                             <a 
+                                :href="`/profile/${company.contact_person?.id}`"
+                                class="table-cell link-style"
+                                style="cursor: pointer;">
+                                {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
+                            </a>
+                        </td>
                         <td>{{ company.contact_person?.position }}</td>
-
                         <!-- <td>{{ company }}</td> -->
                         <!-- <td v-for="role in user.roles" :key="role.id">
                             {{ role?.name }}
@@ -87,4 +88,14 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.link-style {
+    font-weight: bold; /* Bold by default */
+    text-decoration: none; /* Remove underline */
+}
+
+.link-style:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+    
+</style>
