@@ -31,7 +31,7 @@
                             <a 
                                 :href="`/profile/${company.contact_person?.id}`"
                                 class="table-cell text-primary link-style"
-                                style="cursor: pointer; color: #144f9f; text-decoration: none;">
+                                style="cursor: pointer;">
                                 {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
                             </a>
                         </td>
