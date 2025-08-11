@@ -36,9 +36,9 @@
                         </th>
                         <td>
                             <a 
-                                @click.prevent="showUserProfile(user)"
-                                class="table-cell text-primary"
-                                style="cursor: pointer; text-decoration: underline;">
+                                :href="`/profile/${user.id}`"
+                                class="table-cell text-primary link-style"
+                                style="cursor: pointer;">
                                 {{ user.first_name }} {{ user.last_name }}
                             </a>
                         </td>
@@ -170,6 +170,16 @@ export default defineComponent({
 .form-control-error {
     border-radius: 1px solid #ff1744 !important;
 }
+
+.link-style {
+    font-weight: bold; /* Bold by default */
+    text-decoration: none; /* Remove underline */
+}
+
+.link-style:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+    
 .border-profile {
     border-top: 1px solid #c7cdd2;
     color: #000000 !important;
