@@ -48,7 +48,7 @@
                                 >Resend Approval Email
                             </el-button>
 
-                            /////////////////////////////
+                        
                             <el-popconfirm
                                     confirm-button-text="Yes"
                                     cancel-button-text="No"
@@ -65,7 +65,7 @@
                                 >
                                 Delete
                             </el-popconfirm>
-                            /////////////////////////////
+                        
                         </td>
                     </tr>
                 </tbody>
