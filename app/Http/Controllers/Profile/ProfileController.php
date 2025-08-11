@@ -20,6 +20,12 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Index', compact('user'));
     }
 
+    public function show($id)
+    {
+        $user = User::with('company', 'roles')->findOrFail($id);
+        return Inertia::render('Profile/Index', compact('user'));
+    }
+
     public function update(Request $request)
     {
 
@@ -46,6 +52,7 @@ class ProfileController extends Controller
 
         return request()->json([], 200);
     }
+
 
 
     public function updatePassword(Request $request)
