@@ -1,50 +1,41 @@
 <template>
     <Head :title="'Profile'"><title>Profile</title></Head>
 
-    <div class="col-12 px-3 mx-0 pt-2">
-        <div class="row pb-0">
-            <div class="col-12 px-4">
-                <h2>Profile</h2>
+    <div class="col-12 px-0 mx-0 profile-container">
+        <!-- Background Cover Image -->
+        <div class="cover-image"></div>
+        
+        <div class="profile-content px-4">
+            <!-- Profile Picture -->
+            <div class="profile-picture-container">
+                <el-avatar
+                    :src="user.profile_picture || ''"
+                    :icon="UserFilled"
+                    style="
+                        width: 150px;
+                        height: 150px;
+                        font-size: 60px;
+                        background-color: #f0f2f5;
+                    "
+                />
             </div>
-        </div>
-
-        <div class="row px-3">
-            <div class="col-lg-3 col-xl-3 col-md-3 pt-4">
-                <div class="col-12 rounded py-4 shadow-border">
-                    <div class="col-12 text-center mb-4">
-                        <el-avatar
-                            :icon="UserFilled"
-                            style="
-                                color: #144f9f;
-                                font-size: 30px;
-                                background-color: #ebebeb;
-                            "
-                            :size="80"
-                        />
-                        <h4 class="pt-4 form-label">
-                            {{ user.first_name }} {{ user.last_name }}
-                        </h4>
-                        <span class="fs-6">{{ user.company.company_name }}</span
-                        ><br />
-                        <span style="font-size: 15px">{{
-                            user.roles[0].name
-                        }}</span>
-                    </div>
-                    <div
-                        class="col-12 text-start border-profile mx-0 px-4 pt-3 pb-3"
-                    >
-                        <h4 class="form-label">{{ user.email }}</h4>
-                    </div>
-                    <div
-                        class="col-12 text-start border-profile mx-0 px-4 pt-3 pb-3"
-                    >
-                        <h4 class="form-label">{{ user.phoneNumber }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-9 col-xl-9 col-md-9 rounded pt-4">
-                <div class="col-12 rounded py-4 shadow-border">
-                    <!-- Empty right panel as requested -->
+            
+            <!-- Profile Info -->
+            <div class="profile-info mt-4">
+                <h1 class="profile-name">
+                    {{ user.first_name }} {{ user.last_name }}
+                </h1>
+                <p class="profile-title">
+                    {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
+                </p>
+                <p class="profile-location">
+                    {{ user.location || 'Location not specified' }}
+                </p>
+                
+                <div class="profile-contact mt-3">
+                    <span class="contact-item">{{ user.email }}</span>
+                    <span class="contact-separator">·</span>
+                    <span class="contact-item">{{ user.phoneNumber || 'Phone not provided' }}</span>
                 </div>
             </div>
         </div>
@@ -53,14 +44,13 @@
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-
 import { defineComponent } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
-    name: "index",
+    name: "profile-view",
 
     components: {
         Head,
@@ -68,7 +58,7 @@ export default defineComponent({
 
     props: {
         user: {
-            type: Array,
+            type: Object,
             required: true,
         },
     },
@@ -81,27 +71,72 @@ export default defineComponent({
     },
 });
 </script>
+
 <style scoped>
-.border-profile {
-    border-top: 1px solid #c7cdd2;
-    color: #000000 !important;
-}
-.profile-nav-header {
-    cursor: pointer;
-}
-.profile-nav-header .nav-link {
-    color: #c5c2c2;
-    background: none !important;
-    border: none !important;
-    border-bottom: 2px solid #ebe8e8 !important;
-    border-radius: 0px;
+.profile-container {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.profile-nav-header .active {
-    color: #144f9f;
-    background: none !important;
-    border: none !important;
-    border-bottom: 2px solid #144f9f !important;
-    border-radius: 0px;
+.cover-image {
+    height: 200px;
+    background-color: #e9ebee;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.profile-content {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.profile-picture-container {
+    position: absolute;
+    top: -75px;
+    left: 20px;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    background-color: #ffffff;
+}
+
+.profile-info {
+    padding-top: 90px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #050505;
+}
+
+.profile-title {
+    font-size: 16px;
+    color: #050505;
+    margin-bottom: 5px;
+}
+
+.profile-location {
+    font-size: 15px;
+    color: #65676b;
+    margin-bottom: 10px;
+}
+
+.profile-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+}
+
+.contact-item {
+    color: #1877f2;
+}
+
+.contact-separator {
+    color: #65676b;
 }
 </style>
