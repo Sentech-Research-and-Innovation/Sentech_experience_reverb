@@ -31,7 +31,7 @@
                             <a 
                                 :href="`/profile/${company.contact_person?.id}`"
                                 class="table-cell text-primary link-style"
-                                style="cursor: pointer;">
+                                style="cursor: pointer; color: #144f9f; text-decoration: none;">
                                 {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
                             </a>
                         </td>
@@ -45,7 +45,7 @@
                                             company.contact_person?.email
                                         )
                                     "
-                                    type="primary"
+                        
                                 >
                                     Resend Approval Email
                                 </el-button>
@@ -161,10 +161,11 @@ export default defineComponent({
 .link-style {
     font-weight: bold;
     text-decoration: none;
-    color: #409EFF;
+    color: #144f9f;
 }
 
 .link-style:hover {
+     color: #409EFF;
     text-decoration: underline;
 }
 
