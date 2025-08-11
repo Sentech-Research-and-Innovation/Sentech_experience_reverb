@@ -76,6 +76,7 @@ export default defineComponent({
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin: 0 40%;  
     padding-bottom: 24px;
+    width: 85%
 }
 
 .cover-image {
