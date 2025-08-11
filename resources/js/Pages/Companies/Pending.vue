@@ -34,22 +34,23 @@
                                 style="cursor: pointer;">
                                 {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
                             </a>
-                            
                         </td>
                         <td>{{ company.contact_person?.position }}</td>
                         <td>
-                            <el-button
-                                @click="
-                                    approve(
-                                        company.id,
-                                        company.contact_person?.email
-                                    )
-                                "
-                                >Resend Approval Email
-                            </el-button>
+                            <div class="d-flex gap-2">
+                                <el-button
+                                    @click="
+                                        approve(
+                                            company.id,
+                                            company.contact_person?.email
+                                        )
+                                    "
+                                    type="primary"
+                                >
+                                    Resend Approval Email
+                                </el-button>
 
-                        
-                            <el-popconfirm
+                                <el-popconfirm
                                     confirm-button-text="Yes"
                                     cancel-button-text="No"
                                     :icon="InfoFilled"
@@ -61,11 +62,14 @@
                                             company.contact_person?.email
                                         )
                                     "
-                                    @cancel="cancelEvent"
                                 >
-                                Delete
-                            </el-popconfirm>
-                        
+                                    <template #reference>
+                                        <el-button type="danger">
+                                            Delete
+                                        </el-button>
+                                    </template>
+                                </el-popconfirm>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -121,7 +125,9 @@ export default defineComponent({
                     email: email,
                 });
                 location.reload();
-            } catch (err) {}
+            } catch (err) {
+                loading.value = false;
+            }
         };
 
         const decline = async (companyid, email) => {
@@ -131,11 +137,14 @@ export default defineComponent({
                     email: email,
                 });
                 location.reload();
-            } catch (err) {}
+            } catch (err) {
+                loading.value = false;
+            }
         };
 
         return {
             approve,
+            decline,
             companies,
             View,
             CircleCheckFilled,
@@ -150,11 +159,20 @@ export default defineComponent({
 
 <style>
 .link-style {
-    font-weight: bold; /* Bold by default */
-    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    text-decoration: none;
+    color: #409EFF;
 }
 
 .link-style:hover {
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 8px;
 }
 </style>
