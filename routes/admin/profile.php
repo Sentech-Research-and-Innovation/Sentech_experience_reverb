@@ -7,3 +7,4 @@ use  App\Http\Controllers\Profile\ProfileController;
 Route::get('/profile/index', [ProfileController::class, 'index']);
 Route::post('/profile/update', [ProfileController::class, 'update'])->middleware('auth');
 Route::post('/profile/update/password', [ProfileController::class, 'updatePassword']);
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('admin.profile.show');
