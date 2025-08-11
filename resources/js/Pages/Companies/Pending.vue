@@ -20,7 +20,7 @@
                         <th scope="col">Company Name</th>
                         <th scope="col">Contact Person</th>
                         <th scope="col">Position</th>
-                        <th scope="col">Action</th>
+                         <th scope="col" style="text-align: center;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
