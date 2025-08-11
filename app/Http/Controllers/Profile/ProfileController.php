@@ -9,6 +9,9 @@ use App\Models\User;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 
 class ProfileController extends Controller
@@ -22,8 +25,22 @@ class ProfileController extends Controller
 
     public function show($id)
     {
-        $user = User::with('company', 'roles')->findOrFail($id);
-        return Inertia::render('Profile/Index', compact('user'));
+         try {
+                // Try to find the user by ID and load the related 'company' and 'roles'
+                $user = User::with('company', 'roles')->findOrFail($id);
+        
+                // If the user is found, log the info
+                Log::info('Displaying profile for user with ID: ' . $id);
+        
+                // Render the profile page via Inertia.js
+                return Inertia::render('Profile/Index', compact('user'));
+            } catch (ModelNotFoundException $e) {
+                // If the user is not found, log the warning
+                Log::warning('User with ID ' . $id . ' not found.');
+        
+                // Handle the error (optional: return a custom 404 response)
+                abort(404);
+            }
     }
 
     public function update(Request $request)
