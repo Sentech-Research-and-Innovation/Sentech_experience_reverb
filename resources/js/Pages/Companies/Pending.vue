@@ -45,8 +45,27 @@
                                         company.contact_person?.email
                                     )
                                 "
-                                >Resend Approval Email</el-button
-                            >
+                                >Resend Approval Email
+                            </el-button>
+
+                            /////////////////////////////
+                            <el-popconfirm
+                                    confirm-button-text="Yes"
+                                    cancel-button-text="No"
+                                    :icon="InfoFilled"
+                                    icon-color="#f44336"
+                                    title="Are you sure to delete this?"
+                                    @confirm="
+                                        decline(
+                                            company.id,
+                                            company.contact_person?.email
+                                        )
+                                    "
+                                    @cancel="cancelEvent"
+                                >
+                                Delete
+                            </el-popconfirm>
+                            /////////////////////////////
                         </td>
                     </tr>
                 </tbody>
@@ -99,6 +118,16 @@ export default defineComponent({
             loading.value = true;
             try {
                 await axios.post(`/organizantions/approve/${companyid}`, {
+                    email: email,
+                });
+                location.reload();
+            } catch (err) {}
+        };
+
+        const decline = async (companyid, email) => {
+            loading.value = true;
+            try {
+                await axios.post(`/organizantions/declineCompany_1/${companyid}`, {
                     email: email,
                 });
                 location.reload();
