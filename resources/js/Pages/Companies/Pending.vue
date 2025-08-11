@@ -120,7 +120,7 @@ export default defineComponent({
 </script>
 
 <style>
-    .link-style {
+.link-style {
     font-weight: bold; /* Bold by default */
     text-decoration: none; /* Remove underline */
 }
@@ -128,4 +128,4 @@ export default defineComponent({
 .link-style:hover {
     text-decoration: underline; /* Underline on hover */
 }
-<\style>
+</style>
