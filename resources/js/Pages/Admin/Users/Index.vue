@@ -37,9 +37,13 @@
                             <span class="table-cell">{{ index + 1 }}</span>
                         </th>
                         <td>
-                            <span class="table-cell">{{
-                                user.first_name
-                            }}</span>
+                            <Link 
+                                :href="`/profile/${user.id}`" 
+                                class="table-cell text-primary"
+                                style="cursor: pointer; text-decoration: underline;"
+                                >
+                                {{ user.first_name }}
+                            </Link>
                         </td>
                         <td>
                             <span class="table-cell">{{ user.last_name }}</span>
