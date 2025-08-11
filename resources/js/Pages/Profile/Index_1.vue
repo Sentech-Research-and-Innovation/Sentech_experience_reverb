@@ -28,10 +28,6 @@
                 <p class="profile-title">
                     {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
                 </p>
-                <p class="profile-location">
-                    {{ user.location || 'Location not specified' }}
-                </p>
-                
                 <div class="profile-contact mt-3">
                     <span class="contact-item">{{ user.email }}</span>
                     <span class="contact-separator">·</span>
@@ -78,8 +74,8 @@ export default defineComponent({
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin: 0 5%;  
-    padding-bottom: 40px;
+    margin: 0 15%;  
+    padding-bottom: 24px;
 }
 
 .cover-image {
@@ -116,16 +112,12 @@ export default defineComponent({
 }
 
 .profile-title {
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 700;
     color: #050505;
     margin-bottom: 5px;
 }
 
-.profile-location {
-    font-size: 15px;
-    color: #65676b;
-    margin-bottom: 10px;
-}
 
 .profile-contact {
     display: flex;
