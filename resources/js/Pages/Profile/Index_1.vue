@@ -44,42 +44,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-md-9 rounded pt-4">
                 <div class="col-12 rounded py-4 shadow-border">
-                    <div class="profile-nav-header col-12 px-0">
-                        <nav
-                            class="nav nav-pills flex-column flex-sm-row py-3 mb-4"
-                        >
-                            <a
-                                class="flex-sm-fill text-sm-center nav-link py-3 active"
-                                ><strong>Profile Details</strong>
-                            </a>
-                        </nav>
-                    </div>
-                    <div class="row register-form">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="firstName" class="form-label"
-                                    >First Name</label
-                                >
-                                <h4>{{ user.first_name }}</h4>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="lastName" class="form-label"
-                                    >Last Name</label
-                                >
-                                <h4>{{ user.last_name }}</h4>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="phoneNumber" class="form-label"
-                                    >Phone Number</label
-                                >
-                                <h4>{{ user.phoneNumber }}</h4>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Empty right panel as requested -->
                 </div>
             </div>
         </div>
