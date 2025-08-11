@@ -19,8 +19,6 @@
                         <th scope="col">#</th>
                         <th scope="col">Company Name</th>
                         <th scope="col">Contact Person</th>
-                        <th scope="col">Contact Person Email</th>
-                        <th scope="col">Phone Number</th>
                         <th scope="col">Position</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -29,11 +27,16 @@
                     <tr v-for="(company, index) in companies" :key="index">
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ company.company_name }}</td>
-                        <td>{{ company.contact_person?.first_name }}</td>
-                        <td>{{ company.contact_person?.email }}</td>
-                        <td>{{ company.contact_person?.phoneNumber }}</td>
+                        <td>
+                            <a 
+                                :href="`/profile/${user.id}`"
+                                class="table-cell text-primary link-style"
+                                style="cursor: pointer;">
+                                {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
+                            </a>
+                            
+                        </td>
                         <td>{{ company.contact_person?.position }}</td>
-
                         <td>
                             <el-button
                                 @click="
@@ -115,3 +118,14 @@ export default defineComponent({
     },
 });
 </script>
+
+<style>
+    .link-style {
+    font-weight: bold; /* Bold by default */
+    text-decoration: none; /* Remove underline */
+}
+
+.link-style:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+<\style>
