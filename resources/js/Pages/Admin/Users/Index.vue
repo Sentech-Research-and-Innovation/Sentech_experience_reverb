@@ -38,7 +38,7 @@
                         </th>
                         <td>
                             <Link 
-                                :href="`/profile/${user.id}`" 
+                                :href="`/admin/profile/${user.id}`" 
                                 class="table-cell text-primary"
                                 style="cursor: pointer; text-decoration: underline;"
                                 >
