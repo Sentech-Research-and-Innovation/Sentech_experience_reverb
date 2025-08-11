@@ -43,11 +43,6 @@ Route::get('/web/network/province/cities/{province}', [NetworkController::class,
 Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlarmsDataByProvince']);
 Route::get('/import', [ImportController::class, 'index']);
 
-//adding a profile
-
-Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
-
-
 
 require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
