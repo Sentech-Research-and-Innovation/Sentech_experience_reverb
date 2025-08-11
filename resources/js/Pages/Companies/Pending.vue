@@ -29,7 +29,7 @@
                         <td>{{ company.company_name }}</td>
                         <td>
                             <a 
-                                :href="`/profile/${user.id}`"
+                                :href="`/profile/${company.contact_person?.id}`"
                                 class="table-cell text-primary link-style"
                                 style="cursor: pointer;">
                                 {{ company.contact_person?.first_name }} {{ company.contact_person?.last_name }}
