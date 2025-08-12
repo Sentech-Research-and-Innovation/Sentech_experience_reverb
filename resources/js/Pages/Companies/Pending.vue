@@ -37,7 +37,7 @@
                         </td>
                         <td>{{ company.contact_person?.position }}</td>
                         <td style="text-align: center;">
-                            <div class="d-flex gap-2">
+                            <div class="d-flex justify-content-center gap-2">
                                 <el-button
                                     @click="
                                         approve(
