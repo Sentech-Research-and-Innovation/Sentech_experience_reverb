@@ -115,7 +115,7 @@ export default defineComponent({
 
 .profile-content {
     position: relative;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .profile-picture-container {
