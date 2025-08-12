@@ -36,7 +36,7 @@
                             </a>
                         </td>
                         <td>{{ company.contact_person?.position }}</td>
-                        <td style="text-align: center;>
+                        <td style="text-align: center;">
                             <div class="d-flex gap-2">
                                 <el-button
                                     @click="
