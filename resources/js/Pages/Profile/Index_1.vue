@@ -15,16 +15,10 @@
                 <!-- Profile Picture -->
                 <div class="profile-picture-container">
                     <el-avatar
-                        :src="user.profile_picture || defaultProfile"
-                        :icon="!user.profile_picture ? UserFilled : ''"
-                        style="
-                            width: 150px;
-                            height: 150px;
-                            font-size: 60px;
-                            background-color: #1f1f1f;
-                            color: #fff;
-                        "
-                    />
+                            :src="user.profile_picture || defaultProfile"
+                            :icon="!user.profile_picture ? UserFilled : ''"
+                            class="blue-profile-image"
+                        />
                 </div>
                 
                 <!-- Profile Info -->
@@ -127,6 +121,17 @@ export default defineComponent({
     border-radius: 50%;
     background-color: #144f9f;
     z-index: 2;
+}
+
+.blue-profile-image {
+    width: 150px;
+    height: 150px;
+    font-size: 60px;
+    background-color: #144f9f !important;
+    color: #fff;
+    border: 4px solid #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .profile-info {
