@@ -110,21 +110,23 @@ export default defineComponent({
     border-top-right-radius: 8px;
     background-size: cover;
     background-position: center;
-    filter: brightness(0.85); /* makes it darker */
+    filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
+    transition: filter 0.3s ease;
 }
 
 .profile-content {
     position: relative;
-    padding-bottom: 30px;
+    padding: 0 20px 30px 20px;
+    z-index: 1;
 }
 
 .profile-picture-container {
     position: absolute;
     top: -75px;
     left: 20px;
-    border: 4px solid #ffffff;
     border-radius: 50%;
-    background-color: #1f1f1f;
+    background-color: #144f9f;
+    z-index: 2;
 }
 
 .profile-info {
