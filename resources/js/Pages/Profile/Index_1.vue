@@ -1,47 +1,44 @@
 <template>
     <Head :title="'Profile'"><title>Profile</title></Head>
 
-    <div class="col-12 px-0 mx-0 profile-container">
-        <!-- Background Cover Image -->
-        <div
-            class="cover-image"
-            :style="{
-                backgroundImage: `url('${user.coverImage || defaultCover}')`
-            }"
-        ></div>
-
-        <div class="profile-content px-4">
-            <!-- Profile Picture -->
-            <div class="profile-picture-container">
-                <el-avatar
-                    :src="user.profile_picture || defaultProfile"
-                    :icon="!user.profile_picture ? UserFilled : ''"
-                    style="
-                        width: 150px;
-                        height: 150px;
-                        font-size: 60px;
-                        background-color: #f0f2f5;
-                    "
-                />
-            </div>
-
-            <!-- Profile Info -->
-            <div class="profile-info mt-4">
-                <p class="profile-name">
-                    {{ user.first_name }} {{ user.last_name }}
-                </p>
-
-                <!-- Role at Company -->
-                <p class="profile-title">
-                    {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
-                </p>
-
-                <!-- Contact Info -->
-                <div class="profile-contact mt-2">
-                    <span class="contact-item email-phone">
-                        {{ user.email || 'Email not provided' }},
-                        {{ user.phoneNumber || 'Phone not provided' }}
-                    </span>
+    <div class="page-wrapper">
+        <div class="col-12 px-0 mx-0 profile-container">
+            <!-- Background Cover Image -->
+            <div
+                class="cover-image"
+                :style="{
+                    backgroundImage: `url('${user.coverImage || defaultCover}')`
+                }"
+            ></div>
+            
+            <div class="profile-content px-4">
+                <!-- Profile Picture -->
+                <div class="profile-picture-container">
+                    <el-avatar
+                        :src="user.profile_picture || defaultProfile"
+                        :icon="!user.profile_picture ? UserFilled : ''"
+                        style="
+                            width: 150px;
+                            height: 150px;
+                            font-size: 60px;
+                            background-color: #f0f2f5;
+                        "
+                    />
+                </div>
+                
+                <!-- Profile Info -->
+                <div class="profile-info mt-4">
+                    <h1 class="profile-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h1>
+                    <p class="profile-title">
+                        {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
+                    </p>
+                    <div class="profile-contact mt-3">
+                        <span class="contact-item">{{ user.email }}</span>
+                        <span class="contact-separator">·</span>
+                        <span class="contact-item">{{ user.phoneNumber || 'Phone not provided' }}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,13 +83,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
 .profile-container {
     position: relative;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    padding-bottom: 24px;
     width: 85%;
     max-width: 1000px;
 }
@@ -108,6 +109,7 @@ export default defineComponent({
 
 .profile-content {
     position: relative;
+    padding-bottom: 20px;
 }
 
 .profile-picture-container {
@@ -131,16 +133,24 @@ export default defineComponent({
 }
 
 .profile-title {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 700;
     color: #050505;
+    margin-bottom: 5px;
 }
 
 .profile-contact {
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
 }
 
-.email-phone {
+.contact-item {
     color: #1877f2;
+}
+
+.contact-separator {
+    color: #65676b;
 }
 </style>
