@@ -2,6 +2,7 @@
     <Head :title="'Profile'"><title>Profile</title></Head>
 
     <div class="page-wrapper">
+        <!-- Profile Header Section -->
         <div class="col-12 px-0 mx-0 profile-container">
             <!-- Background Cover Image -->
             <div
@@ -32,172 +33,149 @@
                     <p class="profile-name">
                         {{ user.first_name }} {{ user.last_name }}
                     </p>
-                        <p class="profile-title">
-                            {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
-                        </p>
-                        
-                        <div class="profile-contact mt-1">
-                            <span class="contact-info">
-                                {{ user.email || 'Email not provided' }}, {{ user.phoneNumber || 'Phone not provided' }}
-                            </span>
-                        </div>
-
+                    <p class="profile-title">
+                        {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
+                    </p>
+                    
+                    <div class="profile-contact mt-1">
+                        <span class="contact-info">
+                            {{ user.email || 'Email not provided' }}, {{ user.phoneNumber || 'Phone not provided' }}
+                        </span>
                     </div>
+                </div>
             </div>
         </div>
 
-
-        <!-- Form section -->
-
-        <div class="col-lg-9 col-xl-9 col-md-9 rounded pt-4">
-                <div class="col-12 rounded py-4 shadow-border">
-                    <div class="profile-nav-header col-12 px-0">
-                        <nav
-                            class="nav nav-pills flex-column flex-sm-row py-3 mb-4"
+        <!-- Form Section -->
+        <div class="form-section">
+            <div class="col-12 rounded py-4 shadow-border">
+                <div class="profile-nav-header col-12 px-0">
+                    <nav class="nav nav-pills flex-column flex-sm-row py-3 mb-4">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'profile' }"
+                            @click="page = 'profile'"
                         >
-                            <a
-                                class="flex-sm-fill text-sm-center nav-link py-3"
-                                :class="{
-                                    active: page === 'profile',
-                                }"
-                                @click="page = 'profile'"
-                                ><strong>Profile Details</strong>
-                            </a>
+                            <strong>Profile Details</strong>
+                        </a>
 
-                            <a
-                                class="flex-sm-fill text-sm-center nav-link py-3"
-                                :class="{
-                                    active: page === 'password',
-                                }"
-                                @click="page = 'password'"
-                                ><strong>Change Password</strong>
-                            </a>
-                        </nav>
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'password' }"
+                            @click="page = 'password'"
+                        >
+                            <strong>Change Password</strong>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Profile Details Form -->
+                <div class="row register-form" v-if="page == 'profile'">
+                    <div class="col-md-12" v-if="success">
+                        <div class="alert alert-success">
+                            You have successfully updated your details
+                        </div>
                     </div>
-                    <div class="row register-form" v-if="page == 'profile'">
-                        <div class="col-md-12" v-if="success">
-                            <div class="alert alert-success">
-                                You have successfully updated your details
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="firstName" class="form-label"
-                                    >First Name</label
-                                >
-
-                                <el-input
-                                    v-model="user.first_name"
-                                    class="w-100 search-input"
-                                />
-
-                                <div class="text-danger pt-1">
-                                    {{ errors.first_name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="lastName" class="form-label"
-                                    >Last Name</label
-                                >
-
-                                <el-input
-                                    v-model="user.last_name"
-                                    class="w-100 search-input"
-                                />
-
-                                <div class="text-danger pt-1">
-                                    {{ errors.last_name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="phoneNumber" class="form-label"
-                                    >Phone Number</label
-                                >
-
-                                <el-input
-                                    v-model="user.phoneNumber"
-                                    class="w-100 search-input"
-                                />
-
-                                <div class="text-danger pt-1">
-                                    {{ errors.phoneNumber }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div
-                                    @click="updateDetails"
-                                    class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
-                                >
-                                    Submit
-                                </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <el-input
+                                v-model="user.first_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.first_name }}
                             </div>
                         </div>
                     </div>
-                    <div class="row register-form" v-if="page == 'password'">
-                        <div class="col-md-12" v-if="successPassword">
-                            <div class="alert alert-success">
-                                You have successfully updated your password
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <el-input
+                                v-model="user.last_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.last_name }}
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Password" class="form-label"
-                                    >Password</label
-                                >
-
-                                <el-input
-                                    v-model="formPassword.password"
-                                    class="w-100 search-input"
-                                />
-
-                                <div class="text-danger pt-1">
-                                    {{ errorPassword.password }}
-                                </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <el-input
+                                v-model="user.phoneNumber"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.phoneNumber }}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="confirmPassword" class="form-label"
-                                    >Confirm Password</label
-                                >
-
-                                <el-input
-                                    v-model="formPassword.password_confirmation"
-                                    class="w-100 search-input"
-                                />
-
-                                <div class="text-danger pt-1"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="updateDetails"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div
-                                    @click="changePassword"
-                                    class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
-                                >
-                                    Submit
-                                </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Form -->
+                <div class="row register-form" v-if="page == 'password'">
+                    <div class="col-md-12" v-if="successPassword">
+                        <div class="alert alert-success">
+                            You have successfully updated your password
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Password" class="form-label">Password</label>
+                            <el-input
+                                v-model="formPassword.password"
+                                class="w-100 search-input"
+                                type="password"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errorPassword.password }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <el-input
+                                v-model="formPassword.password_confirmation"
+                                class="w-100 search-input"
+                                type="password"
+                            />
+                            <div class="text-danger pt-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="changePassword"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        
-        
+        </div>
     </div>
 </template>
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { defineComponent } from "vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { defineComponent, ref } from "vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
@@ -217,7 +195,9 @@ export default defineComponent({
     },
 
     setup(props) {
-        const { user } = props;
+        const defaultCover = "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop";
+        const defaultProfile = "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop";
+
         const form = ref({});
         const errors = ref({});
         const page = ref("profile");
@@ -226,12 +206,12 @@ export default defineComponent({
         const errorPassword = ref({});
         const formPassword = ref({});
 
-                const updateDetails = async () => {
+        const updateDetails = async () => {
             errors.value = {};
             form.value = {
-                first_name: user.first_name,
-                last_name: user.last_name,
-                phoneNumber: user.phoneNumber,
+                first_name: props.user.first_name,
+                last_name: props.user.last_name,
+                phoneNumber: props.user.phoneNumber,
             };
 
             try {
@@ -247,14 +227,11 @@ export default defineComponent({
                     phoneNumber: res?.phoneNumber?.[0] || "",
                 };
             }
-                };
+        };
 
         const changePassword = async () => {
             try {
-                await axios.post(
-                    `/profile/update/password`,
-                    formPassword.value
-                );
+                await axios.post(`/profile/update/password`, formPassword.value);
                 errorPassword.value = {};
                 successPassword.value = true;
             } catch (err) {
@@ -265,23 +242,13 @@ export default defineComponent({
                 };
             }
         };
-        
-        const defaultCover =
-            "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop"; 
-        // dark abstract background
-
-        const defaultProfile =
-            "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop"; 
-        // dark neutral gradient profile placeholder
 
         return {
             UserFilled,
-            user: props.user,
             defaultCover,
             defaultProfile,
-                        UserFilled,
             page,
-            user,
+            user: props.user,
             updateDetails,
             errors,
             success,
@@ -297,8 +264,10 @@ export default defineComponent({
 <style scoped>
 .page-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     padding: 20px;
+    gap: 20px;
 }
 
 .profile-container {
@@ -306,8 +275,9 @@ export default defineComponent({
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-    width: 85%;
+    width: 100%;
     max-width: 1000px;
+    margin: 0 auto;
 }
 
 .cover-image {
@@ -316,12 +286,12 @@ export default defineComponent({
     border-top-right-radius: 8px;
     background-size: cover;
     background-position: center;
-    filter: brightness(0.85); /* makes it darker */
+    filter: brightness(0.85);
 }
 
 .profile-content {
     position: relative;
-    padding-bottom: 30px;
+    padding: 0 20px 30px 20px;
 }
 
 .profile-picture-container {
@@ -359,25 +329,28 @@ export default defineComponent({
     color: #65676b;
 }
 
-.contact-item {
-    color: #1877f2;
-}
-
 .contact-info {
     font-size: 12px;
     color: #65676b;
 }
 
-.contact-separator {
-    color: #65676b;
+.form-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
-.border-profile {
-    border-top: 1px solid #c7cdd2;
-    color: #000000 !important;
+
+.shadow-border {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: white;
+    padding: 20px;
 }
+
 .profile-nav-header {
     cursor: pointer;
 }
+
 .profile-nav-header .nav-link {
     color: #c5c2c2;
     background: none !important;
@@ -392,5 +365,40 @@ export default defineComponent({
     border: none !important;
     border-bottom: 2px solid #144f9f !important;
     border-radius: 0px;
+}
+
+.register-form {
+    padding: 0 15px;
+}
+
+.search-input {
+    width: 100%;
+}
+
+.sentech-login-button {
+    padding: 10px 20px;
+    background-color: #144f9f;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.sentech-login-button:hover {
+    background-color: #0d3a73;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 14px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
 }
 </style>
