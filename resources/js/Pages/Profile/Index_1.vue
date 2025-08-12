@@ -27,9 +27,9 @@
 
             <!-- Profile Info -->
             <div class="profile-info mt-4">
-                <h1 class="profile-name">
+                <p class="profile-name">
                     {{ user.first_name }} {{ user.last_name }}
-                </h1>
+                </p>
 
                 <!-- Role at Company -->
                 <p class="profile-title">
