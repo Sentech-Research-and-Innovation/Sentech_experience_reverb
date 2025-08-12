@@ -45,14 +45,216 @@
         <!-- Form Section -->
         <div class="form-section">
             <div class="col-12 rounded py-4 shadow-border">
-                <!-- ... [rest of your form code remains exactly the same] ... -->
+                <div class="profile-nav-header col-12 px-0">
+                    <nav class="nav nav-pills flex-column flex-sm-row py-3 mb-4">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'profile' }"
+                            @click="page = 'profile'"
+                        >
+                            <strong>Profile Details</strong>
+                        </a>
+
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'password' }"
+                            @click="page = 'password'"
+                        >
+                            <strong>Change Password</strong>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Profile Details Form -->
+                <div class="row register-form" v-if="page == 'profile'">
+                    <div class="col-md-12" v-if="success">
+                        <div class="alert alert-success">
+                            You have successfully updated your details
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <el-input
+                                v-model="user.first_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.first_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <el-input
+                                v-model="user.last_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <el-input
+                                v-model="user.phoneNumber"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.phoneNumber }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="updateDetails"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Form -->
+                <div class="row register-form" v-if="page == 'password'">
+                    <div class="col-md-12" v-if="successPassword">
+                        <div class="alert alert-success">
+                            You have successfully updated your password
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Password" class="form-label">Password</label>
+                            <el-input
+                                v-model="formPassword.password"
+                                class="w-100 search-input"
+                                type="password"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errorPassword.password }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <el-input
+                                v-model="formPassword.password_confirmation"
+                                class="w-100 search-input"
+                                type="password"
+                            />
+                            <div class="text-danger pt-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="changePassword"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-// ... [script section remains exactly the same] ...
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { defineComponent, ref } from "vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
+import { UserFilled } from "@element-plus/icons-vue";
+
+export default defineComponent({
+    layout: AdminLayout,
+    name: "profile-view",
+
+    components: {
+        Head,
+        Link,
+    },
+
+    props: {
+        user: {
+            type: Object,
+            required: true,
+        },
+    },
+
+    setup(props) {
+        const defaultCover = "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop";
+        const defaultProfile = "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop";
+
+        const form = ref({});
+        const errors = ref({});
+        const page = ref("profile");
+        const success = ref(false);
+        const successPassword = ref(false);
+        const errorPassword = ref({});
+        const formPassword = ref({});
+
+        const updateDetails = async () => {
+            errors.value = {};
+            form.value = {
+                first_name: props.user.first_name,
+                last_name: props.user.last_name,
+                phoneNumber: props.user.phoneNumber,
+            };
+
+            try {
+                await axios.post(`/profile/update`, form.value);
+                errors.value = {};
+                success.value = true;
+            } catch (err) {
+                const res = err.response.data.errors;
+                success.value = false;
+                errors.value = {
+                    first_name: res?.first_name?.[0] || "",
+                    last_name: res?.last_name?.[0] || "",
+                    phoneNumber: res?.phoneNumber?.[0] || "",
+                };
+            }
+        };
+
+        const changePassword = async () => {
+            try {
+                await axios.post(`/profile/update/password`, formPassword.value);
+                errorPassword.value = {};
+                successPassword.value = true;
+            } catch (err) {
+                const res = err.response.data.errors;
+                successPassword.value = false;
+                errorPassword.value = {
+                    password: res?.password?.[0] || "",
+                };
+            }
+        };
+
+        return {
+            UserFilled,
+            defaultCover,
+            defaultProfile,
+            page,
+            user: props.user,
+            updateDetails,
+            errors,
+            success,
+            changePassword,
+            formPassword,
+            errorPassword,
+            successPassword,
+        };
+    },
+});
 </script>
 
 <style scoped>
@@ -63,6 +265,7 @@
     align-items: center;
     padding: 20px;
     gap: 20px;
+    min-height: 100vh;
 }
 
 .profile-header-container {
@@ -77,6 +280,7 @@
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     width: 100%;
+    overflow: hidden;
 }
 
 .cover-image {
@@ -86,15 +290,18 @@
     background-size: cover;
     background-position: center;
     filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
+    transition: filter 0.3s ease;
 }
 
 .blue-profile-image {
     width: 150px;
     height: 150px;
     font-size: 60px;
-    background-color: #144f9f !important; /* Matching form button color */
+    background-color: #144f9f !important;
     color: #fff;
     border: 4px solid #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .profile-picture-container {
@@ -102,8 +309,152 @@
     top: -75px;
     left: 20px;
     border-radius: 50%;
-    background-color: #144f9f; /* Matching blue theme */
+    background-color: #144f9f;
+    z-index: 2;
 }
 
-/* ... [rest of your CSS remains the same] ... */
+.profile-content {
+    position: relative;
+    padding: 0 20px 30px 20px;
+    z-index: 1;
+}
+
+.profile-info {
+    padding-top: 90px;
+}
+
+.profile-name {
+    font-size: 27px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #050505;
+    line-height: 1.2;
+}
+
+.profile-title {
+    font-size: 15px;
+    font-weight: 400;
+    color: #050505;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.profile-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #65676b;
+    margin-top: 10px;
+}
+
+.contact-info {
+    font-size: 12px;
+    color: #65676b;
+    line-height: 1.5;
+}
+
+.form-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.shadow-border {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: white;
+    padding: 20px;
+}
+
+.profile-nav-header {
+    cursor: pointer;
+}
+
+.profile-nav-header .nav-link {
+    color: #c5c2c2;
+    background: none !important;
+    border: none !important;
+    border-bottom: 2px solid #ebe8e8 !important;
+    border-radius: 0px;
+    transition: all 0.3s ease;
+}
+
+.profile-nav-header .active {
+    color: #144f9f;
+    background: none !important;
+    border: none !important;
+    border-bottom: 2px solid #144f9f !important;
+    border-radius: 0px;
+}
+
+.register-form {
+    padding: 0 15px;
+}
+
+.search-input {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:hover {
+    border-color: #c0c4cc;
+}
+
+.sentech-login-button {
+    padding: 10px 20px;
+    background-color: #144f9f;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sentech-login-button:hover {
+    background-color: #0d3a73;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+    color: #606266;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.nav-pills {
+    border-bottom: 1px solid #ebe8e8;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 15px;
+}
+
+.el-input__inner {
+    height: 40px;
+    line-height: 40px;
+}
 </style>
