@@ -32,15 +32,17 @@
                     <p class="profile-name">
                         {{ user.first_name }} {{ user.last_name }}
                     </p>
-                    <p class="profile-title">
-                        {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
-                    </p>
-                    <div class="profile-contact mt-3">
-                        <span class="contact-item">{{ user.email }}</span>
-                        <span class="contact-separator">·</span>
-                        <span class="contact-item">{{ user.phoneNumber || 'Phone not provided' }}</span>
+                        <p class="profile-title">
+                            {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
+                        </p>
+                        
+                        <div class="profile-contact mt-1">
+                            <span class="contact-info">
+                                {{ user.email || 'Email not provided' }}, {{ user.phoneNumber || 'Phone not provided' }}
+                            </span>
+                        </div>
+
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -130,15 +132,15 @@ export default defineComponent({
 }
 
 .profile-name {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 27px;
+/*     font-weight: 600; */
     margin-bottom: 5px;
     color: #050505;
 }
 
 .profile-title {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 15px;
+/*     font-weight: 700; */
     color: #050505;
     margin-bottom: 5px;
 }
@@ -147,11 +149,17 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 15px;
+    font-size: 12px;
+    color: #65676b;
 }
 
 .contact-item {
     color: #1877f2;
+}
+
+.contact-info {
+    font-size: 12px;
+    color: #65676b;
 }
 
 .contact-separator {
