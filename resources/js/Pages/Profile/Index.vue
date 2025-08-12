@@ -11,19 +11,7 @@
                     :style="{
                         backgroundImage: `url('${user.coverImage || defaultCover}')`
                     }"
-                >
-                    <!-- Cover image upload button -->
-                    <div class="cover-image-upload">
-                        <el-button 
-                            type="primary" 
-                            size="small" 
-                            @click="openCoverImageUpload"
-                            class="upload-button"
-                        >
-                            <i class="el-icon-camera"></i> Add Cover Photo
-                        </el-button>
-                    </div>
-                </div>
+                ></div>
                 
                 <div class="profile-content px-4">
                     <!-- Profile Picture -->
@@ -33,18 +21,6 @@
                             :icon="!user.profile_picture ? UserFilled : ''"
                             class="blue-profile-image"
                         />
-                        <!-- Profile image upload button -->
-                        <div class="profile-image-upload">
-                            <el-button 
-                                type="primary" 
-                                circle 
-                                size="small" 
-                                @click="openProfileImageUpload"
-                                class="upload-button"
-                            >
-                                <i class="el-icon-camera"></i>
-                            </el-button>
-                        </div>
                     </div>
                     
                     <!-- Profile Info -->
@@ -65,39 +41,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- File Upload Dialogs -->
-        <el-dialog title="Upload Cover Image" :visible.sync="coverImageDialogVisible" width="30%">
-            <el-upload
-                class="upload-demo"
-                drag
-                action="/api/upload-cover-image"
-                :headers="headers"
-                :on-success="handleCoverImageSuccess"
-                :before-upload="beforeImageUpload"
-                :show-file-list="false"
-            >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-                <div class="el-upload__tip" slot="tip">JPG/PNG files with a size less than 2MB</div>
-            </el-upload>
-        </el-dialog>
-
-        <el-dialog title="Upload Profile Image" :visible.sync="profileImageDialogVisible" width="30%">
-            <el-upload
-                class="upload-demo"
-                drag
-                action="/api/upload-profile-image"
-                :headers="headers"
-                :on-success="handleProfileImageSuccess"
-                :before-upload="beforeImageUpload"
-                :show-file-list="false"
-            >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-                <div class="el-upload__tip" slot="tip">JPG/PNG files with a size less than 2MB</div>
-            </el-upload>
-        </el-dialog>
 
         <!-- Form Section -->
         <div class="form-section">
@@ -229,8 +172,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { UserFilled, Camera } from "@element-plus/icons-vue";
-import axios from 'axios';
+import { UserFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -259,60 +201,6 @@ export default defineComponent({
         const successPassword = ref(false);
         const errorPassword = ref({});
         const formPassword = ref({});
-        
-        // Image upload state
-        const coverImageDialogVisible = ref(false);
-        const profileImageDialogVisible = ref(false);
-        const headers = ref({
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        });
-
-        const openCoverImageUpload = () => {
-            coverImageDialogVisible.value = true;
-        };
-
-        const openProfileImageUpload = () => {
-            profileImageDialogVisible.value = true;
-        };
-
-        const beforeImageUpload = (file) => {
-            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('Profile picture must be JPG/PNG format!');
-            }
-            if (!isLt2M) {
-                this.$message.error('Profile picture size can not exceed 2MB!');
-            }
-            return isJPG && isLt2M;
-        };
-
-        const handleCoverImageSuccess = (response, file) => {
-            coverImageDialogVisible.value = false;
-            props.user.coverImage = URL.createObjectURL(file.raw);
-            // Update user's cover image in database
-            axios.post('/api/update-cover-image', { coverImage: response.path })
-                .then(() => {
-                    this.$message.success('Cover image uploaded successfully!');
-                })
-                .catch(() => {
-                    this.$message.error('Failed to update cover image');
-                });
-        };
-
-        const handleProfileImageSuccess = (response, file) => {
-            profileImageDialogVisible.value = false;
-            props.user.profile_picture = URL.createObjectURL(file.raw);
-            // Update user's profile picture in database
-            axios.post('/api/update-profile-image', { profileImage: response.path })
-                .then(() => {
-                    this.$message.success('Profile image uploaded successfully!');
-                })
-                .catch(() => {
-                    this.$message.error('Failed to update profile image');
-                });
-        };
 
         const updateDetails = async () => {
             errors.value = {};
@@ -326,7 +214,6 @@ export default defineComponent({
                 await axios.post(`/profile/update`, form.value);
                 errors.value = {};
                 success.value = true;
-                setTimeout(() => success.value = false, 3000);
             } catch (err) {
                 const res = err.response.data.errors;
                 success.value = false;
@@ -343,8 +230,6 @@ export default defineComponent({
                 await axios.post(`/profile/update/password`, formPassword.value);
                 errorPassword.value = {};
                 successPassword.value = true;
-                formPassword.value = {};
-                setTimeout(() => successPassword.value = false, 3000);
             } catch (err) {
                 const res = err.response.data.errors;
                 successPassword.value = false;
@@ -356,27 +241,17 @@ export default defineComponent({
 
         return {
             UserFilled,
-            Camera,
             defaultCover,
             defaultProfile,
             page,
             user: props.user,
-            form,
+            updateDetails,
             errors,
             success,
+            changePassword,
             formPassword,
             errorPassword,
             successPassword,
-            updateDetails,
-            changePassword,
-            coverImageDialogVisible,
-            profileImageDialogVisible,
-            headers,
-            openCoverImageUpload,
-            openProfileImageUpload,
-            beforeImageUpload,
-            handleCoverImageSuccess,
-            handleProfileImageSuccess,
         };
     },
 });
@@ -409,7 +284,6 @@ export default defineComponent({
 }
 
 .cover-image {
-    position: relative;
     height: 200px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -417,31 +291,6 @@ export default defineComponent({
     background-position: center;
     filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
     transition: filter 0.3s ease;
-}
-
-.cover-image-upload {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-
-.profile-image-upload {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
-
-.upload-button {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #144f9f;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.upload-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    transform: scale(1.05);
 }
 
 .blue-profile-image {
