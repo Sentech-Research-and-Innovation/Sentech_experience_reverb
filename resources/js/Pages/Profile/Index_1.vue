@@ -133,7 +133,7 @@ export default defineComponent({
 
 .profile-name {
     font-size: 27px;
-/*     font-weight: 700; */
+    font-weight: 600;
     margin-bottom: 5px;
     color: #050505;
 }
