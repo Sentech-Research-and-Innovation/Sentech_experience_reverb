@@ -21,16 +21,17 @@
                             width: 150px;
                             height: 150px;
                             font-size: 60px;
-                            background-color: #f0f2f5;
+                            background-color: #1f1f1f;
+                            color: #fff;
                         "
                     />
                 </div>
                 
                 <!-- Profile Info -->
                 <div class="profile-info mt-4">
-                    <h1 class="profile-name">
+                    <p class="profile-name">
                         {{ user.first_name }} {{ user.last_name }}
-                    </h1>
+                    </p>
                     <p class="profile-title">
                         {{ user.roles[0]?.name }} at {{ user.company?.company_name }}
                     </p>
@@ -68,9 +69,12 @@ export default defineComponent({
 
     setup(props) {
         const defaultCover =
-            "https://via.placeholder.com/1200x300?text=Cover+Image";
+            "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop"; 
+        // dark abstract background
+
         const defaultProfile =
-            "https://via.placeholder.com/150?text=Profile";
+            "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop"; 
+        // dark neutral gradient profile placeholder
 
         return {
             UserFilled,
@@ -93,7 +97,7 @@ export default defineComponent({
     position: relative;
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     width: 85%;
     max-width: 1000px;
 }
@@ -102,9 +106,9 @@ export default defineComponent({
     height: 200px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background-color: #e9ebee;
     background-size: cover;
     background-position: center;
+    filter: brightness(0.85); /* makes it darker */
 }
 
 .profile-content {
@@ -118,7 +122,7 @@ export default defineComponent({
     left: 20px;
     border: 4px solid #ffffff;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: #1f1f1f;
 }
 
 .profile-info {
