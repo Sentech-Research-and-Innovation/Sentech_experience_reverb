@@ -138,13 +138,15 @@ export default defineComponent({
     font-weight: 600;
     margin-bottom: 5px;
     color: #050505;
+    line-height: 1.2;
 }
 
 .profile-title {
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 400;
     color: #050505;
     margin-bottom: 5px;
+    line-height: 1.4;
 }
 
 .profile-contact {
@@ -153,6 +155,7 @@ export default defineComponent({
     gap: 8px;
     font-size: 12px;
     color: #65676b;
+    margin-top: 10px;
 }
 
 .contact-item {
