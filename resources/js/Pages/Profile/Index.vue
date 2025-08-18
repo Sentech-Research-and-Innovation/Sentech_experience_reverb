@@ -6,14 +6,14 @@
         <div class="profile-header-container">
             <div class="col-12 px-0 mx-0 profile-container">
                 <!-- Background Cover Image -->
-                <div
-                    class="cover-image"
-                    :style="{
-                        backgroundImage: `url('${user.coverImage || defaultCover}')`
-                    }"
-                >
-            
-                         <!-- Cover image edit button -->
+                <div class="cover-image-wrapper">
+                    <div
+                        class="cover-image"
+                        :style="{
+                            backgroundImage: `url('${user.coverImage || defaultCover}')`
+                        }"
+                    >
+                        <!-- Cover image edit button -->
                         <div class="cover-image-edit">
                             <el-button 
                                 circle 
@@ -23,18 +23,18 @@
                                 <el-icon><Camera /></el-icon>
                             </el-button>
                         </div>
-            
+                    </div>
                 </div>
                 
                 <div class="profile-content px-4">
                     <!-- Profile Picture -->
-                    <div class="profile-picture-container">
-                        <el-avatar
-                            :src="user.profile_picture || defaultProfile"
-                            :icon="!user.profile_picture ? UserFilled : ''"
-                            class="blue-profile-image"
-                        />
-
+                    <div class="profile-picture-wrapper">
+                        <div class="profile-picture-container">
+                            <el-avatar
+                                :src="user.profile_picture || defaultProfile"
+                                :icon="!user.profile_picture ? UserFilled : ''"
+                                class="blue-profile-image"
+                            />
                             <!-- Profile picture edit button -->
                             <div class="profile-image-edit">
                                 <el-button 
@@ -45,7 +45,7 @@
                                     <el-icon><Camera /></el-icon>
                                 </el-button>
                             </div>
-
+                        </div>
                     </div>
                     
                     <!-- Profile Info -->
@@ -67,8 +67,7 @@
             </div>
         </div>
 
-
-        <!-- Add these dialogs for image upload -->
+        <!-- Image Upload Dialogs -->
         <el-dialog v-model="profileImageDialogVisible" title="Update Profile Picture" width="30%">
             <el-upload
                 class="upload-demo"
@@ -90,8 +89,6 @@
                 <el-button type="primary">Click to upload</el-button>
             </el-upload>
         </el-dialog>
-
-
 
         <!-- Form Section -->
         <div class="form-section">
@@ -223,7 +220,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { UserFilled } from "@element-plus/icons-vue";
+import { UserFilled, Camera } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -252,8 +249,8 @@ export default defineComponent({
         const successPassword = ref(false);
         const errorPassword = ref({});
         const formPassword = ref({});
-
-        //  these for image upload dialogs
+        
+        // Image upload dialogs
         const profileImageDialogVisible = ref(false);
         const coverImageDialogVisible = ref(false);
 
@@ -266,16 +263,12 @@ export default defineComponent({
         };
 
         const handleProfileImageSuccess = (response) => {
-            // Handle the response after successful upload
             profileImageDialogVisible.value = false;
-            // Update the user's profile picture in the UI
             props.user.profile_picture = response.url;
         };
 
         const handleCoverImageSuccess = (response) => {
-            // Handle the response after successful upload
             coverImageDialogVisible.value = false;
-            // Update the user's cover image in the UI
             props.user.coverImage = response.url;
         };
 
@@ -345,7 +338,7 @@ export default defineComponent({
 .page-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 20px;
     gap: 20px;
@@ -367,14 +360,37 @@ export default defineComponent({
     overflow: hidden;
 }
 
-.cover-image {
+/* Cover image section */
+.cover-image-wrapper {
+    position: relative;
+    width: 100%;
     height: 200px;
+}
+
+.cover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     background-size: cover;
     background-position: center;
     filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
-    transition: filter 0.3s ease;
+}
+
+/* Profile picture section */
+.profile-picture-wrapper {
+    position: relative;
+    height: 150px;
+}
+
+.profile-picture-container {
+    position: absolute;
+    top: -75px;
+    left: 20px;
+    z-index: 2;
 }
 
 .blue-profile-image {
@@ -385,26 +401,17 @@ export default defineComponent({
     color: #fff;
     border: 4px solid #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.profile-picture-container {
-    position: absolute;
-    top: -75px;
-    left: 20px;
-    border-radius: 50%;
-    background-color: #144f9f;
-    z-index: 2;
 }
 
 .profile-content {
     position: relative;
-    padding: 0 20px 30px 20px;
+    padding: 80px 20px 30px 20px;
     z-index: 1;
 }
 
+/* Profile info section */
 .profile-info {
-    padding-top: 90px;
+    margin-left: 180px;
 }
 
 .profile-name {
@@ -438,6 +445,33 @@ export default defineComponent({
     line-height: 1.5;
 }
 
+/* Edit buttons */
+.cover-image-edit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.profile-image-edit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.edit-icon-button {
+    background-color: white !important;
+    color: #606266 !important;
+    border: 1px solid #dcdfe6 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+}
+
+.edit-icon-button:hover {
+    background-color: #f5f7fa !important;
+}
+
+/* Form section */
 .form-section {
     width: 100%;
     max-width: 1000px;
@@ -541,42 +575,4 @@ export default defineComponent({
     height: 40px;
     line-height: 40px;
 }
-
-/*  */
-
-.cover-image {
-    position: relative;
-    height: 200px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
-    transition: filter 0.3s ease;
-}
-
-.cover-image-edit {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-
-.profile-image-edit {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
-
-.edit-icon-button {
-    background-color: white !important;
-    color: #606266 !important;
-    border: 1px solid #dcdfe6 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.edit-icon-button:hover {
-    background-color: #f5f7fa !important;
-}
-
-
 </style>
