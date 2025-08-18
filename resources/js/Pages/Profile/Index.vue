@@ -11,7 +11,20 @@
                     :style="{
                         backgroundImage: `url('${user.coverImage || defaultCover}')`
                     }"
-                ></div>
+                >
+            
+                         <!-- Cover image edit button -->
+                        <div class="cover-image-edit">
+                            <el-button 
+                                circle 
+                                class="edit-icon-button"
+                                @click="openCoverImageDialog"
+                            >
+                                <el-icon><Camera /></el-icon>
+                            </el-button>
+                        </div>
+            
+                </div>
                 
                 <div class="profile-content px-4">
                     <!-- Profile Picture -->
@@ -21,6 +34,18 @@
                             :icon="!user.profile_picture ? UserFilled : ''"
                             class="blue-profile-image"
                         />
+
+                            <!-- Profile picture edit button -->
+                            <div class="profile-image-edit">
+                                <el-button 
+                                    circle 
+                                    class="edit-icon-button"
+                                    @click="openProfileImageDialog"
+                                >
+                                    <el-icon><Camera /></el-icon>
+                                </el-button>
+                            </div>
+
                     </div>
                     
                     <!-- Profile Info -->
@@ -41,6 +66,32 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Add these dialogs for image upload -->
+        <el-dialog v-model="profileImageDialogVisible" title="Update Profile Picture" width="30%">
+            <el-upload
+                class="upload-demo"
+                action="/api/upload-profile-image"
+                :on-success="handleProfileImageSuccess"
+                :show-file-list="false"
+            >
+                <el-button type="primary">Click to upload</el-button>
+            </el-upload>
+        </el-dialog>
+
+        <el-dialog v-model="coverImageDialogVisible" title="Update Cover Photo" width="50%">
+            <el-upload
+                class="upload-demo"
+                action="/api/upload-cover-image"
+                :on-success="handleCoverImageSuccess"
+                :show-file-list="false"
+            >
+                <el-button type="primary">Click to upload</el-button>
+            </el-upload>
+        </el-dialog>
+
+
 
         <!-- Form Section -->
         <div class="form-section">
@@ -202,6 +253,32 @@ export default defineComponent({
         const errorPassword = ref({});
         const formPassword = ref({});
 
+        //  these for image upload dialogs
+        const profileImageDialogVisible = ref(false);
+        const coverImageDialogVisible = ref(false);
+
+        const openProfileImageDialog = () => {
+            profileImageDialogVisible.value = true;
+        };
+
+        const openCoverImageDialog = () => {
+            coverImageDialogVisible.value = true;
+        };
+
+        const handleProfileImageSuccess = (response) => {
+            // Handle the response after successful upload
+            profileImageDialogVisible.value = false;
+            // Update the user's profile picture in the UI
+            props.user.profile_picture = response.url;
+        };
+
+        const handleCoverImageSuccess = (response) => {
+            // Handle the response after successful upload
+            coverImageDialogVisible.value = false;
+            // Update the user's cover image in the UI
+            props.user.coverImage = response.url;
+        };
+
         const updateDetails = async () => {
             errors.value = {};
             form.value = {
@@ -241,6 +318,7 @@ export default defineComponent({
 
         return {
             UserFilled,
+            Camera,
             defaultCover,
             defaultProfile,
             page,
@@ -252,6 +330,12 @@ export default defineComponent({
             formPassword,
             errorPassword,
             successPassword,
+            profileImageDialogVisible,
+            coverImageDialogVisible,
+            openProfileImageDialog,
+            openCoverImageDialog,
+            handleProfileImageSuccess,
+            handleCoverImageSuccess,
         };
     },
 });
@@ -457,4 +541,42 @@ export default defineComponent({
     height: 40px;
     line-height: 40px;
 }
+
+/*  */
+
+.cover-image {
+    position: relative;
+    height: 200px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
+    transition: filter 0.3s ease;
+}
+
+.cover-image-edit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.profile-image-edit {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.edit-icon-button {
+    background-color: white !important;
+    color: #606266 !important;
+    border: 1px solid #dcdfe6 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-icon-button:hover {
+    background-color: #f5f7fa !important;
+}
+
+
 </style>
