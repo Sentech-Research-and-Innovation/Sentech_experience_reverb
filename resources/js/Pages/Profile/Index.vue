@@ -20,7 +20,7 @@
                                 class="edit-icon-button"
                                 @click="openCoverImageDialog"
                             >
-                                <el-icon><Camera /></el-icon>
+                                <el-icon color="#144f9f" size="20"><Camera /></el-icon>
                             </el-button>
                         </div>
                     </div>
@@ -42,14 +42,17 @@
                                     class="edit-icon-button"
                                     @click="openProfileImageDialog"
                                 >
-                                    <el-icon><Camera /></el-icon>
+                                    <el-icon color="#144f9f" size="20"><Camera /></el-icon>
                                 </el-button>
                             </div>
                         </div>
                     </div>
-                    
+                </div>
+
+                <!-- Profile Info Block -->
+                <div class="profile-info-block">
                     <!-- Profile Info -->
-                    <div class="profile-info mt-4">
+                    <div class="profile-info">
                         <p class="profile-name">
                             {{ user.first_name }} {{ user.last_name }}
                         </p>
@@ -405,13 +408,22 @@ export default defineComponent({
 
 .profile-content {
     position: relative;
-    padding: 80px 20px 30px 20px;
+    padding: 0 20px;
     z-index: 1;
 }
 
-/* Profile info section */
+/* Profile info block */
+.profile-info-block {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: -20px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
 .profile-info {
-    margin-left: 180px;
+    margin-left: 0;
+    padding-top: 80px;
 }
 
 .profile-name {
@@ -450,25 +462,35 @@ export default defineComponent({
     position: absolute;
     bottom: 20px;
     right: 20px;
+    z-index: 3;
 }
 
 .profile-image-edit {
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 3;
 }
 
 .edit-icon-button {
     background-color: white !important;
-    color: #606266 !important;
     border: 1px solid #dcdfe6 !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 36px;
     height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .edit-icon-button:hover {
     background-color: #f5f7fa !important;
+}
+
+/* Camera icon styling */
+.el-icon {
+    color: #144f9f !important;
+    font-size: 18px;
 }
 
 /* Form section */
