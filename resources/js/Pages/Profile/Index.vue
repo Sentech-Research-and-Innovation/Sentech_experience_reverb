@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Profile Info Block -->
-                <div class="profile-info-block" style="margin-top: -100px;">
+                <div class="profile-info-block" style="margin-top: -75px;">
                     <!-- Profile Info -->
                     <div class="profile-info">
                         <p class="profile-name">
@@ -415,7 +415,7 @@ export default defineComponent({
 /* Profile info block */
 .profile-info-block {
     background-color: #ffffff;
-    padding: 20px;
+    padding: 5px;
     margin-top: -100px; /* Pull up closer to profile picture */
     border-radius: 0 0 8px 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
