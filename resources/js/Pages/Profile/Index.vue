@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Profile Info Block -->
-                <div class="profile-info-block" style="margin-top: -65px;">
+                <div class="profile-info-block mt-4" style="margin-top: -65px;">
                     <!-- Profile Info -->
                     <div class="profile-info">
                         <p class="profile-name">
