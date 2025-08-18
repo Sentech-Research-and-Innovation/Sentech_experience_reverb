@@ -418,7 +418,7 @@ export default defineComponent({
     padding: 10px;
     margin-top: -100px; /* Pull up closer to profile picture */
     border-radius: 0 0 8px 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+/*     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); */
     position: relative;
     z-index: 1;
 }
