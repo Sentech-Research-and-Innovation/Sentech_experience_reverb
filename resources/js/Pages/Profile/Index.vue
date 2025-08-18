@@ -425,7 +425,7 @@ export default defineComponent({
 
 .profile-info {
     margin-left: 0;
-    padding-top: 0;
+    padding-top: -10;
 }
 
 .profile-name {
