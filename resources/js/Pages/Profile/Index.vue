@@ -391,7 +391,7 @@ export default defineComponent({
 
 .profile-picture-container {
     position: absolute;
-    top: -100px;
+    top: -150px;
     left: 20px;
     z-index: 2;
 }
@@ -415,8 +415,8 @@ export default defineComponent({
 /* Profile info block */
 .profile-info-block {
     background-color: #ffffff;
-    padding: 20px 20px 20px 180px; /* Left padding for profile picture */
-    margin-top: -50px; /* Pull up closer to profile picture */
+    padding: 20px;
+    margin-top: -100px; /* Pull up closer to profile picture */
     border-radius: 0 0 8px 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -492,8 +492,8 @@ export default defineComponent({
 /* Camera icon styling */
 .el-icon {
     color: #144f9f !important;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 20px;
+    /* font-weight: bold; */
 }
 
 /* Form section */
