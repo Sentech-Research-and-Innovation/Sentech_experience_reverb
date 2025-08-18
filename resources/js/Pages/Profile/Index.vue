@@ -391,7 +391,7 @@ export default defineComponent({
 
 .profile-picture-container {
     position: absolute;
-    top: -55px;
+    top: -75px;
     left: 20px;
     z-index: 2;
 }
@@ -408,7 +408,7 @@ export default defineComponent({
 
 .profile-content {
     position: relative;
-    padding: 0 20px;
+    padding: 0 0;
     z-index: 1;
 }
 
@@ -425,7 +425,7 @@ export default defineComponent({
 
 .profile-info {
     margin-left: 0;
-    padding-top: -10;
+    padding-top: 0;
 }
 
 .profile-name {
