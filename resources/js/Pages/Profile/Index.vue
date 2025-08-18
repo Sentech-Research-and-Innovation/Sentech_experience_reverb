@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Profile Info Block -->
-                <div class="profile-info-block">
+                <div class="profile-info-block" style="margin-top: -50px;">
                     <!-- Profile Info -->
                     <div class="profile-info">
                         <p class="profile-name">
@@ -391,7 +391,7 @@ export default defineComponent({
 
 .profile-picture-container {
     position: absolute;
-    top: -75px;
+    top: -100px;
     left: 20px;
     z-index: 2;
 }
@@ -415,15 +415,17 @@ export default defineComponent({
 /* Profile info block */
 .profile-info-block {
     background-color: #ffffff;
-    padding: 20px;
-    margin-top: -20px;
+    padding: 20px 20px 20px 180px; /* Left padding for profile picture */
+    margin-top: -50px; /* Pull up closer to profile picture */
     border-radius: 0 0 8px 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .profile-info {
     margin-left: 0;
-    padding-top: 80px;
+    padding-top: 0;
 }
 
 .profile-name {
@@ -474,7 +476,7 @@ export default defineComponent({
 
 .edit-icon-button {
     background-color: white !important;
-    border: 1px solid #dcdfe6 !important;
+    border: 1px solid #144f9f !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 36px;
     height: 36px;
@@ -484,13 +486,14 @@ export default defineComponent({
 }
 
 .edit-icon-button:hover {
-    background-color: #f5f7fa !important;
+    background-color: #f0f7ff !important;
 }
 
 /* Camera icon styling */
 .el-icon {
     color: #144f9f !important;
     font-size: 18px;
+    font-weight: bold;
 }
 
 /* Form section */
