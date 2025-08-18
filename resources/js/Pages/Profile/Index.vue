@@ -417,10 +417,9 @@ export default defineComponent({
     background-color: #ffffff;
     padding: 10px;
     margin-top: -100px; /* Pull up closer to profile picture */
-    margin-left: 20px;
+    margin-left: 30px;
     margin-bottom: 20px;    
     border-radius: 0 0 8px 8px;
-/*     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); */
     position: relative;
     z-index: 1;
     
