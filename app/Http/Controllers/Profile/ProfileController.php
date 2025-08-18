@@ -30,30 +30,34 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-
-        return Auth::user();
-
         $requestData = $request->all();
+    
         $validator = Validator::make($requestData, [
-            'first_name' => 'required|max:55',
-            'last_name' => 'required|max:55',
-            'phoneNumber' => 'required|regex:/(0)[0-9]{9}/|max:10'
-
+            'first_name'   => 'required|max:55',
+            'last_name'    => 'required|max:55',
+            'phoneNumber'  => 'required|regex:/(0)[0-9]{9}/|max:10'
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
-
-        return  $user = $request->user();
-        $data =  $request->toArray();
-
-        $user->update($data);
-
-        return request()->json([], 200);
+    
+        $user = $request->user();
+    
+        // Only update the fields you want (prevents mass assignment issues)
+        $user->update([
+            'first_name'  => $request->input('first_name'),
+            'last_name'   => $request->input('last_name'),
+            'phoneNumber' => $request->input('phoneNumber'),
+        ]);
+    
+        return response()->json([
+            'message' => 'Profile updated successfully'
+        ], 200);
     }
+
 
 
 
