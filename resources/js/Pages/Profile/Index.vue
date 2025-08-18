@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Profile Info Block -->
-                <div class="profile-info-block" style="margin-top: -50px;">
+                <div class="profile-info-block" style="margin-top: -100px;">
                     <!-- Profile Info -->
                     <div class="profile-info">
                         <p class="profile-name">
@@ -408,7 +408,7 @@ export default defineComponent({
 
 .profile-content {
     position: relative;
-    padding: 0 0;
+    padding: 0 20;
     z-index: 1;
 }
 
