@@ -20,7 +20,7 @@
                                 class="edit-icon-button"
                                 @click="openCoverImageDialog"
                             >
-                                <el-icon color="#144f9f" size="20"><Camera /></el-icon>
+                                <el-icon color="#000000" size="30"><Camera /></el-icon>
                             </el-button>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                     class="edit-icon-button"
                                     @click="openProfileImageDialog"
                                 >
-                                    <el-icon color="#144f9f" size="20"><Camera /></el-icon>
+                                    <el-icon color="#000000" size="30"><Camera /></el-icon>
                                 </el-button>
                             </div>
                         </div>
@@ -478,14 +478,14 @@ export default defineComponent({
 
 .edit-icon-button {
     background-color: white !important;
-    border: 2px solid #144f9f !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .edit-icon-button:hover {
@@ -495,8 +495,8 @@ export default defineComponent({
 
 /* Camera icon styling */
 .el-icon {
-    color: #144f9f !important;
-    font-size: 20px;
+    color: #000000 !important;
+    font-size: 30px;
     font-weight: bold;
 }
 
