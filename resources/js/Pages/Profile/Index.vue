@@ -71,27 +71,87 @@
         </div>
 
         <!-- Image Upload Dialogs -->
-        <el-dialog v-model="profileImageDialogVisible" title="Update Profile Picture" width="30%">
-            <el-upload
-                class="upload-demo"
-                action="/api/upload-profile-image"
-                :on-success="handleProfileImageSuccess"
-                :show-file-list="false"
+        <el-dialog 
+                v-model="profileImageDialogVisible" 
+                title="Profile Photo" 
+                width="30%"
             >
-                <el-button type="primary">Click to upload</el-button>
-            </el-upload>
+                <!-- Preview current image if available -->
+                <div class="dialog-image-preview">
+                    <el-avatar 
+                        v-if="user.profile_picture" 
+                        :src="user.profile_picture" 
+                        shape="circle" 
+                        size="150"
+                    />
+                    <div v-else class="no-image-placeholder">
+                        No profile photo
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="dialog-actions">
+                    <el-upload
+                        class="upload-demo"
+                        action="/api/upload-profile-image"
+                        :on-success="handleProfileImageSuccess"
+                        :show-file-list="false"
+                    >
+                        <el-button type="primary" icon="UploadFilled">Update Photo</el-button>
+                    </el-upload>
+
+                    <el-button 
+                        type="danger" 
+                        icon="Delete" 
+                        v-if="user.profile_picture"
+                        @click="deleteProfileImage"
+                    >
+                        Delete
+                    </el-button>
+                </div>
         </el-dialog>
 
-        <el-dialog v-model="coverImageDialogVisible" title="Update Cover Photo" width="50%">
-            <el-upload
-                class="upload-demo"
-                action="/api/upload-cover-image"
-                :on-success="handleCoverImageSuccess"
-                :show-file-list="false"
-            >
-                <el-button type="primary">Click to upload</el-button>
-            </el-upload>
+
+        <el-dialog 
+            v-model="coverImageDialogVisible" 
+            title="Cover Photo" 
+            width="50%"
+        >
+            <!-- Preview -->
+            <div class="dialog-image-preview">
+                <img 
+                    v-if="user.coverImage" 
+                    :src="user.coverImage" 
+                    alt="Cover" 
+                    style="max-width: 100%; border-radius: 8px;"
+                />
+                <div v-else class="no-image-placeholder">
+                    No cover photo
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="dialog-actions">
+                <el-upload
+                    class="upload-demo"
+                    action="/api/upload-cover-image"
+                    :on-success="handleCoverImageSuccess"
+                    :show-file-list="false"
+                >
+                    <el-button type="primary" icon="UploadFilled">Update Photo</el-button>
+                </el-upload>
+
+                <el-button 
+                    type="danger" 
+                    icon="Delete" 
+                    v-if="user.coverImage"
+                    @click="deleteCoverImage"
+                >
+                    Delete
+                </el-button>
+            </div>
         </el-dialog>
+
 
         <!-- Form Section -->
         <div class="form-section">
@@ -224,6 +284,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Camera } from "@element-plus/icons-vue";
+import { Delete, UploadFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -233,6 +294,9 @@ export default defineComponent({
         Head,
         Link,
         Camera,
+        Delete,
+        UploadFilled,
+
     },
 
     props: {
@@ -313,6 +377,19 @@ export default defineComponent({
             }
         };
 
+
+        const deleteProfileImage = () => {
+            props.user.profile_picture = null;
+            // Optionally call backend to delete from server
+            axios.post(`/profile/delete-profile-image`);
+        };
+
+        const deleteCoverImage = () => {
+            props.user.coverImage = null;
+            // Optionally call backend to delete from server
+            axios.post(`/profile/delete-cover-image`);
+        };
+
         return {
             UserFilled,
             Camera,
@@ -333,6 +410,8 @@ export default defineComponent({
             openCoverImageDialog,
             handleProfileImageSuccess,
             handleCoverImageSuccess,
+            deleteProfileImage,
+            deleteCoverImage,
         };
     },
 });
