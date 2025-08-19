@@ -563,8 +563,8 @@ export default defineComponent({
 /* Edit buttons */
 .cover-image-edit {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 0px;
+    right: 0px;
     z-index: 3;
 }
 
@@ -579,8 +579,8 @@ export default defineComponent({
     background-color: white !important;
     border: none !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -595,7 +595,7 @@ export default defineComponent({
 /* Camera icon styling */
 .el-icon {
     color: #144f9f !important;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 }
 
