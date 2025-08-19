@@ -478,17 +478,19 @@ export default defineComponent({
 
 .edit-icon-button {
     background-color: white !important;
-    border: 1px solid white !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #144f9f !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .edit-icon-button:hover {
     background-color: #f0f7ff !important;
+    transform: scale(1.1);
 }
 
 /* Camera icon styling */
