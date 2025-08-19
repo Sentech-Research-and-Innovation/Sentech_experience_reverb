@@ -563,8 +563,8 @@ export default defineComponent({
 /* Edit buttons */
 .cover-image-edit {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
+    bottom: 20px;
+    right: 20px;
     z-index: 3;
 }
 
@@ -579,8 +579,8 @@ export default defineComponent({
     background-color: white !important;
     border: none !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
