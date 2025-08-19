@@ -477,7 +477,7 @@ export default defineComponent({
 }
 
 .edit-icon-button {
-    background-color: white !important;
+    background-color: #050505 !important;
     border: none !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     width: 36px;
@@ -489,7 +489,7 @@ export default defineComponent({
 }
 
 .edit-icon-button:hover {
-    background-color: #f0f7ff !important;
+    background-color: #65676b !important;
     transform: scale(1.1);
 }
 
