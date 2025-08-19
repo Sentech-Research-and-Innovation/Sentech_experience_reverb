@@ -15,13 +15,12 @@
                     >
                         <!-- Cover image edit button -->
                         <div class="cover-image-edit">
-                            <el-button 
-                                circle 
-                                class="edit-icon-button"
-                                @click="openCoverImageDialog"
-                            >
-                                <el-icon color="#000000" size="30"><Camera /></el-icon>
-                            </el-button>
+                                <button 
+                                    class="camera-button"
+                                    @click="openCoverImageDialog"
+                                >
+                                    <i class="camera-icon"></i>
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -37,13 +36,12 @@
                             />
                             <!-- Profile picture edit button -->
                             <div class="profile-image-edit">
-                                <el-button 
-                                    circle 
-                                    class="edit-icon-button"
+                                <button 
+                                    class="camera-button"
                                     @click="openProfileImageDialog"
                                 >
-                                    <el-icon color="#000000" size="30"><Camera /></el-icon>
-                                </el-button>
+                                    <i class="camera-icon"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -224,6 +222,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Camera } from "@element-plus/icons-vue";
+import { Camera } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -466,14 +465,14 @@ export default defineComponent({
     position: absolute;
     bottom: 20px;
     right: 20px;
-    z-index: 3;
+    z-index: 10;
 }
 
 .profile-image-edit {
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: 3;
+    z-index: 10;
 }
 
 .edit-icon-button {
@@ -603,5 +602,30 @@ export default defineComponent({
 .el-input__inner {
     height: 40px;
     line-height: 40px;
+}
+
+/* Camera button styling - guaranteed visible */
+.camera-button {
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 0;
+    margin: 0;
+}
+
+.camera-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 </style>
