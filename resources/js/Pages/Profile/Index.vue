@@ -72,85 +72,104 @@
 
         <!-- Image Upload Dialogs -->
         <el-dialog 
-                v-model="profileImageDialogVisible" 
-                title="Profile Photo" 
-                width="30%"
-            >
-                <!-- Preview current image if available -->
-                <div class="dialog-image-preview">
+            v-model="profileImageDialogVisible" 
+            title="Profile Photo" 
+            width="40%"   
+        >
+            <!-- Preview image -->
+            <div class="dialog-image-preview">
+                <template v-if="user.profile_picture">
                     <el-avatar 
-                        v-if="user.profile_picture" 
                         :src="user.profile_picture" 
                         shape="circle" 
-                        size="150"
+                        size="180"
                     />
-                    <div v-else class="no-image-placeholder">
-                        No profile photo
+                </template>
+                <template v-else>
+                    <div class="no-image-placeholder">
+                        No image provided
+                    </div>
+                </template>
+            </div>
+
+            <!-- Actions (Edit + Delete like Facebook) -->
+            <div class="dialog-actions">
+                <el-upload
+                    class="action-button"
+                    action="/api/upload-profile-image"
+                    :on-success="handleProfileImageSuccess"
+                    :show-file-list="false"
+                >
+                    <div class="action-icon">
+                        <el-icon><Edit /></el-icon>
+                        <span>Edit</span>
+                    </div>
+                </el-upload>
+
+                <div 
+                    v-if="user.profile_picture" 
+                    class="action-button" 
+                    @click="deleteProfileImage"
+                >
+                    <div class="action-icon delete">
+                        <el-icon><Delete /></el-icon>
+                        <span>Delete</span>
                     </div>
                 </div>
-
-                <!-- Action buttons -->
-                <div class="dialog-actions">
-                    <el-upload
-                        class="upload-demo"
-                        action="/api/upload-profile-image"
-                        :on-success="handleProfileImageSuccess"
-                        :show-file-list="false"
-                    >
-                        <el-button type="primary" icon="UploadFilled">Update Photo</el-button>
-                    </el-upload>
-
-                    <el-button 
-                        type="danger" 
-                        icon="Delete" 
-                        v-if="user.profile_picture"
-                        @click="deleteProfileImage"
-                    >
-                        Delete
-                    </el-button>
-                </div>
+            </div>
         </el-dialog>
+
 
 
         <el-dialog 
             v-model="coverImageDialogVisible" 
             title="Cover Photo" 
-            width="50%"
+            width="60%"   
         >
             <!-- Preview -->
             <div class="dialog-image-preview">
-                <img 
-                    v-if="user.coverImage" 
-                    :src="user.coverImage" 
-                    alt="Cover" 
-                    style="max-width: 100%; border-radius: 8px;"
-                />
-                <div v-else class="no-image-placeholder">
-                    No cover photo
-                </div>
+                <template v-if="user.coverImage">
+                    <img 
+                        :src="user.coverImage" 
+                        alt="Cover" 
+                        style="max-width: 100%; border-radius: 8px;"
+                    />
+                </template>
+                <template v-else>
+                    <div class="no-image-placeholder">
+                        No image provided
+                    </div>
+                </template>
             </div>
 
             <!-- Actions -->
             <div class="dialog-actions">
                 <el-upload
-                    class="upload-demo"
+                    class="action-button"
                     action="/api/upload-cover-image"
                     :on-success="handleCoverImageSuccess"
                     :show-file-list="false"
                 >
-                    <el-button type="primary" icon="UploadFilled">Update Photo</el-button>
+                    <div class="action-icon">
+                        <el-icon><Edit /></el-icon>
+                        <span>Edit</span>
+                    </div>
                 </el-upload>
 
-                <el-button 
-                    type="danger" 
-                    icon="Delete" 
-                    v-if="user.coverImage"
+                <div 
+                    v-if="user.coverImage" 
+                    class="action-button" 
                     @click="deleteCoverImage"
                 >
-                    Delete
-                </el-button>
+                    <div class="action-icon delete">
+                        <el-icon><Delete /></el-icon>
+                        <span>Delete</span>
+                    </div>
+                </div>
             </div>
         </el-dialog>
+
+        
 
 
         <!-- Form Section -->
@@ -284,7 +303,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Camera } from "@element-plus/icons-vue";
-import { Delete, UploadFilled } from "@element-plus/icons-vue";
+import { Delete, UploadFilled, Edit } from "@element-plus/icons-vue";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -296,6 +315,7 @@ export default defineComponent({
         Camera,
         Delete,
         UploadFilled,
+        Edit,
 
     },
 
@@ -684,4 +704,54 @@ export default defineComponent({
     height: 40px;
     line-height: 40px;
 }
+
+.dialog-image-preview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.no-image-placeholder {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.action-button {
+    cursor: pointer;
+    text-align: center;
+}
+
+.action-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #144f9f;
+    font-size: 14px;
+    gap: 5px;
+}
+
+.action-icon .el-icon {
+    font-size: 24px;
+}
+
+.action-icon.delete {
+    color: #dc3545;
+}
+
+
+
 </style>
