@@ -232,6 +232,7 @@ export default defineComponent({
     components: {
         Head,
         Link,
+        Camera,
     },
 
     props: {
