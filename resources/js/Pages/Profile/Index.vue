@@ -120,11 +120,10 @@
         </el-dialog>
 
 
-
         <el-dialog 
             v-model="coverImageDialogVisible" 
             title="Cover Photo" 
-            width="60%"   
+            width="60%"
         >
             <!-- Preview -->
             <div class="dialog-image-preview">
@@ -136,7 +135,7 @@
                     />
                 </template>
                 <template v-else>
-                    <div class="no-image-placeholder">
+                    <div class="no-cover-placeholder">
                         No image provided
                     </div>
                 </template>
@@ -729,6 +728,20 @@ export default defineComponent({
     gap: 40px;
     margin-top: 20px;
 }
+
+.no-cover-placeholder {
+    width: 100%;
+    height: 180px;
+    border: 2px dotted #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #aaa;
+    background-color: #f9f9f9;
+}
+
 
 .action-button {
     cursor: pointer;
