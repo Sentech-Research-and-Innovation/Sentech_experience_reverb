@@ -495,11 +495,11 @@ export default defineComponent({
 }
 
 /* Camera icon styling */
-/* .el-icon {
-    color: #000000 !important;
-    font-size: 30px;
+.el-icon {
+    color: #144f9f !important;
+    font-size: 20px;
     font-weight: bold;
-} */
+}
 
 /* Form section */
 .form-section {
