@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -74,5 +74,38 @@ class ProfileController extends Controller
 
         $user->update($validateData);
         return request()->json([], 200);
+    }
+
+    public function uploadProfileImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $path = $request->file('file')->store('profile_images', 'public');
+
+        $user = auth()->user();
+        $user->profile_picture = $path;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile image uploaded successfully',
+            'path' => asset('storage/' . $path),
+        ]);
+    }
+
+    public function deleteProfileImage()
+    {
+        $user = auth()->user();
+
+        if ($user->profile_picture) {
+            Storage::disk('public')->delete($user->profile_picture);
+            $user->profile_picture = null;
+            $user->save();
+        }
+
+        return response()->json([
+            'message' => 'Profile image deleted successfully',
+        ]);
     }
 }
