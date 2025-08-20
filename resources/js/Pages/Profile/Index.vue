@@ -96,7 +96,7 @@
             <div class="dialog-actions">
                 <el-upload
                     class="action-button"
-                    action="/api/upload-profile-image"
+                    action="/admin/upload-profile-image"
                     :on-success="handleProfileImageSuccess"
                     :show-file-list="false"
                 >
@@ -397,16 +397,16 @@ export default defineComponent({
         };
 
 
-        const deleteProfileImage = () => {
-            props.user.profile_picture = null;
-            // Optionally call backend to delete from server
-            axios.post(`/profile/delete-profile-image`);
+        const deleteCoverImage = async () => {
+            props.user.coverImage = null;
+            await axios.delete('/admin/delete-profile-image');
         };
 
-        const deleteCoverImage = () => {
+
+        const deleteCoverImage = async () => {
             props.user.coverImage = null;
             // Optionally call backend to delete from server
-            axios.post(`/profile/delete-cover-image`);
+            await axios.delete('/admin/delete-profile-image');
         };
 
         return {
