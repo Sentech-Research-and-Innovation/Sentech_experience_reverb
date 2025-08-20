@@ -85,7 +85,7 @@ class ProfileController extends Controller
         $path = $request->file('file')->store('profile_images', 'public');
 
         $user = auth()->user();
-        $user->profile_picture = $path;
+        $user->profile_photo_path = $path;
         $user->save();
 
         return response()->json([
@@ -98,9 +98,9 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
-            $user->profile_picture = null;
+        if ($user->profile_photo_path) {
+            Storage::disk('public')->delete($user->profile_photo_path);
+            $user->profile_photo_path = null;
             $user->save();
         }
 
