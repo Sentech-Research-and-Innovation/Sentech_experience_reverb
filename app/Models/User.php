@@ -86,4 +86,12 @@ class User extends Authenticatable
 
         $this->notify(new ResetPasswordNotification($url));
     }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo_path
+            ? asset('storage/' . $this->profile_photo_path)
+            : null;
+    }
+
 }
