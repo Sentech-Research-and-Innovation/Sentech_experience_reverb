@@ -81,18 +81,26 @@ class ProfileController extends Controller
         $request->validate([
             'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-
-        $path = $request->file('file')->store('profile_images', 'public');
-
+    
         $user = auth()->user();
-        $user->profile_photo_path = $path;
-        $user->save();
-
+    
+        // store the file in storage/app/public/profile_images
+        $path = $request->file('file')->store('profile_images', 'public');
+    
+        // delete old profile photo if it exists
+        if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
+            \Storage::disk('public')->delete($user->profile_photo_path);
+        }
+    
+        // update the DB column
+        $user->update(['profile_photo_path' => $path]);
+    
         return response()->json([
             'message' => 'Profile image uploaded successfully',
-            'path' => asset('storage/' . $path),
+            'path'    => asset('storage/' . $path), // full URL for frontend
         ]);
     }
+
 
     public function deleteProfileImage()
     {
