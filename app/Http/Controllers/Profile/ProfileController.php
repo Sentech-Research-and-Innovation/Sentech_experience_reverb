@@ -10,7 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -78,6 +78,11 @@ class ProfileController extends Controller
 
     public function uploadProfileImage(Request $request)
     {
+         Log::info('uploadProfileImage called', [
+        'user_id' => auth()->id(),
+        'has_file' => $request->hasFile('file'),
+    ]);
+        
         $request->validate([
             'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -86,6 +91,10 @@ class ProfileController extends Controller
     
         // store the file in storage/app/public/profile_images
         $path = $request->file('file')->store('profile_images', 'public');
+
+        Log::info('File stored successfully', [
+        'path' => $path,
+    ]);
     
         // delete old profile photo if it exists
         if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
@@ -94,6 +103,11 @@ class ProfileController extends Controller
     
         // update the DB column
         $user->update(['profile_photo_path' => $path]);
+
+        Log::info('User updated with profile photo path', [
+        'user_id' => $user->id,
+        'profile_photo_path' => $path,
+    ]);
     
         return response()->json([
             'message' => 'Profile image uploaded successfully',
