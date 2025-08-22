@@ -397,7 +397,7 @@ export default defineComponent({
         };
 
 
-        const deleteCoverImage = async () => {
+        const deleteProfileImage = async () => {
             props.user.coverImage = null;
             await axios.delete('/admin/delete-profile-image');
         };
