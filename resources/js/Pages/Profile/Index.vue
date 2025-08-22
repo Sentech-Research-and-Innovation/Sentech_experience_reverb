@@ -595,7 +595,7 @@ export default defineComponent({
 /* Camera icon styling */
 .el-icon {
     color: #144f9f !important;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
 }
 
