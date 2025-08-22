@@ -97,6 +97,7 @@
                 <el-upload
                     class="action-button"
                     action="/admin/upload-profile-image"
+                    name="file"
                     :on-success="handleProfileImageSuccess"
                     :show-file-list="false"
                 >
