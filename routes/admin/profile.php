@@ -8,5 +8,5 @@ Route::get('/profile/index', [ProfileController::class, 'index']);
 Route::post('/profile/update', [ProfileController::class, 'update'])->middleware('auth');
 Route::post('/profile/update/password', [ProfileController::class, 'updatePassword']);
 Route::get('/profile/{id}', [ProfileController::class, 'show']);
-Route::post('/admin/upload-profile-image', [ProfileController::class, 'uploadProfileImage']);
-Route::delete('/delete-profile-image', [ProfileController::class, 'deleteProfileImage']);
+Route::post('/profile/upload-profile-image', [ProfileController::class, 'uploadProfileImage']);
+Route::delete('/profile/delete-profile-image', [ProfileController::class, 'deleteProfileImage']);
