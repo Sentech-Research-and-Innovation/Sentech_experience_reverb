@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -106,11 +107,11 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->profile_photo_path) {
+        if ($user->profile_photo_path && Storage::disk('public')->exists($user->profile_photo_path)) {
             Storage::disk('public')->delete($user->profile_photo_path);
-            $user->profile_photo_path = null;
-            $user->save();
         }
+
+        $user->update(['profile_photo_path' => null]);
 
         return response()->json([
             'message' => 'Profile image deleted successfully',
