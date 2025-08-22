@@ -31,7 +31,7 @@
                     <div class="profile-picture-wrapper">
                         <div class="profile-picture-container">
                             <el-avatar
-                                :src="user.profile_picture || defaultProfile"
+                                :src="user.profile_photo_url|| defaultProfile"
                                 :icon="!user.profile_picture ? UserFilled : ''"
                                 class="blue-profile-image"
                             />
