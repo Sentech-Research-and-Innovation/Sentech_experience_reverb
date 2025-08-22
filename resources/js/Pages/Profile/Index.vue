@@ -32,7 +32,7 @@
                         <div class="profile-picture-container">
                             <el-avatar
                                 :src="user.profile_photo_url"
-                                :icon="!user.profile_photo_url ? UserFilled : ''"
+                                :icon="!user.profile_picture ? UserFilled : ''"
                                 class="blue-profile-image"
                             />
                             <!-- Profile picture edit button -->
@@ -51,6 +51,7 @@
 
                 <!-- Profile Info Block -->
                 <div class="profile-info-block" style="margin-top: -65px;">
+                    <!-- Profile Info -->
                     <div class="profile-info">
                         <p class="profile-name">
                             {{ user.first_name }} {{ user.last_name }}
@@ -69,7 +70,7 @@
             </div>
         </div>
 
-        <!-- Profile Image Upload Dialog -->
+        <!-- Image Upload Dialogs -->
         <el-dialog 
             v-model="profileImageDialogVisible" 
             title="Profile Photo" 
@@ -91,11 +92,11 @@
                 </template>
             </div>
 
-            <!-- Actions -->
+            <!-- Actions (Edit + Delete like Facebook) -->
             <div class="dialog-actions">
                 <el-upload
                     class="action-button"
-                    action="/upload-profile-image"   <!-- ✅ fixed -->
+                    action="/admin/upload-profile-image"
                     :on-success="handleProfileImageSuccess"
                     :show-file-list="false"
                 >
@@ -106,7 +107,7 @@
                 </el-upload>
 
                 <div 
-                    v-if="user.profile_photo_url"   <!-- ✅ fixed -->
+                    v-if="user.profile_picture" 
                     class="action-button" 
                     @click="deleteProfileImage"
                 >
@@ -118,12 +119,13 @@
             </div>
         </el-dialog>
 
-        <!-- Cover Image Upload Dialog -->
+
         <el-dialog 
             v-model="coverImageDialogVisible" 
             title="Cover Photo" 
             width="60%"
         >
+            <!-- Preview -->
             <div class="dialog-image-preview">
                 <template v-if="user.coverImage">
                     <img 
@@ -139,10 +141,11 @@
                 </template>
             </div>
 
+            <!-- Actions -->
             <div class="dialog-actions">
                 <el-upload
                     class="action-button"
-                    action="/upload-cover-image"   <!-- ✅ keep consistent -->
+                    action="/api/upload-cover-image"
                     :on-success="handleCoverImageSuccess"
                     :show-file-list="false"
                 >
@@ -164,6 +167,9 @@
                 </div>
             </div>
         </el-dialog>
+
+        
+
 
         <!-- Form Section -->
         <div class="form-section">
@@ -310,6 +316,7 @@ export default defineComponent({
         Delete,
         UploadFilled,
         Edit,
+
     },
 
     props: {
@@ -345,12 +352,12 @@ export default defineComponent({
 
         const handleProfileImageSuccess = (response) => {
             profileImageDialogVisible.value = false;
-            props.user.profile_photo_url = response.path; // ✅ use correct key
+            props.user.profile_picture = response.url;
         };
 
         const handleCoverImageSuccess = (response) => {
             coverImageDialogVisible.value = false;
-            props.user.coverImage = response.path;
+            props.user.coverImage = response.url;
         };
 
         const updateDetails = async () => {
@@ -390,22 +397,16 @@ export default defineComponent({
             }
         };
 
+
         const deleteProfileImage = async () => {
-            try {
-                await axios.delete('/delete-profile-image'); // ✅ correct route
-                props.user.profile_photo_url = null;        // ✅ clear local
-            } catch (e) {
-                console.error("Error deleting profile image", e);
-            }
+            await axios.delete('/admin/delete-profile-image');
+            props.user.coverImage = null;
         };
 
+
         const deleteCoverImage = async () => {
-            try {
-                await axios.delete('/delete-cover-image'); // ❓ you’ll need to implement in backend
-                props.user.coverImage = null;
-            } catch (e) {
-                console.error("Error deleting cover image", e);
-            }
+            await axios.delete('/admin/delete-profile-image');
+            props.user.coverImage = null;
         };
 
         return {
