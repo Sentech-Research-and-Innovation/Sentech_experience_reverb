@@ -106,7 +106,7 @@
                     </el-upload>
         
                     <div 
-                    v-if="user.profile_picture"
+                    v-if="user.profile_photo_url"
                     class="action-button" 
                     @click="deleteProfileImage" >
                         <div class="action-icon delete"> 
