@@ -85,11 +85,11 @@ class ProfileController extends Controller
         // store the file in storage/app/public/profile_images
         $path = $request->file('file')->store('profile_images', 'public');
 
-        $user = auth()->user();
-        // delete old profile photo if it exists
-        if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
-            \Storage::disk('public')->delete($user->profile_photo_path);
-        }
+        // $user = auth()->user();
+        // // delete old profile photo if it exists
+        // if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
+        //     \Storage::disk('public')->delete($user->profile_photo_path);
+        // }
     
         // update the DB column
         $user = auth()->user();
