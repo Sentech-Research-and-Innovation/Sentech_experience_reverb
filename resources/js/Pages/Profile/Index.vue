@@ -108,7 +108,7 @@
                 </el-upload>
 
                 <div 
-                    v-if="user.profile_picture" 
+                    v-if="user.profile_photo_url" 
                     class="action-button" 
                     @click="deleteProfileImage"
                 >
@@ -353,7 +353,7 @@ export default defineComponent({
 
         const handleProfileImageSuccess = (response) => {
             profileImageDialogVisible.value = false;
-            props.user.profile_picture = response.url;
+            props.user.profile_photo_url = response.url;
         };
 
         const handleCoverImageSuccess = (response) => {
