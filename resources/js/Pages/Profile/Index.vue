@@ -32,7 +32,7 @@
                         <div class="profile-picture-container">
                             <el-avatar
                                 :src="user.profile_photo_url"
-                                :icon="!user.profile_picture ? UserFilled : ''"
+                                :icon="!user.profile_photo_url ? UserFilled : ''"
                                 class="blue-profile-image"
                             />
                             <!-- Profile picture edit button -->
@@ -358,7 +358,7 @@ export default defineComponent({
 
         const handleCoverImageSuccess = (response) => {
             coverImageDialogVisible.value = false;
-            props.user.coverImage = response.url;
+            props.user.coverImage = response.path;
         };
 
         const updateDetails = async () => {
@@ -400,8 +400,8 @@ export default defineComponent({
 
 
         const deleteProfileImage = async () => {
-            await axios.delete('/admin/delete-profile-image');
-            props.user.coverImage = null;
+            await axios.delete('/profile/delete-profile-image');
+            props.user.profile_photo_url = null;
         };
 
 
