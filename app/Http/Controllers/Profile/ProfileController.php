@@ -111,7 +111,7 @@ class ProfileController extends Controller
     
         return response()->json([
             'message' => 'Profile image uploaded successfully',
-            'path'    => asset('storage/' . $path), // full URL for frontend
+            'path'    => $user->profile_photo_url, // use accessor, not raw asset()
         ]);
     }
 
