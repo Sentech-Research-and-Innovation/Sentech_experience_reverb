@@ -79,24 +79,26 @@
             <!-- Preview image -->
             <div class="dialog-image-preview">
                 <template v-if="user.profile_photo_url">
-                    <el-avatar 
-                        :src="user.profile_photo_url" 
-                        shape="circle" 
-                        size="180"
-                    />
+                    <div class="image-box">
+                        <img 
+                            :src="user.profile_photo_url" 
+                            alt="Profile photo"
+                            class="profile-image"
+                        />
+                    </div>
                 </template>
                 <template v-else>
-                    <div class="no-image-placeholder">
+                    <div class="image-box no-image-placeholder">
                         No image provided
                     </div>
                 </template>
             </div>
-
-            <!-- Actions (Edit + Delete like Facebook) -->
+        
+            <!-- Actions -->
             <div class="dialog-actions">
                 <el-upload
                     class="action-button"
-                    action="/profile/upload-profile-image"
+                    action="/admin/upload-profile-image"
                     name="file"
                     :on-success="handleProfileImageSuccess"
                     :show-file-list="false"
@@ -106,7 +108,7 @@
                         <span>Edit</span>
                     </div>
                 </el-upload>
-
+        
                 <div 
                     v-if="user.profile_photo_url" 
                     class="action-button" 
@@ -119,6 +121,7 @@
                 </div>
             </div>
         </el-dialog>
+
 
 
         <el-dialog 
@@ -576,6 +579,20 @@ export default defineComponent({
     z-index: 3;
 }
 
+.profile-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.no-image-placeholder {
+  background: #f4f4f4;
+  color: #888;
+  font-size: 16px;
+  font-weight: 500;
+  border: 2px dashed #ccc;
+}
+
 .edit-icon-button {
     background-color: white !important;
     border: none !important;
@@ -708,20 +725,21 @@ export default defineComponent({
 .dialog-image-preview {
     display: flex;
     justify-content: center;
-    margin-bottom: 25px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.no-image-placeholder {
-    width: 200px;
-    height: 200px;
-    border: 2px dashed #ccc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #aaa;
+.image-box {
+  width: 100%;
+  height: 250px; /* fixed height for both states */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  overflow: hidden;
 }
+
+
 
 .dialog-actions {
     display: flex;
@@ -763,7 +781,7 @@ export default defineComponent({
 }
 
 .action-icon.delete {
-    color: #dc3545;
+    color: #144f9f;
 }
 
 
