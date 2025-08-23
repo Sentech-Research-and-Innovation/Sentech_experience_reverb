@@ -71,34 +71,51 @@
         </div>
 
         <!-- Image Upload Dialogs -->
-        <el-dialog v-model="profileImageDialogVisible" title="Profile Photo" width="40%" > <!-- Preview image --> 
-        <div class="dialog-image-preview">
-            <template v-if="user.profile_photo_url"> 
-                <el-avatar :src="user.profile_photo_url" shape="circle" size="500" /> 
-            </template> 
-            <template v-else>
-                <div class="no-image-placeholder"> 
-                    No image provided 
+        <el-dialog v-model="profileImageDialogVisible" 
+                title="Profile Photo" 
+                width="40%" > 
+                <!-- Preview image --> 
+                <div class="dialog-image-preview">
+                    <template v-if="user.profile_photo_url"> 
+                        <el-avatar 
+                            :src="user.profile_photo_url" 
+                            shape="circle" 
+                            size="580" /> 
+                    </template> 
+        
+                    <template v-else>
+                        <div class="no-image-placeholder"> 
+                            No image provided 
+                        </div> 
+                    </template>
                 </div> 
-            </template>
-        </div> <!-- Actions (Edit + Delete like Facebook) --> 
-        <div class="dialog-actions"> 
-            <el-upload class="action-button" action="/profile/upload-profile-image" name="file" :on-success="handleProfileImageSuccess" :show-file-list="false" > 
-            
-            <div class="action-icon"> 
-                <el-icon><Edit /></el-icon> 
-                <span>Edit</span> 
-            </div> </el-upload> 
-            <div v-if="user.profile_picture" class="action-button" @click="deleteProfileImage" >
-             <div class="action-icon delete"> 
-                <el-icon><Delete />
-                </el-icon> 
-                <span>Delete</span> 
+                
+                <!-- Actions--> 
+                <div class="dialog-actions"> 
+                    <el-upload 
+                        class="action-button" 
+                        action="/profile/upload-profile-image" 
+                        name="file" 
+                        :on-success="handleProfileImageSuccess" 
+                        :show-file-list="false" > 
+                    
+                        <div class="action-icon"> 
+                            <el-icon><Edit /></el-icon> 
+                            <span>Edit</span> 
+                        </div> 
+                    </el-upload>
+        
+                    <div 
+                    v-if="user.profile_picture"
+                    class="action-button" 
+                    @click="deleteProfileImage" >
+                        <div class="action-icon delete"> 
+                            <el-icon><Delete /></el-icon> 
+                            <span>Delete</span> 
+                        </div> 
+                    </div> 
                 </div> 
-                </div> 
-        </div> 
-    </el-dialog>
-
+            </el-dialog>
 
         <el-dialog 
             v-model="coverImageDialogVisible" 
