@@ -78,37 +78,24 @@ class ProfileController extends Controller
 
     public function uploadProfileImage(Request $request)
     {
-         Log::info('uploadProfileImage called', [
-        'user_id' => auth()->id(),
-        'has_file' => $request->hasFile('file'),
-    ]);
-        
         $request->validate([
             'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     
-        $user = auth()->user();
-    
         // store the file in storage/app/public/profile_images
         $path = $request->file('file')->store('profile_images', 'public');
 
-        Log::info('File stored successfully', [
-        'path' => $path,
-    ]);
-    
+        $user = auth()->user();
         // delete old profile photo if it exists
         if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
             \Storage::disk('public')->delete($user->profile_photo_path);
         }
     
         // update the DB column
+        $user = auth()->user();
         $user->update(['profile_photo_path' => $path]);
-
-        Log::info('User updated with profile photo path', [
-        'user_id' => $user->id,
-        'profile_photo_path' => $path,
-    ]);
-    
+        $user->save();
+ 
         return response()->json([
             'message' => 'Profile image uploaded successfully',
             'url'    => $user->profile_photo_url, 
