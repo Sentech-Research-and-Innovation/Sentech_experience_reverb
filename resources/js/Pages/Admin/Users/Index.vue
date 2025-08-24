@@ -13,7 +13,7 @@
             <NaviigationUsers />
         </div>
 
-        <div class="col-12 pt-2">
+        <div class="col-12">
             <table class="table">
                 <thead>
                     <tr>
