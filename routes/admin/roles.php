@@ -32,4 +32,5 @@ Route::group(['prefix' => '/admin/user'], function () {
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index']);
 
-Route::get('/admin/getUsers', [AsignRolesController::class, 'index'])->middleware('role_has_permission:users-read');
+Route::get('/admin/getActiveUsers', [AsignRolesController::class, 'active_users'])->middleware('role_has_permission:users-read');
+Route::get('/admin/getInactiveUsers', [AsignRolesController::class, 'Inactive_users'])->middleware('role_has_permission:users-read');
