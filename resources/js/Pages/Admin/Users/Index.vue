@@ -138,7 +138,7 @@ export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser, DeleteUser, Head, Link },
+    components: { EditRole, CreateUser, DeleteUser, Head, Link, Naviigation_usersVue },
 
     props: {
         users: {
