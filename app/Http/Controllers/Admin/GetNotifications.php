@@ -12,6 +12,7 @@ class GetNotifications extends Controller
     public function index()
     {
         $notifications = Notification::whereJsonContains('model_ids', ['to_compay_id' => auth()->user()->company->id])
+            ->where('active', 1)
             ->with('notificationType')
             ->orderBy('id', 'DESC')->get();
 
