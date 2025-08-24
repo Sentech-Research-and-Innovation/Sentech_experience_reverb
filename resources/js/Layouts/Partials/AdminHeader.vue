@@ -63,7 +63,6 @@
                 <a
                     class="nav-link"
                     href="/admin/getActiveUsers"
-                    :class="{ active: $page.url === '/Users' }"
                 >
                     <span class="menu-title">Users </span>
                 </a>
