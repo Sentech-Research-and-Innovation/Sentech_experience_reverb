@@ -27,7 +27,7 @@ class AsignRolesController extends Controller
     public function index()
     {
         //     $users = User::where('company_id', $this->company->id)->whereNot('id', auth()->user()->id)->with('roles')->get();
-        $users = User::where('company_id', $this->company->id)->where('id', '<>', auth()->user()->id)->with('roles')->orderby('id', 'desc')->get();
+        $users = User::where('company_id', $this->company->id)->where('id', '<>', auth()->user()->id)->where('active', 1)->with('roles')->orderby('id', 'desc')->get();
         $userAgent = request()->header('User-Agent-type');
 
         if ($userAgent == 'X-Mobile-Device') {
