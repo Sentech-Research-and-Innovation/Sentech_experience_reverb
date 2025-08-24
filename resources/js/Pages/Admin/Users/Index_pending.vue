@@ -43,7 +43,7 @@
                                 <el-button
                                     @click="approve(user.id, user.email)"
                                 >
-                                    Resend Approval Email
+                                    Resend SignUp Email
                                 </el-button>
 
                                 <!-- Delete User -->
