@@ -45,7 +45,7 @@ class AsignRolesController extends Controller
         if ($userAgent == 'X-Mobile-Device') {
             return request()->json(200, $users);
         }
-        return Inertia::render('Admin/Users/Index', compact('users'));
+        return Inertia::render('Admin/Users/Index_pending', compact('users'));
     }
 
     public function show(User $userId)
