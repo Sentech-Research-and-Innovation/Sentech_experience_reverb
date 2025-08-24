@@ -261,6 +261,7 @@
                                 v-model="formPassword.password"
                                 class="w-100 search-input"
                                 type="password"
+                                show-password
                             />
                             <div class="text-danger pt-1">
                                 {{ errorPassword.password }}
@@ -274,6 +275,7 @@
                                 v-model="formPassword.password_confirmation"
                                 class="w-100 search-input"
                                 type="password"
+                                show-password
                             />
                             <div class="text-danger pt-1"></div>
                         </div>
