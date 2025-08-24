@@ -13,7 +13,7 @@
             <NaviigationUsers />
         </div>
 
-        <div class="col-12">
+        <div class="col-12" v-if="!loading">
             <table class="table">
                 <thead>
                     <tr>
@@ -29,7 +29,7 @@
                         <th scope="col">
                             <span class="table-cell">Role</span>
                         </th>
-                        <th scope="col">
+                        <th scope="col" style="text-align: center;">
                             <span class="table-cell">Action</span>
                         </th>
                     </tr>
@@ -55,32 +55,23 @@
                                 {{ user.roles[0]?.name }}
                             </span>
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             <div class="d-flex justify-content-center gap-2">
+                                <!-- Resend Approval -->
                                 <el-button
-                                    @click="
-                                        approve(
-                                            company.id,
-                                            company.contact_person?.email
-                                        )
-                                    "
-                        
+                                    @click="approve(user.id, user.email)"
                                 >
                                     Resend Approval Email
                                 </el-button>
 
+                                <!-- Delete User -->
                                 <el-popconfirm
                                     confirm-button-text="Yes"
                                     cancel-button-text="No"
                                     :icon="InfoFilled"
                                     icon-color="#f44336"
-                                    title="Are you sure to delete this?"
-                                    @confirm="
-                                        decline(
-                                            company.id,
-                                            company.contact_person?.email
-                                        )
-                                    "
+                                    title="Are you sure to delete this user?"
+                                    @confirm="decline(user.id, user.email)"
                                 >
                                     <template #reference>
                                         <el-button type="danger">
@@ -95,6 +86,14 @@
             </table>
         </div>
 
+        <!-- Loading spinner -->
+        <div
+            class="col-12 px-0 mx-0 text-center"
+            v-else
+            style="height: 300px; padding-top: 100px"
+        >
+            <img :src="LoadingGif" width="50" />
+        </div>
     </div>
 </template>
 
@@ -104,14 +103,14 @@ import { defineComponent, ref } from "vue";
 import CreateUser from "./CreateUser.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import LoadingGif from "../../assets/loading.gif";
-
 import NaviigationUsers from "../../../Layouts/Partials/companies/Naviigation_users.vue";
+import { InfoFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser, Head, Link, NaviigationUsers },
+    components: { CreateUser, Head, Link, NaviigationUsers },
 
     props: {
         users: {
@@ -122,28 +121,24 @@ export default defineComponent({
 
     setup(props) {
         const { users } = props;
-        const { companies } = props;
-        const loa= refding (false);
+        const loading = ref(false);
 
-        const approve = async (companyid, email) => {
+        // Resend approval email for a user
+        const approve = async (userId, email) => {
             loading.value = true;
             try {
-                await axios.post(`/organizantions/approve/${companyid}`, {
-                    email: email,
-                });
+                await axios.post(`/users/approve/${userId}`, { email });
                 location.reload();
             } catch (err) {
                 loading.value = false;
             }
         };
 
-        
-        const decline = async (companyid, email) => {
+        // Delete user
+        const decline = async (userId, email) => {
             loading.value = true;
             try {
-                await axios.post(`/organizantions/declineCompany_1/${companyid}`, {
-                    email: email,
-                });
+                await axios.post(`/admin/user/delete/${userId}`);
                 location.reload();
             } catch (err) {
                 loading.value = false;
@@ -154,10 +149,6 @@ export default defineComponent({
             users,
             approve,
             decline,
-            companies,
-            View,
-            CircleCheckFilled,
-            CircleCloseFilled,
             InfoFilled,
             loading,
             LoadingGif,
@@ -172,21 +163,12 @@ export default defineComponent({
 }
 
 .link-style {
-    font-weight: bold; /* Bold by default */
-    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .link-style:hover {
-    text-decoration: underline; /* Underline on hover */
-}
-    
-.border-profile {
-    border-top: 1px solid #c7cdd2;
-    color: #000000 !important;
-}
-.shadow-border {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
+    text-decoration: underline;
 }
 
 .d-flex {
@@ -196,5 +178,4 @@ export default defineComponent({
 .gap-2 {
     gap: 8px;
 }
-
 </style>
