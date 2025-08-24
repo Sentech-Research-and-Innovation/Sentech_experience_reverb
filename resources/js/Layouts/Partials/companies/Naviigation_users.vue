@@ -7,21 +7,21 @@
                 <li
                     class="nav-item mr-0"
                     :class="{
-                        active: $page.url === '/organizantions/approved',
+                        active: $page.url === '/admin/getActiveUsers',
                     }"
                 >
-                    <Link class="nav-link" href="/organizantions/approved"
-                        >Approved</Link
+                    <Link class="nav-link" href="/admin/getActiveUsers"
+                        >Active</Link
                     >
                 </li>
 
                 <li
                     class="nav-item mx-0"
                     :class="{
-                        active: $page.url === '/organizantions/pending',
+                        active: $page.url === '/admin/getInactiveUsers',
                     }"
                 >
-                    <Link class="nav-link" href="/organizantions/pending"
+                    <Link class="nav-link" href="/admin/getInactiveUsers"
                         >Pending
                     </Link>
                 </li>
