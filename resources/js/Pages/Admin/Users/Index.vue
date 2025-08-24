@@ -132,7 +132,7 @@ import DeleteUser from "./DeleteUser.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Edit } from "@element-plus/icons-vue";
 
-import NaviigationUsers from "../../Layouts/Partials/companies/Naviigation_users.vue";
+import NaviigationUsers from "../../../Layouts/Partials/companies/Naviigation_users.vue";
 
 export default defineComponent({
     name: "users-list",
