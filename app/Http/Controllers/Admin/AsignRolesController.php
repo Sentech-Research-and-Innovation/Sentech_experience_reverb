@@ -24,10 +24,22 @@ class AsignRolesController extends Controller
     }
 
 
-    public function index()
+    public function active_users()
     {
         //     $users = User::where('company_id', $this->company->id)->whereNot('id', auth()->user()->id)->with('roles')->get();
         $users = User::where('company_id', $this->company->id)->where('id', '<>', auth()->user()->id)->where('active', 1)->with('roles')->orderby('id', 'desc')->get();
+        $userAgent = request()->header('User-Agent-type');
+
+        if ($userAgent == 'X-Mobile-Device') {
+            return request()->json(200, $users);
+        }
+        return Inertia::render('Admin/Users/Index', compact('users'));
+    }
+
+    public function inactive_users()
+    {
+        //     $users = User::where('company_id', $this->company->id)->whereNot('id', auth()->user()->id)->with('roles')->get();
+        $users = User::where('company_id', $this->company->id)->where('id', '<>', auth()->user()->id)->where('active', 0)->with('roles')->orderby('id', 'desc')->get();
         $userAgent = request()->header('User-Agent-type');
 
         if ($userAgent == 'X-Mobile-Device') {
