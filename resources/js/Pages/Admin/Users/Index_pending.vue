@@ -56,19 +56,38 @@
                             </span>
                         </td>
                         <td>
-                            <div class="row">
-                                <div class="pt-1 col-4">
-                                    <EditRole
-                                        :userId="user.id"
-                                        v-if="can('users-update')"
-                                    />
-                                </div>
-                                <div class="col-4 pt-1 text-start">
-                                    <DeleteUser
-                                        :userId="user.id"
-                                        v-if="can('users-update')"
-                                    />
-                                </div>
+                            <div class="d-flex justify-content-center gap-2">
+                                <el-button
+                                    @click="
+                                        approve(
+                                            company.id,
+                                            company.contact_person?.email
+                                        )
+                                    "
+                        
+                                >
+                                    Resend Approval Email
+                                </el-button>
+
+                                <el-popconfirm
+                                    confirm-button-text="Yes"
+                                    cancel-button-text="No"
+                                    :icon="InfoFilled"
+                                    icon-color="#f44336"
+                                    title="Are you sure to delete this?"
+                                    @confirm="
+                                        decline(
+                                            company.id,
+                                            company.contact_person?.email
+                                        )
+                                    "
+                                >
+                                    <template #reference>
+                                        <el-button type="danger">
+                                            Delete
+                                        </el-button>
+                                    </template>
+                                </el-popconfirm>
                             </div>
                         </td>
                     </tr>
@@ -76,61 +95,15 @@
             </table>
         </div>
 
-        <!-- User Profile Display -->
-        <div class="row px-3 mt-5" v-if="selectedUser">
-            <div class="col-12">
-                <h2>User Profile</h2>
-            </div>
-            <div class="col-lg-3 col-xl-3 col-md-3 pt-4">
-                <div class="col-12 rounded py-4 shadow-border">
-                    <div class="col-12 text-center mb-4">
-                        <el-avatar
-                            :icon="UserFilled"
-                            style="
-                                color: #144f9f;
-                                font-size: 30px;
-                                background-color: #ebebeb;
-                            "
-                            :size="80"
-                        />
-                        <h4 class="pt-4 form-label">
-                            {{ selectedUser.first_name }} {{ selectedUser.last_name }}
-                        </h4>
-                        <span class="fs-6">{{ selectedUser.company?.company_name }}</span
-                        ><br />
-                        <span style="font-size: 15px">{{
-                            selectedUser.roles[0]?.name
-                        }}</span>
-                    </div>
-                    <div
-                        class="col-12 text-start border-profile mx-0 px-4 pt-3 pb-3"
-                    >
-                        <h4 class="form-label">{{ selectedUser.email }}</h4>
-                    </div>
-                    <div
-                        class="col-12 text-start border-profile mx-0 px-4 pt-3 pb-3"
-                    >
-                        <h4 class="form-label">{{ selectedUser.phoneNumber }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-9 col-xl-9 col-md-9 rounded pt-4">
-                <div class="col-12 rounded py-4 shadow-border">
-                    <!-- Empty right panel as requested -->
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
-import EditRole from "./EditRole.vue";
 import CreateUser from "./CreateUser.vue";
-import DeleteUser from "./DeleteUser.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { UserFilled, Edit } from "@element-plus/icons-vue";
+import LoadingGif from "../../assets/loading.gif";
 
 import NaviigationUsers from "../../../Layouts/Partials/companies/Naviigation_users.vue";
 
@@ -138,7 +111,7 @@ export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser, DeleteUser, Head, Link, NaviigationUsers },
+    components: { EditRole, CreateUser, Head, Link, NaviigationUsers },
 
     props: {
         users: {
@@ -149,25 +122,45 @@ export default defineComponent({
 
     setup(props) {
         const { users } = props;
-        const selectedUser = ref(null);
+        const { companies } = props;
+        const loa= refding (false);
 
-        const showUserProfile = (user) => {
-            selectedUser.value = user;
-            // Scroll to the profile section
-            setTimeout(() => {
-                const element = document.querySelector('.mt-5');
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
+        const approve = async (companyid, email) => {
+            loading.value = true;
+            try {
+                await axios.post(`/organizantions/approve/${companyid}`, {
+                    email: email,
+                });
+                location.reload();
+            } catch (err) {
+                loading.value = false;
+            }
+        };
+
+        
+        const decline = async (companyid, email) => {
+            loading.value = true;
+            try {
+                await axios.post(`/organizantions/declineCompany_1/${companyid}`, {
+                    email: email,
+                });
+                location.reload();
+            } catch (err) {
+                loading.value = false;
+            }
         };
 
         return {
             users,
-            selectedUser,
-            showUserProfile,
-            UserFilled,
-            Edit,
+            approve,
+            decline,
+            companies,
+            View,
+            CircleCheckFilled,
+            CircleCloseFilled,
+            InfoFilled,
+            loading,
+            LoadingGif,
         };
     },
 });
@@ -195,4 +188,13 @@ export default defineComponent({
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem;
 }
+
+.d-flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 8px;
+}
+
 </style>
