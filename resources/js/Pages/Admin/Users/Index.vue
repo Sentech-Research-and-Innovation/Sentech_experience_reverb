@@ -9,7 +9,7 @@
             <div class="col-6"><CreateUser v-if="can('users-create')" /></div>
         </div>
 
-        <div class="company-nav-header col-12 px-0">
+        <div class="company-nav-header col-12">
             <NaviigationUsers />
         </div>
 
