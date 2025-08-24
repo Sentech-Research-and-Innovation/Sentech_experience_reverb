@@ -58,11 +58,11 @@
             <li
                 v-if="can('users-read')"
                 class="nav-item"
-                :class="{ active: $page.url === '/admin/getUsers' }"
+                :class="{ active: $page.url === '/admin/getActiveUsers' }"
             >
                 <a
                     class="nav-link"
-                    href="/admin/getUsers"
+                    href="/admin/getActiveUsers"
                     :class="{ active: $page.url === '/Users' }"
                 >
                     <span class="menu-title">Users </span>
