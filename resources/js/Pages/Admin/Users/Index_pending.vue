@@ -4,7 +4,7 @@
         <!-- Users List Table -->
         <div class="row px-0 pb-3">
             <div class="col-6 px-4">
-                <h2>Pending Users</h2>
+                <h2>Users</h2>
             </div>
             <div class="col-6"><CreateUser v-if="can('users-create')" /></div>
         </div>
