@@ -9,6 +9,9 @@
             <div class="col-6"><CreateUser v-if="can('users-create')" /></div>
         </div>
 
+        <div class="company-nav-header col-12 px-0">
+            <Naviigation_usersVue />
+        </div>
 
         <div class="col-12 pt-2">
             <table class="table">
@@ -129,13 +132,13 @@ import DeleteUser from "./DeleteUser.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Edit } from "@element-plus/icons-vue";
 
-// import Naviigation_usersVue from "../../Layouts/Partials/companies/Naviigation_users.vue";
+import Naviigation_usersVue from "../../Layouts/Partials/companies/Naviigation_users.vue";
 
 export default defineComponent({
     name: "users-list",
     layout: AdminLayout,
 
-    components: { EditRole, CreateUser, DeleteUser, Head, Link},
+    components: { EditRole, CreateUser, DeleteUser, Head, Link, Naviigation_usersVue },
 
     props: {
         users: {
