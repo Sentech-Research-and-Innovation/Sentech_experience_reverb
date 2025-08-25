@@ -41,7 +41,7 @@
                             <div class="d-flex justify-content-center gap-2">
                                 <!-- Resend Approval -->
                                 <el-button
-                                    @click="approve(user.id, user.email)"
+                                    @click="resendEmail(user.id, user.email)"
                                 >
                                     Resend SignUp Email
                                 </el-button>
@@ -96,9 +96,9 @@ export default defineComponent({
         const { users } = props;
 
         // Resend approval email for a user
-        const approve = async (userId, email) => {
+        const resendEmail = async (userId, email) => {
             try {
-                const res = await axios.post(`/users/approve/${userId}`, { email });
+                const res = await axios.post(`/users/resendEmail/${userId}`, { email });
                 if (res.status === 200) {
                     location.reload();
                 }
@@ -121,7 +121,7 @@ export default defineComponent({
 
         return {
             users,
-            approve,
+            resendEmail,
             decline,
             InfoFilled,
         };
