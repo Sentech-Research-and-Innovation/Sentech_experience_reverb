@@ -14,6 +14,8 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\CreateUserNotification;
 
+use Illuminate\Support\Facades\Log;
+
 
 
 class UserController extends Controller
@@ -58,21 +60,56 @@ class UserController extends Controller
         return request()->json([], 200);
     }
 
-         public function resendEmail($user_id, Request $request)
-        {
+        //  public function resendEmail($user_id, Request $request)
+        // {
+        //     // Step 1: Find the user
+        //     $user = User::findOrFail($user_id);
+            
+        //     // Step 2: Send the password reset link to the user's email
+        //     $status = Password::sendResetLink(['email' => $user->email]);
+            
+        //     // Step 3: Log the activity
+        //     $message = "Resent signup email to " . $user->first_name . " " . $user->last_name;
+        //     $this->StoreActivity($message);
+            
+        //     // Step 4: Return response
+        //     return response()->json(['message' => 'Signup link sent successfully.'], 200);
+        // }
+    public function resendEmail($user_id, Request $request)
+    {
+        Log::info('resendEmail called', [
+            'user_id' => $user_id,
+            'request_data' => $request->all(),
+        ]);
+    
+        try {
             // Step 1: Find the user
             $user = User::findOrFail($user_id);
-            
-            // Step 2: Send the password reset link to the user's email
+            Log::info('User found for resendEmail', [
+                'id' => $user->id,
+                'email' => $user->email,
+            ]);
+    
+            // Step 2: Send the password reset link
             $status = Password::sendResetLink(['email' => $user->email]);
-            
+            Log::info('Password reset link status', ['status' => $status]);
+    
             // Step 3: Log the activity
             $message = "Resent signup email to " . $user->first_name . " " . $user->last_name;
             $this->StoreActivity($message);
-            
+            Log::info('Activity stored for user', ['message' => $message]);
+    
             // Step 4: Return response
             return response()->json(['message' => 'Signup link sent successfully.'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error in resendEmail', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+    
+            return response()->json(['error' => 'Failed to resend email'], 500);
         }
+    }
 
 
 
@@ -99,6 +136,6 @@ class UserController extends Controller
         // Send the password reset email
         Mail::to($user->email)->send(new ResetPasswordEmail($user));
 
-        //return redirect()->back()->with('success', 'Password reset link sent. Please check your email.');
+        // return redirect()->back()->with('success', 'Password reset link sent. Please check your email.');
     }
 }
