@@ -49,9 +49,7 @@ class UserController extends Controller
             $request->only('email'),
 
         );
-
-
-
+        
         $user->assignRole($data['role']);
 
         $message = "Created New user " . $data['first_name'] . " " . $data['last_name'];
@@ -59,6 +57,24 @@ class UserController extends Controller
 
         return request()->json([], 200);
     }
+
+         public function resendEmail($user_id, Request $request)
+        {
+            // Step 1: Find the user
+            $user = User::findOrFail($user_id);
+            
+            // Step 2: Send the password reset link to the user's email
+            $status = Password::sendResetLink(['email' => $user->email]);
+            
+            // Step 3: Log the activity
+            $message = "Resent signup email to " . $user->first_name . " " . $user->last_name;
+            $this->StoreActivity($message);
+            
+            // Step 4: Return response
+            return response()->json(['message' => 'Signup link sent successfully.'], 200);
+        }
+
+
 
     public function delete($user_id)
     {
