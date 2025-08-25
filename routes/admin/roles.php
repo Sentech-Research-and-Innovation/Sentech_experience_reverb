@@ -28,6 +28,9 @@ Route::group(['prefix' => '/admin/user'], function () {
     Route::post('/create', [UserController::class, 'create'])->middleware('role_has_permission:users-create');
 
     Route::post('/delete/{user_id}', [UserController::class, 'delete'])->middleware('role_has_permission:users-create');
+
+    Route::post('resendEmail/${userId}', [UserController::class, 'resendEmail'])->middleware('role_has_permission:users-create');
+
 });
 
 Route::get('/admin/permissions', [PersmissionsController::class, 'index']);
