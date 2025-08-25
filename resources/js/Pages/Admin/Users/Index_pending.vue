@@ -98,7 +98,7 @@ export default defineComponent({
         // Resend approval email for a user
         const resendEmail = async (userId, email) => {
             try {
-                const res = await axios.post(`/users/resendEmail/${userId}`, { email });
+                const res = await axios.post(`/admin/user/resendEmail/${userId}`, { email });
                 if (res.status === 200) {
                     location.reload();
                 }
