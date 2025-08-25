@@ -17,7 +17,7 @@ use App\Notifications\CreateUserNotification;
 use Illuminate\Support\Facades\Log;
 
 
-
+use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
