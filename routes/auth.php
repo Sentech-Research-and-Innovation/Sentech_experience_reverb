@@ -12,7 +12,6 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [AuthenticatedSessionController::class, 'create'])
