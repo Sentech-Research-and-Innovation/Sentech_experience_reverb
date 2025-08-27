@@ -11,6 +11,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [AuthenticatedSessionController::class, 'create'])
         ->name('register');
@@ -29,8 +32,13 @@ Route::middleware('guest')->group(function () {
         ->name('password.email');
 
 
-    Route::post('reset-password', [PasswordResetLinkController::class, 'reset'])
-        ->name('passwordReset');
+    // Route::post('reset-password', [PasswordResetLinkController::class, 'reset'])
+    //     ->name('passwordReset');
+    Route::post('forgot-password', function (\Illuminate\Http\Request $request) {
+    \Log::info('>>> forgot-password route was hit!', $request->all());
+    return app(\App\Http\Controllers\Auth\PasswordResetLinkController::class)->store($request);
+})->name('password.email');
+
 });
 
 Route::middleware('auth')->group(function () {
