@@ -50,6 +50,11 @@ class ResetPasswordNotification extends Notification
 
         $urlCurrent = Request::url();
 
+        $url = url('/reset-password') 
+     . '?token=' . $this->token 
+     . '&email=' . urlencode($notifiable->getEmailForPasswordReset());
+
+
         preg_match('~(?:https?://)?[^/]+/(.*)$~', $urlCurrent, $matches);
         $resultURL = $matches[1];
 
@@ -72,7 +77,7 @@ class ResetPasswordNotification extends Notification
         return (new MailMessage)
             ->line($subject)
             ->line($message)
-            ->action('Click to reset', $this->url)
+            ->action('Click to reset', $url)
             ->line('This password reset link will expire in 60 minutes.')
             ->line($message2)
             ->line('Thank you for using our application!');
