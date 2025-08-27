@@ -11,67 +11,46 @@
                         </div>
                     </div>
 
-                    <div
-                        class="d-flex justify-content-center sd"
-                        v-if="!success"
-                    >
+                    <div class="d-flex justify-content-center sd" v-if="!success">
                         <div class="col-lg-8 py-5 white-container">
                             <div class="d-flex justify-content-center">
                                 <div class="col-lg-8">
-                                    <div
-                                        class="alert alert-danger"
-                                        v-if="errors.expiredTokenMessage"
-                                    >
+                                    <div class="alert alert-danger" v-if="errors.expiredTokenMessage">
                                         {{ errors.expiredTokenMessage }}
                                     </div>
 
                                     <div class="form-group">
-                                        <label
-                                            for="emailAdress"
-                                            class="form-label"
-                                            >Email address</label
-                                        >
+                                        <label for="emailAdress" class="form-label">Email address</label>
                                         <input
                                             disabled
                                             type="email"
                                             v-model="form.email"
                                             class="form-control login-form-inputs"
                                         />
-                                        <div class="error">
-                                            {{ errors.email }}
-                                        </div>
+                                        <div class="error">{{ errors.email }}</div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password" class="form-label"
-                                            >Password</label
-                                        >
+                                        <label for="password" class="form-label">Password</label>
                                         <input
                                             type="password"
                                             class="form-control login-form-inputs"
                                             v-model="form.password"
                                         />
-                                        <div class="error">
-                                            {{ errors.password }}
-                                        </div>
+                                        <div class="error">{{ errors.password }}</div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label
-                                            for="confirm_password"
-                                            class="form-label"
-                                            >Confirm Password</label
-                                        >
+                                        <label for="confirm_password" class="form-label">Confirm Password</label>
                                         <input
                                             type="password"
                                             class="form-control login-form-inputs"
                                             v-model="form.password_confirmation"
                                         />
                                     </div>
+
                                     <div class="form-group">
-                                        <button
-                                            class="btn btn-block btn-primary fs-4"
-                                            @click="submit()"
-                                        >
+                                        <button class="btn btn-block btn-primary fs-4" @click="submit()">
                                             Submit
                                         </button>
                                     </div>
@@ -115,10 +94,10 @@ export default defineComponent({
 
             try {
                 await axios.post(`/reset-password`, {
-                  email: form.value.email,
-                  password: form.value.password,
-                  password_confirmation: form.value.password_confirmation,
-                  token: form.value.token,
+                    email: form.value.email,
+                    password: form.value.password,
+                    password_confirmation: form.value.password_confirmation,
+                    token: form.value.token,
                 });
                 success.value = true;
             } catch (err) {
@@ -144,9 +123,9 @@ export default defineComponent({
         onMounted(() => {
             const urlString = window.location.href;
 
-            // Regex to extract token and email
-            const tokenRegex = /token\?=([^&]*)/;
-            const emailRegex = /email=([^&]*)/;
+            // ✅ Correct regex patterns
+            const tokenRegex = /[?&]token=([^&]*)/;
+            const emailRegex = /[?&]email=([^&]*)/;
 
             const tokenMatch = tokenRegex.exec(urlString);
             const emailMatch = emailRegex.exec(urlString);
@@ -155,6 +134,10 @@ export default defineComponent({
             email.value = emailMatch && decodeURIComponent(emailMatch[1]);
 
             form.value.email = email.value;
+
+            // Debug logs
+            console.log("Token from URL:", token.value);
+            console.log("Email from URL:", email.value);
         });
 
         return { token, email, form, submit, errors, success };
@@ -176,7 +159,6 @@ export default defineComponent({
     background-color: white;
     border-radius: 20px;
 }
-
 .form-label {
     font-size: 15px !important;
     font-weight: 500 !important;
