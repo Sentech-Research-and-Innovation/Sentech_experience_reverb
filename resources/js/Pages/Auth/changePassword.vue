@@ -114,7 +114,12 @@ export default defineComponent({
             form.value.token = token.value;
 
             try {
-                await axios.post(`/reset-password`, form.value);
+                await axios.post(`/reset-password`, {
+                  email: form.value.email,
+                  password: form.value.password,
+                  password_confirmation: form.value.password_confirmation,
+                  token: form.value.token,
+                });
                 success.value = true;
             } catch (err) {
                 if (err.response) {
