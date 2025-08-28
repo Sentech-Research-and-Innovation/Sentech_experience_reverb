@@ -22,6 +22,7 @@ class ProfileController extends Controller
                     ->first();
         if ($user->profile_photo_path) {
         $user->profile_photo_url = Storage::disk('public')->url($user->profile_photo_path);
+        }
         
         return Inertia::render('Profile/Index', compact('user'));
     }
