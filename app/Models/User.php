@@ -15,6 +15,8 @@ use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 use App\Notifications\ResetPasswordNotification;
 
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable
 {
@@ -95,10 +97,10 @@ class User extends Authenticatable
         }
         
         // Generate the full URL to the image
-        // return Storage::disk('public')->url($this->profile_photo_path);
+        return Storage::disk('public')->url($this->profile_photo_path);
         
         // OR if you prefer using the asset helper:
-        return asset('storage/' . $this->profile_photo_path);
+        // return asset('storage/' . $this->profile_photo_path);
     }
 
 }
