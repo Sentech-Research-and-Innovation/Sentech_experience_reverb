@@ -101,6 +101,7 @@ class ProfileController extends Controller
     //         'url'    => $user->profile_photo_url, 
     //     ]);
     // }
+
     public function uploadProfileImage(Request $request)
     {
         $request->validate([
@@ -109,24 +110,21 @@ class ProfileController extends Controller
     
         $user = auth()->user();
         
-        // Delete old profile photo if it exists
+        // Delete old profile photo
         if ($user->profile_photo_path && Storage::disk('public')->exists($user->profile_photo_path)) {
             Storage::disk('public')->delete($user->profile_photo_path);
         }
     
-        // Store the new file
         $path = $request->file('file')->store('profile_images', 'public');
-    
-        // Update user record - use the correct column name
         $user->profile_photo_path = $path;
         $user->save();
     
         return response()->json([
             'message' => 'Profile image uploaded successfully',
-            'url' => $user->profile_photo_url, // This will use your accessor
+            'url' => $user->profile_photo_url,
+            'path' => $path // Include the path in response
         ]);
     }
-
 
     public function deleteProfileImage()
     {
