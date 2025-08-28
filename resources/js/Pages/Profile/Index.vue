@@ -361,10 +361,6 @@ export default defineComponent({
             // This forces Vue to recognize the change
             props.user = { ...props.user };
             
-            // Clear any cached image
-            if (typeof window !== 'undefined') {
-                window.location.reload();
-            }
         };
 
         const handleCoverImageSuccess = (response) => {
