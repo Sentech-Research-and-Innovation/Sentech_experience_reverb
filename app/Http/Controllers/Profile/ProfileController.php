@@ -112,26 +112,32 @@ class ProfileController extends Controller
     public function uploadProfileImage(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
         $user = auth()->user();
-        
-        // Delete old profile photo
-        if ($user->profile_photo_path && Storage::disk('public')->exists($user->profile_photo_path)) {
-            Storage::disk('public')->delete($user->profile_photo_path);
+    
+        // Create the directory if it doesn’t exist
+        if (!file_exists(public_path('profile_images'))) {
+            mkdir(public_path('profile_images'), 0777, true);
         }
     
-        $path = $request->file('file')->store('profile_images', 'public');
-        $user->profile_photo_path = $path;
+        // Generate unique filename
+        $filename = uniqid() . '.' . $request->file('file')->getClientOriginalExtension();
+    
+        // Move the uploaded file into /public/profile_images
+        $request->file('file')->move(public_path('profile_images'), $filename);
+    
+        // Save relative path in DB (not full URL)
+        $user->profile_photo_path = 'profile_images/' . $filename;
         $user->save();
     
         return response()->json([
-            'message' => 'Profile image uploaded successfully',
-            'url' => $user->profile_photo_url,
-            'path' => $path // Include the path in response
+            'message' => 'Profile photo uploaded successfully.',
+            'profile_photo_url' => asset($user->profile_photo_path),
         ]);
     }
+
 
     public function deleteProfileImage()
     {
