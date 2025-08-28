@@ -52,7 +52,7 @@
                 <!-- Profile Info Block -->
                 <div class="profile-info-block" style="margin-top: -65px;">
                     <!-- Profile Info -->
-                    <div class="profile-info text-center">
+                    <div class="profile-info">
                         <p class="profile-name">
                             {{ user.first_name }} {{ user.last_name }}
                         </p>
@@ -67,11 +67,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 👇 EXTRA: Display full profile image -->
-                <div v-if="user.profile_photo_url" class="profile-photo-display">
-                    <img :src="user.profile_photo_url" alt="Profile" class="profile-photo-large" />
-                </div>
             </div>
         </div>
 
@@ -82,12 +77,12 @@
                 <!-- Preview image --> 
                 <div class="dialog-image-preview">
                     <template v-if="user.profile_photo_url"> 
-                        <img 
+                        <el-avatar 
                             :src="user.profile_photo_url" 
-                            alt="Profile Preview" 
-                            class="preview-large"
-                        />
+                            shape="circle" 
+                            size="580" /> 
                     </template> 
+        
                     <template v-else>
                         <div class="no-image-placeholder"> 
                             No image provided 
@@ -103,6 +98,7 @@
                         name="file" 
                         :on-success="handleProfileImageSuccess" 
                         :show-file-list="false" > 
+                    
                         <div class="action-icon"> 
                             <el-icon><Edit /></el-icon> 
                             <span>Edit</span> 
@@ -110,18 +106,17 @@
                     </el-upload>
         
                     <div 
-                        v-if="user.profile_photo_url"
-                        class="action-button" 
-                        @click="deleteProfileImage" >
+                    v-if="user.profile_photo_url"
+                    class="action-button" 
+                    @click="deleteProfileImage" >
                         <div class="action-icon delete"> 
                             <el-icon><Delete /></el-icon> 
                             <span>Delete</span> 
                         </div> 
                     </div> 
                 </div> 
-        </el-dialog>
+            </el-dialog>
 
-        <!-- Cover Photo Dialog -->
         <el-dialog 
             v-model="coverImageDialogVisible" 
             title="Cover Photo" 
@@ -170,10 +165,133 @@
             </div>
         </el-dialog>
 
+        
+
+
         <!-- Form Section -->
-        <!-- (no changes here, left as is) -->
         <div class="form-section">
-            ...
+            <div class="col-12 rounded py-4 shadow-border">
+                <div class="profile-nav-header col-12 px-0">
+                    <nav class="nav nav-pills flex-column flex-sm-row py-3 mb-4">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'profile' }"
+                            @click="page = 'profile'"
+                        >
+                            <strong>Profile Details</strong>
+                        </a>
+
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link py-3"
+                            :class="{ active: page === 'password' }"
+                            @click="page = 'password'"
+                        >
+                            <strong>Change Password</strong>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Profile Details Form -->
+                <div class="row register-form" v-if="page == 'profile'">
+                    <div class="col-md-12" v-if="success">
+                        <div class="alert alert-success">
+                            You have successfully updated your details
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <el-input
+                                v-model="user.first_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.first_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <el-input
+                                v-model="user.last_name"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <el-input
+                                v-model="user.phoneNumber"
+                                class="w-100 search-input"
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errors.phoneNumber }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="updateDetails"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Form -->
+                <div class="row register-form" v-if="page == 'password'">
+                    <div class="col-md-12" v-if="successPassword">
+                        <div class="alert alert-success">
+                            You have successfully updated your password
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Password" class="form-label">Password</label>
+                            <el-input
+                                v-model="formPassword.password"
+                                class="w-100 search-input"
+                                type="password"
+                                show-password
+                            />
+                            <div class="text-danger pt-1">
+                                {{ errorPassword.password }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <el-input
+                                v-model="formPassword.password_confirmation"
+                                class="w-100 search-input"
+                                type="password"
+                                show-password
+                            />
+                            <div class="text-danger pt-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div
+                                @click="changePassword"
+                                class="btn btn-primary sentech-login-button d-flex justify-content-center align-items-center"
+                            >
+                                Submit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -190,10 +308,21 @@ export default defineComponent({
     layout: AdminLayout,
     name: "profile-view",
 
-    components: { Head, Link, Camera, Delete, UploadFilled, Edit },
+    components: {
+        Head,
+        Link,
+        Camera,
+        Delete,
+        UploadFilled,
+        Edit,
+
+    },
 
     props: {
-        user: { type: Object, required: true },
+        user: {
+            type: Object,
+            required: true,
+        },
     },
 
     setup(props) {
@@ -212,14 +341,30 @@ export default defineComponent({
         const profileImageDialogVisible = ref(false);
         const coverImageDialogVisible = ref(false);
 
-        const openProfileImageDialog = () => profileImageDialogVisible.value = true;
-        const openCoverImageDialog = () => coverImageDialogVisible.value = true;
+        const openProfileImageDialog = () => {
+            profileImageDialogVisible.value = true;
+        };
 
-        const handleProfileImageSuccess = (response) => {
-            profileImageDialogVisible.value = false;
-            props.user.profile_photo_url = response.profile_photo_url;
+        const openCoverImageDialog = () => {
+            coverImageDialogVisible.value = true;
+        };
+
+        
+
+       const handleProfileImageSuccess = (response) => {
+        profileImageDialogVisible.value = false;
+            
+            // Force a complete reactive update
+            props.user.profile_photo_url = response.url;
             props.user.profile_photo_path = response.path;
-            props.user = { ...props.user }; // trigger reactivity
+            
+            // This forces Vue to recognize the change
+            props.user = { ...props.user };
+            
+            // Clear any cached image
+            if (typeof window !== 'undefined') {
+                window.location.reload();
+            }
         };
 
         const handleCoverImageSuccess = (response) => {
@@ -264,10 +409,12 @@ export default defineComponent({
             }
         };
 
+
         const deleteProfileImage = async () => {
             await axios.delete('/profile/delete-profile-image');
             props.user.profile_photo_url = null;
         };
+
 
         const deleteCoverImage = async () => {
             await axios.delete('/admin/delete-profile-image');
@@ -633,25 +780,5 @@ export default defineComponent({
 }
 
 
-.profile-photo-display {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
 
-.profile-photo-large {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-.preview-large {
-    max-width: 250px;
-    max-height: 250px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 </style>
