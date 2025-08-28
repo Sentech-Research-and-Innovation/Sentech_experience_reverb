@@ -125,18 +125,24 @@ class ProfileController extends Controller
         // Generate unique filename
         $filename = uniqid() . '.' . $request->file('file')->getClientOriginalExtension();
     
-        // Move the uploaded file into /public/profile_images
+        // If user already has a profile photo, delete the old one
+        if ($user->profile_photo_path && file_exists(public_path($user->profile_photo_path))) {
+            unlink(public_path($user->profile_photo_path));
+        }
+    
+        // Move uploaded file into /public/profile_images
         $request->file('file')->move(public_path('profile_images'), $filename);
     
-        // Save relative path in DB (not full URL)
+        // Save relative path in DB
         $user->profile_photo_path = 'profile_images/' . $filename;
         $user->save();
     
         return response()->json([
             'message' => 'Profile photo uploaded successfully.',
-            'profile_photo_url' => asset($user->profile_photo_path),
+            'profile_photo_url' => $user->profile_photo_url, // uses accessor
         ]);
     }
+
 
 
     public function deleteProfileImage()
