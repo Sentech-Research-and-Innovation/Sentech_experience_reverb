@@ -73,14 +73,14 @@
         <!-- Image Upload Dialogs -->
         <el-dialog v-model="profileImageDialogVisible" 
                 title="Profile Photo" 
-                width="40%" > 
+                width="680px" > 
                 <!-- Preview image --> 
                 <div class="dialog-image-preview">
                     <template v-if="user.profile_photo_url"> 
                         <el-avatar 
                             :src="user.profile_photo_url" 
                             shape="circle" 
-                            size="580" /> 
+                            :size="580" /> 
                     </template> 
         
                     <template v-else>
