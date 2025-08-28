@@ -87,11 +87,18 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($url));
     }
 
+    // In your User model (app/Models/User.php)
     public function getProfilePhotoUrlAttribute()
     {
-        return $this->profile_photo_path
-            ? asset('storage/' . $this->profile_photo_path)
-            : null;
+        if (!$this->profile_photo_path) {
+            return null;
+        }
+        
+        // Generate the full URL to the image
+        return Storage::disk('public')->url($this->profile_photo_path);
+        
+        // OR if you prefer using the asset helper:
+        // return asset('storage/' . $this->profile_photo_path);
     }
 
 }
