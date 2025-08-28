@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-    public function index()
+   public function index()
     {
-
-        $user = User::where('id',  auth()->user()->id)->with('company', 'roles')->first();
+        // This will automatically include profile_photo_url via the accessor
+        $user = User::where('id', auth()->user()->id)
+                    ->with('company', 'roles')
+                    ->first();
+        
         return Inertia::render('Profile/Index', compact('user'));
     }
-
     public function show($id)
     {
         $user = User::with('company', 'roles')->findOrFail($id);
