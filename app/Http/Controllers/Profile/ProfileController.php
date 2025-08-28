@@ -20,6 +20,11 @@ class ProfileController extends Controller
         $user = User::where('id', auth()->user()->id)
                     ->with('company', 'roles')
                     ->first();
+        \Log::info('DEBUG PROFILE PHOTO INFO:');
+    \Log::info('Profile photo path: ' . $user->profile_photo_path);
+    \Log::info('APP_URL: ' . config('app.url'));
+    \Log::info('Generated URL: ' . $user->profile_photo_url);
+    \Log::info('Storage exists: ' . (\Storage::disk('public')->exists($user->profile_photo_path) ? 'YES' : 'NO'));
         
         return Inertia::render('Profile/Index', compact('user'));
     }
