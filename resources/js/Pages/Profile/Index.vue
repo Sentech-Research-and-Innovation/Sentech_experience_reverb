@@ -352,16 +352,19 @@ export default defineComponent({
         
 
        const handleProfileImageSuccess = (response) => {
-            profileImageDialogVisible.value = false;
+        profileImageDialogVisible.value = false;
             
-            // Update the reactive user object properly
+            // Force a complete reactive update
             props.user.profile_photo_url = response.url;
-            props.user.profile_photo_path = response.path; // Make sure your controller returns this
+            props.user.profile_photo_path = response.path;
             
-            // Force Vue to recognize the change
+            // This forces Vue to recognize the change
             props.user = { ...props.user };
             
-            console.log('Updated user object:', props.user);
+            // Clear any cached image
+            if (typeof window !== 'undefined') {
+                window.location.reload();
+            }
         };
 
         const handleCoverImageSuccess = (response) => {
