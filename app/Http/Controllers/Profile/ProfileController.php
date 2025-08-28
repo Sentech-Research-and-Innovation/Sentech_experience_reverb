@@ -83,65 +83,33 @@ class ProfileController extends Controller
         return request()->json([], 200);
     }
 
-    // public function uploadProfileImage(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    //     ]);
-    
-    //     // store the file in storage/app/public/profile_images
-    //     $path = $request->file('file')->store('profile_images', 'public');
-
-    //     // $user = auth()->user();
-    //     // // delete old profile photo if it exists
-    //     // if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
-    //     //     \Storage::disk('public')->delete($user->profile_photo_path);
-    //     // }
-    
-    //     // update the DB column
-    //     $user = auth()->user();
-    //     $user->update(['profile_photo_path' => $path]);
-    //     $user->save();
- 
-    //     return response()->json([
-    //         'message' => 'Profile image uploaded successfully',
-    //         'url'    => $user->profile_photo_url, 
-    //     ]);
-    // }
-
     public function uploadProfileImage(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
     
+        // store the file in storage/app/public/profile_images
+        $path = $request->file('file')->store('profile_images', 'public');
+
+        // $user = auth()->user();
+        // // delete old profile photo if it exists
+        // if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
+        //     \Storage::disk('public')->delete($user->profile_photo_path);
+        // }
+    
+        // update the DB column
         $user = auth()->user();
-    
-        // Create the directory if it doesn’t exist
-        if (!file_exists(public_path('profile_images'))) {
-            mkdir(public_path('profile_images'), 0777, true);
-        }
-    
-        // Generate unique filename
-        $filename = uniqid() . '.' . $request->file('file')->getClientOriginalExtension();
-    
-        // If user already has a profile photo, delete the old one
-        if ($user->profile_photo_path && file_exists(public_path($user->profile_photo_path))) {
-            unlink(public_path($user->profile_photo_path));
-        }
-    
-        // Move uploaded file into /public/profile_images
-        $request->file('file')->move(public_path('profile_images'), $filename);
-    
-        // Save relative path in DB
-        $user->profile_photo_path = 'profile_images/' . $filename;
+        $user->update(['profile_photo_path' => $path]);
         $user->save();
-    
+ 
         return response()->json([
-            'message' => 'Profile photo uploaded successfully.',
-            'profile_photo_url' => $user->profile_photo_url, // uses accessor
+            'message' => 'Profile image uploaded successfully',
+            'url'    => $user->profile_photo_url, 
         ]);
     }
+
+
 
 
 
