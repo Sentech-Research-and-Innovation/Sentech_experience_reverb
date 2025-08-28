@@ -101,13 +101,18 @@ class User extends Authenticatable
     //     // OR if you prefer using the asset helper:
     //     return asset('storage/' . $this->profile_photo_path);
     // }
+    
+    // app/Models/User.php
+
     public function getProfilePhotoUrlAttribute()
     {
-        if (!$this->profile_photo_path) {
-            return null;
+        if ($this->profile_photo_path) {
+            return asset($this->profile_photo_path);
         }
-        
-        return \Storage::disk('public')->url($this->profile_photo_path);
+    
+        // fallback if user has no uploaded photo
+        return asset('images/default-avatar.png'); 
     }
+
 
 }
