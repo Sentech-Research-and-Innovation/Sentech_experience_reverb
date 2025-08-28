@@ -107,8 +107,7 @@ class User extends Authenticatable
             return null;
         }
         
-        // Temporary fix to confirm the issue
-        return 'https://sentechxperience.co.za/storage/' . $this->profile_photo_path;
+        return \Storage::disk('public')->url($this->profile_photo_path);
     }
 
 }
