@@ -303,7 +303,6 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import { UserFilled, Camera } from "@element-plus/icons-vue";
 import { Delete, UploadFilled, Edit } from "@element-plus/icons-vue";
 import axios from "axios";
-import { usePage } from '@inertiajs/inertia-vue3';
 
 export default defineComponent({
     layout: AdminLayout,
@@ -327,7 +326,6 @@ export default defineComponent({
     },
 
     setup(props) {
-        const { $page } = usePage();
         const defaultCover = "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop";
         const defaultProfile = "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop";
 
@@ -355,11 +353,12 @@ export default defineComponent({
 
         const handleProfileImageSuccess = (response) => {
             profileImageDialogVisible.value = false;
-            profileImageDialogVisible.value = false;
-            
+           
             // Update the shared page props reactively
             $page.props.user.profile_photo_url = response.url;
             $page.props.user.profile_photo_path = response.path;
+
+             window.location.reload();
         };
 
         const handleCoverImageSuccess = (response) => {
