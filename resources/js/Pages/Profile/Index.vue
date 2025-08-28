@@ -349,9 +349,18 @@ export default defineComponent({
             coverImageDialogVisible.value = true;
         };
 
+        
         const handleProfileImageSuccess = (response) => {
             profileImageDialogVisible.value = false;
+            
+            // Update the user object with the new URL from response
             props.user.profile_photo_url = response.url;
+            
+            // Also update the path in case it's needed
+            props.user.profile_photo_path = response.path; // If you include it in response
+            
+            // Force a reactive update
+            props.user = { ...props.user };
         };
 
         const handleCoverImageSuccess = (response) => {
