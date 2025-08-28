@@ -20,9 +20,6 @@ class ProfileController extends Controller
         $user = User::where('id', auth()->user()->id)
                     ->with('company', 'roles')
                     ->first();
-        if ($user->profile_photo_path) {
-        $user->profile_photo_url = Storage::disk('public')->url($user->profile_photo_path);
-        }
         
         return Inertia::render('Profile/Index', compact('user'));
     }
