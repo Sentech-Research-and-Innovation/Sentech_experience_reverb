@@ -31,9 +31,10 @@ class ProfileController extends Controller
                     ->first();
     
         return Inertia::render('Profile/Index', [
-            'user' => $user->toArray(), // include appended accessors
+            'user' => $user->toArray(),
         ]);
     }
+
 
     public function show($id)
     {
