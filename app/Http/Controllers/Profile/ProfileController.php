@@ -128,7 +128,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function uploadCoverImage(Request $request)
+   public function uploadCoverImage(Request $request)
     {
         $request->validate([
             'file' => 'required|image|mimes:jpg,jpeg,png|max:4096',
@@ -138,16 +138,16 @@ class ProfileController extends Controller
     
         $user = auth()->user();
     
-        // Optional: delete old cover if exists
-        if ($user->cover_image_path && Storage::disk('public')->exists($user->cover_image_path)) {
-            Storage::disk('public')->delete($user->cover_image_path);
+        // delete old cover if exists
+        if ($user->cover_photo_path && Storage::disk('public')->exists($user->cover_photo_path)) {
+            Storage::disk('public')->delete($user->cover_photo_path);
         }
     
-        $user->update(['cover_image_path' => $path]);
+        $user->update(['cover_photo_path' => $path]);
     
         return response()->json([
             'message' => 'Cover image uploaded successfully',
-            'url'     => $user->cover_image_url,
+            'url'     => $user->cover_photo_url,
         ]);
     }
     
@@ -156,11 +156,11 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
     
-        if ($user->cover_image_path && Storage::disk('public')->exists($user->cover_image_path)) {
-            Storage::disk('public')->delete($user->cover_image_path);
+        if ($user->cover_photo_path && Storage::disk('public')->exists($user->cover_photo_path)) {
+            Storage::disk('public')->delete($user->cover_photo_path);
         }
     
-        $user->update(['cover_image_path' => null]);
+        $user->update(['cover_photo_path' => null]);
     
         return response()->json([
             'message' => 'Cover image deleted successfully',
