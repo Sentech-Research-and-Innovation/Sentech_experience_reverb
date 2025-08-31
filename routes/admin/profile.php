@@ -10,3 +10,5 @@ Route::post('/profile/update/password', [ProfileController::class, 'updatePasswo
 Route::get('/profile/{id}', [ProfileController::class, 'show']);
 Route::post('/profile/upload-profile-image', [ProfileController::class, 'uploadProfileImage']);
 Route::delete('/profile/delete-profile-image', [ProfileController::class, 'deleteProfileImage']);
+Route::post('/profile/upload-cover-image', [ProfileController::class, 'uploadCoverImage']);
+Route::delete('/profile/delete-cover-image', [ProfileController::class, 'deleteCoverImage']);
