@@ -127,4 +127,43 @@ class ProfileController extends Controller
             'message' => 'Profile image deleted successfully',
         ]);
     }
+
+    public function uploadCoverImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpg,jpeg,png|max:4096',
+        ]);
+    
+        $path = $request->file('file')->store('cover_images', 'public');
+    
+        $user = auth()->user();
+    
+        // Optional: delete old cover if exists
+        if ($user->cover_image_path && Storage::disk('public')->exists($user->cover_image_path)) {
+            Storage::disk('public')->delete($user->cover_image_path);
+        }
+    
+        $user->update(['cover_image_path' => $path]);
+    
+        return response()->json([
+            'message' => 'Cover image uploaded successfully',
+            'url'     => $user->cover_image_url,
+        ]);
+    }
+    
+    
+    public function deleteCoverImage()
+    {
+        $user = auth()->user();
+    
+        if ($user->cover_image_path && Storage::disk('public')->exists($user->cover_image_path)) {
+            Storage::disk('public')->delete($user->cover_image_path);
+        }
+    
+        $user->update(['cover_image_path' => null]);
+    
+        return response()->json([
+            'message' => 'Cover image deleted successfully',
+        ]);
+    }
 }
