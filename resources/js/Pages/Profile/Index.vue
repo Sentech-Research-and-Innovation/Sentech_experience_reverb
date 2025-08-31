@@ -368,6 +368,7 @@ export default defineComponent({
             coverImageDialogVisible.value = false;
             props.user.cover_photo_url = response.url; // backend returns the accessor url
             props.user.cover_photo_path = response.path; // optional, if you also send path
+            props.user = { ...props.user };
         };
 
         const deleteCoverImage = async () => {
