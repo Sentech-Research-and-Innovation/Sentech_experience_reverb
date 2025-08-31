@@ -15,7 +15,7 @@ use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 use App\Notifications\ResetPasswordNotification;
 
-
+protected $appends = ['profile_photo_url', 'cover_photo_url'];
 
 class User extends Authenticatable
 {
@@ -103,7 +103,6 @@ class User extends Authenticatable
     }
     
 
-    protected $appends = ['profile_photo_url', 'cover_photo_url'];
 
     public function getCoverPhotoUrlAttribute()
     {
