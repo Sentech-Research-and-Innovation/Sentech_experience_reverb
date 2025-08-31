@@ -103,7 +103,14 @@ class User extends Authenticatable
     }
     
 
-
+    public function getCoverPhotoUrlAttribute()
+    {
+        if (!$this->cover_photo_path) {
+            return null;
+        }
+    
+        return asset('storage/' . $this->cover_photo_path);
+    }
 
 
 }
