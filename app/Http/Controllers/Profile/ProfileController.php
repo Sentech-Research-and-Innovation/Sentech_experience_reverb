@@ -31,9 +31,12 @@ class ProfileController extends Controller
                     ->first();
     
         return Inertia::render('Profile/Index', [
-            'user' => $user->toArray(),
+            'user' => array_merge($user->toArray(), [
+                'cover_photo_url' => $user->cover_photo_url,
+            ]),
         ]);
     }
+
 
 
     public function show($id)
