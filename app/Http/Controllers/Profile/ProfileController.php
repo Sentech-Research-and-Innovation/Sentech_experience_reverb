@@ -14,20 +14,27 @@ use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-   public function index()
+   // public function index()
+   //  {
+   //      // This will automatically include profile_photo_url via the accessor
+   //      $user = User::where('id', auth()->user()->id)
+   //                  ->with('company', 'roles')
+   //                  ->first();
+    
+   //      return Inertia::render('Profile/Index', compact('user'));
+   //  }
+
+    public function index()
     {
-        // This will automatically include profile_photo_url via the accessor
-        $user = User::where('id', auth()->user()->id)
+        $user = User::where('id', auth()->id())
                     ->with('company', 'roles')
                     ->first();
-    //     \Log::info('DEBUG PROFILE PHOTO INFO:');
-    // \Log::info('Profile photo path: ' . $user->profile_photo_path);
-    // \Log::info('APP_URL: ' . config('app.url'));
-    // \Log::info('Generated URL: ' . $user->profile_photo_url);
-    // \Log::info('Storage exists: ' . (\Storage::disk('public')->exists($user->profile_photo_path) ? 'YES' : 'NO'));
-        
-        return Inertia::render('Profile/Index', compact('user'));
+    
+        return Inertia::render('Profile/Index', [
+            'user' => $user->toArray(), // include appended accessors
+        ]);
     }
+
     public function show($id)
     {
         $user = User::with('company', 'roles')->findOrFail($id);
