@@ -124,9 +124,9 @@
         >
             <!-- Preview -->
             <div class="dialog-image-preview">
-                <template v-if="user.coverImage">
+                <template v-if="user.cover_photo_url">
                     <img 
-                        :src="user.coverImage" 
+                        :src="user.cover_photo_url" 
                         alt="Cover" 
                         style="max-width: 100%; border-radius: 8px;"
                     />
@@ -153,7 +153,7 @@
                 </el-upload>
 
                 <div 
-                    v-if="user.coverImage" 
+                    v-if="user.cover_photo_url" 
                     class="action-button" 
                     @click="deleteCoverImage"
                 >
@@ -164,6 +164,7 @@
                 </div>
             </div>
         </el-dialog>
+
 
         
 
