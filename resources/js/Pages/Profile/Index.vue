@@ -142,7 +142,7 @@
             <div class="dialog-actions">
                 <el-upload
                     class="action-button"
-                    action="/api/upload-cover-image"
+                    action="/profile/upload-cover-image"
                     :on-success="handleCoverImageSuccess"
                     :show-file-list="false"
                 >
