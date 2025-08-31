@@ -15,8 +15,6 @@ use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
 use App\Notifications\ResetPasswordNotification;
 
-protected $appends = ['profile_photo_url', 'cover_photo_url'];
-
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -101,8 +99,6 @@ class User extends Authenticatable
         // OR if you prefer using the asset helper:
         return asset('storage/' . $this->profile_photo_path);
     }
-    
-
 
     public function getCoverPhotoUrlAttribute()
     {
@@ -110,6 +106,8 @@ class User extends Authenticatable
             ? asset('storage/' . $this->cover_photo_path)
             : null;
     }
+
+
 
 
 }
