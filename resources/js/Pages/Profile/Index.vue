@@ -10,7 +10,7 @@
                     <div
                         class="cover-image"
                         :style="{
-                            backgroundImage: `url('${user.coverImage || defaultCover}')`
+                            backgroundImage: `url('${user.cover_photo_url  || defaultCover}')`
                         }"
                     >
                         <!-- Cover image edit button -->
@@ -363,10 +363,19 @@ export default defineComponent({
             
         };
 
+
         const handleCoverImageSuccess = (response) => {
             coverImageDialogVisible.value = false;
-            props.user.coverImage = response.path;
+            props.user.cover_photo_url = response.url; // backend returns the accessor url
+            props.user.cover_photo_path = response.path; // optional, if you also send path
         };
+
+        const deleteCoverImage = async () => {
+            await axios.delete('/profile/delete-cover-image');
+            props.user.cover_photo_url = null;
+            props.user.cover_photo_path = null;
+        };
+
 
         const updateDetails = async () => {
             errors.value = {};
@@ -412,10 +421,6 @@ export default defineComponent({
         };
 
 
-        const deleteCoverImage = async () => {
-            await axios.delete('/admin/delete-profile-image');
-            props.user.coverImage = null;
-        };
 
         return {
             UserFilled,
