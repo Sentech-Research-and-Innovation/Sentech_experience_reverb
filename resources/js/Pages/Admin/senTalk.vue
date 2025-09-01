@@ -1,37 +1,47 @@
 <template>
-  <div class="sentalk">
-    <h2>SenTalk</h2>
-
-    <div v-if="latest">
-      <h3>{{ latest.title }} - {{ latest.creator }}</h3>
-      <p>{{ latest.created_at }}</p>
-      <p>{{ latest.number_views }} views · {{ latest.number_downloads }} downloads · {{ latest.number_likes }} likes</p>
-
-      <iframe
-        v-if="latest.pdf_path"
-        :src="`/storage/${latest.pdf_path}`"
-        width="100%"
-        height="500px"
-      ></iframe>
-
-      <div>
-        <button @click="download(latest.id)">Download</button>
-      </div>
+  <div class="sentalk-card">
+    <div class="sentalk-header">
+      <h2>{{ latest.title }}</h2>
+      <span class="stats">
+        {{ latest.number_views }} views ·
+        {{ latest.number_downloads }} downloads ·
+        {{ latest.number_likes }} likes
+      </span>
     </div>
 
+    <!-- PDF Viewer -->
+    <iframe
+      v-if="latest.pdf_path"
+      :src="`/storage/${latest.pdf_path}#toolbar=0`"
+      width="100%"
+      height="600"
+    ></iframe>
+
+    <!-- Action Buttons -->
     <div>
-      <h4>Upload new edition</h4>
-      <input type="file" @change="onFileChange" />
-      <input v-model="title" placeholder="Title" />
-      <input v-model="creator" placeholder="Creator" />
-      <button @click="upload">Upload</button>
+      <a
+        :href="`/storage/${latest.pdf_path}`"
+        class="btn"
+        download
+      >
+        ⬇ Download PDF
+      </a>
+      <label for="upload" class="btn">⬆ Upload New</label>
+      <input
+        type="file"
+        id="upload"
+        ref="fileInput"
+        style="display:none"
+        @change="onFileChange"
+      />
     </div>
 
-    <div>
-      <h4>Older Editions</h4>
+    <!-- Older Editions -->
+    <div class="older-editions">
+      <h3>Older Editions</h3>
       <ul>
         <li v-for="edition in editions" :key="edition.id">
-          <a @click="view(edition.id)" href="javascript:void(0)">
+          <a href="javascript:void(0)" @click="view(edition)">
             {{ edition.title }} ({{ edition.created_at }})
           </a>
         </li>
@@ -46,44 +56,100 @@ import axios from "axios";
 export default {
   data() {
     return {
-      latest: null,
-      editions: [],
+      latest: {
+        title: "SenTalk August Edition 2025",
+        creator: "MachabaL",
+        number_views: 109,
+        number_downloads: 23,
+        number_likes: 3,
+        created_at: "18 Aug 2025",
+        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
+      },
+      editions: [
+        { id: 2, title: "July 2025", created_at: "18 Jul 2025" },
+        { id: 3, title: "June 2025", created_at: "18 Jun 2025" },
+      ],
       file: null,
-      title: "",
-      creator: "",
     };
   },
-  mounted() {
-    this.fetchEditions();
-  },
   methods: {
-    fetchEditions() {
-      axios.get("/admin/sentalk").then((res) => {
-        this.editions = res.data.data;
-        this.latest = this.editions[0];
-      });
-    },
     onFileChange(e) {
       this.file = e.target.files[0];
+      // Later: send with axios to backend
     },
-    upload() {
-      let formData = new FormData();
-      formData.append("pdf", this.file);
-      formData.append("title", this.title);
-      formData.append("creator", this.creator);
-
-      axios.post("/admin/sentalk/upload", formData).then(() => {
-        this.fetchEditions();
-      });
-    },
-    view(id) {
-      axios.get(`/admin/sentalk/${id}`).then((res) => {
-        this.latest = res.data;
-      });
-    },
-    download(id) {
-      window.open(`/admin/sentalk/download/${id}`, "_blank");
+    view(edition) {
+      // Later: fetch edition from API
+      this.latest = edition;
     },
   },
 };
 </script>
+
+<style scoped>
+.sentalk-card {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.sentalk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.sentalk-header h2 {
+  margin: 0;
+  color: #444;
+}
+.stats {
+  font-size: 14px;
+  color: #777;
+}
+iframe {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.btn {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 18px;
+  background: #626AEF;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #4a52c0;
+}
+.older-editions {
+  margin-top: 20px;
+}
+.older-editions h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #444;
+}
+.older-editions ul {
+  list-style: none;
+  padding: 0;
+}
+.older-editions li {
+  margin: 5px 0;
+}
+.older-editions a {
+  color: #626AEF;
+  text-decoration: none;
+}
+.older-editions a:hover {
+  text-decoration: underline;
+}
+</style>
