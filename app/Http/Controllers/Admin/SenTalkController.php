@@ -7,6 +7,8 @@ use App\Models\SenTalk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Log;
+
 class SenTalkController extends Controller
 {
     public function index(Request $request)
@@ -27,16 +29,48 @@ class SenTalkController extends Controller
 
     public function upload(Request $request)
     {
+        Log::info('SenTalk upload request received.', [
+            'hasFile' => $request->hasFile('pdf'),
+            'all' => $request->all(),
+        ]);
+    
         $request->validate([
             'pdf' => 'required|mimes:pdf|max:10000',
         ]);
     
-        $path = $request->file('pdf')->store('sentalk_pdfs', 'public');
+        try {
+            $file = $request->file('pdf');
     
-        return response()->json([
-            'pdf_path' => $path,
-            'title' => $request->file('pdf')->getClientOriginalName(),
-        ]);
+            Log::info('Uploading file...', [
+                'originalName' => $file->getClientOriginalName(),
+                'mimeType' => $file->getMimeType(),
+                'size' => $file->getSize(),
+            ]);
+    
+            // Store PDF in storage/app/public/sentalk_pdfs
+            $path = $file->store('sentalk_pdfs', 'public');
+    
+            Log::info('File stored successfully.', [
+                'path' => $path,
+            ]);
+    
+            return response()->json([
+                'success' => true,
+                'pdf_path' => $path,
+                'title' => $file->getClientOriginalName(),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Upload failed.', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Upload failed.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 
