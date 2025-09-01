@@ -89,15 +89,18 @@ class User extends Authenticatable
     // In your User model (app/Models/User.php)
     public function getProfilePhotoUrlAttribute()
     {
-        if (!$this->profile_photo_path) {
-            return null;
-        }
+        // if (!$this->profile_photo_path) {
+        //     return null;
+        // }
         
-        // Generate the full URL to the image
-        // return Storage::disk('public')->url($this->profile_photo_path);
+        // // Generate the full URL to the image
+        // // return Storage::disk('public')->url($this->profile_photo_path);
         
-        // OR if you prefer using the asset helper:
-        return asset('storage/' . $this->profile_photo_path);
+        // // OR if you prefer using the asset helper:
+        // return asset('storage/' . $this->profile_photo_path);
+                return $this->profile_photo_path
+            ? asset('storage/' . $this->profile_photo_path)
+            : null;
     }
 
     public function getCoverPhotoUrlAttribute()
