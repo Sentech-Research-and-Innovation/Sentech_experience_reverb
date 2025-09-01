@@ -14,24 +14,39 @@ class SenTalkController extends Controller
         return SenTalk::orderBy('created_at', 'desc')->paginate(10);
     }
 
+    // public function upload(Request $request)
+    // {
+    //     $request->validate([
+    //         'pdf' => 'required|mimes:pdf|max:10000',
+    //         'title' => 'required|string',
+    //         'creator' => 'required|string',
+    //     ]);
+
+    //     $path = $request->file('pdf')->store('sentalk_pdfs', 'public');
+
+    //     $sentalk = SenTalk::create([
+    //         'title' => $request->title,
+    //         'creator' => $request->creator,
+    //         'pdf_path' => $path,
+    //     ]);
+
+    //     return response()->json($sentalk, 201);
+    // }
+
     public function upload(Request $request)
     {
         $request->validate([
             'pdf' => 'required|mimes:pdf|max:10000',
-            'title' => 'required|string',
-            'creator' => 'required|string',
         ]);
-
+    
         $path = $request->file('pdf')->store('sentalk_pdfs', 'public');
-
-        $sentalk = SenTalk::create([
-            'title' => $request->title,
-            'creator' => $request->creator,
+    
+        return response()->json([
             'pdf_path' => $path,
+            'title' => $request->file('pdf')->getClientOriginalName(),
         ]);
-
-        return response()->json($sentalk, 201);
     }
+
 
     public function show($id)
     {
