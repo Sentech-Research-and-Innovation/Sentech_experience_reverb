@@ -1,156 +1,285 @@
 <template>
-  <div class="sentalk-card">
+<div class="sentalk-container">
     <div class="sentalk-header">
-      <h2>{{ latest.title }}</h2>
-      <span class="stats">
-        {{ latest.number_views }} views ·
-        {{ latest.number_downloads }} downloads ·
-        {{ latest.number_likes }} likes
-      </span>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search by name">
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-upload">
+                <i class="fas fa-upload"></i> Upload
+            </button>
+            <button class="btn btn-download">
+                <i class="fas fa-download"></i> Download
+            </button>
+        </div>
     </div>
 
-    <!-- PDF Viewer -->
-    <iframe
-      v-if="latest.pdf_path"
-      :src="`/storage/${latest.pdf_path}#toolbar=0`"
-      width="100%"
-      height="600"
-    ></iframe>
+    <div class="edition-card">
+        <div class="edition-title">SenTalk August Edition 2025</div>
+        <div class="edition-meta">
+            <span class="creator">By Machabal</span>
+            <span class="date">on 18 Aug 2025 7:14 AM</span>
+            <span class="stats">
+                - 109 views - 23 downloads - 3 likes
+            </span>
+            <a href="#" class="view-new-tab">view on a new tap</a>
+        </div>
 
-    <!-- Action Buttons -->
-    <div>
-      <a
-        :href="`/storage/${latest.pdf_path}`"
-        class="btn"
-        download
-      >
-        ⬇ Download PDF
-      </a>
-      <label for="upload" class="btn">⬆ Upload New</label>
-      <input
-        type="file"
-        id="upload"
-        accept="application/pdf"
-        ref="fileInput"
-        style="display:none"
-        @change="onFileChange"
-      />
+        <div class="pdf-preview">
+            <div class="pdf-header">
+                <h2>AUGUST 2025 EDITION</h2>
+                <h3>SENTALK</h3>
+            </div>
+            <div class="pdf-content">
+                <!-- PDF will be displayed here -->
+                <div class="pdf-placeholder">
+                    <i class="fas fa-file-pdf"></i>
+                    <p>PDF Preview</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Older Editions -->
-    <div class="older-editions">
-      <h3>Older Editions</h3>
-      <ul>
-        <li v-for="edition in editions" :key="edition.id">
-          <a href="javascript:void(0)" @click="view(edition)">
-            {{ edition.title }} ({{ edition.created_at }})
-          </a>
-        </li>
-      </ul>
+    <div class="pagination">
+        <button class="pagination-btn">Previous</button>
+        <button class="pagination-btn active">1</button>
+        <button class="pagination-btn">2</button>
+        <button class="pagination-btn">3</button>
+        <button class="pagination-btn">4</button>
+        <button class="pagination-btn">5</button>
+        <button class="pagination-btn">6</button>
+        <button class="pagination-btn">7</button>
+        <button class="pagination-btn">8</button>
+        <button class="pagination-btn">9</button>
+        <button class="pagination-btn">10</button>
+        <span class="pagination-ellipsis">...</span>
+        <button class="pagination-btn">19</button>
+        <button class="pagination-btn">20</button>
+        <button class="pagination-btn">Next</button>
     </div>
-  </div>
-</template>
+</div>
+<\template>
+<style>
+    .sentalk-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-<script>
-import axios from "axios";
+    .sentalk-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
 
-export default {
-  data() {
-    return {
-      latest: {
-        title: "SenTalk August Edition 2025",
-        creator: "MachabaL",
-        number_views: 109,
-        number_downloads: 23,
-        number_likes: 3,
-        created_at: "18 Aug 2025",
-        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
-      },
-      editions: [
-        { id: 2, title: "July 2025", created_at: "18 Jul 2025" },
-        { id: 3, title: "June 2025", created_at: "18 Jun 2025" },
-      ],
-      file: null,
-    };
-  },
-  methods: {
-    onFileChange(e) {
-      this.file = e.target.files[0];
-      // Later: send with axios to backend
-    },
-    view(edition) {
-      // Later: fetch edition from API
-      this.latest = edition;
-    },
-  },
-};
-</script>
+    .search-box {
+        display: flex;
+        align-items: center;
+        background: #f5f7f9;
+        border-radius: 4px;
+        padding: 8px 12px;
+        flex: 1;
+        max-width: 300px;
+    }
 
-<style scoped>
-.sentalk-card {
-  max-width: 1000px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-.sentalk-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-.sentalk-header h2 {
-  margin: 0;
-  color: #444;
-}
-.stats {
-  font-size: 14px;
-  color: #777;
-}
-iframe {
-  width: 100%;
-  height: 600px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-.btn {
-  display: inline-block;
-  margin-right: 10px;
-  padding: 10px 18px;
-  background: #626AEF;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: background 0.3s;
-  cursor: pointer;
-}
-.btn:hover {
-  background: #4a52c0;
-}
-.older-editions {
-  margin-top: 20px;
-}
-.older-editions h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
-  color: #444;
-}
-.older-editions ul {
-  list-style: none;
-  padding: 0;
-}
-.older-editions li {
-  margin: 5px 0;
-}
-.older-editions a {
-  color: #626AEF;
-  text-decoration: none;
-}
-.older-editions a:hover {
-  text-decoration: underline;
-}
+    .search-box i {
+        color: #7a7a7a;
+        margin-right: 8px;
+    }
+
+    .search-box input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+    }
+
+    .btn-upload {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .btn-upload:hover {
+        background: #3d8b40;
+    }
+
+    .btn-download {
+        background: #2196F3;
+        color: white;
+    }
+
+    .btn-download:hover {
+        background: #0b7dda;
+    }
+
+    .edition-card {
+        background: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .edition-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .edition-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 14px;
+        color: #7a7a7a;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .view-new-tab {
+        color: #2196F3;
+        text-decoration: none;
+    }
+
+    .view-new-tab:hover {
+        text-decoration: underline;
+    }
+
+    .pdf-preview {
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .pdf-header {
+        background: #2c3e50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .pdf-header h2 {
+        font-size: 18px;
+        margin: 0 0 5px 0;
+        font-weight: 600;
+    }
+
+    .pdf-header h3 {
+        font-size: 14px;
+        margin: 0;
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+
+    .pdf-content {
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f2f5;
+    }
+
+    .pdf-placeholder {
+        text-align: center;
+        color: #7a7a7a;
+    }
+
+    .pdf-placeholder i {
+        font-size: 48px;
+        color: #e74c3c;
+        margin-bottom: 10px;
+    }
+
+    .pdf-placeholder p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 20px;
+    }
+
+    .pagination-btn {
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    .pagination-btn:hover {
+        background: #f5f5f5;
+    }
+
+    .pagination-btn.active {
+        background: #2196F3;
+        color: white;
+        border-color: #2196F3;
+    }
+
+    .pagination-ellipsis {
+        padding: 6px 4px;
+    }
+
+    @media (max-width: 768px) {
+        .sentalk-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .search-box {
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        .action-buttons {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .edition-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+    }
 </style>
