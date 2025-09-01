@@ -7,7 +7,7 @@
             <div
                 class="cover-image"
                 :style="{
-                    backgroundImage: `url('${user.coverImage || defaultCover}')`
+                    backgroundImage: `url('${user.cover_photo_url || defaultCover}')`
                 }"
             ></div>
             
@@ -15,8 +15,8 @@
                 <!-- Profile Picture -->
                 <div class="profile-picture-container">
                     <el-avatar
-                            :src="user.profile_picture || defaultProfile"
-                            :icon="!user.profile_picture ? UserFilled : ''"
+                            :src="user.profile_photo_url || defaultProfile"
+                            :icon="!user.profile_photo_url ? UserFilled : ''"
                             class="blue-profile-image"
                         />
                 </div>
