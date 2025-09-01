@@ -81,11 +81,11 @@
                                                 style="cursor: pointer;"
                                             >
                                                 {{ log.user.first_name }} {{ log.user.last_name }}
-                                            </a>
+                                            </a> | 
                                             
                                            <!-- {{ log.user.first_name }}
                                             {{ log.user.last_name }} -->
-                                        </span>
+                                        </span> 
 
                                         <span
                                             class="font-weight-light text-grey"
