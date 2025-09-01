@@ -20,19 +20,22 @@
     <!-- Action Buttons -->
     <div>
       <a
+        v-if="latest.pdf_path"
         :href="`/storage/${latest.pdf_path}`"
         class="btn"
         download
       >
         ⬇ Download PDF
       </a>
-      <label for="upload" class="btn">⬆ Upload New</label>
+
+      <!-- Upload New -->
+      <button class="btn" @click="triggerFileInput">⬆ Upload New</button>
       <input
         type="file"
-        id="upload"
         ref="fileInput"
+        accept="application/pdf"
         style="display:none"
-        @change="onFileChange"
+        @change="uploadFile"
       />
     </div>
 
@@ -69,16 +72,42 @@ export default {
         { id: 2, title: "July 2025", created_at: "18 Jul 2025" },
         { id: 3, title: "June 2025", created_at: "18 Jun 2025" },
       ],
-      file: null,
     };
   },
   methods: {
-    onFileChange(e) {
-      this.file = e.target.files[0];
-      // Later: send with axios to backend
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
+    async uploadFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      let formData = new FormData();
+      formData.append("pdf", file);
+
+      try {
+        const res = await axios.post("/admin/sentalk/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        // Update preview with uploaded PDF
+        this.latest = {
+          title: res.data.title || file.name,
+          creator: "You",
+          number_views: 0,
+          number_downloads: 0,
+          number_likes: 0,
+          created_at: new Date().toLocaleDateString(),
+          pdf_path: res.data.pdf_path,
+        };
+
+        // Add new edition to the list
+        this.editions.unshift(this.latest);
+      } catch (err) {
+        console.error("Upload failed:", err);
+      }
     },
     view(edition) {
-      // Later: fetch edition from API
       this.latest = edition;
     },
   },
