@@ -2,6 +2,11 @@
   <div class="sentalk-card">
     <div class="sentalk-header">
       <h2>{{ latest.title }}</h2>
+      <span class="stats">
+        {{ latest.number_views }} views ·
+        {{ latest.number_downloads }} downloads ·
+        {{ latest.number_likes }} likes
+      </span>
     </div>
 
     <!-- PDF Viewer -->
@@ -12,16 +17,36 @@
       height="600"
     ></iframe>
 
-    <!-- Upload New Button -->
+    <!-- Action Buttons -->
     <div>
+      <a
+        :href="`/storage/${latest.pdf_path}`"
+        class="btn"
+        download
+      >
+        ⬇ Download PDF
+      </a>
       <label for="upload" class="btn">⬆ Upload New</label>
       <input
         type="file"
         id="upload"
         accept="application/pdf"
+        ref="fileInput"
         style="display:none"
-        @change="uploadFile"
+        @change="onFileChange"
       />
+    </div>
+
+    <!-- Older Editions -->
+    <div class="older-editions">
+      <h3>Older Editions</h3>
+      <ul>
+        <li v-for="edition in editions" :key="edition.id">
+          <a href="javascript:void(0)" @click="view(edition)">
+            {{ edition.title }} ({{ edition.created_at }})
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -33,33 +58,99 @@ export default {
   data() {
     return {
       latest: {
-        title: "No PDF uploaded yet",
-        pdf_path: null,
+        title: "SenTalk August Edition 2025",
+        creator: "MachabaL",
+        number_views: 109,
+        number_downloads: 23,
+        number_likes: 3,
+        created_at: "18 Aug 2025",
+        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
       },
+      editions: [
+        { id: 2, title: "July 2025", created_at: "18 Jul 2025" },
+        { id: 3, title: "June 2025", created_at: "18 Jun 2025" },
+      ],
+      file: null,
     };
   },
   methods: {
-    async uploadFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      let formData = new FormData();
-      formData.append("pdf", file);
-
-      try {
-        const res = await axios.post("/admin/sentalk/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        // Update preview with uploaded PDF
-        this.latest = {
-          title: res.data.title,
-          pdf_path: res.data.pdf_path,
-        };
-      } catch (error) {
-        console.error("Upload failed:", error);
-      }
+    onFileChange(e) {
+      this.file = e.target.files[0];
+      // Later: send with axios to backend
+    },
+    view(edition) {
+      // Later: fetch edition from API
+      this.latest = edition;
     },
   },
 };
 </script>
+
+<style scoped>
+.sentalk-card {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.sentalk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.sentalk-header h2 {
+  margin: 0;
+  color: #444;
+}
+.stats {
+  font-size: 14px;
+  color: #777;
+}
+iframe {
+  width: 100%;
+  height: 600px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.btn {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 18px;
+  background: #626AEF;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #4a52c0;
+}
+.older-editions {
+  margin-top: 20px;
+}
+.older-editions h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #444;
+}
+.older-editions ul {
+  list-style: none;
+  padding: 0;
+}
+.older-editions li {
+  margin: 5px 0;
+}
+.older-editions a {
+  color: #626AEF;
+  text-decoration: none;
+}
+.older-editions a:hover {
+  text-decoration: underline;
+}
+</style>
