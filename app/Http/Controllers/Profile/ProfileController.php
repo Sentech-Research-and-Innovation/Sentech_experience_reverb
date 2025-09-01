@@ -45,11 +45,23 @@ class ProfileController extends Controller
 
 
 
+    // public function show($id)
+    // {
+    //     $user = User::with('company', 'roles')->findOrFail($id);
+    //     return Inertia::render('Profile/Index_1', compact('user'));
+            
+    // }
+
     public function show($id)
     {
         $user = User::with('company', 'roles')->findOrFail($id);
-        return Inertia::render('Profile/Index_1', compact('user'));
-            
+    
+        return Inertia::render('Profile/Index_1', [
+            'user' => array_merge($user->toArray(), [
+                'profile_photo_url' => $user->profile_photo_url,
+                'cover_photo_url'   => $user->cover_photo_url,
+            ]),
+        ]);
     }
 
     public function update(Request $request)
