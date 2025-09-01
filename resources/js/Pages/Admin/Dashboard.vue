@@ -44,9 +44,9 @@
             </div>
         </div>
 
-        <div class="col-12 px-0 mx-0 mt-4">
-            <ActivityLog />
-        </div>
+        <!-- <div class="col-12 px-0 mx-0 mt-4">
+           <ActivityLog />
+        </div> -->
     </div>
 </template>
 
@@ -122,7 +122,7 @@ export default defineComponent({
             userdata,
             company_type,
             refresh,
-            stats, // ✅ Return stats
+            stats, 
         };
     },
 });
