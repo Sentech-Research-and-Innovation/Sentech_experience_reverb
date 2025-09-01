@@ -86,7 +86,7 @@
             >
                 <!-- v-if="company_type == 'super_company'" -->
                 <a class="nav-link" href="/organizantions/ActivityLog">
-                    <span class="menu-title">Activivty Log </span>
+                    <span class="menu-title">Activity Log </span>
                 </a>
             </li>
 
