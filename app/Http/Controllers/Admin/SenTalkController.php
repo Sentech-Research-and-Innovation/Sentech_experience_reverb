@@ -56,3 +56,4 @@ class SenTalkController extends Controller
         ];
     }
 }
+
