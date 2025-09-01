@@ -3,51 +3,60 @@
     <div class="sentalk-header">
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search by name" v-model="searchQuery">
+        <input type="text" placeholder="Search by name" v-model="searchQuery" @input="searchEditions">
       </div>
       <div class="action-buttons">
         <button class="btn btn-upload" @click="openUploadModal">
           <i class="fas fa-upload"></i> Upload
         </button>
-        <button class="btn btn-download" @click="downloadCurrentPdf">
+        <button class="btn btn-download" @click="downloadCurrentPdf" :disabled="!currentEdition">
           <i class="fas fa-download"></i> Download
         </button>
       </div>
     </div>
 
-    <div class="edition-card" v-if="currentEdition">
-      <div class="edition-title">{{ currentEdition.title }}</div>
-      <div class="edition-meta">
-        <span class="creator">By {{ currentEdition.creator }}</span>
-        <span class="date">on {{ formatDate(currentEdition.created_at) }}</span>
-        <span class="stats">
-          - {{ currentEdition.views }} views - {{ currentEdition.downloads }} downloads - {{ currentEdition.likes }} likes
-        </span>
-        <a href="#" class="view-new-tab" @click.prevent="openInNewTab">view on a new tab</a>
-      </div>
+    <div v-if="loading" class="loading">Loading...</div>
 
-      <div class="pdf-preview">
-        <div class="pdf-header">
-          <h2>{{ currentEdition.title.toUpperCase() }}</h2>
-          <h3>SENTALK</h3>
+    <div v-else>
+      <div class="edition-card" v-if="currentEdition">
+        <div class="edition-title">{{ currentEdition.title }}</div>
+        <div class="edition-meta">
+          <span class="creator">By {{ currentEdition.creator }}</span>
+          <span class="date">on {{ formatDate(currentEdition.created_at) }}</span>
+          <span class="stats">
+            - {{ currentEdition.number_views }} views - {{ currentEdition.number_downloads }} downloads - {{ currentEdition.number_likes }} likes
+          </span>
+          <a href="#" class="view-new-tab" @click.prevent="openInNewTab">view on a new tab</a>
         </div>
-        <div class="pdf-content">
-          <iframe 
-            v-if="currentEdition.pdf_url"
-            :src="currentEdition.pdf_url"
-            width="100%"
-            height="100%"
-            frameborder="0"
-          ></iframe>
-          <div v-else class="pdf-placeholder">
-            <i class="fas fa-file-pdf"></i>
-            <p>PDF Preview</p>
+
+        <div class="pdf-preview">
+          <div class="pdf-header">
+            <h2>{{ currentEdition.title.toUpperCase() }}</h2>
+            <h3>SENTALK</h3>
+          </div>
+          <div class="pdf-content">
+            <iframe 
+              v-if="currentEdition.pdf_url"
+              :src="currentEdition.pdf_url"
+              width="100%"
+              height="100%"
+              frameborder="0"
+            ></iframe>
+            <div v-else class="pdf-placeholder">
+              <i class="fas fa-file-pdf"></i>
+              <p>PDF Preview</p>
+            </div>
           </div>
         </div>
       </div>
+
+      <div v-if="editions.length === 0" class="no-editions">
+        <i class="fas fa-file-pdf"></i>
+        <p>No SenTalk editions found</p>
+      </div>
     </div>
 
-    <div class="pagination">
+    <div class="pagination" v-if="editions.length > 0">
       <button class="pagination-btn" @click="prevPage" :disabled="currentPage === 1">Previous</button>
       <button 
         v-for="page in visiblePages" 
@@ -68,20 +77,27 @@
         <h3>Upload New Edition</h3>
         <div class="upload-form">
           <div class="form-group">
-            <label>Title</label>
-            <input type="text" v-model="newEdition.title" placeholder="Edition Title">
+            <label>Title *</label>
+            <input type="text" v-model="newEdition.title" placeholder="Edition Title" required>
           </div>
           <div class="form-group">
-            <label>Creator</label>
-            <input type="text" v-model="newEdition.creator" placeholder="Creator Name">
+            <label>Creator *</label>
+            <input type="text" v-model="newEdition.creator" placeholder="Creator Name" required>
           </div>
           <div class="form-group">
-            <label>PDF File</label>
-            <input type="file" @change="handleFileUpload" accept=".pdf">
+            <label>PDF File *</label>
+            <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf" required>
+            <small v-if="newEdition.file">Selected: {{ newEdition.file.name }}</small>
+          </div>
+          <div class="upload-status" v-if="uploadStatus">
+            {{ uploadStatus }}
           </div>
           <div class="form-actions">
             <button class="btn btn-cancel" @click="closeUploadModal">Cancel</button>
-            <button class="btn btn-primary" @click="uploadEdition" :disabled="!canUpload">Upload</button>
+            <button class="btn btn-primary" @click="uploadEdition" :disabled="!canUpload || uploading">
+              <span v-if="uploading">Uploading...</span>
+              <span v-else>Upload</span>
+            </button>
           </div>
         </div>
       </div>
@@ -90,23 +106,21 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'SenTalkPage',
   data() {
     return {
       searchQuery: '',
       currentPage: 1,
-      totalPages: 20,
-      currentEdition: {
-        title: 'SenTalk August Edition 2025',
-        creator: 'Machabal',
-        created_at: '2025-08-18T07:14:00',
-        views: 109,
-        downloads: 23,
-        likes: 3,
-        pdf_url: null
-      },
+      totalPages: 1,
+      editions: [],
+      currentEdition: null,
+      loading: true,
       showUploadModal: false,
+      uploading: false,
+      uploadStatus: '',
       newEdition: {
         title: '',
         creator: '',
@@ -143,350 +157,207 @@ export default {
         minute: '2-digit'
       });
     },
+    
+    async loadEditions() {
+      this.loading = true;
+      try {
+        const response = await axios.get('/sentalk', {
+          params: {
+            page: this.currentPage,
+            search: this.searchQuery
+          }
+        });
+        
+        this.editions = response.data.data;
+        this.totalPages = response.data.last_page;
+        
+        if (this.editions.length > 0) {
+          this.currentEdition = this.editions[0];
+          // Add full URL for PDF preview
+          if (this.currentEdition.pdf_path) {
+            this.currentEdition.pdf_url = `/storage/${this.currentEdition.pdf_path}`;
+          }
+        } else {
+          this.currentEdition = null;
+        }
+      } catch (error) {
+        console.error('Error loading editions:', error);
+        alert('Failed to load SenTalk editions');
+      } finally {
+        this.loading = false;
+      }
+    },
+    
+    async searchEditions() {
+      // Debounce search to avoid too many requests
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(() => {
+        this.currentPage = 1;
+        this.loadEditions();
+      }, 500);
+    },
+    
     openUploadModal() {
       this.showUploadModal = true;
     },
+    
     closeUploadModal() {
       this.showUploadModal = false;
+      this.uploadStatus = '';
       this.newEdition = {
         title: '',
         creator: '',
         file: null
       };
+      
+      // Reset file input
+      if (this.$refs.fileInput) {
+        this.$refs.fileInput.value = '';
+      }
     },
+    
     handleFileUpload(event) {
       this.newEdition.file = event.target.files[0];
     },
-    uploadEdition() {
-      // Here you would implement the actual upload logic
-      console.log('Uploading new edition:', this.newEdition);
-      // After successful upload, you might want to:
-      // 1. Close the modal
-      // 2. Refresh the editions list
-      // 3. Show a success message
-      this.closeUploadModal();
+    
+    async uploadEdition() {
+      if (!this.canUpload) return;
+      
+      this.uploading = true;
+      this.uploadStatus = 'Uploading...';
+      
+      try {
+        const formData = new FormData();
+        formData.append('title', this.newEdition.title);
+        formData.append('creator', this.newEdition.creator);
+        formData.append('pdf', this.newEdition.file);
+        
+        const response = await axios.post('/sentalk/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        this.uploadStatus = 'Upload successful!';
+        
+        // Close modal after a brief delay
+        setTimeout(() => {
+          this.closeUploadModal();
+          this.loadEditions(); // Reload the editions list
+        }, 1500);
+        
+      } catch (error) {
+        console.error('Upload error:', error);
+        this.uploadStatus = 'Upload failed. Please try again.';
+        
+        if (error.response && error.response.data.errors) {
+          const errors = error.response.data.errors;
+          this.uploadStatus = Object.values(errors).flat().join(', ');
+        }
+      } finally {
+        this.uploading = false;
+      }
     },
-    downloadCurrentPdf() {
-      // Implement download logic
-      console.log('Downloading current PDF');
+    
+    async downloadCurrentPdf() {
+      if (!this.currentEdition) return;
+      
+      try {
+        // Increment download count
+        await axios.get(`/sentalk/${this.currentEdition.id}/download`);
+        
+        // Create download link
+        const link = document.createElement('a');
+        link.href = `/storage/${this.currentEdition.pdf_path}`;
+        link.download = this.currentEdition.title + '.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Reload to update download count
+        this.loadEditions();
+        
+      } catch (error) {
+        console.error('Download error:', error);
+        alert('Failed to download PDF');
+      }
     },
+    
     openInNewTab() {
-      window.open(this.currentEdition.pdf_url, '_blank');
+      if (this.currentEdition && this.currentEdition.pdf_url) {
+        window.open(this.currentEdition.pdf_url, '_blank');
+        
+        // Increment view count
+        axios.get(`/sentalk/${this.currentEdition.id}/view`)
+          .then(() => this.loadEditions())
+          .catch(err => console.error('Error incrementing view count:', err));
+      }
     },
+    
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
-        this.loadEdition();
+        this.loadEditions();
       }
     },
+    
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
-        this.loadEdition();
+        this.loadEditions();
       }
     },
+    
     goToPage(page) {
       this.currentPage = page;
-      this.loadEdition();
-    },
-    loadEdition() {
-      // Here you would fetch the edition data for the current page
-      // This is a mock implementation
-      console.log('Loading edition for page:', this.currentPage);
+      this.loadEditions();
     }
   },
+  
   mounted() {
-    // Load initial data
-    this.loadEdition();
+    this.loadEditions();
   }
 }
 </script>
 
 <style scoped>
-.sentalk-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+/* Your existing styles here, with a few additions */
 
-.sentalk-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background: #f5f7f9;
-  border-radius: 4px;
-  padding: 8px 12px;
-  flex: 1;
-  max-width: 300px;
-}
-
-.search-box i {
-  color: #7a7a7a;
-  margin-right: 8px;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  font-size: 14px;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
-}
-
-.btn-upload {
-  background: #4CAF50;
-  color: white;
-}
-
-.btn-upload:hover {
-  background: #3d8b40;
-}
-
-.btn-download {
-  background: #2196F3;
-  color: white;
-}
-
-.btn-download:hover {
-  background: #0b7dda;
-}
-
-.btn-primary {
-  background: #2196F3;
-  color: white;
-}
-
-.btn-cancel {
-  background: #f5f5f5;
-  color: #333;
-}
-
-.edition-card {
-  background: #f9f9f9;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.edition-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #2c3e50;
-}
-
-.edition-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 14px;
-  color: #7a7a7a;
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.view-new-tab {
-  color: #2196F3;
-  text-decoration: none;
-}
-
-.view-new-tab:hover {
-  text-decoration: underline;
-}
-
-.pdf-preview {
-  background: white;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.pdf-header {
-  background: #2c3e50;
-  color: white;
-  padding: 15px;
+.loading {
   text-align: center;
-}
-
-.pdf-header h2 {
+  padding: 40px;
   font-size: 18px;
-  margin: 0 0 5px 0;
-  font-weight: 600;
 }
 
-.pdf-header h3 {
-  font-size: 14px;
-  margin: 0;
-  font-weight: 400;
-  letter-spacing: 1px;
-}
-
-.pdf-content {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f0f2f5;
-}
-
-.pdf-placeholder {
+.no-editions {
   text-align: center;
+  padding: 40px;
   color: #7a7a7a;
 }
 
-.pdf-placeholder i {
+.no-editions i {
   font-size: 48px;
-  color: #e74c3c;
-  margin-bottom: 10px;
-}
-
-.pdf-placeholder p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 20px;
-}
-
-.pagination-btn {
-  padding: 6px 12px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background: #f5f5f5;
-}
-
-.pagination-btn.active {
-  background: #2196F3;
-  color: white;
-  border-color: #2196F3;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination-ellipsis {
-  padding: 6px 4px;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-}
-
-.upload-form {
-  margin-top: 15px;
-}
-
-.form-group {
   margin-bottom: 15px;
+  color: #ddd;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
+.upload-status {
+  margin: 15px 0;
+  padding: 10px;
   border-radius: 4px;
+  background: #f8f9fa;
+  text-align: center;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-style: italic;
 }
 
-@media (max-width: 768px) {
-  .sentalk-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .search-box {
-    max-width: 100%;
-    width: 100%;
-  }
-  
-  .action-buttons {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .btn {
-    flex: 1;
-    justify-content: center;
-  }
-  
-  .edition-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
