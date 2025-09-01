@@ -45,7 +45,7 @@
         </div>
 
         <!-- <div class="col-12 px-0 mx-0 mt-4">
-           <ActivityLog />
+           <senTalk />
         </div> -->
     </div>
 </template>
@@ -54,13 +54,13 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, onMounted, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import ActivityLog from "./ActivityLog.vue";
+import senTalk from "./senTalk.vue";
 
 export default defineComponent({
     name: "dashboard",
     layout: AdminLayout,
 
-    components: { Head, ActivityLog },
+    components: { Head, senTalk },
 
     props: {
         refresh: {
