@@ -74,8 +74,17 @@
                                             class="fs-6"
                                             style="font-weight: 400"
                                         >
-                                            {{ log.user.first_name }}
-                                            {{ log.user.last_name }} |
+
+                                            <a 
+                                                :href="`/profile/${log.user.id}`" 
+                                                class="table-cell text-primary link-style"
+                                                style="cursor: pointer;"
+                                            >
+                                                {{ log.user.first_name }} {{ log.user.last_name }}
+                                            </a>
+                                            
+                                           <!-- {{ log.user.first_name }}
+                                            {{ log.user.last_name }} -->
                                         </span>
 
                                         <span
