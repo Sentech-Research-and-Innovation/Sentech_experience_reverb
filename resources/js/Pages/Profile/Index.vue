@@ -78,7 +78,7 @@
                 <div class="dialog-image-preview">
                     <template v-if="user.profile_photo_url"> 
                         <el-avatar 
-                            :src="user.profile_photo_url" 
+                            :src="user.profile_photo_url || defaultProfile" 
                             shape="circle" 
                             :size="180" /> 
                     </template> 
