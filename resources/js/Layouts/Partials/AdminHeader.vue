@@ -80,6 +80,17 @@
             </li>
 
             <li
+                v-if="can('companies-read_approved')"
+                class="nav-item"
+                :class="{ active: $page.url === '/organizantions/ActivityLog' }"
+            >
+                <!-- v-if="company_type == 'super_company'" -->
+                <a class="nav-link" href="/organizantions/ActivityLog">
+                    <span class="menu-title">Activivty Log </span>
+                </a>
+            </li>
+
+            <li
                 class="nav-item my-lg-5"
                 style="text-decoration: none !important"
             >
