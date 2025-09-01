@@ -1,49 +1,13 @@
 <template>
-    <Head :title="'Dashboard'"><title>Dashboard</title></Head>
+    <Head :title="'Dashboard'"><title>Activity Log</title></Head>
 
     <div class="col-12 px-lg-3">
         <p class="text-grey" v-if="userdata[0]">
             Welcome Back, {{ userdata[0].first_name }}
         </p>
-        <h2><strong>Your Dashboard</strong></h2>
+        <h2><strong>The Activity Log</strong></h2>
 
-        <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
-            <div class="row">
-                <div class="col-lg-3 col-6 pr-0">
-                    <div class="col-12 pending-companies rounded py-4 pl-4">
-                        <div class="tweets-label pt-4">Pending companies</div>
-                        <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.pending_companies }}</strong> <!--  Dynamic -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="col-12 company-requests rounded py-4 tweet-box pl-4">
-                        <div class="tweets-label pt-4">Company Requests</div>
-                        <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.company_requests }}</strong> <!-- Dynamic -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6 pr-0 pt-lg-0 pt-3 pl-lg-0">
-                    <div class="col-12 system-users rounded py-4 tweet-box pl-4">
-                        <div class="tweets-label pt-4">System users</div>
-                        <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.system_users }}</strong> <!-- Dynamic -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6 pt-3 pt-lg-0">
-                    <div class="col-12 customer-feedback rounded py-4 tweet-box pl-4">
-                        <div class="tweets-label pt-4">Customer feedback</div>
-                        <div class="tweets-value pb-3 pt-3">
-                            <strong>{{ stats.customer_feedback }}</strong> <!-- Dynamic -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="col-12 px-0 mx-0 mt-4">
             <ActivityLog />
         </div>
