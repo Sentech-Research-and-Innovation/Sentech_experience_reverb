@@ -3,9 +3,9 @@
 
     <div class="col-12 px-lg-3">
         <p class="text-grey" v-if="userdata[0]">
-            Welcome Back, {{ userdata[0].first_name }}
+           Hi {{ userdata[0].first_name }}
         </p>
-        <h2><strong>The Activity Log</strong></h2>
+        <h2><strong>Activity Logs</strong></h2>
 
         
         <div class="col-12 px-0 mx-0 mt-4">
