@@ -34,6 +34,11 @@ class OrganizationsController extends Controller
         return Inertia::render('Companies/Approved', compact('companies'));
     }
 
+    public function ActivityLog()
+    {
+        return Inertia::render('Companies/ActivityLog_main');
+    }
+
     public function request()
     {
         $companies = Company::with('contactPerson')->where('approved', 0)->where('companyType', 'normal_company')->OrderBy('id', 'DESC')->get();
