@@ -14,15 +14,19 @@ use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-   // public function index()
-   //  {
-   //      // This will automatically include profile_photo_url via the accessor
-   //      $user = User::where('id', auth()->user()->id)
-   //                  ->with('company', 'roles')
-   //                  ->first();
+
+    // public function index()
+    // {
+    //     $user = User::where('id', auth()->id())
+    //                 ->with('company', 'roles')
+    //                 ->first();
     
-   //      return Inertia::render('Profile/Index', compact('user'));
-   //  }
+    //     return Inertia::render('Profile/Index', [
+    //         'user' => array_merge($user->toArray(), [
+    //             'cover_photo_url' => $user->cover_photo_url,
+    //         ]),
+    //     ]);
+    // }
 
     public function index()
     {
@@ -32,10 +36,12 @@ class ProfileController extends Controller
     
         return Inertia::render('Profile/Index', [
             'user' => array_merge($user->toArray(), [
-                'cover_photo_url' => $user->cover_photo_url,
+                'profile_photo_url' => $user->profile_photo_url,
+                'cover_photo_url'   => $user->cover_photo_url,
             ]),
         ]);
     }
+
 
 
 
@@ -102,15 +108,15 @@ class ProfileController extends Controller
     
         // store the file in storage/app/public/profile_images
         $path = $request->file('file')->store('profile_images', 'public');
-
-        // $user = auth()->user();
-        // // delete old profile photo if it exists
-        // if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
-        //     \Storage::disk('public')->delete($user->profile_photo_path);
-        // }
     
         // update the DB column
         $user = auth()->user();
+
+        // // delete old profile photo if it exists
+        if ($user->profile_photo_path && \Storage::disk('public')->exists($user->profile_photo_path)) {
+            \Storage::disk('public')->delete($user->profile_photo_path);
+        }
+        
         $user->update(['profile_photo_path' => $path]);
         $user->save();
  
