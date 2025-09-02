@@ -27,54 +27,13 @@ class SenTalkController extends Controller
         return response()->json($editions);
     }
 
-    // public function upload(Request $request)
-    // {
-    //     Log::info('SenTalk upload request received.', [
-    //         'hasFile' => $request->hasFile('pdf'),
-    //         'all' => $request->all(),
-    //     ]);
-    
-    //     $request->validate([
-    //         'pdf' => 'required|mimes:pdf|max:10000',
-    //     ]);
-    
-    //     try {
-    //         $file = $request->file('pdf');
-    
-    //         Log::info('Uploading file...', [
-    //             'originalName' => $file->getClientOriginalName(),
-    //             'mimeType' => $file->getMimeType(),
-    //             'size' => $file->getSize(),
-    //         ]);
-    
-    //         // Store PDF in storage/app/public/sentalk_pdfs
-    //         $path = $file->store('sentalk_pdfs', 'public');
-    
-    //         Log::info('File stored successfully.', [
-    //             'path' => $path,
-    //         ]);
-    
-    //         return response()->json([
-    //             'success' => true,
-    //             'pdf_path' => $path,
-    //             'title' => $file->getClientOriginalName(),
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         Log::error('Upload failed.', [
-    //             'error' => $e->getMessage(),
-    //             'trace' => $e->getTraceAsString(),
-    //         ]);
-    
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Upload failed.',
-    //             'error' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
-
     public function upload(Request $request)
     {
+        Log::info('SenTalk upload request received.', [
+            'hasFile' => $request->hasFile('pdf'),
+            'all' => $request->all(),
+        ]);
+    
         $request->validate([
             'pdf' => 'required|mimes:pdf|max:10000',
         ]);
@@ -82,9 +41,18 @@ class SenTalkController extends Controller
         try {
             $file = $request->file('pdf');
     
-            // Always store with a fixed name
-            $fileName = 'current.pdf';
-            $path = $file->storeAs('sentalk_pdfs', $fileName, 'public');
+            Log::info('Uploading file...', [
+                'originalName' => $file->getClientOriginalName(),
+                'mimeType' => $file->getMimeType(),
+                'size' => $file->getSize(),
+            ]);
+    
+            // Store PDF in storage/app/public/sentalk_pdfs
+            $path = $file->store('sentalk_pdfs', 'public');
+    
+            Log::info('File stored successfully.', [
+                'path' => $path,
+            ]);
     
             return response()->json([
                 'success' => true,
@@ -92,6 +60,11 @@ class SenTalkController extends Controller
                 'title' => $file->getClientOriginalName(),
             ]);
         } catch (\Exception $e) {
+            Log::error('Upload failed.', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+    
             return response()->json([
                 'success' => false,
                 'message' => 'Upload failed.',
@@ -99,6 +72,7 @@ class SenTalkController extends Controller
             ], 500);
         }
     }
+
 
 
 
