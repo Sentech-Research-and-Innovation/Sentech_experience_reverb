@@ -11,69 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class SenTalkController extends Controller
 {
-//     public function index(Request $request)
-//     {
-//         $query = SenTalk::query();
-        
-//         // Search functionality
-//         if ($request->has('search') && !empty($request->search)) {
-//             $query->where('title', 'like', '%' . $request->search . '%')
-//                   ->orWhere('creator', 'like', '%' . $request->search . '%');
-//         }
-        
-//         // Paginate results
-//         $editions = $query->orderBy('created_at', 'desc')->paginate(1);
-        
-//         return response()->json($editions);
-//     }
-
-//     public function upload(Request $request)
-//     {
-//         Log::info('SenTalk upload request received.', [
-//             'hasFile' => $request->hasFile('pdf'),
-//             'all' => $request->all(),
-//         ]);
-    
-//         $request->validate([
-//             'pdf' => 'required|mimes:pdf|max:10000',
-//         ]);
-    
-//         try {
-//             $file = $request->file('pdf');
-    
-//             Log::info('Uploading file...', [
-//                 'originalName' => $file->getClientOriginalName(),
-//                 'mimeType' => $file->getMimeType(),
-//                 'size' => $file->getSize(),
-//             ]);
-    
-//             // Store PDF in storage/app/public/sentalk_pdfs
-//             $path = $file->store('sentalk_pdfs', 'public');
-    
-//             Log::info('File stored successfully.', [
-//                 'path' => $path,
-//             ]);
-    
-//             return response()->json([
-//                 'success' => true,
-//                 'pdf_path' => $path,
-//                 'title' => $file->getClientOriginalName(),
-//             ]);
-//         } catch (\Exception $e) {
-//             Log::error('Upload failed.', [
-//                 'error' => $e->getMessage(),
-//                 // 'trace' => $e->getTraceAsString(),
-//             ]);
-    
-//             return response()->json([
-//                 'success' => false,
-//                 'message' => 'Upload failed.',
-//                 'error' => $e->getMessage(),
-//             ], 500);
-//         }
-//     }
-
-
     public function index(Request $request)
     {
         $query = SenTalk::query();
@@ -84,8 +21,8 @@ class SenTalkController extends Controller
                   ->orWhere('creator', 'like', '%' . $request->search . '%');
         }
         
-        // Paginate or get all editions
-        $editions = $query->orderBy('created_at', 'desc')->paginate(10);
+        // Paginate results
+        $editions = $query->orderBy('created_at', 'desc')->paginate(1);
         
         return response()->json($editions);
     }
@@ -113,35 +50,19 @@ class SenTalkController extends Controller
             // Store PDF in storage/app/public/sentalk_pdfs
             $path = $file->store('sentalk_pdfs', 'public');
     
-            // Optionally remove old file
-            $latest = SenTalk::latest()->first();
-            if ($latest && $latest->pdf_path && \Storage::disk('public')->exists($latest->pdf_path)) {
-                \Storage::disk('public')->delete($latest->pdf_path);
-            }
-    
-            // Save new edition in DB
-            $sentalk = new SenTalk();
-            $sentalk->title = $file->getClientOriginalName();
-            $sentalk->pdf_path = $path;
-            $sentalk->creator = auth()->check() ? auth()->user()->name : 'System';
-            $sentalk->number_views = 0;
-            $sentalk->number_downloads = 0;
-            $sentalk->number_likes = 0;
-            $sentalk->save();
-    
-            Log::info('File stored successfully and DB updated.', [
+            Log::info('File stored successfully.', [
                 'path' => $path,
-                'id' => $sentalk->id,
             ]);
     
             return response()->json([
                 'success' => true,
-                'edition' => $sentalk,
+                'pdf_path' => $path,
+                'title' => $file->getClientOriginalName(),
             ]);
         } catch (\Exception $e) {
             Log::error('Upload failed.', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                // 'trace' => $e->getTraceAsString(),
             ]);
     
             return response()->json([
