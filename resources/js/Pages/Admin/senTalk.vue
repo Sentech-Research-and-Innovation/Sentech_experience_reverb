@@ -59,51 +59,78 @@ import axios from "axios";
 export default {
   data() {
     return {
-      latest: {
-        title: "SenTalk August Edition 2025",
-        creator: "MachabaL",
-        number_views: 109,
-        number_downloads: 23,
-        number_likes: 3,
-        created_at: "18 Aug 2025",
-        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
-      },
+      latest: null,
       editions: [],
     };
   },
+    
+    async mounted() {
+    await this.fetchData();
+  },
+    
   methods: {
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
-    async uploadFile(event) {
+    // async uploadFile(event) {
+    //   const file = event.target.files[0];
+    //   if (!file) return;
+
+    //   let formData = new FormData();
+    //   formData.append("pdf", file);
+
+    //   try {
+    //     const res = await axios.post("/sentalk/upload", formData, {
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //     });
+
+    //     // Update preview with uploaded PDF
+    //     this.latest = {
+    //       title: res.data.title || file.name,
+    //       creator: "You",
+    //       number_views: 0,
+    //       number_downloads: 0,
+    //       number_likes: 0,
+    //       created_at: new Date().toLocaleDateString(),
+    //       pdf_path: res.data.pdf_path,
+    //     };
+
+    //     // Add new edition to the list
+    //     this.editions.unshift(this.latest);
+    //   } catch (err) {
+    //     console.error("Upload failed:", err);
+    //   }
+    // },
+
+      async uploadFile(event) {
       const file = event.target.files[0];
       if (!file) return;
-
+    
       let formData = new FormData();
       formData.append("pdf", file);
-
+    
       try {
-        const res = await axios.post("/sentalk/upload", formData, {
+        await axios.post("/sentalk/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-
-        // Update preview with uploaded PDF
-        this.latest = {
-          title: res.data.title || file.name,
-          creator: "You",
-          number_views: 0,
-          number_downloads: 0,
-          number_likes: 0,
-          created_at: new Date().toLocaleDateString(),
-          pdf_path: res.data.pdf_path,
-        };
-
-        // Add new edition to the list
-        this.editions.unshift(this.latest);
+    
+        // Refresh from DB after upload
+        await this.fetchData();
       } catch (err) {
         console.error("Upload failed:", err);
       }
     },
+
+    async fetchData() {
+      try {
+        const res = await axios.get("/sentalk");
+        this.latest = res.data.latest;
+        this.editions = res.data.editions;
+      } catch (err) {
+        console.error("Failed to fetch editions:", err);
+      }
+    },
+      
     view(edition) {
       this.latest = edition;
     },
