@@ -103,23 +103,23 @@ export default {
     // },
 
       async uploadFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-    
-      let formData = new FormData();
-      formData.append("pdf", file);
-    
-      try {
-        await axios.post("/sentalk/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-    
-        // Refresh from DB after upload
-        await this.fetchData();
-      } catch (err) {
-        console.error("Upload failed:", err);
-      }
-    },
+          const file = event.target.files[0];
+          if (!file) return;
+        
+          let formData = new FormData();
+          formData.append("pdf", file);
+        
+          try {
+            await axios.post("/sentalk/upload", formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            });
+        
+            // Refresh from DB after upload
+            await this.fetchData();
+          } catch (err) {
+            console.error("Upload failed:", err);
+          }
+        },
 
     async fetchData() {
       try {
