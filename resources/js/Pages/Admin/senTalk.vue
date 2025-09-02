@@ -60,32 +60,18 @@ export default {
   data() {
     return {
       latest: {
-        title: "Loading...",
-        creator: "",
-        number_views: 0,
-        number_downloads: 0,
-        number_likes: 0,
-        created_at: "",
-        pdf_path: "",
+        title: "SenTalk August Edition 2025",
+        creator: "MachabaL",
+        number_views: 109,
+        number_downloads: 23,
+        number_likes: 3,
+        created_at: "18 Aug 2025",
+        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
       },
       editions: [],
     };
   },
-  mounted() {
-    this.fetchData();
-  },
   methods: {
-    async fetchData() {
-      try {
-        const res = await axios.get("/sentalk");
-        if (res.data.latest) {
-          this.latest = res.data.latest;
-        }
-        this.editions = res.data.editions || [];
-      } catch (err) {
-        console.error("Failed to fetch editions:", err);
-      }
-    },
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
@@ -101,11 +87,19 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        const newEdition = res.data.edition;
+        // Update preview with uploaded PDF
+        this.latest = {
+          title: res.data.title || file.name,
+          creator: "You",
+          number_views: 0,
+          number_downloads: 0,
+          number_likes: 0,
+          created_at: new Date().toLocaleDateString(),
+          pdf_path: res.data.pdf_path,
+        };
 
-        // Update latest + prepend to list
-        this.latest = newEdition;
-        this.editions.unshift(newEdition);
+        // Add new edition to the list
+        this.editions.unshift(this.latest);
       } catch (err) {
         console.error("Upload failed:", err);
       }
@@ -116,7 +110,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .sentalk-card {
