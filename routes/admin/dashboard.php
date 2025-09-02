@@ -12,7 +12,7 @@ Route::post('/admin/activities',  [DashboardController::class, 'show'])->middlew
 Route::prefix('sentalk')->group(function () {
     Route::get('/', [SenTalkController::class, 'index']);
     Route::post('/upload', [SenTalkController::class, 'upload']);
-    Route::get('/{id}', [SenTalkController::class, 'show']);
+    Route::get('/{id}/display', [SenTalkController::class, 'display']);
     Route::get('/download/{id}', [SenTalkController::class, 'download']);
     Route::get('/stats', [SenTalkController::class, 'stats']);
 });
