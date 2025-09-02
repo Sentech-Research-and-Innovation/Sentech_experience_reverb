@@ -10,7 +10,7 @@
     </div>
 
     <!-- PDF Viewer -->
-    <iframe :src="`/sentalk/${latest.id}/display`" width="100%" height="600"></iframe>
+    <iframe :src="`/sentalk/display`" width="100%" height="600"></iframe>
 
     <!-- Action Buttons -->
     <div>
