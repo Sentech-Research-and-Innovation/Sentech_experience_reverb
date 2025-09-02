@@ -74,15 +74,30 @@ class SenTalkController extends Controller
     }
 
 
-    public function show($id)
+    public function display($id)
     {
         $sentalk = SenTalk::findOrFail($id);
-        
+    
+        // Path to file
+        $filePath = storage_path('app/public/' . $sentalk->pdf_path);
+    
+        if (!file_exists($filePath)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found.',
+            ], 404);
+        }
+    
         // Increment view count
         $sentalk->increment('number_views');
-        
-        return response()->json($sentalk);
-    }
+    
+        // Return inline PDF response
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $sentalk->title . '"'
+        ]);
+}
+
 
     public function download($id)
     {
