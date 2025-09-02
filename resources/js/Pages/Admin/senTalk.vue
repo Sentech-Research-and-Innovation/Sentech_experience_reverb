@@ -10,7 +10,12 @@
     </div>
 
     <!-- PDF Viewer -->
-    <iframe :src="`/sentalk/display`" width="100%" height="600"></iframe>
+        <iframe
+      v-if="latest.pdf_path"
+      :src="`/storage/${latest.pdf_path}#toolbar=0`"
+      width="100%"
+      height="600"
+    ></iframe>
 
     <!-- Action Buttons -->
     <div>
