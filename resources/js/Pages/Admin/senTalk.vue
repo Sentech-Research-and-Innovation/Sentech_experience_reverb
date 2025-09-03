@@ -12,12 +12,13 @@
       </div>
 
       <!-- PDF Viewer -->
-      <iframe
-        v-if="latest.pdf_path"
-        :src="`/storage/${latest.pdf_path}#toolbar=0`"
-        width="100%"
-        height="600"
-      ></iframe>
+    <iframe
+      v-if="latest.pdf_path"
+      :src="`/storage/${latest.pdf_path}#toolbar=0&v=${Date.now()}`"
+      width="90%"
+      height="600"
+    ></iframe>
+
 
       <!-- Action Buttons -->
       <div>
