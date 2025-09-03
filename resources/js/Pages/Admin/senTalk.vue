@@ -23,10 +23,9 @@
       <!-- Action Buttons -->
       <div>
         <a
-          v-if="latest.pdf_path"
-          :href="`/storage/${latest.pdf_path}`"
+          v-if="latest && latest.id"
+          :href="`/sentalk/download/${latest.id}`"
           class="btn"
-          download
         >
           ⬇ Download PDF
         </a>
