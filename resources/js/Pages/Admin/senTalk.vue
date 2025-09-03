@@ -14,8 +14,8 @@
       <!-- PDF Viewer -->
     <iframe
       v-if="latest.pdf_path"
-      :src="`/storage/${latest.pdf_path}#toolbar=0&v=${Date.now()}`"
-      width="100%"
+      :src="`/storage/${latest.pdf_path}#toolbar=0&view=FitH&v=${Date.now()}`"
+      width="75%"
       height="600"
     ></iframe>
 
