@@ -11,18 +11,47 @@ use Illuminate\Support\Facades\Log;
 
 class SenTalkController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     $query = SenTalk::query();
+        
+    //     // Search functionality
+    //     if ($request->has('search') && !empty($request->search)) {
+    //         $query->where('title', 'like', '%' . $request->search . '%')
+    //               ->orWhere('creator', 'like', '%' . $request->search . '%');
+    //     }
+        
+    //     // Paginate results
+    //     $editions = $query->orderBy('created_at', 'desc')->paginate(1);
+        
+    //     return response()->json($editions);
+    // }
     public function index(Request $request)
     {
+        Log::info('SenTalkController@index accessed', [
+            'ip' => $request->ip(),
+            'search' => $request->search ?? null,
+            'timestamp' => now()
+        ]);
+    
         $query = SenTalk::query();
         
         // Search functionality
         if ($request->has('search') && !empty($request->search)) {
+            Log::info('Applying search filter', ['search_term' => $request->search]);
+    
             $query->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('creator', 'like', '%' . $request->search . '%');
         }
         
         // Paginate results
         $editions = $query->orderBy('created_at', 'desc')->paginate(1);
+    
+        Log::info('SenTalk pagination results', [
+            'total' => $editions->total(),
+            'per_page' => $editions->perPage(),
+            'current_page' => $editions->currentPage()
+        ]);
         
         return response()->json($editions);
     }
