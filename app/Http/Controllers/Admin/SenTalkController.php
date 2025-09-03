@@ -131,17 +131,44 @@ class SenTalkController extends Controller
 
 
 
-    public function download($id)
+    public function download(Request $request, $id)
     {
         $sentalk = SenTalk::findOrFail($id);
-        
+    
+        // Log download attempt
+        \Log::info('Download requested', [
+            'id'       => $sentalk->id,
+            'title'    => $sentalk->title,
+            'ip'       => $request->ip(),
+            'user_id'  => $request->user()->id ?? null,
+            'time'     => now()
+        ]);
+    
         // Increment download count
         $sentalk->increment('number_downloads');
-        
+    
         $filePath = storage_path('app/public/' . $sentalk->pdf_path);
-        
+    
+        if (!file_exists($filePath)) {
+            \Log::error('Download failed - file not found', [
+                'id'       => $sentalk->id,
+                'filePath' => $filePath
+            ]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found on server'
+            ], 404);
+        }
+    
+        \Log::info('Download successful', [
+            'id'       => $sentalk->id,
+            'filePath' => $filePath
+        ]);
+    
         return response()->download($filePath, $sentalk->title . '.pdf');
     }
+
 
     public function stats()
     {
