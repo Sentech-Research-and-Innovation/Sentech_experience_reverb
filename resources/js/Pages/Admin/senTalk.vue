@@ -1,46 +1,49 @@
 <template>
   <div class="sentalk-card">
-    <div class="sentalk-header">
-      <h2>{{ latest.title }}</h2>
-      <span class="stats">
-        {{ latest.number_views }} views ·
-        {{ latest.number_downloads }} downloads ·
-        {{ latest.number_likes }} likes
-      </span>
-    </div>
+    <!-- Show latest edition if exists -->
+    <div v-if="latest">
+      <div class="sentalk-header">
+        <h2>{{ latest.title }}</h2>
+        <span class="stats">
+          {{ latest.number_views }} views ·
+          {{ latest.number_downloads }} downloads ·
+          {{ latest.number_likes }} likes
+        </span>
+      </div>
 
-    <!-- PDF Viewer -->
-        <iframe
-      v-if="latest.pdf_path"
-      :src="`/storage/${latest.pdf_path}#toolbar=0`"
-      width="100%"
-      height="600"
-    ></iframe>
-
-    <!-- Action Buttons -->
-    <div>
-      <a
+      <!-- PDF Viewer -->
+      <iframe
         v-if="latest.pdf_path"
-        :href="`/storage/${latest.pdf_path}`"
-        class="btn"
-        download
-      >
-        ⬇ Download PDF
-      </a>
+        :src="`/storage/${latest.pdf_path}#toolbar=0`"
+        width="100%"
+        height="600"
+      ></iframe>
 
-      <!-- Upload New -->
-      <button class="btn" @click="triggerFileInput">⬆ Upload New</button>
-      <input
-        type="file"
-        ref="fileInput"
-        accept="application/pdf"
-        style="display:none"
-        @change="uploadFile"
-      />
+      <!-- Action Buttons -->
+      <div>
+        <a
+          v-if="latest.pdf_path"
+          :href="`/storage/${latest.pdf_path}`"
+          class="btn"
+          download
+        >
+          ⬇ Download PDF
+        </a>
+
+        <!-- Upload New -->
+        <button class="btn" @click="triggerFileInput">⬆ Upload New</button>
+        <input
+          type="file"
+          ref="fileInput"
+          accept="application/pdf"
+          style="display:none"
+          @change="uploadFile"
+        />
+      </div>
     </div>
 
     <!-- Older Editions -->
-    <div class="older-editions">
+    <div class="older-editions" v-if="editions.length">
       <h3>Older Editions</h3>
       <ul>
         <li v-for="edition in editions" :key="edition.id">
@@ -49,6 +52,19 @@
           </a>
         </li>
       </ul>
+    </div>
+
+    <!-- Empty state -->
+    <div v-if="!latest && !editions.length" class="empty">
+      <p>No editions available. Upload a PDF to get started.</p>
+      <button class="btn" @click="triggerFileInput">⬆ Upload First PDF</button>
+      <input
+        type="file"
+        ref="fileInput"
+        accept="application/pdf"
+        style="display:none"
+        @change="uploadFile"
+      />
     </div>
   </div>
 </template>
@@ -59,22 +75,20 @@ import axios from "axios";
 export default {
   data() {
     return {
-      latest: {
-        title: "SenTalk August Edition 2025",
-        creator: "MachabaL",
-        number_views: 109,
-        number_downloads: 23,
-        number_likes: 3,
-        created_at: "18 Aug 2025",
-        pdf_path: "sentalk_pdfs/sample.pdf", // fallback sample
-      },
+      latest: null,
       editions: [],
     };
   },
+
+  async mounted() {
+    await this.fetchData();
+  },
+
   methods: {
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
+
     async uploadFile(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -83,27 +97,27 @@ export default {
       formData.append("pdf", file);
 
       try {
-        const res = await axios.post("/sentalk/upload", formData, {
+        await axios.post("/sentalk/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        // Update preview with uploaded PDF
-        this.latest = {
-          title: res.data.title || file.name,
-          creator: "You",
-          number_views: 0,
-          number_downloads: 0,
-          number_likes: 0,
-          created_at: new Date().toLocaleDateString(),
-          pdf_path: res.data.pdf_path,
-        };
-
-        // Add new edition to the list
-        this.editions.unshift(this.latest);
+        // Refresh from DB after upload
+        await this.fetchData();
       } catch (err) {
         console.error("Upload failed:", err);
       }
     },
+
+    async fetchData() {
+      try {
+        const res = await axios.get("/sentalk");
+        this.latest = res.data.latest;
+        this.editions = res.data.editions;
+      } catch (err) {
+        console.error("Failed to fetch editions:", err);
+      }
+    },
+
     view(edition) {
       this.latest = edition;
     },
@@ -145,7 +159,7 @@ iframe {
   display: inline-block;
   margin-right: 10px;
   padding: 10px 18px;
-  background: #626AEF;
+  background: #626aef;
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -172,10 +186,15 @@ iframe {
   margin: 5px 0;
 }
 .older-editions a {
-  color: #626AEF;
+  color: #626aef;
   text-decoration: none;
 }
 .older-editions a:hover {
   text-decoration: underline;
+}
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #777;
 }
 </style>
