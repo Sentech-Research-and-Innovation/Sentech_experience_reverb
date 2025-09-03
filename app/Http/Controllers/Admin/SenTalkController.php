@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\SenTalk;
+
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
