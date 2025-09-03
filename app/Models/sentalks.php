@@ -9,11 +9,15 @@ class SenTalk extends Model
 {
     use HasFactory;
 
+    // Tell Laravel the exact table name
+    protected $table = 'sentalks';
+
     protected $fillable = [
-        'title',
         'pdf_path',
+        'title',
+        'creator',
         'number_views',
-        'number_downloads',
         'number_likes',
+        'number_downloads',
     ];
 }
