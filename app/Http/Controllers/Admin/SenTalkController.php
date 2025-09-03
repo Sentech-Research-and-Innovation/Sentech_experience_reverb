@@ -44,17 +44,19 @@ class SenTalkController extends Controller
                   ->orWhere('creator', 'like', '%' . $request->search . '%');
         }
         
-        // Paginate results
-        $editions = $query->orderBy('created_at', 'desc')->paginate(1);
+        // Get all editions ordered by newest
+        $editions = $query->orderBy('created_at', 'desc')->get();
     
-        Log::info('SenTalk pagination results', [
-            'total' => $editions->total(),
-            'per_page' => $editions->perPage(),
-            'current_page' => $editions->currentPage()
+        Log::info('SenTalk fetched results', [
+            'total' => $editions->count(),
         ]);
         
-        return response()->json($editions);
+        return response()->json([
+            'latest' => $editions->first(),
+            'editions' => $editions->skip(1)->values(), // all except the latest
+        ]);
     }
+
 
     public function upload(Request $request)
     {
