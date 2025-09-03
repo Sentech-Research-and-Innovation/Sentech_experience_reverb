@@ -53,7 +53,7 @@ class SenTalkController extends Controller
         
         return response()->json([
             'latest' => $editions->first(),
-            'editions' => $editions->skip(1)->values(), // all except the latest
+            'editions' => $editions->values(), // all except the latest
         ]);
     }
 
