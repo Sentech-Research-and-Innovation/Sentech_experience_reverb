@@ -44,9 +44,10 @@
             </div>
         </div>
 
-        <div class="col-12 px-0 mx-0 mt-4">
-           <senTalk />
+        <div class="px-0 mx-auto mt-4" style="width: 75%;">
+            <senTalk />
         </div>
+
     </div>
 </template>
 
