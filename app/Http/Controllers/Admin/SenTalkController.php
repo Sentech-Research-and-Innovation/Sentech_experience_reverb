@@ -81,19 +81,25 @@ class SenTalkController extends Controller
             // Store PDF in storage/app/public/sentalk_pdfs
             $path = $file->store('sentalk_pdfs', 'public');
     
-            Log::info('File stored successfully.', [
+            // Save record in DB
+            $sentalk = new SenTalk();
+            $sentalk->pdf_path = $path;
+            $sentalk->title = $file->getClientOriginalName();
+            $sentalk->creator = auth()->user()->name ?? 'Unknown'; // or set manually
+            $sentalk->save();
+    
+            Log::info('File stored and DB record created.', [
+                'id' => $sentalk->id,
                 'path' => $path,
             ]);
     
             return response()->json([
                 'success' => true,
-                'pdf_path' => $path,
-                'title' => $file->getClientOriginalName(),
+                'latest' => $sentalk,
             ]);
         } catch (\Exception $e) {
             Log::error('Upload failed.', [
                 'error' => $e->getMessage(),
-                // 'trace' => $e->getTraceAsString(),
             ]);
     
             return response()->json([
