@@ -193,7 +193,7 @@ export default {
 
 
 .stats {
-  font-size: 14px;
+  font-size: 12px;
   color: #555;
 }
 
@@ -294,7 +294,7 @@ iframe {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0 30px 0; /* increased bottom margin as before */
+  margin: 10px 0 20px 0; /* increased bottom margin as before */
   gap: 10px; /* optional: adds space between flex children */
   flex-wrap: wrap; /* optional: allows wrapping on smaller screens */
 }
@@ -306,7 +306,7 @@ iframe {
 }
 
 .pdf-title {
-  font-size: 20px;
+  font-size: 26px;
   font-weight: bold;
   margin: 0;
   color: #333;
@@ -314,7 +314,7 @@ iframe {
 
 .pdf-meta {
   margin: 0;
-  font-size: 14px;
+  font-size: 12px;
   color: #777;
 }
 
