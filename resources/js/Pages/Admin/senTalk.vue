@@ -1,5 +1,18 @@
 <template>
   <div class="sentalk-card">
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search by title..."
+        class="search-input"
+        @keyup.enter="searchPdf"
+      />
+        <button class="btn" @click="searchPdf">🔍 Search</button>
+    </div>
+      
     <!-- Show latest edition if exists -->
     <div v-if="latest">
       <div class="sentalk-header">
@@ -77,6 +90,7 @@ export default {
     return {
       latest: null,
       editions: [],
+        searchQuery: "",
     };
   },
 
@@ -112,13 +126,29 @@ export default {
       }
     },
 
-    async fetchData() {
+    async fetchData(search = "") {
       try {
-        const res = await axios.get("/sentalk");
+        const res = await axios.get("/sentalk", {
+          params: { search },
+        });
         this.latest = res.data.latest;
         this.editions = res.data.editions;
+
+        if (!this.latest) {
+          alert("❌ No PDF found for your search!");
+        }
+          
       } catch (err) {
         console.error("Failed to fetch editions:", err);
+      }
+    },
+
+    
+    searchPdf() {
+      if (!this.searchQuery.trim()) {
+        this.fetchData(); // reload all if search empty
+      } else {
+        this.fetchData(this.searchQuery);
       }
     },
 
@@ -201,4 +231,20 @@ iframe {
   padding: 40px;
   color: #777;
 }
+
+/* Search bar styling */
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+    
 </style>
