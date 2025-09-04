@@ -184,7 +184,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 /* Title + stats row */
@@ -192,7 +192,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0 24px 0;
+  margin: 10px 0 15px 0;
 }
 .pdf-title {
   font-size: 20px;
@@ -256,7 +256,8 @@ iframe {
   width: 80%;
   height: 600px;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
+  margin: 0 auto 10px auto;  /* top: 0, right: auto, bottom: 10px, left: auto */
+  display: block;
 }
 
 /* Older editions */
