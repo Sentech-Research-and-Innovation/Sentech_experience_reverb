@@ -46,7 +46,7 @@
 
         <!-- Right: creator info -->
         <div class="creator">
-          By {{ latest.creator_name }} {{ latest.creator_surname }} · {{ latest.created_at }}
+          By {{ latest.creator }} on {{ latest.created_at }}
         </div>
       </div>
 
