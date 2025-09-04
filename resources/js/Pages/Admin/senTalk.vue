@@ -188,7 +188,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 
