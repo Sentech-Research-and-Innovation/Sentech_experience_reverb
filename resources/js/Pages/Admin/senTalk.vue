@@ -11,6 +11,10 @@
         @keyup.enter="searchPdf"
       />
         <button class="btn" @click="searchPdf">🔍 Search</button>
+        <button v-if="searchQuery" class="btn btn-clear" @click="clearSearch"
+      >
+        ❌ Clear
+      </button>
     </div>
       
     <!-- Show latest edition if exists -->
@@ -136,6 +140,7 @@ export default {
 
         if (!this.latest) {
           alert("❌ No PDF found for your search!");
+        this.clearSearch();
         }
           
       } catch (err) {
@@ -150,6 +155,12 @@ export default {
       } else {
         this.fetchData(this.searchQuery);
       }
+    },
+
+
+    clearSearch() {
+      this.searchQuery = "";
+      this.fetchData(); // reload original list
     },
 
     view(edition) {
@@ -245,6 +256,13 @@ iframe {
   border-radius: 6px;
   margin-right: 10px;
   font-size: 14px;
+}
+    
+.btn-clear {
+  background: #e74c3c;
+}
+.btn-clear:hover {
+  background: #c0392b;
 }
     
 </style>
