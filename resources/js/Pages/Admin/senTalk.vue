@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div class="sentalk-card">
 
     <!-- Header Row with Search + Download -->
@@ -30,20 +30,21 @@
 
     <!-- Latest Edition -->
     <div v-if="latest">
-      <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
+      <!-- Title + Stats -->
+      <div class="title-row">
+        <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
+        <div class="stats">
+          {{ latest.number_views }} views ·
+          {{ latest.number_downloads }} downloads ·
+          {{ latest.number_likes }} likes
+        </div>
+      </div>
 
       <!-- PDF Preview -->
       <iframe
         v-if="latest.pdf_path"
         :src="`/storage/${latest.pdf_path}#toolbar=0&view=FitH&v=${Date.now()}`"
       ></iframe>
-
-      <!-- Stats -->
-      <div class="stats">
-        {{ latest.number_views }} views ·
-        {{ latest.number_downloads }} downloads ·
-        {{ latest.number_likes }} likes
-      </div>
 
       <!-- Upload Button -->
       <div class="actions">
@@ -84,9 +85,6 @@
     </div>
   </div>
 </template>
-
-
-
 
 <script>
 import axios from "axios";
@@ -170,17 +168,14 @@ export default {
 };
 </script>
 
-
-
-
 <style scoped>
 .sentalk-card {
   max-width: 1000px;
   margin: 20px auto;
   background: #fff;
   padding: 20px;
-  border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 0; /* square corners ONLY for outer container */
 }
 
 /* Top bar with search + download */
@@ -189,6 +184,24 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+}
+
+/* Title + stats row */
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 15px 0;
+}
+.pdf-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+.stats {
+  font-size: 14px;
+  color: #555;
 }
 
 /* Search bar */
@@ -201,63 +214,37 @@ export default {
   width: 220px;
   padding: 6px 10px;
   border: 1px solid #ccc;
-  border-radius: 6px;
   font-size: 14px;
-}
-.btn-search {
-  background: #0066cc;
-  color: #fff;
-}
-.btn-clear {
-  background: #e74c3c;
-  color: #fff;
-}
-.btn-search:hover {
-  background: #004a99;
-}
-.btn-clear:hover {
-  background: #c0392b;
+  border-radius: 6px; /* keep rounded */
+  height: 40px;
 }
 
-/* Buttons */
+/* Buttons - match Apply/Reset style */
 .btn {
-  display: inline-block;
   padding: 8px 14px;
-  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
   border: none;
+  height: 40px;
+  border-radius: 8px; /* keep rounded */
 }
-.btn-download {
-  background: #0066cc;
-  color: white;
-}
-.btn-download:hover {
-  background: #004a99;
-}
+.btn-search,
+.btn-download,
 .btn-upload {
-  background: #0066cc;
-  color: white;
-  margin-top: 12px;
+  background-color: #144f9f;
+  color: #fff !important;
 }
+.btn-search:hover,
+.btn-download:hover,
 .btn-upload:hover {
-  background: #004a99;
+  background-color: #0f3c7a;
 }
-
-/* PDF title */
-.pdf-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 10px 0;
-  color: #333;
+.btn-clear {
+  background: #e74c3c;
+  color: #fff !important;
 }
-
-/* Stats */
-.stats {
-  font-size: 14px;
-  color: #777;
-  margin-top: 10px;
-  margin-bottom: 15px;
+.btn-clear:hover {
+  background: #c0392b;
 }
 
 /* Iframe */
@@ -265,7 +252,6 @@ iframe {
   width: 100%;
   height: 600px;
   border: 1px solid #ccc;
-  border-radius: 8px;
   margin-bottom: 10px;
 }
 
@@ -286,7 +272,7 @@ iframe {
   margin: 5px 0;
 }
 .older-editions a {
-  color: #0066cc;
+  color: #144f9f;
   text-decoration: none;
 }
 .older-editions a:hover {
