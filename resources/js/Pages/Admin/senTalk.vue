@@ -183,7 +183,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  margin-top: 25px;
 }
 
 /* Title + stats row */
@@ -191,7 +192,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0 15px 0;
+  margin: 10px 0 24px 0;
 }
 .pdf-title {
   font-size: 20px;
@@ -219,15 +220,18 @@ export default {
   height: 40px;
 }
 
-/* Buttons - match Apply/Reset style */
+
 .btn {
-  padding: 8px 14px;
+  padding: 8px 20px;         
   font-size: 14px;
+  font-weight: bold;         
   cursor: pointer;
   border: none;
   height: 40px;
-  border-radius: 8px; /* keep rounded */
+  border-radius: 8px; 
 }
+
+
 .btn-search,
 .btn-download,
 .btn-upload {
@@ -249,7 +253,7 @@ export default {
 
 /* Iframe */
 iframe {
-  width: 100%;
+  width: 80%;
   height: 600px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
