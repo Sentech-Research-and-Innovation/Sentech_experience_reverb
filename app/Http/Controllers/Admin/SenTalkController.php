@@ -11,21 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class SenTalkController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $query = SenTalk::query();
-        
-    //     // Search functionality
-    //     if ($request->has('search') && !empty($request->search)) {
-    //         $query->where('title', 'like', '%' . $request->search . '%')
-    //               ->orWhere('creator', 'like', '%' . $request->search . '%');
-    //     }
-        
-    //     // Paginate results
-    //     $editions = $query->orderBy('created_at', 'desc')->paginate(1);
-        
-    //     return response()->json($editions);
-    // }
     public function index(Request $request)
     {
         Log::info('SenTalkController@index accessed', [
@@ -66,7 +51,7 @@ class SenTalkController extends Controller
         ]);
     
         $request->validate([
-            'pdf' => 'required|mimes:pdf|max:10000',
+            'pdf' => 'required|mimes:pdf|max:51200',
         ]);
     
         try {
