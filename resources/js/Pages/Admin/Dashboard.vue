@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="px-0 mx-auto mt-4" style="width: 75%;">
+        <div class="px-0 mx-auto mt-4" style="width: 85%;">
             <senTalk />
         </div>
 
