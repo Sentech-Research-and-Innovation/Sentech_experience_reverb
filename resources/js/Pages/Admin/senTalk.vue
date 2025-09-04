@@ -115,18 +115,16 @@ export default {
       formData.append("pdf", file);
 
       try {
-        const res = await axios.post("/sentalk/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const res = await axios.post("/sentalk/upload", formData);
 
           if (res.data.success) {
-              this.latest = res.data.latest;
-
-            // Refresh from DB after upload
             await this.fetchData();
-        }
+        }else{
+      alert("❌ Upload failed: " + (res.data.message || "Unknown error"));
+    }
       } catch (err) {
         console.error("Upload failed:", err);
+          alert("❌ Upload failed. Check logs.");
       }
     },
 
