@@ -8,7 +8,7 @@
         <input
           type="text"
           v-model="searchQuery"
-          placeholder="Search by name"
+          placeholder="Search by title"
           class="search-input"
           @keyup.enter="searchPdf"
         />
@@ -208,7 +208,7 @@ export default {
   padding: 6px 10px;
   border: 1px solid #ccc;
   font-size: 14px;
-  border-radius: 6px; /* keep rounded */
+  border-radius: 3px; /* keep rounded */
   height: 40px;
 }
 
