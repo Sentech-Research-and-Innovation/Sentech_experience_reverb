@@ -30,25 +30,19 @@
 
     <!-- Latest Edition -->
     <div v-if="latest">
-      <!-- Title -->
+      <!-- Title + Stats -->
       <div class="title-row">
-        <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
-      </div>
-
-      <!-- Stats + Creator Info -->
-      <div class="meta-row">
-        <!-- Left: stats -->
+        <div class="title-info">
+          <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
+          <p class="pdf-meta">By {{ latest.creator }} on {{ latest.created_at }}</p>
+        </div>
         <div class="stats">
           {{ latest.number_views }} views ·
           {{ latest.number_downloads }} downloads ·
           {{ latest.number_likes }} likes
         </div>
-
-        <!-- Right: creator info -->
-        <div class="creator">
-          By {{ latest.creator }} on {{ latest.created_at }}
-        </div>
       </div>
+
 
       <!-- PDF Preview -->
       <iframe
@@ -104,7 +98,7 @@ export default {
     return {
       latest: null,
       editions: [],
-      searchQuery: "",
+        searchQuery: "",
     };
   },
 
@@ -127,14 +121,14 @@ export default {
       try {
         const res = await axios.post("/sentalk/upload", formData);
 
-        if (res.data.success) {
-          await this.fetchData();
-        } else {
-          alert("❌ Upload failed: " + (res.data.message || "Unknown error"));
-        }
+          if (res.data.success) {
+            await this.fetchData();
+        }else{
+      alert("❌ Upload failed: " + (res.data.message || "Unknown error"));
+    }
       } catch (err) {
         console.error("Upload failed:", err);
-        alert("❌ Upload failed. Check logs.");
+          alert("❌ Upload failed. Check logs.");
       }
     },
 
@@ -148,13 +142,15 @@ export default {
 
         if (!this.latest) {
           alert("❌ No PDF found for your search!");
-          this.clearSearch();
+        this.clearSearch();
         }
+          
       } catch (err) {
         console.error("Failed to fetch editions:", err);
       }
     },
 
+    
     searchPdf() {
       if (!this.searchQuery.trim()) {
         this.fetchData(); // reload all if search empty
@@ -162,6 +158,7 @@ export default {
         this.fetchData(this.searchQuery);
       }
     },
+
 
     clearSearch() {
       this.searchQuery = "";
@@ -194,33 +191,10 @@ export default {
   margin-top: 15px;
 }
 
-/* Title */
-.title-row {
-  margin: 10px 0 5px 0;
-}
-.pdf-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
-  color: #333;
-}
 
-/* Meta row (stats + creator) */
-.meta-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 0 15px 0;
-}
 .stats {
   font-size: 14px;
   color: #555;
-}
-.creator {
-  font-size: 14px;
-  color: #777;
-  text-align: right;
-  white-space: nowrap;
 }
 
 /* Search bar */
@@ -238,10 +212,21 @@ export default {
   height: 40px;
 }
 
+
+/* .btn {
+  padding: 8px 20px;         
+  font-size: 14px;
+  font-weight: bold;         
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  border-radius: 8px; 
+} */
+
 .btn {
-  display: inline-flex;      
-  align-items: center;       
-  justify-content: center;   
+  display: inline-flex;      /* Makes sure content is vertically aligned */
+  align-items: center;       /* Vertically center the text/icon */
+  justify-content: center;   /* Center horizontally */
   padding: 8px 20px;
   font-size: 14px;
   font-weight: bold;
@@ -249,8 +234,10 @@ export default {
   border: none;
   height: 40px;
   border-radius: 8px;
-  text-decoration: none;     
+  text-decoration: none;     /* Remove underline for <a> buttons */
 }
+
+
 
 .btn-search,
 .btn-download,
@@ -276,7 +263,7 @@ iframe {
   width: 90%;
   height: 600px;
   border: 1px solid #ccc;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 15px auto;  /* top: 0, right: auto, bottom: 10px, left: auto */
   display: block;
 }
 
@@ -303,4 +290,32 @@ iframe {
 .older-editions a:hover {
   text-decoration: underline;
 }
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 30px 0; /* increased bottom margin as before */
+  gap: 10px; /* optional: adds space between flex children */
+  flex-wrap: wrap; /* optional: allows wrapping on smaller screens */
+}
+
+.title-info {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between heading and paragraph */
+}
+
+.pdf-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.pdf-meta {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
 </style>
