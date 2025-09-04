@@ -49,10 +49,19 @@ class SenTalkController extends Controller
             'hasFile' => $request->hasFile('pdf'),
             'all' => $request->all(),
         ]);
+
+        if ($request->hasFile('pdf')) {
+            Log::info('Uploaded file details', [
+                'extension' => $request->file('pdf')->getClientOriginalExtension(),
+                'mime' => $request->file('pdf')->getMimeType(),
+            ]);
+        }
+
     
         $request->validate([
-            'pdf' => 'required|mimes:pdf|max:51200',
+            'pdf' => 'required|file|mimes:pdf|max:51200',
         ]);
+
     
         try {
             $file = $request->file('pdf');
