@@ -48,7 +48,7 @@
 
       <!-- Upload Button -->
       <div class="actions">
-        <button class="btn btn-upload" @click="triggerFileInput">Upload</button>
+        <button class="btn btn-upload" @click="triggerFileInput">Upload New</button>
         <input
           type="file"
           ref="fileInput"
@@ -183,8 +183,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 /* Title + stats row */
@@ -221,7 +221,7 @@ export default {
 }
 
 
-.btn {
+/* .btn {
   padding: 8px 20px;         
   font-size: 14px;
   font-weight: bold;         
@@ -229,7 +229,22 @@ export default {
   border: none;
   height: 40px;
   border-radius: 8px; 
+} */
+
+.btn {
+  display: inline-flex;      /* Makes sure content is vertically aligned */
+  align-items: center;       /* Vertically center the text/icon */
+  justify-content: center;   /* Center horizontally */
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  border-radius: 8px;
+  text-decoration: none;     /* Remove underline for <a> buttons */
 }
+
 
 
 .btn-search,
@@ -253,10 +268,10 @@ export default {
 
 /* Iframe */
 iframe {
-  width: 80%;
+  width: 90%;
   height: 600px;
   border: 1px solid #ccc;
-  margin: 0 auto 10px auto;  /* top: 0, right: auto, bottom: 10px, left: auto */
+  margin: 0 auto 15px auto;  /* top: 0, right: auto, bottom: 10px, left: auto */
   display: block;
 }
 
