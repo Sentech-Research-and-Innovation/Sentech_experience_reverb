@@ -435,6 +435,11 @@ iframe {
   text-overflow: ellipsis; /* trims long titles */
 }
 
+.actions {
+  display: flex;
+  gap: 10px;  /* ✅ adds space between Upload + Edit */
+  margin-top: 10px;
+}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -447,8 +452,11 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
 }
+
+
+
 
 /* Modal Box */
 .modal {
@@ -468,6 +476,8 @@ iframe {
   margin: 10px 0 5px;
   font-weight: bold;
 }
+
+
 
 .modal input {
   width: 100%;
