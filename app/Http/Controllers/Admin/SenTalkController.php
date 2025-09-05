@@ -76,10 +76,14 @@ class SenTalkController extends Controller
             $path = $file->store('sentalk_pdfs', 'public');
     
             // Save record in DB
+            $now = now(); // Gets current date and time as a Carbon instance
+
             $sentalk = new SenTalk();
             $sentalk->pdf_path = $path;
             $sentalk->title = $file->getClientOriginalName();
-            $sentalk->creator = auth()->user()->name ?? 'Unknown'; // or set manually
+            $sentalk->creator = auth()->user()->name ?? 'MachabaL'; // Default to "MachabaL" if no user
+            $sentalk->created_date = $now->toDateString(); // YYYY-MM-DD
+            $sentalk->created_time = $now->toTimeString(); // HH:MM:SS
             $sentalk->save();
     
             Log::info('File stored and DB record created.', [
