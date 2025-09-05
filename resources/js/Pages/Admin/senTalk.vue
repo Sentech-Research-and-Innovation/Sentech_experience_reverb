@@ -454,7 +454,7 @@ iframe {
 .modal-overlay {
   position: fixed;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 2000;
+  z-index: 5000;
 }
 
 /* Modal box (slide-in from right) */
@@ -469,7 +469,7 @@ iframe {
   padding: 20px;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 0; /* square edges to match style */
-  z-index: 2100;
+  z-index: 5100;
   overflow-y: auto;
 }
 
