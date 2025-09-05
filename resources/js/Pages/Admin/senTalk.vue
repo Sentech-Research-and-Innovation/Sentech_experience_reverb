@@ -34,7 +34,7 @@
       <div class="title-row">
         <div class="title-info">
           <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
-          <p class="pdf-meta">By {{ latest.creator }} on {{ latest.created_at }}</p>
+          <p class="pdf-meta">By {{ latest.creator }} on {{ latest.created_date }} {{ latest.created_time }}</p>
         </div>
         <div class="stats">
           {{ latest.number_views }} views ·
