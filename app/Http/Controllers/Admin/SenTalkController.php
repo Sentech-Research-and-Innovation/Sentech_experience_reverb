@@ -81,7 +81,7 @@ class SenTalkController extends Controller
             $sentalk = new SenTalk();
             $sentalk->pdf_path = $path;
             $sentalk->title = $file->getClientOriginalName();
-            $sentalk->creator = auth()->user()->name ?? 'MachabaL'; // Default to "MachabaL" if no user
+            $sentalk->creator = 'MachabaL';
             $sentalk->created_date = $now->format('d M Y'); // Format: 06 Sept 2025
             $sentalk->created_time = $now->format('h:i A'); // Format: 02:35 PM
             $sentalk->save();
