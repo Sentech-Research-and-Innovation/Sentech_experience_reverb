@@ -76,11 +76,7 @@
           <iframe
             v-if="edition.pdf_path"
             :src="`/storage/${edition.pdf_path}#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH&page=1`"
-            scrolling="no"
-            frameborder="0"
-            style="overflow:hidden;"
           ></iframe>
-          <p class="caption">{{ edition.title.replace('.pdf','') }}</p>
         </div>
       </div>
     </div>
@@ -332,7 +328,7 @@ iframe {
 /* Gallery layout */
 .gallery {
   display: flex;
-  flex-wrap: wrap;   /* ✅ allows items to wrap to next line */
+  flex-wrap: wrap;   /* allows items to wrap to next line */
   gap: 15px;
   padding: 10px 0;
 }
@@ -351,13 +347,8 @@ iframe {
   border-radius: 6px;
   pointer-events: none; 
   overflow: hidden;    
-    -ms-overflow-style: none; /* IE & Edge */
-  scrollbar-width: none;    /* Firefox */
 }
 
-.gallery-item iframe::-webkit-scrollbar {
-  display: none;            /* Chrome, Safari */
-}
 
 .gallery-item .caption {
   margin-top: 5px;
@@ -366,7 +357,7 @@ iframe {
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* trims long titles */
+  text-overflow: ellipsis; /*  trims long titles */
 }
 
 
