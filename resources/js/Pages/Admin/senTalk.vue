@@ -53,6 +53,8 @@
       <!-- Upload Button -->
       <div class="actions">
         <button class="btn btn-upload" @click="triggerFileInput">Upload New</button>
+       <!-- Edit button -->
+       <button class="btn btn-edit" @click="openEditDialog"> Edit</button>
         <input
           type="file"
           ref="fileInput"
@@ -61,6 +63,8 @@
           @change="uploadFile"
         />
       </div>
+
+
     </div>
 
     <!-- Older Editions -->
@@ -96,6 +100,34 @@
       />
     </div>
   </div>
+
+
+
+  <!-- Edit Dialog -->
+  <div v-if="showEditDialog" class="modal-overlay">
+    <div class="modal">
+      <h3>Edit PDF Info</h3>
+
+      <label>Title:</label>
+      <input v-model="editForm.title" type="text" />
+
+      <label>Creator:</label>
+      <input v-model="editForm.creator" type="text" />
+
+      <label>Created Date:</label>
+      <input v-model="editForm.created_date" type="text" />
+
+      <label>Created Time:</label>
+      <input v-model="editForm.created_time" type="text" />
+
+      <div class="modal-actions">
+        <button class="btn btn-save" @click="updatePdf">Confirm</button>
+        <button class="btn btn-clear" @click="closeEditDialog">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
 </template>
 
 <script>
@@ -106,7 +138,14 @@ export default {
     return {
       latest: null,
       editions: [],
-        searchQuery: "",
+      searchQuery: "",
+      showEditDialog: false,
+      editForm: {
+      title: "",
+      creator: "",
+      created_date: "",
+      created_time: "",
+      },
     };
   },
 
@@ -132,11 +171,11 @@ export default {
           if (res.data.success) {
             await this.fetchData();
         }else{
-      alert("❌ Upload failed: " + (res.data.message || "Unknown error"));
+      alert("Upload failed: " + (res.data.message || "Unknown error"));
     }
       } catch (err) {
         console.error("Upload failed:", err);
-          alert("❌ Upload failed. Check logs.");
+          alert("Upload failed. Check logs.");
       }
     },
 
@@ -149,7 +188,7 @@ export default {
         this.editions = res.data.editions;
 
         if (!this.latest) {
-          alert("❌ No PDF found for your search!");
+          alert("No PDF found for your search!");
         this.clearSearch();
         }
           
@@ -176,7 +215,40 @@ export default {
     view(edition) {
       this.latest = edition;
     },
-  },
+
+
+    // Open dialog with current values prefilled
+    openEditDialog() {
+        if (!this.latest) return;
+        this.editForm = {
+          title: this.latest.title || "",
+          creator: this.latest.creator || "",
+          created_date: this.latest.created_date || "",
+          created_time: this.latest.created_time || "",
+        };
+        this.showEditDialog = true;
+      },
+
+      closeEditDialog() {
+        this.showEditDialog = false;
+      },
+
+      async updatePdf() {
+        try {
+          const res = await axios.post(`/sentalk/update/${this.latest.id}`, this.editForm);
+
+          if (res.data.success) {
+            await this.fetchData();
+            this.showEditDialog = false;
+          } else {
+            alert("Update failed: " + (res.data.message || "Unknown error"));
+          }
+        } catch (err) {
+          console.error("Update failed:", err);
+          alert("Update failed. Check logs.");
+        }
+      },
+    }
 };
 </script>
 
@@ -249,13 +321,16 @@ export default {
 
 .btn-search,
 .btn-download,
-.btn-upload {
+.btn-upload,
+.btn-edit {
   background-color: #144f9f;
   color: #fff !important;
 }
+
 .btn-search:hover,
 .btn-download:hover,
-.btn-upload:hover {
+.btn-upload:hover,
+.btn-edit:hover {
   background-color: #0f3c7a;
 }
 .btn-clear {
@@ -336,18 +411,18 @@ iframe {
 
 .gallery-item {
   flex: 0 0 auto;
-  width: 100px;      /* ✅ smaller thumbnail width */
+  width: 100px;      /* smaller thumbnail width */
   cursor: pointer;
   text-align: center;
 }
 
 .gallery-item iframe {
   width: 100%;
-  height: 140px;     /* ✅ smaller height */
+  height: 140px;     /* smaller height */
   border: 1px solid #ccc;
   border-radius: 6px;
-  pointer-events: none; /* ✅ disable scroll + clicks inside iframe */
-  overflow: hidden;     /* ✅ hide any scrollbars */
+  pointer-events: none; /* disable scroll + clicks inside iframe */
+  overflow: hidden;     /* hide any scrollbars */
 }
 
 .gallery-item .caption {
@@ -357,9 +432,60 @@ iframe {
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* ✅ trims long titles */
+  text-overflow: ellipsis; /* trims long titles */
 }
 
 
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+/* Modal Box */
+.modal {
+  background: #fff;
+  padding: 20px;
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  margin-bottom: 15px;
+}
+
+.modal label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.btn-save {
+  background: #144f9f;
+  color: #fff;
+}
+.btn-save:hover {
+  background: #0f3c7a;
+}
 </style>
