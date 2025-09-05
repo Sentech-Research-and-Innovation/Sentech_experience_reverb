@@ -453,19 +453,15 @@ iframe {
 /* Overlay */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: flex-end; /* push modal to the right */
-  align-items: stretch;
   z-index: 2000;
 }
 
 /* Modal box (slide-in from right) */
 .modal {
+  position: fixed;
+  top: 0;
+  right: 0;
   background: #fff;
   width: 400px;
   max-width: 100%;
@@ -473,9 +469,8 @@ iframe {
   padding: 20px;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 0; /* square edges to match style */
-  display: flex;
-  flex-direction: column;
-  animation: slideIn 0.3s ease-out;
+  z-index: 2100;
+  overflow-y: auto;
 }
 
 /* Slide animation */
