@@ -452,10 +452,8 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index:  2000;
 }
-
-
 
 
 /* Modal Box */
@@ -465,6 +463,8 @@ iframe {
   width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2100; 
+  display: block;
 }
 
 .modal h3 {
