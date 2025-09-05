@@ -15,4 +15,6 @@ Route::prefix('sentalk')->group(function () {
     Route::get('/display', [SenTalkController::class, 'display']);
     Route::get('/download/{id}', [SenTalkController::class, 'download']);
     Route::get('/stats', [SenTalkController::class, 'stats']);
+    Route::post('/update/{id}', [SenTalkController::class, 'update']);
+
 });
