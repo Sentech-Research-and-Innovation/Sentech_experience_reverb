@@ -66,13 +66,20 @@
     <!-- Older Editions -->
     <div class="older-editions" v-if="editions.length">
       <h3>Older Editions</h3>
-      <ul>
-        <li v-for="edition in editions" :key="edition.id">
-          <a href="javascript:void(0)" @click="view(edition)">
-            {{ edition.title.replace('.pdf','') }} ({{ edition.created_at }})
-          </a>
-        </li>
-      </ul>
+      <div class="gallery">
+        <div
+          v-for="edition in editions"
+          :key="edition.id"
+          class="gallery-item"
+          @click="view(edition)"
+        >
+          <iframe
+            v-if="edition.pdf_path"
+            :src="`/storage/${edition.pdf_path}#toolbar=0&view=FitH&page=1`"
+          ></iframe>
+          <p class="caption">{{ edition.title.replace('.pdf','') }}</p>
+        </div>
+      </div>
     </div>
 
     <!-- Empty state -->
@@ -317,5 +324,36 @@ iframe {
   font-size: 12px;
   color: #777;
 }
+
+/* Gallery layout */
+.gallery {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.gallery-item {
+  flex: 0 0 auto;
+  width: 200px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.gallery-item iframe {
+  width: 100%;
+  height: 250px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  pointer-events: none; /* disable iframe interaction (clicks only for view() action) */
+}
+
+.gallery-item .caption {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #444;
+  font-weight: bold;
+}
+
 
 </style>
