@@ -336,14 +336,14 @@ iframe {
 
 .gallery-item {
   flex: 0 0 auto;
-  width: 150px;      /* ✅ smaller thumbnail width */
+  width: 100px;      /* ✅ smaller thumbnail width */
   cursor: pointer;
   text-align: center;
 }
 
 .gallery-item iframe {
   width: 100%;
-  height: 200px;     /* ✅ smaller height */
+  height: 140px;     /* ✅ smaller height */
   border: 1px solid #ccc;
   border-radius: 6px;
   pointer-events: none; /* ✅ disable scroll + clicks inside iframe */
