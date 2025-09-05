@@ -105,27 +105,35 @@
 
   <!-- Edit Dialog -->
   <div v-if="showEditDialog" class="modal-overlay">
-    <div class="modal">
-      <h3>Edit PDF Info</h3>
+    <div class="modal slide-in">
+      <!-- Header -->
+      <div class="modal-header">
+        <h2>Edit SenTalk</h2>
+        <span class="close-btn" @click="closeEditDialog">&times;</span>
+      </div>
 
-      <label>Title:</label>
-      <input v-model="editForm.title" type="text" />
+      <!-- Form -->
+      <div class="modal-body">
+        <label>Title</label>
+        <input v-model="editForm.title" type="text" />
 
-      <label>Creator:</label>
-      <input v-model="editForm.creator" type="text" />
+        <label>Creator</label>
+        <input v-model="editForm.creator" type="text" />
 
-      <label>Created Date:</label>
-      <input v-model="editForm.created_date" type="text" />
+        <label>Created Date</label>
+        <input v-model="editForm.created_date" type="text" />
 
-      <label>Created Time:</label>
-      <input v-model="editForm.created_time" type="text" />
+        <label>Created Time</label>
+        <input v-model="editForm.created_time" type="text" />
+      </div>
 
-      <div class="modal-actions">
-        <button class="btn btn-save" @click="updatePdf">Confirm</button>
-        <button class="btn btn-clear" @click="closeEditDialog">Cancel</button>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn-confirm" @click="updatePdf">Confirm</button>
       </div>
     </div>
   </div>
+
 
 
 </template>
@@ -442,6 +450,7 @@ iframe {
 }
 
 /* Modal Overlay */
+/* Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -450,52 +459,94 @@ iframe {
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index:  2000;
+  justify-content: flex-end; /* push modal to the right */
+  align-items: stretch;
+  z-index: 2000;
 }
 
-
-/* Modal Box */
+/* Modal box (slide-in from right) */
 .modal {
   background: #fff;
-  padding: 20px;
   width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 2100; 
-  display: block;
+  max-width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+  border-radius: 0; /* square edges to match style */
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
 }
 
-.modal h3 {
-  margin-bottom: 15px;
+/* Slide animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
-.modal label {
-  display: block;
-  margin: 10px 0 5px;
+/* Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 22px;
   font-weight: bold;
+  color: #144f9f;
 }
 
+.close-btn {
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
 
+/* Body */
+.modal-body label {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
 
-.modal input {
+.modal-body input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
-.modal-actions {
-  margin-top: 15px;
-  text-align: right;
+/* Footer */
+.modal-footer {
+  margin-top: auto; /* push button to bottom */
+  text-align: center;
 }
 
-.btn-save {
+.btn-confirm {
   background: #144f9f;
   color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
 }
-.btn-save:hover {
+
+.btn-confirm:hover {
   background: #0f3c7a;
 }
+
 </style>
