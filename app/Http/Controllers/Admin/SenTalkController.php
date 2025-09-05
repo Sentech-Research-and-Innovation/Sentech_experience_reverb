@@ -108,6 +108,50 @@ class SenTalkController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        Log::info('SenTalk update request received.', [
+            'id' => $id,
+            'payload' => $request->all(),
+        ]);
+    
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'creator' => 'required|string|max:255',
+            'created_date' => 'required|string',
+            'created_time' => 'required|string',
+        ]);
+    
+        try {
+            $sentalk = SenTalk::findOrFail($id);
+    
+            $sentalk->title = $request->title;
+            $sentalk->creator = $request->creator;
+            $sentalk->created_date = $request->created_date;
+            $sentalk->created_time = $request->created_time;
+            $sentalk->save();
+    
+            Log::info('SenTalk record updated successfully.', [
+                'id' => $sentalk->id,
+                'title' => $sentalk->title,
+            ]);
+    
+            return response()->json([
+                'success' => true,
+                'latest' => $sentalk,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Update failed.', [
+                'error' => $e->getMessage(),
+            ]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Update failed.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
 
     public function display()
