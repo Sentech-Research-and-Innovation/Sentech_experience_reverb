@@ -471,7 +471,7 @@ iframe {
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  z-index: 5000;
+  z-index: 10000;
   overflow-y: auto;
 }
 
