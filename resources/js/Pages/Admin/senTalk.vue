@@ -456,7 +456,7 @@ iframe {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 5000;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -471,7 +471,7 @@ iframe {
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  z-index: 5100;
+  z-index: 5000;
   overflow-y: auto;
 }
 
