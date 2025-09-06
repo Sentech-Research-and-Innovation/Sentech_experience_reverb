@@ -450,29 +450,29 @@ iframe {
 }
 
 /* Modal Overlay */
+
 /* Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Modal box (slide-in from right) */
+/* Modal box (centered) */
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
   background: #fff;
   width: 400px;
-  max-width: 100%;
-  height: 100%;
+  max-width: 90%;
+  max-height: 90%;
   padding: 20px;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
-  border-radius: 0; /* square edges to match style */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
   z-index: 5100;
   overflow-y: auto;
-   display: block;
 }
 
 /* Slide animation */
