@@ -462,7 +462,7 @@ iframe {
 .modal {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   background: #fff;
   width: 400px;
   max-width: 100%;
