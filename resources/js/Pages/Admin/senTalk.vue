@@ -472,6 +472,7 @@ iframe {
   border-radius: 0; /* square edges to match style */
   z-index: 5100;
   overflow-y: auto;
+   display: block;
 }
 
 /* Slide animation */
