@@ -456,14 +456,14 @@ iframe {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 5000;
 }
 
-/* Modal box (centered) */
 .modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #fff;
   width: 400px;
   max-width: 90%;
@@ -471,9 +471,11 @@ iframe {
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  z-index: 10000;
+  z-index: 5100;
   overflow-y: auto;
+  display: block; /* Optional, divs are block by default */
 }
+
 
 /* Slide animation */
 @keyframes slideIn {
