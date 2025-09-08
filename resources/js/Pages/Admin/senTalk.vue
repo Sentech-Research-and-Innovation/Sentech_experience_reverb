@@ -239,9 +239,7 @@ export default {
           this.latest = res.data.latest;
           this.editions = res.data.editions;;
 
-          setTimeout(() => {
-            window.location.reload();
-          }, 300);
+          location.reload();
         }
       } catch (err) {
         console.error("Delete failed:", err);
