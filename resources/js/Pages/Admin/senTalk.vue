@@ -55,6 +55,7 @@
         <button class="btn btn-upload" @click="triggerFileInput">Upload New</button>
        <!-- Edit button -->
        <button class="btn btn-edit" @click="openEditDialog"> Edit</button>
+       <button class="btn btn-delete" @click="deletePdf">Delete</button>
         <input
           type="file"
           ref="fileInput"
@@ -215,6 +216,25 @@ export default {
     },
 
 
+    async deletePdf() {
+      if (!this.latest) return;
+      if (!confirm("Are you sure you want to delete this PDF?")) return;
+
+      try {
+        const res = await axios.delete(`/sentalk/delete/${this.latest.id}`);
+        if (res.data.success) {
+          this.latest = res.data.latest;
+          this.editions = res.data.editions;
+        } else {
+          alert("Delete failed: " + (res.data.message || "Unknown error"));
+        }
+      } catch (err) {
+        console.error("Delete failed:", err);
+        alert("Delete failed. Check logs.");
+      }
+    },
+
+
     clearSearch() {
       this.searchQuery = "";
       this.fetchData(); // reload original list
@@ -341,11 +361,13 @@ export default {
 .btn-edit:hover {
   background-color: #0f3c7a;
 }
-.btn-clear {
+.btn-clear,
+.btn-delete {
   background: #e74c3c;
   color: #fff !important;
 }
-.btn-clear:hover {
+.btn-clear:hover,
+.btn-delete:hover {
   background: #c0392b;
 }
 
