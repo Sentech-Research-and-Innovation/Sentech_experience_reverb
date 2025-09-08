@@ -236,8 +236,8 @@ export default {
       try {
         const res = await axios.delete(`/sentalk/delete/${id}`);
         if (res.data.success) {
-          await this.fetchData(); // reload editions
-          window.location.reload(); // full reload so latest is updated
+          this.latest = res.data.latest;
+          this.editions = res.data.editions;
         }
       } catch (err) {
         console.error("Delete failed:", err);
