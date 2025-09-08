@@ -65,7 +65,7 @@
           @confirm="deletePdf(latest.id)"
         >
           <template #reference>
-            <el-button type="danger">Delete</el-button>
+            <el-button class="btn btn-delete">Delete</el-button>
           </template>
         </el-popconfirm>
         <input
@@ -236,8 +236,8 @@ export default {
       try {
         const res = await axios.delete(`/sentalk/delete/${id}`);
         if (res.data.success) {
-          this.latest = res.data.latest;
-          this.editions = res.data.editions;
+          await this.fetchData(); // reload editions
+          window.location.reload();
         }
       } catch (err) {
         console.error("Delete failed:", err);
@@ -372,11 +372,13 @@ export default {
 .btn-edit:hover {
   background-color: #0f3c7a;
 }
-.btn-clear {
+.btn-clear,
+.btn-delete {
   background: #e74c3c;
   color: #fff !important;
 }
-.btn-clear:hover {
+.btn-clear:hover,
+.btn-delete:hover {
   background: #c0392b;
 }
 
@@ -497,9 +499,8 @@ iframe {
   transform: translate(-50%, -50%);
   background: #fff;
   width: 400px;
-  height: 900px;
   max-width: 90%;
-  max-height: 90%;
+  max-height: 80vh;
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
