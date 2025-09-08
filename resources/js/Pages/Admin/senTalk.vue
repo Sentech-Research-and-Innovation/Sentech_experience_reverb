@@ -55,7 +55,19 @@
         <button class="btn btn-upload" @click="triggerFileInput">Upload New</button>
        <!-- Edit button -->
        <button class="btn btn-edit" @click="openEditDialog"> Edit</button>
-       <button class="btn btn-delete" @click="deletePdf">Delete</button>
+         <!-- Delete Button with Confirmation -->
+        <el-popconfirm
+          confirm-button-text="Yes"
+          cancel-button-text="No"
+          :icon="InfoFilled"
+          icon-color="#f44336"
+          title="Are you sure you want to delete this PDF?"
+          @confirm="deletePdf(latest.id)"
+        >
+          <template #reference>
+            <el-button type="danger">Delete</el-button>
+          </template>
+        </el-popconfirm>
         <input
           type="file"
           ref="fileInput"
@@ -141,6 +153,9 @@
 
 <script>
 import axios from "axios";
+import { InfoFilled } from "@element-plus/icons-vue";
+
+
 
 export default {
   data() {
@@ -216,22 +231,19 @@ export default {
     },
 
 
-    async deletePdf() {
-      if (!this.latest) return;
-      if (!confirm("Are you sure you want to delete this PDF?")) return;
-
+    async deletePdf(id) {
+      if (!id) return;
       try {
-        const res = await axios.delete(`/sentalk/delete/${this.latest.id}`);
+        const res = await axios.delete(`/sentalk/delete/${id}`);
         if (res.data.success) {
-          await this.fetchData();
-        } else {
-          alert("Delete failed: " + (res.data.message || "Unknown error"));
+          await this.fetchData(); // reload editions
+          window.location.reload(); // full reload so latest is updated
         }
       } catch (err) {
         console.error("Delete failed:", err);
-        alert("Delete failed. Check logs.");
       }
     },
+
 
 
     clearSearch() {
@@ -360,13 +372,11 @@ export default {
 .btn-edit:hover {
   background-color: #0f3c7a;
 }
-.btn-clear,
-.btn-delete {
+.btn-clear {
   background: #e74c3c;
   color: #fff !important;
 }
-.btn-clear:hover,
-.btn-delete:hover {
+.btn-clear:hover {
   background: #c0392b;
 }
 
@@ -487,6 +497,7 @@ iframe {
   transform: translate(-50%, -50%);
   background: #fff;
   width: 400px;
+  height: 900px;
   max-width: 90%;
   max-height: 90%;
   padding: 20px;
