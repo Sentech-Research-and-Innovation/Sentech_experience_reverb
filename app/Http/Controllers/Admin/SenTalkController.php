@@ -108,6 +108,43 @@ class SenTalkController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        try {
+            $sentalk = SenTalk::findOrFail($id);
+    
+            // Delete PDF from storage
+            if ($sentalk->pdf_path && \Storage::disk('public')->exists($sentalk->pdf_path)) {
+                \Storage::disk('public')->delete($sentalk->pdf_path);
+            }
+    
+            // Delete record from DB
+            $sentalk->delete();
+    
+            // Get the next latest edition
+            $latest = SenTalk::orderBy('created_at', 'desc')->first();
+            $editions = SenTalk::orderBy('created_at', 'desc')->skip(1)->get();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Edition deleted successfully',
+                'latest' => $latest,
+                'editions' => $editions,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Delete failed.', [
+                'error' => $e->getMessage(),
+            ]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete failed.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
     public function update(Request $request, $id)
     {
         Log::info('SenTalk update request received.', [
