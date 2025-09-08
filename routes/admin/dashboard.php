@@ -16,5 +16,6 @@ Route::prefix('sentalk')->group(function () {
     Route::get('/download/{id}', [SenTalkController::class, 'download']);
     Route::get('/stats', [SenTalkController::class, 'stats']);
     Route::post('/update/{id}', [SenTalkController::class, 'update']);
+    Route::delete('/delete/{id}', [SenTalkController::class, 'delete']);
 
 });
