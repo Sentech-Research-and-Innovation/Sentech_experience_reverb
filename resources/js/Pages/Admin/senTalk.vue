@@ -223,8 +223,7 @@ export default {
       try {
         const res = await axios.delete(`/sentalk/delete/${this.latest.id}`);
         if (res.data.success) {
-          this.latest = res.data.latest;
-          this.editions = res.data.editions;
+          await this.fetchData();
         } else {
           alert("Delete failed: " + (res.data.message || "Unknown error"));
         }
