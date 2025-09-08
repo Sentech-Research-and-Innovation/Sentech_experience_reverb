@@ -149,6 +149,24 @@
 
 
 
+
+
+  <!-- Not Found Dialog -->
+  <div v-if="showNotFoundDialog" class="modal-overlay_">
+    <div class="modal_">
+      <div class="modal-header_">
+        <h3>No PDF Found</h3>
+      </div>
+      <div class="modal-body_">
+        <p>No PDF matches your search query.</p>
+      </div>
+      <div class="modal-footer_">
+        <button class="btn-confirm" @click="closeNotFoundDialog">OK</button>
+      </div>
+    </div>
+  </div>
+
+
 </template>
 
 <script>
@@ -164,6 +182,7 @@ export default {
       editions: [],
       searchQuery: "",
       showEditDialog: false,
+      showNotFoundDialog: false,
       editForm: {
       title: "",
       creator: "",
@@ -180,6 +199,12 @@ export default {
   methods: {
     triggerFileInput() {
       this.$refs.fileInput.click();
+    },
+
+
+    closeNotFoundDialog() {
+      this.showNotFoundDialog = false;
+      this.clearSearch(); // ✅ reload original list after closing
     },
 
     async uploadFile(event) {
@@ -212,8 +237,7 @@ export default {
         this.editions = res.data.editions;
 
         if (!this.latest) {
-          alert("No PDF found for your search!");
-        this.clearSearch();
+          this.showNotFoundDialog = true;
         }
           
       } catch (err) {
@@ -238,8 +262,7 @@ export default {
         if (res.data.success) {
           this.latest = res.data.latest;
           this.editions = res.data.editions;;
-
-          location.reload();
+          window.location.reload();
         }
       } catch (err) {
         console.error("Delete failed:", err);
@@ -502,7 +525,7 @@ iframe {
   background: #fff;
   width: 400px;
   max-width: 90%;
-  max-height: 40vh;
+  max-height: 60vh;
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -582,5 +605,62 @@ iframe {
 .btn-confirm:hover {
   background: #0f3c7a;
 }
+
+
+/* not found dialog  */
+
+/* Overlay */
+.modal-overlay_ {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+/* Center Modal */
+.modal_ {
+  background: #fff;
+  padding: 20px;
+  width: 350px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header_ h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #144f9f;
+}
+
+.modal-body_ {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-footer_ {
+  text-align: center;
+}
+
+.btn-confirm {
+  background: #144f9f;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-confirm:hover {
+  background: #0f3c7a;
+}
+
 
 </style>
