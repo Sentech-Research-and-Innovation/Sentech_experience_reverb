@@ -236,8 +236,12 @@ export default {
       try {
         const res = await axios.delete(`/sentalk/delete/${id}`);
         if (res.data.success) {
-          await this.fetchData(); // reload editions
-          window.location.reload();
+          this.latest = res.data.latest;
+          this.editions = res.data.editions;;
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
         }
       } catch (err) {
         console.error("Delete failed:", err);
@@ -500,7 +504,7 @@ iframe {
   background: #fff;
   width: 400px;
   max-width: 90%;
-  max-height: 80vh;
+  max-height: 40vh;
   padding: 20px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
