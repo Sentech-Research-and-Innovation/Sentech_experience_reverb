@@ -127,6 +127,11 @@ class SenTalkController extends Controller
             if ($sentalk->pdf_path && \Storage::disk('public')->exists($sentalk->pdf_path)) {
                 \Storage::disk('public')->delete($sentalk->pdf_path);
             }
+
+            // Delete Thumbnail
+            if ($sentalk->thumbnail_path && \Storage::disk('public')->exists($sentalk->thumbnail_path)) {
+                \Storage::disk('public')->delete($sentalk->thumbnail_path);
+            }
     
             // Delete record from DB
             $sentalk->delete();
