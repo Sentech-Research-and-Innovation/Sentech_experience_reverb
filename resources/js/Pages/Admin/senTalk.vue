@@ -486,8 +486,8 @@ iframe {
 .gallery {
   display: flex;
   flex-wrap: wrap;   /* allows items to wrap to next line */
-  gap: 15px;
-  padding: 10px 0;
+  gap: 8px;
+  padding: 5px 0;
 }
 
 .gallery-item {
@@ -499,8 +499,9 @@ iframe {
 
 .gallery-item img {
   width: 100%;
-  height: 140px;
-  object-fit: cover; 
+  height: 100px;
+  object-fit: cover;
+  object-position: top center; 
   border: 1px solid #ccc;
   border-radius: 6px;
 
