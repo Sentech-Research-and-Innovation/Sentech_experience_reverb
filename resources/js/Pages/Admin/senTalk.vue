@@ -239,9 +239,9 @@ export default {
         this.latest = res.data.latest;
         this.editions = res.data.editions;
 
-        // if (!this.latest) {
-        //   this.showNotFoundDialog = true;
-        // }
+        if (!this.latest) {
+          this.showNotFoundDialog = true;
+        }
           
       } catch (err) {
         console.error("Failed to fetch editions:", err);
