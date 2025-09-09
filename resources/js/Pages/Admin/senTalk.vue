@@ -84,7 +84,6 @@
 
     <!-- Older Editions -->
     <div class="older-editions" v-if="editions.length">
-      <h3>Older Editions</h3>
       <div class="gallery">
         <div
           v-for="edition in editions"
@@ -97,7 +96,6 @@
               :src="`/storage/${edition.thumbnail_path}`"
               alt="PDF Thumbnail"
             />
-          <!-- <p class="caption">{{ edition.title.replace('.pdf','') }}</p> -->
         </div>
       </div>
     </div>
@@ -425,27 +423,9 @@ iframe {
 
 /* Older editions */
 .older-editions {
-  margin-top: 20px;
+  margin-top: 10px;
 }
-.older-editions h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
-  color: #444;
-}
-.older-editions ul {
-  list-style: none;
-  padding: 0;
-}
-.older-editions li {
-  margin: 5px 0;
-}
-.older-editions a {
-  color: #144f9f;
-  text-decoration: none;
-}
-.older-editions a:hover {
-  text-decoration: underline;
-}
+
 .title-row {
   display: flex;
   justify-content: space-between;
@@ -505,16 +485,6 @@ iframe {
   border: 1px solid #ccc;
   border-radius: 6px;
 
-}
-
-.gallery-item .caption {
-  margin-top: 3px;
-  font-size: 12px;
-  color: #444;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* trims long titles */
 }
 
 .actions {
