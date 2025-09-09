@@ -204,7 +204,7 @@ export default {
 
     closeNotFoundDialog() {
       this.showNotFoundDialog = false;
-      this.clearSearch(); // ✅ reload original list after closing
+      this.clearSearch(); // reload original list after closing
     },
 
     async uploadFile(event) {
@@ -237,6 +237,7 @@ export default {
         this.editions = res.data.editions;
 
         if (!this.latest) {
+          this.latest = res.data.latest;
           this.showNotFoundDialog = true;
         }
           
@@ -261,7 +262,7 @@ export default {
         const res = await axios.delete(`/sentalk/delete/${id}`);
         if (res.data.success) {
           this.latest = res.data.latest;
-          this.editions = res.data.editions;;
+          this.editions = res.data.editions;
           window.location.reload();
         }
       } catch (err) {
