@@ -14,10 +14,13 @@ class SenTalk extends Model
 
     protected $fillable = [
         'pdf_path',
+    'thumbnail_path',
         'title',
         'creator',
         'number_views',
         'number_likes',
         'number_downloads',
+        'created_date',
+        'created_time',
     ];
 }
