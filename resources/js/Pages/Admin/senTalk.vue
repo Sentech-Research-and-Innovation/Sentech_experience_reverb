@@ -96,7 +96,7 @@
             v-if="edition.pdf_path"
             :src="`/storage/${edition.pdf_path}#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH&page=1`"
           ></iframe>
-          <p class="caption">{{ edition.title.replace('.pdf','') }}</p>
+          <!-- <p class="caption">{{ edition.title.replace('.pdf','') }}</p> -->
         </div>
       </div>
     </div>
@@ -507,7 +507,7 @@ iframe {
 }
 
 .gallery-item .caption {
-  margin-top: 5px;
+  margin-top: 3px;
   font-size: 12px;
   color: #444;
   font-weight: 500;
