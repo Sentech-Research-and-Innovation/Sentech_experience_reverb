@@ -92,10 +92,11 @@
           class="gallery-item"
           @click="view(edition)"
         >
-          <iframe
-            v-if="edition.pdf_path"
-            :src="`/storage/${edition.pdf_path}#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&view=FitH&page=1`"
-          ></iframe>
+            <img
+              v-if="edition.thumbnail_path"
+              :src="`/storage/${edition.thumbnail_path}`"
+              alt="PDF Thumbnail"
+            />
           <!-- <p class="caption">{{ edition.title.replace('.pdf','') }}</p> -->
         </div>
       </div>
@@ -485,7 +486,7 @@ iframe {
 /* Gallery layout */
 .gallery {
   display: flex;
-  flex-wrap: wrap;   /* ✅ allows items to wrap to next line */
+  flex-wrap: wrap;   /* allows items to wrap to next line */
   gap: 15px;
   padding: 10px 0;
 }
@@ -497,13 +498,13 @@ iframe {
   text-align: center;
 }
 
-.gallery-item iframe {
+.gallery-item img {
   width: 100%;
-  height: 140px;     /* smaller height */
+  height: 140px;
+  object-fit: cover; 
   border: 1px solid #ccc;
   border-radius: 6px;
-  pointer-events: none; /* disable scroll + clicks inside iframe */
-  overflow: hidden;     /* hide any scrollbars */
+
 }
 
 .gallery-item .caption {
@@ -518,7 +519,7 @@ iframe {
 
 .actions {
   display: flex;
-  gap: 10px;  /* ✅ adds space between Upload + Edit */
+  gap: 10px;  /* adds space between Upload + Edit */
   margin-top: 10px;
 }
 
