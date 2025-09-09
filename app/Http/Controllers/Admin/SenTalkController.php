@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SenTalk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Spatie\PdfToImage\Pdf;
 use Illuminate\Support\Facades\Log;
 
 class SenTalkController extends Controller
@@ -74,12 +74,22 @@ class SenTalkController extends Controller
     
             // Store PDF in storage/app/public/sentalk_pdfs
             $path = $file->store('sentalk_pdfs', 'public');
+
+            // Generate thumbnail (first page)
+            $pdfPath = storage_path('app/public/' . $path);
+            $thumbnailPath = 'sentalk_thumbs/' . pathinfo($file->hashName(), PATHINFO_FILENAME) . '.jpg';
+    
+            // Save first page as JPG
+            $pdf = new Pdf($pdfPath);
+            $pdf->setPage(1)->saveImage(storage_path('app/public/' . $thumbnailPath));
+
     
             // Save record in DB
             $now = now(); // Gets current date and time as a Carbon instance
 
             $sentalk = new SenTalk();
             $sentalk->pdf_path = $path;
+             $sentalk->thumbnail_path = $thumbnailPath;
             $sentalk->title = $file->getClientOriginalName();
             $sentalk->creator = 'MachabaL';
             $sentalk->created_date = $now->format('d M Y'); // Format: 06 Sept 2025
