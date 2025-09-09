@@ -34,7 +34,9 @@
       <div class="title-row">
         <div class="title-info">
           <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
-          <p class="pdf-meta">By {{ latest.creator }} on {{ latest.created_date }} {{ latest.created_time }}</p>
+          <p class="pdf-meta">By 
+            <span class="pdf-creator">{{ latest.creator }}</span>
+             on {{ latest.created_date }} {{ latest.created_time }}</p>
         </div>
         <div class="stats">
           {{ latest.number_views }} views ·
@@ -172,6 +174,8 @@
 <script>
 import axios from "axios";
 import { InfoFilled } from "@element-plus/icons-vue";
+
+
 
 
 
@@ -318,6 +322,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&family=Montserrat&family=Poppins&display=swap');
+
 .sentalk-card {
   max-width: 1000px;
   margin: 20px auto;
@@ -456,13 +462,21 @@ iframe {
 }
 
 .pdf-title {
+  font-family: 'Poppins', sans-serif;
   font-size: 26px;
-  font-weight: bold;
+  font-weight: 600;
   margin: 0;
   color: #333;
 }
 
+.pdf-creator {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
 .pdf-meta {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
   margin: 0;
   font-size: 12px;
   color: #777;
