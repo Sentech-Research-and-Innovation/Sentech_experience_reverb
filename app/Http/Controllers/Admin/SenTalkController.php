@@ -263,7 +263,7 @@ class SenTalkController extends Controller
         return response()->download($filePath, $sentalk->title . '.pdf');
     }
 
-    public function storeFeedback(Request $request)
+    public function feedback(Request $request)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
