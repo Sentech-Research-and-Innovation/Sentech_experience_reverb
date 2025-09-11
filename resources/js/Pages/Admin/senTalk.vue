@@ -19,9 +19,10 @@
       </div>
 
       <!-- provide feedback -->
-       <div class="provide-feedback">
-          <span>Provide Feedback</span>
-       </div>
+      <div class="provide-feedback" @click="openFeedbackDialog">
+        <span>Provide Feedback</span>
+      </div>
+
 
       <!-- Download -->
       <a
@@ -1317,11 +1318,28 @@ iframe {
 }
 
 /* provide feedback styling */
-.provide-feedback span{
-  margin: 0;
-  font-size: 22px;
-  font-weight: bold;
-  color: #144f9f;
+.provide-feedback {
+  cursor: pointer;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
+
+.provide-feedback span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #144f9f; /* same theme blue */
+  font-family: 'Poppins', sans-serif; /* same as Edit SenTalk heading */
+}
+
+.provide-feedback:hover {
+  background-color: #144f9f; /* theme blue */
+}
+
+.provide-feedback:hover span {
+  color: #fff; /* invert text color */
+}
+
 
 </style>
