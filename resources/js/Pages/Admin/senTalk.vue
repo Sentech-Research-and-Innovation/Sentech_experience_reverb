@@ -20,7 +20,7 @@
 
       <!-- provide feedback -->
        <div class="provide-feedback">
-          <span>Provide Feedback</span>
+          <span>Feedback</span>
        </div>
 
       <!-- Download -->
@@ -665,8 +665,8 @@ iframe {
 .provide-feedback span {
   font-size: 16px;
   font-weight: bold;
-  color: #144f9f; /* same theme blue */
-  font-family: 'Poppins', sans-serif; /* same as Edit SenTalk heading */
+  color: #144f9f;
+  font-family: 'Aptos', 'Poppins', sans-serif;
 }
 
 .provide-feedback:hover {
