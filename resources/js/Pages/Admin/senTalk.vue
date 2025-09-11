@@ -18,30 +18,33 @@
         </button>
       </div>
 
-      <!-- provide feedback -->
-       <div class="provide-feedback">
-          <span>Feedback</span>
-       </div>
+      <div class="top-actions">
+        <!-- provide feedback -->
+        <div class="provide-feedback" @click="openFeedbackDialog">
+            <span>Feedback</span>
+        </div>
 
-       <!-- thumbs up -->
-      <div class="thumbs-up">
-        <svg xmlns="http://www.w3.org/2000/svg" 
-            width="20" height="20" viewBox="0 0 24 24" 
-            fill="none" stroke="#144f9f" stroke-width="2" 
-            stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
-          <path d="M5 15h14l-1.34 5.36A2 2 0 0 1 15.7 22H8.3a2 2 0 0 1-1.96-1.64L5 15z"/>
-        </svg>
+        <!-- thumbs up -->
+        <div class="thumbs-up">
+          <svg xmlns="http://www.w3.org/2000/svg" 
+              width="20" height="20" viewBox="0 0 24 24" 
+              fill="none" stroke="#144f9f" stroke-width="2" 
+              stroke-linecap="round" stroke-linejoin="round">
+            <!-- <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
+            <path d="M5 15h14l-1.34 5.36A2 2 0 0 1 15.7 22H8.3a2 2 0 0 1-1.96-1.64L5 15z"/> -->
+            <path d="M14 9V5a3 3 0 0 0-6 0v4H4v12h16l-2-9h-4z"/>
+          </svg>
+        </div>
+
+        <!-- Download -->
+        <a
+          v-if="latest && latest.id"
+          :href="`/sentalk/download/${latest.id}`"
+          class="btn btn-download"
+        >
+          Download
+        </a>
       </div>
-
-      <!-- Download -->
-      <a
-        v-if="latest && latest.id"
-        :href="`/sentalk/download/${latest.id}`"
-        class="btn btn-download"
-      >
-        Download
-      </a>
     </div>
 
     <!-- Latest Edition -->
@@ -665,6 +668,14 @@ iframe {
   background: #0f3c7a;
 }
 
+
+/* Group container for feedback + thumbs + download */
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between buttons */
+}
+
 /* provide feedback styling */
 .provide-feedback {
   cursor: pointer;
@@ -689,13 +700,14 @@ iframe {
   color: #fff; /* invert text color */
 }
 
+
+
 /* thumbs up styling */
 
 .thumbs-up {
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin: 0 10px; /* space between feedback & download */
   transition: transform 0.2s ease;
 }
 
