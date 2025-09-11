@@ -188,6 +188,40 @@
     </div>
   </div>
 
+  <!-- Feedback Dialog -->
+  <div v-if="showFeedbackDialog" class="modal-overlay">
+    <div class="modal slide-in">
+      <!-- Header -->
+      <div class="modal-header">
+        <h2>Provide Feedback</h2>
+        <span class="close-btn" @click="closeFeedbackDialog">&times;</span>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <p>
+          Your feedback will go directly to the creators and auditors of this edition. 
+          Please share your thoughts, suggestions, or issues to help us improve.
+        </p>
+
+        <label>Name & Surname</label>
+        <input v-model="feedbackForm.name" type="text" />
+
+        <label>Email</label>
+        <input v-model="feedbackForm.email" type="email" />
+
+        <label>Message</label>
+        <textarea v-model="feedbackForm.message" rows="4"></textarea>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn-confirm" @click="submitFeedback">Send Feedback</button>
+      </div>
+    </div>
+  </div>
+
+
 
 </template>
 
@@ -207,12 +241,18 @@ export default {
       searchQuery: "",
       showEditDialog: false,
       showNotFoundDialog: false,
+      showFeedbackDialog: false,
       editForm: {
-      title: "",
-      creator: "",
-      created_date: "",
-      created_time: "",
+        title: "",
+        creator: "",
+        created_date: "",
+        created_time: "",
       },
+      feedbackForm: {
+        name: "",
+        email: "",
+        message: ""
+      }
     };
   },
 
@@ -304,7 +344,32 @@ export default {
       this.latest = edition;
     },
 
+    openFeedbackDialog() {
+      // If you already have the logged-in user details available (passed from Laravel blade, API, or Vuex),
+      // use them here instead of hardcoding.
+      const user = this.$page?.props?.auth?.user || null; // Example if using Inertia/Laravel Breeze
 
+      if (user) {
+        this.feedbackForm.name = `${user.name} ${user.surname}`; 
+        this.feedbackForm.email = user.email; // or construct surnameN@sentech.co.za if that’s your rule
+      } else {
+        // fallback demo values
+        this.feedbackForm.name = "John Doe";
+        const parts = this.feedbackForm.name.split(" ");
+        if (parts.length >= 2) {
+          const surname = parts[1];
+          const initial = parts[0].charAt(0).toLowerCase();
+          this.feedbackForm.email = `${surname}${initial}@sentech.co.za`.toLowerCase();
+        }
+      }
+
+      this.feedbackForm.message = ""; // reset message field
+      this.showFeedbackDialog = true;
+    },
+
+    closeFeedbackDialog() {
+      this.showFeedbackDialog = false;
+    },
     // Open dialog with current values prefilled
     openEditDialog() {
         if (!this.latest) return;
@@ -334,6 +399,21 @@ export default {
         } catch (err) {
           console.error("Update failed:", err);
           alert("Update failed. Check logs.");
+        }
+      },
+
+      async submitFeedback() {
+        try {
+          const res = await axios.post("/sentalk/feedback", this.feedbackForm);
+          if (res.data.success) {
+            alert("Thank you for your feedback!");
+            this.closeFeedbackDialog();
+          } else {
+            alert("Failed to send feedback.");
+          }
+        } catch (err) {
+          console.error("Feedback failed:", err);
+          alert("Error sending feedback. Please try again.");
         }
       },
     }
