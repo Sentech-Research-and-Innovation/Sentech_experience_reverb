@@ -29,7 +29,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" 
               width="20" height="20" 
               viewBox="0 0 24 24" 
-              fill="red" 
+              fill="none" 
               stroke="red" 
               stroke-width="2" 
               stroke-linecap="round" 
@@ -708,13 +708,14 @@ iframe {
 
 .heart-icon svg {
   cursor: pointer;
-  transition: transform 0.2s ease, fill 0.2s ease;
+  transition: transform 0.3s ease, fill 0.2s ease;
 }
 
 .heart-icon svg:hover {
   transform: scale(1.2);
-  fill: darkred;
-  stroke: darkred;
+  fill: red;
+  stroke: red;
+  transform: scale(1.2);
 }
 
 </style>
