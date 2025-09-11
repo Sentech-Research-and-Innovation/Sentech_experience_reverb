@@ -263,6 +263,24 @@ class SenTalkController extends Controller
         return response()->download($filePath, $sentalk->title . '.pdf');
     }
 
+    public function storeFeedback(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'message' => 'required|string|max:1000',
+        ]);
+    
+        // Example: send to creator's email
+        \Mail::raw($data['message'], function ($msg) use ($data) {
+            $msg->to('creator@sentech.co.za')
+                ->subject("Feedback from {$data['name']} ({$data['email']})");
+        });
+    
+        return response()->json(['success' => true]);
+    }
+
+
 
     public function stats()
     {
