@@ -23,6 +23,17 @@
           <span>Feedback</span>
        </div>
 
+       <!-- thumbs up -->
+      <div class="thumbs-up">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+            width="20" height="20" viewBox="0 0 24 24" 
+            fill="none" stroke="#144f9f" stroke-width="2" 
+            stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
+          <path d="M5 15h14l-1.34 5.36A2 2 0 0 1 15.7 22H8.3a2 2 0 0 1-1.96-1.64L5 15z"/>
+        </svg>
+      </div>
+
       <!-- Download -->
       <a
         v-if="latest && latest.id"
@@ -326,6 +337,7 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Exo+2&family=Montserrat&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 .sentalk-card {
   max-width: 1000px;
@@ -677,5 +689,26 @@ iframe {
   color: #fff; /* invert text color */
 }
 
+/* thumbs up styling */
+
+.thumbs-up {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 10px; /* space between feedback & download */
+  transition: transform 0.2s ease;
+}
+
+.thumbs-up svg {
+  stroke: #144f9f;
+  width: 20px;
+  height: 20px;
+}
+
+.thumbs-up:hover svg {
+  fill: #144f9f;   /* fill with theme blue on hover */
+  stroke: #fff;    /* optional: white outline */
+  transform: scale(1.1); /* subtle zoom */
+}
 
 </style>
