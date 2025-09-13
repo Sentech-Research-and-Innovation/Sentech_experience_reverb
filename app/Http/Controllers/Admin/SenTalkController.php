@@ -270,19 +270,39 @@ class SenTalkController extends Controller
             'name'    => 'required|string|max:255',
             'email'   => 'required|email',
             'message' => 'required|string|max:1000',
+            'edition_id' => 'required|integer', // make sure frontend passes the edition ID
         ]);
     
-        // Log the incoming feedback
+        // Get edition title
+        $edition = Sentalk::find($data['edition_id']);
+        $editionTitle = $edition ? $edition->title : 'Unknown Edition';
+    
+        // Build email body
+        $body = <<<EOT
+    Good day,
+    
+    You just received a feedback on the TX platform based on the SenTalk edition: **{$editionTitle}**.
+    
+    From: {$data['name']}  
+    Email: {$data['email']}
+    
+    Message:
+    {$data['message']}
+    
+    Kind regards,  
+    TX Platform
+    EOT;
+    
+        // Log the feedback
         Log::info('Feedback received', $data);
     
-        // Send the feedback email
-        Mail::raw($data['message'], function ($msg) use ($data) {
-            $msg->to('u20507934@tuks.co.za') //  send here
-                ->subject("Feedback from {$data['name']} ({$data['email']})");
+        // Send the email
+        Mail::raw($body, function ($msg) use ($data) {
+            $msg->to('u20507934@tuks.co.za')
+                ->subject("New Feedback on SenTalk Edition");
         });
     
-        // Log success
-        Log::info('Feedback email sent successfully to u20507934@tuks.co.za');
+        Log::info("Feedback email sent successfully to u20507934@tuks.co.za for edition {$editionTitle}");
     
         return response()->json(['success' => true]);
     }
