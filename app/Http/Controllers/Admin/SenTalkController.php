@@ -275,6 +275,7 @@ class SenTalkController extends Controller
     
         // Get edition title
         $edition = Sentalk::find($data['edition_id']);
+        $editionTitle = str_replace('.pdf', '', $edition->title); 
         $editionTitle = $edition ? $edition->title : 'Unknown Edition';
     
         // Build email body
