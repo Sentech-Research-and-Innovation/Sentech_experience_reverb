@@ -782,6 +782,16 @@ iframe {
   color: #fff; /* invert text color */
 }
 
+.modal-body textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-family: inherit; 
+  resize: vertical;     
+}
 
 
 /* thumbs up styling */
