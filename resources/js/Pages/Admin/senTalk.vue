@@ -221,6 +221,37 @@
     </div>
   </div>
 
+    <!-- Feedback Success Dialog -->
+  <div v-if="showFeedbackSuccess" class="modal-overlay_">
+    <div class="modal_">
+      <div class="modal-header_">
+        <h3>Feedback Sent</h3>
+      </div>
+      <div class="modal-body_">
+        <p>Thank you for your feedback! Your message has been sent to the creators and auditors.</p>
+      </div>
+      <div class="modal-footer_">
+        <button class="btn-confirm" @click="closeFeedbackSuccess">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Error Dialog -->
+  <div v-if="showFeedbackError" class="modal-overlay_">
+    <div class="modal_">
+      <div class="modal-header_">
+        <h3>Feedback Failed</h3>
+      </div>
+      <div class="modal-body_">
+        <p>Failed to send feedback. Please try again later.</p>
+      </div>
+      <div class="modal-footer_">
+        <button class="btn-confirm" @click="closeFeedbackError">OK</button>
+      </div>
+    </div>
+  </div>
+
+
 
 
 </template>
@@ -242,6 +273,8 @@ export default {
       showEditDialog: false,
       showNotFoundDialog: false,
       showFeedbackDialog: false,
+      showFeedbackSuccess: false,
+      showFeedbackError: false,
       editForm: {
         title: "",
         creator: "",
@@ -253,6 +286,7 @@ export default {
         email: "",
         message: ""
       }
+      
     };
   },
 
@@ -406,16 +440,27 @@ export default {
         try {
           const res = await axios.post("/sentalk/feedback", this.feedbackForm);
           if (res.data.success) {
-            alert("Thank you for your feedback!");
+            this.showFeedbackDialog = false;
+            this.showFeedbackSuccess = true;
             this.closeFeedbackDialog();
           } else {
-            alert("Failed to send feedback.");
+            this.showFeedbackDialog = false;
+            this.showFeedbackError = true;
           }
         } catch (err) {
           console.error("Feedback failed:", err);
-          alert("Error sending feedback. Please try again.");
+          this.showFeedbackDialog = false;
+          this.showFeedbackError = true; 
         }
       },
+
+      closeFeedbackSuccess() {
+        this.showFeedbackSuccess = false;
+      },
+      closeFeedbackError() {
+        this.showFeedbackError = false;
+      },
+
     }
 };
 </script>
