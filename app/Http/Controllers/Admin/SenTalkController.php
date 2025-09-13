@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Spatie\PdfToImage\Pdf;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SenTalkController extends Controller
 {
@@ -266,16 +267,22 @@ class SenTalkController extends Controller
     public function feedback(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email',
             'message' => 'required|string|max:1000',
         ]);
     
-        // Example: send to creator's email
-        \Mail::raw($data['message'], function ($msg) use ($data) {
-            $msg->to('creator@sentech.co.za')
+        // Log the incoming feedback
+        Log::info('Feedback received', $data);
+    
+        // Send the feedback email
+        Mail::raw($data['message'], function ($msg) use ($data) {
+            $msg->to('u20507934@tuks.co.za') //  send here
                 ->subject("Feedback from {$data['name']} ({$data['email']})");
         });
+    
+        // Log success
+        Log::info('Feedback email sent successfully to u20507934@tuks.co.za');
     
         return response()->json(['success' => true]);
     }
