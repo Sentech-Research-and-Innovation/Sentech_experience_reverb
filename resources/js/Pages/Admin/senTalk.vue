@@ -284,7 +284,8 @@ export default {
       feedbackForm: {
         name: "",
         email: "",
-        message: ""
+        message: "",
+        edition_id: null
       }
       
     };
@@ -398,6 +399,7 @@ export default {
       }
 
       this.feedbackForm.message = ""; // reset message field
+      this.feedbackForm.edition_id = this.latest?.id || null;
       this.showFeedbackDialog = true;
     },
 
