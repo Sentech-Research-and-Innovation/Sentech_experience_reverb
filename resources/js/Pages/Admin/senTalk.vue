@@ -25,12 +25,12 @@
         </div>
 
         <!-- thumbs up -->
-        <div class="heart-icon">
+        <div class="heart-icon" @click="toggleLike(latest.id)">
           <svg xmlns="http://www.w3.org/2000/svg" 
               width="20" height="20" 
               viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="red" 
+              :fill="liked ? 'red' : 'none'" 
+              :stroke="latest.liked ? 'red' : 'red'" 
               stroke-width="2" 
               stroke-linecap="round" 
               stroke-linejoin="round">
@@ -275,6 +275,7 @@ export default {
       showFeedbackDialog: false,
       showFeedbackSuccess: false,
       showFeedbackError: false,
+      liked: false,
       editForm: {
         title: "",
         creator: "",
@@ -304,6 +305,29 @@ export default {
     closeNotFoundDialog() {
       this.showNotFoundDialog = false;
       this.clearSearch(); // reload original list after closing
+    },
+
+    async toggleLike(id) {
+      try {
+        const res = await axios.post(`/sentalk/like/${id}`);
+        if (res.data.success) {
+          // Update latest edition like state
+          if (this.latest && this.latest.id === id) {
+            this.latest.liked = res.data.liked;
+            this.latest.number_likes = res.data.total_likes;
+          }
+
+          // Update in editions list as well
+          this.editions = this.editions.map(e => {
+            if (e.id === id) {
+              return { ...e, liked: res.data.liked, number_likes: res.data.total_likes };
+            }
+            return e;
+          });
+        }
+      } catch (err) {
+        console.error("Like toggle failed:", err);
+      }
     },
 
     async uploadFile(event) {
