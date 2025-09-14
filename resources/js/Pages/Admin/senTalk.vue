@@ -50,7 +50,7 @@
             <!-- Home -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/dashboard" class="icon-button">
-                <Home class="icon-img" />
+                <home class="icon-img"></home>
                 <span class="icon-label">Home</span>
               </a>
             </div>
@@ -58,7 +58,7 @@
             <!-- Sentiment Analysis -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/sentiment" class="icon-button">
-                <Smile class="icon-img" />
+                <smile class="icon-img"></smile>
                 <span class="icon-label">Sentiment</span>
               </a>
             </div>
@@ -66,7 +66,7 @@
             <!-- Predictive Maintenance -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/maintenance" class="icon-button">
-                <Wrench class="icon-img" />
+                <wrench class="icon-img"></wrench>
                 <span class="icon-label">Maintenance</span>
               </a>
             </div>
@@ -74,7 +74,7 @@
             <!-- Roles & Permissions -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/roles" class="icon-button">
-                <Lock class="icon-img" />
+                <lock class="icon-img"></lock>
                 <span class="icon-label">Roles</span>
               </a>
             </div>
@@ -82,7 +82,7 @@
             <!-- Users -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/users" class="icon-button">
-                <Users class="icon-img" />
+                <users class="icon-img"></users>
                 <span class="icon-label">Users</span>
               </a>
             </div>
@@ -90,7 +90,7 @@
             <!-- Radio -->
             <div class="col-lg-2 col-4 mb-3">
               <a href="/admin/radio" class="icon-button">
-                <Radio class="icon-img" />
+                <radio class="icon-img"></radio>
                 <span class="icon-label">Radio</span>
               </a>
             </div>
