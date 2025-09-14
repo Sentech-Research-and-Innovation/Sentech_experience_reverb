@@ -1,7 +1,3 @@
-<script setup>
-import { Home, Smile, Wrench, Lock, Users, Radio } from "lucide-vue-next";
-</script>
-
 <template>
     <Head :title="'Dashboard'"><title>Dashboard</title></Head>
 
@@ -114,13 +110,22 @@ import { Home, Smile, Wrench, Lock, Users, Radio } from "lucide-vue-next";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, onMounted, ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import senTalk from "./senTalk.vue";\
+import senTalk from "./senTalk.vue";
+import { Home, Smile, Wrench, Lock, Users, Radio } from "lucide-vue-next";
 
 export default defineComponent({
     name: "dashboard",
     layout: AdminLayout,
 
-    components: { Head, senTalk },
+    components: { Head, 
+                  senTalk,
+                  Home, 
+                  Smile, 
+                  Wrench, 
+                  Lock, 
+                  Users, 
+                  Radio
+                },
 
     props: {
         refresh: {
