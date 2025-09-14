@@ -50,46 +50,48 @@
       <div class="row text-center">
 
         <!-- Sentiment -->
-        <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/sentiments/all" class="icon-button">
+        <div class="col-lg-3 col-6 mb-3">
+          <a href="/admin/sentiments/all" class="icon-button full-box">
             <Smile class="icon-img" />
             <span class="icon-label">Sentiment</span>
           </a>
         </div>
 
         <!-- Maintenance -->
-        <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/predictive-maintenance/index" class="icon-button">
+        <div class="col-lg-3 col-6 mb-3">
+          <a href="/admin/predictive-maintenance/index" class="icon-button full-box">
             <Wrench class="icon-img" />
             <span class="icon-label">Maintenance</span>
           </a>
         </div>
 
         <!-- Roles -->
-        <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/roles" class="icon-button">
+        <div class="col-lg-3 col-6 mb-3">
+          <a href="/admin/roles" class="icon-button full-box">
             <Lock class="icon-img" />
             <span class="icon-label">Roles</span>
           </a>
         </div>
 
         <!-- Users -->
-        <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/getActiveUsers" class="icon-button">
+        <div class="col-lg-3 col-6 mb-3">
+          <a href="/admin/getActiveUsers" class="icon-button full-box">
             <Users class="icon-img" />
             <span class="icon-label">Users</span>
           </a>
         </div>
 
         <!-- Radio -->
-        <!-- <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/radio" class="icon-button">
+        <!-- <div class="col-lg-3 col-6 mb-3">
+          <a href="/admin/radio" class="icon-button full-box">
             <Radio class="icon-img" />
             <span class="icon-label">Radio</span>
           </a>
         </div> -->
+
       </div>
     </div>
+
 
     <!-- SenTalk -->
     <div class="px-0 mx-auto mt-4" style="width: 85%;">
@@ -232,8 +234,8 @@ onMounted(() => {
 }
 
 .icon-img {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   stroke: #144f9f; /* default color */
   transition: all 0.3s ease-in-out;
 }
@@ -251,6 +253,12 @@ onMounted(() => {
 
 .icon-button:hover .icon-label {
   color: #fff;
+}
+
+.full-box {
+  width: 100%;
+  height: 100%;
+  padding: 40px 20px; /* more padding so it looks like stat boxes */
 }
 
 
