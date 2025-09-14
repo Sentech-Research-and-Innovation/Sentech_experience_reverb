@@ -15,9 +15,9 @@ class SenTalkController extends Controller
     public function index(Request $request)
     {
         Log::info('SenTalkController@index accessed', [
-            'ip' => $request->ip(),
-            'search' => $request->search ?? null,
-            'timestamp' => now()
+            'ip'       => $request->ip(),
+            'search'   => $request->search ?? null,
+            'timestamp'=> now()
         ]);
     
         $query = SenTalk::query();
@@ -54,20 +54,12 @@ class SenTalkController extends Controller
         Log::info('SenTalk fetched results', [
             'total' => $editions->count(),
         ]);
-    
-        // Return data to frontend
         return response()->json([
-            'latest' => $editions->first(),
-            'editions' => $editions->skip(1)->values(), // everything except latest
+            'latest'   => $editions->first(),
+            'editions' => $editions->values(),
         ]);
     }
 
-        
-        return response()->json([
-            'latest' => $editions->first(),
-            'editions' => $editions->values(), // all except the latest
-        ]);
-    }
 
 
     public function upload(Request $request)
