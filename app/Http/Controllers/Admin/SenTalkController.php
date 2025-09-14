@@ -425,5 +425,44 @@ class SenTalkController extends Controller
         ]);
     }
 
+    public function view($id)
+    {
+        $edition = SenTalk::findOrFail($id);
+        $user = auth()->user();
+    
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ], 401);
+        }
+    
+        // Check if user already viewed
+        $existing = DB::table('sentalk_views')
+            ->where('edition_id', $edition->id)
+            ->where('user_id', $user->id)
+            ->first();
+    
+        if (!$existing) {
+            DB::table('sentalk_views')->insert([
+                'edition_id' => $edition->id,
+                'user_id'    => $user->id,
+                'first_name' => $user->first_name,
+                'last_name'  => $user->last_name,
+                'email'      => $user->email,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            // Increment edition view count
+            $edition->increment('number_views');
+        }
+    
+        return response()->json([
+            'success' => true,
+            'views'   => $edition->number_views,
+        ]);
+    }
+
 
 }
