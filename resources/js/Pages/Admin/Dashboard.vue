@@ -219,7 +219,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background: #f9f9f9;
+  background: #144f9f;
   border-radius: 12px;
   padding: 20px;
   transition: all 0.3s ease-in-out;
@@ -227,19 +227,19 @@ onMounted(() => {
 }
 
 .icon-button:hover {
-  background: #144f9f; /* Sentech blue */
+  background: #f9f9f9; /* Sentech blue */
   transform: translateY(-5px);
 }
 
 .icon-img {
   width: 55px;
   height: 55px;
-  stroke: #144f9f; /* default color */
+  stroke: #fff; /* default color */
   transition: all 0.3s ease-in-out;
 }
 
 .icon-button:hover .icon-img {
-  stroke: #fff; /* change to white on hover */
+  stroke: #144f9f; /* change to white on hover */
 }
 
 .icon-label {
