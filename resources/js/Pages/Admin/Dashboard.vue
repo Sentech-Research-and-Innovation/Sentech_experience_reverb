@@ -50,7 +50,7 @@
       <div class="row text-center">
         <!-- Sentiment -->
         <div class="col-lg-3 col-6 mb-3">
-          <a href="/admin/sentiments/all" class="icon-button full-box">
+          <a href="/admin/sentiments/all" class="icon-button full-box icon-sentiment">
             <Smile class="icon-img" />
             <span class="icon-label">Sentiment</span>
           </a>
@@ -58,7 +58,7 @@
 
         <!-- Maintenance -->
         <div class="col-lg-3 col-6 mb-3">
-          <a href="/admin/predictive-maintenance/index" class="icon-button full-box">
+          <a href="/admin/predictive-maintenance/index" class="icon-button full-box icon-maintenance">
             <Wrench class="icon-img" />
             <span class="icon-label">Maintenance</span>
           </a>
@@ -66,7 +66,7 @@
 
         <!-- Roles -->
         <div class="col-lg-3 col-6 mb-3">
-          <a href="/admin/roles" class="icon-button full-box">
+          <a href="/admin/roles" class="icon-button full-box icon-roles">
             <Lock class="icon-img" />
             <span class="icon-label">Roles</span>
           </a>
@@ -74,7 +74,7 @@
 
         <!-- Users -->
         <div class="col-lg-3 col-6 mb-3">
-          <a href="/admin/getActiveUsers" class="icon-button full-box">
+          <a href="/admin/getActiveUsers" class="icon-button full-box icon-users">
             <Users class="icon-img" />
             <span class="icon-label">Users</span>
           </a>
@@ -194,6 +194,23 @@ onMounted(() => {
     background-color: #93ad24;
 }
 
+.icon-sentiment {
+    background-color: #f7a623;
+}
+
+.icon-maintenance {
+  background-color: #209cbe;
+}
+
+
+.icon-roles {
+  background-color: #c51616;
+}
+
+.icon-users {
+    background-color: #93ad24;
+}
+
 .tweets-value {
     font-size: 55px;
     font-weight: 700;
@@ -219,7 +236,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background: #f9f9f9;
+  /* background: #f9f9f9; */
   border-radius: 12px;
   padding: 20px;
   transition: all 0.3s ease-in-out;
@@ -227,14 +244,14 @@ onMounted(() => {
 }
 
 .icon-button:hover {
-  background: #144f9f; /* Sentech blue */
+  /* background: #144f9f; Sentech blue */
   transform: translateY(-5px);
 }
 
 .icon-img {
   width: 55px;
   height: 55px;
-  stroke: #144f9f; /* default color */
+  stroke: #fff; /* default color */
   transition: all 0.3s ease-in-out;
 }
 
@@ -246,7 +263,7 @@ onMounted(() => {
   margin-top: 10px;
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 }
 
 .icon-button:hover .icon-label {
