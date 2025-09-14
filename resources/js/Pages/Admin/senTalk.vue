@@ -74,7 +74,7 @@
       ></iframe>
 
       <!-- Upload Button -->
-      <div class="actions">
+      <div v-if="can('companies-read_approved')" class="actions">
         <button class="btn btn-upload" @click="triggerFileInput">Upload New</button>
        <!-- Edit button -->
        <button class="btn btn-edit" @click="openEditDialog"> Edit</button>
@@ -409,7 +409,7 @@ export default {
       const user = this.$page?.props?.auth?.user || null; // Example if using Inertia/Laravel Breeze
 
       if (user) {
-        this.feedbackForm.name = `${user.name} ${user.surname}`; 
+        this.feedbackForm.name = `${user.first_name} ${user.last_name}`; 
         this.feedbackForm.email = user.email; // or construct surnameN@sentech.co.za if that’s your rule
       } else {
         // fallback demo values
