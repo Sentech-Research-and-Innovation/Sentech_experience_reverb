@@ -427,15 +427,24 @@ class SenTalkController extends Controller
 
     public function view($id)
     {
+        Log::info("SenTalk view requested for edition ID: {$id}");
+    
         $edition = SenTalk::findOrFail($id);
         $user = auth()->user();
     
         if (!$user) {
+            Log::warning("Unauthenticated access attempt to SenTalk edition ID: {$id}");
+    
             return response()->json([
                 'success' => false,
                 'message' => 'User not authenticated'
             ], 401);
         }
+    
+        Log::info("User authenticated", [
+            'user_id' => $user->id,
+            'email'   => $user->email
+        ]);
     
         // Check if user already viewed
         $existing = DB::table('sentalk_views')
@@ -444,6 +453,13 @@ class SenTalkController extends Controller
             ->first();
     
         if (!$existing) {
+            Log::info("New view recorded for edition ID: {$edition->id}", [
+                'user_id'   => $user->id,
+                'first_name'=> $user->first_name,
+                'last_name' => $user->last_name,
+                'email'     => $user->email
+            ]);
+    
             DB::table('sentalk_views')->insert([
                 'edition_id' => $edition->id,
                 'user_id'    => $user->id,
@@ -456,6 +472,13 @@ class SenTalkController extends Controller
     
             // Increment edition view count
             $edition->increment('number_views');
+    
+            Log::info("Incremented number_views for edition ID: {$edition->id}");
+        } else {
+            Log::info("View already exists. No update required.", [
+                'edition_id' => $edition->id,
+                'user_id'    => $user->id
+            ]);
         }
     
         return response()->json([
@@ -463,6 +486,5 @@ class SenTalkController extends Controller
             'views'   => $edition->number_views,
         ]);
     }
-
 
 }
