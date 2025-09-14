@@ -18,6 +18,7 @@ Route::prefix('sentalk')->group(function () {
     Route::post('/update/{id}', [SenTalkController::class, 'update']);
     Route::delete('/delete/{id}', [SenTalkController::class, 'delete']);
     Route::post('/feedback', [SentalkController::class, 'feedback']);
+    Route::post('/like/{id}', [SentalkController::class, 'like']);
 
 
 });
