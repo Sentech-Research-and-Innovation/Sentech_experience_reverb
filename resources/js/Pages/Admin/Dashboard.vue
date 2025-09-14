@@ -44,6 +44,61 @@
             </div>
         </div>
 
+        <div class="col-12 icon-grid-wrapper rounded mt-3 mx-0 px-0">
+          <div class="row text-center">
+
+            <!-- Home -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-blue-100 hover:bg-blue-200 cursor-pointer">
+                <i data-lucide="home" class="w-10 h-10 text-blue-600"></i>
+                <div class="icon-label mt-2">Home</div>
+              </div>
+            </div>
+
+            <!-- Sentiment Analysis -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-green-100 hover:bg-green-200 cursor-pointer">
+                <i data-lucide="smile" class="w-10 h-10 text-green-600"></i>
+                <div class="icon-label mt-2">Sentiment</div>
+              </div>
+            </div>
+
+            <!-- Predictive Maintenance -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-yellow-100 hover:bg-yellow-200 cursor-pointer">
+                <i data-lucide="cpu" class="w-10 h-10 text-yellow-600"></i>
+                <div class="icon-label mt-2">Maintenance</div>
+              </div>
+            </div>
+
+            <!-- Roles & Permissions -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-purple-100 hover:bg-purple-200 cursor-pointer">
+                <i data-lucide="lock" class="w-10 h-10 text-purple-600"></i>
+                <div class="icon-label mt-2">Roles</div>
+              </div>
+            </div>
+
+            <!-- Users -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-red-100 hover:bg-red-200 cursor-pointer">
+                <i data-lucide="users" class="w-10 h-10 text-red-600"></i>
+                <div class="icon-label mt-2">Users</div>
+              </div>
+            </div>
+
+            <!-- Radio -->
+            <div class="col-lg-2 col-4 mb-3">
+              <div class="col-12 rounded py-4 flex flex-col items-center justify-center bg-indigo-100 hover:bg-indigo-200 cursor-pointer">
+                <i data-lucide="radio" class="w-10 h-10 text-indigo-600"></i>
+                <div class="icon-label mt-2">Radio</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
         <div class="px-0 mx-auto mt-4" style="width: 85%;">
             <senTalk />
         </div>
@@ -189,4 +244,11 @@ export default defineComponent({
         font-weight: 500;
     }
 }
+
+.icon-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
 </style>
