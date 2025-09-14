@@ -70,7 +70,9 @@
       <!-- PDF Preview -->
       <iframe
         v-if="latest.pdf_path"
+        ref="pdfFrame"
         :src="`/storage/${latest.pdf_path}#toolbar=0&view=FitH&v=${Date.now()}`"
+        @load="attachScrollListener"
       ></iframe>
 
       <!-- Upload Button -->
@@ -305,6 +307,33 @@ export default {
     closeNotFoundDialog() {
       this.showNotFoundDialog = false;
       this.clearSearch(); // reload original list after closing
+    },
+
+    attachScrollListener() {
+      const iframe = this.$refs.pdfFrame;
+      if (!iframe) return;
+
+      // Wait until iframe content is ready
+      iframe.onload = () => {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          doc.addEventListener("scroll", this.registerViewOnce, { once: true });
+        } catch (e) {
+          console.error("Cannot attach scroll listener to PDF:", e);
+        }
+      };
+    },
+
+    async registerViewOnce() {
+      if (!this.latest || !this.latest.id) return;
+      try {
+        const res = await axios.post(`/sentalk/view/${this.latest.id}`);
+        if (res.data.success) {
+          this.latest.number_views = res.data.views;
+        }
+      } catch (err) {
+        console.error("Failed to register view:", err);
+      }
     },
 
     async toggleLike(id) {
