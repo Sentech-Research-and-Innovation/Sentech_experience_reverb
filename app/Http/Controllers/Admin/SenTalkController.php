@@ -354,26 +354,26 @@ class SenTalkController extends Controller
         }
     
         // Check if user already liked
-        $existing = DB::table('sentalk_likes')
+        $existing = \DB::table('sentalk_likes')
             ->where('edition_id', $edition->id)
             ->where('user_id', $user->id)
             ->first();
     
         if ($existing) {
             // Unlike (remove record)
-            DB::table('sentalk_likes')
+            \DB::table('sentalk_likes')
                 ->where('edition_id', $edition->id)
                 ->where('user_id', $user->id)
                 ->delete();
     
             $liked = false;
         } else {
-            // Like (add record with extra fields)
-            DB::table('sentalk_likes')->insert([
+            // Like (add record with correct user fields)
+            \DB::table('sentalk_likes')->insert([
                 'edition_id' => $edition->id,
                 'user_id'    => $user->id,
-                'name'       => $user->name,
-                'surname'    => $user->surname,
+                'name'       => $user->first_name,
+                'surname'    => $user->last_name,
                 'email'      => $user->email,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -383,7 +383,7 @@ class SenTalkController extends Controller
         }
     
         // Count total likes
-        $totalLikes = DB::table('sentalk_likes')
+        $totalLikes = \DB::table('sentalk_likes')
             ->where('edition_id', $edition->id)
             ->count();
     
@@ -397,5 +397,6 @@ class SenTalkController extends Controller
             'total_likes' => $totalLikes,
         ]);
     }
+
 
 }
