@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\PdfToImage\Pdf;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\DB;
 class SenTalkController extends Controller
 {
     public function index(Request $request)
