@@ -49,17 +49,9 @@
     <div class="col-12 icon-grid-wrapper rounded mt-3 mx-0 px-0">
       <div class="row text-center">
 
-        <!-- Home -->
-        <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/dashboard" class="icon-button">
-            <Home class="icon-img" />
-            <span class="icon-label">Home</span>
-          </a>
-        </div>
-
         <!-- Sentiment -->
         <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/sentiment" class="icon-button">
+          <a href="/admin/sentiments/all" class="icon-button">
             <Smile class="icon-img" />
             <span class="icon-label">Sentiment</span>
           </a>
@@ -67,7 +59,7 @@
 
         <!-- Maintenance -->
         <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/maintenance" class="icon-button">
+          <a href="/admin/predictive-maintenance/index" class="icon-button">
             <Wrench class="icon-img" />
             <span class="icon-label">Maintenance</span>
           </a>
@@ -83,19 +75,19 @@
 
         <!-- Users -->
         <div class="col-lg-2 col-4 mb-3">
-          <a href="/admin/users" class="icon-button">
+          <a href="/admin/getActiveUsers" class="icon-button">
             <Users class="icon-img" />
             <span class="icon-label">Users</span>
           </a>
         </div>
 
         <!-- Radio -->
-        <div class="col-lg-2 col-4 mb-3">
+        <!-- <div class="col-lg-2 col-4 mb-3">
           <a href="/admin/radio" class="icon-button">
             <Radio class="icon-img" />
             <span class="icon-label">Radio</span>
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
 
