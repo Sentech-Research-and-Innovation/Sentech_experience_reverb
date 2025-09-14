@@ -21,21 +21,47 @@ class SenTalkController extends Controller
         ]);
     
         $query = SenTalk::query();
-        
+    
         // Search functionality
         if ($request->has('search') && !empty($request->search)) {
             Log::info('Applying search filter', ['search_term' => $request->search]);
     
-            $query->where('title', 'like', '%' . $request->search . '%')
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('creator', 'like', '%' . $request->search . '%');
+            });
         }
-        
+    
         // Get all editions ordered by newest
         $editions = $query->orderBy('created_at', 'desc')->get();
+    
+        $user = auth()->user();
+    
+        // Add liked flag for each edition
+        if ($user) {
+            foreach ($editions as $edition) {
+                $edition->liked = \DB::table('sentalk_likes')
+                    ->where('edition_id', $edition->id)
+                    ->where('user_id', $user->id)
+                    ->exists();
+            }
+        } else {
+            foreach ($editions as $edition) {
+                $edition->liked = false;
+            }
+        }
     
         Log::info('SenTalk fetched results', [
             'total' => $editions->count(),
         ]);
+    
+        // Return data to frontend
+        return response()->json([
+            'latest' => $editions->first(),
+            'editions' => $editions->skip(1)->values(), // everything except latest
+        ]);
+    }
+
         
         return response()->json([
             'latest' => $editions->first(),
@@ -321,4 +347,63 @@ class SenTalkController extends Controller
         
         return response()->json($stats);
     }
+
+
+    public function like($id)
+    {
+        $edition = SenTalk::findOrFail($id);
+        $user = auth()->user(); // get the logged-in user
+    
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ], 401);
+        }
+    
+        // Check if user already liked
+        $existing = DB::table('sentalk_likes')
+            ->where('edition_id', $edition->id)
+            ->where('user_id', $user->id)
+            ->first();
+    
+        if ($existing) {
+            // Unlike (remove record)
+            DB::table('sentalk_likes')
+                ->where('edition_id', $edition->id)
+                ->where('user_id', $user->id)
+                ->delete();
+    
+            $liked = false;
+        } else {
+            // Like (add record with extra fields)
+            DB::table('sentalk_likes')->insert([
+                'edition_id' => $edition->id,
+                'user_id'    => $user->id,
+                'name'       => $user->name,
+                'surname'    => $user->surname,
+                'email'      => $user->email,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            $liked = true;
+        }
+    
+        // Count total likes
+        $totalLikes = DB::table('sentalk_likes')
+            ->where('edition_id', $edition->id)
+            ->count();
+    
+        // Sync edition like count
+        $edition->number_likes = $totalLikes;
+        $edition->save();
+    
+        return response()->json([
+            'success' => true,
+            'liked' => $liked,
+            'total_likes' => $totalLikes,
+        ]);
+    }
+
 }
