@@ -343,15 +343,23 @@ class SenTalkController extends Controller
 
     public function like($id)
     {
+        Log::info('Like method called', ['edition_id' => $id]);
+    
         $edition = SenTalk::findOrFail($id);
+        Log::info('Edition found', ['edition' => $edition]);
+    
         $user = auth()->user(); // get the logged-in user
     
         if (!$user) {
+            Log::warning('Unauthenticated user tried to like edition', ['edition_id' => $id]);
+    
             return response()->json([
                 'success' => false,
                 'message' => 'User not authenticated'
             ], 401);
         }
+    
+        Log::info('Authenticated user', ['user_id' => $user->id]);
     
         // Check if user already liked
         $existing = \DB::table('sentalk_likes')
@@ -360,6 +368,11 @@ class SenTalkController extends Controller
             ->first();
     
         if ($existing) {
+            Log::info('User already liked edition, proceeding to unlike', [
+                'edition_id' => $edition->id,
+                'user_id' => $user->id
+            ]);
+    
             // Unlike (remove record)
             \DB::table('sentalk_likes')
                 ->where('edition_id', $edition->id)
@@ -368,6 +381,11 @@ class SenTalkController extends Controller
     
             $liked = false;
         } else {
+            Log::info('User has not liked edition yet, proceeding to like', [
+                'edition_id' => $edition->id,
+                'user_id' => $user->id
+            ]);
+    
             // Like (add record with correct user fields)
             \DB::table('sentalk_likes')->insert([
                 'edition_id' => $edition->id,
@@ -387,9 +405,18 @@ class SenTalkController extends Controller
             ->where('edition_id', $edition->id)
             ->count();
     
+        Log::info('Total likes counted', ['edition_id' => $edition->id, 'total_likes' => $totalLikes]);
+    
         // Sync edition like count
         $edition->number_likes = $totalLikes;
         $edition->save();
+    
+        Log::info('Edition like count updated', [
+            'edition_id' => $edition->id,
+            'new_like_count' => $edition->number_likes,
+            'user_id' => $user->id,
+            'liked' => $liked
+        ]);
     
         return response()->json([
             'success' => true,
