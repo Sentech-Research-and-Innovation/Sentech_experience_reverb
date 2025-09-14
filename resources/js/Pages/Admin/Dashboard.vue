@@ -7,8 +7,8 @@
     </p>
     <h2><strong>Your Dashboard</strong></h2>
 
-    <!-- Stats -->
-    <div class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
+    <!-- Show stats if user can read companies -->
+    <div v-if="can('companies-read_approved')" class="col-12 tweets-report-wrapper rounded mt-3 mx-0 px-0">
       <div class="row">
         <div class="col-lg-3 col-6 pr-0">
           <div class="col-12 pending-companies rounded py-4 pl-4">
@@ -45,10 +45,9 @@
       </div>
     </div>
 
-    <!-- Icon Grid -->
-    <div class="col-12 icon-grid-wrapper rounded mt-3 mx-0 px-0">
+    <!-- Otherwise show icons -->
+    <div v-else class="col-12 icon-grid-wrapper rounded mt-3 mx-0 px-0">
       <div class="row text-center">
-
         <!-- Sentiment -->
         <div class="col-lg-3 col-6 mb-3">
           <a href="/admin/sentiments/all" class="icon-button full-box">
@@ -81,17 +80,15 @@
           </a>
         </div>
 
-        <!-- Radio -->
+        <!-- Radio (still commented out) -->
         <!-- <div class="col-lg-3 col-6 mb-3">
           <a href="/admin/radio" class="icon-button full-box">
             <Radio class="icon-img" />
             <span class="icon-label">Radio</span>
           </a>
         </div> -->
-
       </div>
     </div>
-
 
     <!-- SenTalk -->
     <div class="px-0 mx-auto mt-4" style="width: 85%;">
@@ -99,6 +96,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
