@@ -522,13 +522,16 @@ export default {
   padding: 20px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 0; /* square corners ONLY for outer container */
+  width: 100%;
 }
 
 /* Top bar with search + download */
 .top-bar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   margin-bottom: 15px;
   margin-top: 10px;
 }
@@ -537,6 +540,7 @@ export default {
 .stats {
   font-size: 12px;
   color: #555;
+  flex-shrink: 0;
 }
 
 /* Search bar */
@@ -608,7 +612,7 @@ export default {
 /* Iframe */
 iframe {
   width: 90%;
-  height: 600px;
+  height: 70vh;
   border: 1px solid #ccc;
   margin: 0 auto 15px auto;  /* top: 0, right: auto, bottom: 10px, left: auto */
   display: block;
@@ -632,6 +636,8 @@ iframe {
   display: flex;
   align-items: center;
   gap: 12px; /* space between heading and paragraph */
+  flex: 1 1 auto;
+  min-width: 200px;
 }
 
 .pdf-title {
@@ -664,8 +670,9 @@ iframe {
 }
 
 .gallery-item {
-  flex: 0 0 auto;
-  width: 100px;      /* smaller thumbnail width */
+  flex: 1 1 calc(25% - 8px);
+  width: 100px;    
+  max-width: calc(25% - 8px);
   cursor: pointer;
   text-align: center;
 }
@@ -678,6 +685,20 @@ iframe {
   border: 1px solid #ccc;
   border-radius: 6px;
 
+}
+
+@media (max-width: 768px) {
+  .gallery-item {
+    flex: 1 1 calc(50% - 8px); /* 2 per row on tablets */
+    max-width: calc(50% - 8px);
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-item {
+    flex: 1 1 100%; /* full width on phones */
+    max-width: 100%;
+  }
 }
 
 .actions {
@@ -846,7 +867,8 @@ iframe {
 .top-actions {
   display: flex;
   align-items: center;
-  gap: 12px; /* space between buttons */
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* provide feedback styling */
