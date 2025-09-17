@@ -547,7 +547,9 @@ export default {
 .search-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
+  flex: 1;
 }
 .search-input {
   width: 220px;
@@ -556,6 +558,13 @@ export default {
   font-size: 14px;
   border-radius: 3px; /* keep rounded */
   height: 40px;
+  flex: 1 1 150px;
+  min-width: 150px;
+}
+
+.btn-search,
+.btn-clear {
+  flex: 0 0 auto;
 }
 
 
@@ -705,6 +714,14 @@ iframe {
   display: flex;
   gap: 10px;  /* adds space between Upload + Edit */
   margin-top: 10px;
+  display: flex;
+  flex-wrap:wrap;
+}
+
+.actions .btn{
+  flex: 1 1 auto;
+  min-width: 120px;
+  text-align: center;
 }
 
 /* Modal Overlay */
