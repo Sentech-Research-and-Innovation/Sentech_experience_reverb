@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 class CreateCompaniesTable extends Migration
 {
     public function up()
-    {
+{
+    if (!Schema::hasTable('companies')) {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
@@ -16,6 +17,8 @@ class CreateCompaniesTable extends Migration
             $table->timestamps();
         });
     }
+}
+
 
     public function down()
     {
