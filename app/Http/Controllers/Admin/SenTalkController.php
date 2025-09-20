@@ -486,5 +486,15 @@ class SenTalkController extends Controller
             'views'   => $edition->number_views,
         ]);
     }
+    
+    public function show($id)
+    {
+        $edition = SenTalk::findOrFail($id);
+    
+        return response()->json([
+            'edition' => $edition
+        ]);
+    }
+
 
 }
