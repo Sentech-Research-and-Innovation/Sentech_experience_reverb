@@ -487,31 +487,14 @@ class SenTalkController extends Controller
         ]);
     }
     
-    public function show($id, Request $request)
+    public function show($id)
     {
         $edition = SenTalk::findOrFail($id);
-        $user = auth()->user();
-    
-        // Add liked flag
-        if ($user) {
-            $edition->liked = \DB::table('sentalk_likes')
-                ->where('edition_id', $edition->id)
-                ->where('user_id', $user->id)
-                ->exists();
-        } else {
-            $edition->liked = false;
-        }
-    
-        // Optional: if you also want to expose total like counts
-        $edition->number_likes = \DB::table('sentalk_likes')
-            ->where('edition_id', $edition->id)
-            ->count();
     
         return response()->json([
-            'latest'   => $edition,      // single edition treated as latest
-            'editions' => [$edition],    // keep same shape as index, just 1 item
+            'edition' => $edition
         ]);
-    }
+    }  
 
 
 
