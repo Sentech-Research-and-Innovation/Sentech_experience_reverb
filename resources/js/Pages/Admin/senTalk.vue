@@ -902,4 +902,52 @@ iframe {
   transform: scale(1.2);
 }
 
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    flex: 1;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;          /* buttons stretch full width on small screens */
+    margin-top: 6px;
+  }
+
+  .top-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .gallery {
+    gap: 6px;
+  }
+
+  iframe {
+    width: 100%;   /* make PDF viewer fit screen */
+    height: 400px; /* smaller height for mobile */
+  }
+}
+
+    
 </style>
