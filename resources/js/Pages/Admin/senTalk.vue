@@ -903,8 +903,7 @@ iframe {
 }
 
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   /* Top bar: split into two lines */
   .top-bar {
     flex-direction: column;
@@ -960,5 +959,4 @@ iframe {
 }
 
 
-    
 </style>
