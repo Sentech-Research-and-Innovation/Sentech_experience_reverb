@@ -658,7 +658,7 @@ iframe {
 /* Gallery layout */
 .gallery {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   padding: 10px 0;
   overflow-x: auto;     /* horizontal scroll */
   scroll-snap-type: x mandatory;  /* snap scrolling */
