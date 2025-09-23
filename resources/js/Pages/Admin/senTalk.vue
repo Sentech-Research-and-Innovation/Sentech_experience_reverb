@@ -658,16 +658,19 @@ iframe {
 /* Gallery layout */
 .gallery {
   display: flex;
-  flex-wrap: wrap;   /* allows items to wrap to next line */
-  gap: 8px;
-  padding: 5px 0;
+  gap: 12px;
+  padding: 10px 0;
+  overflow-x: auto;     /* horizontal scroll */
+  scroll-snap-type: x mandatory;  /* snap scrolling */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
 }
 
 .gallery-item {
-  flex: 0 0 auto;
-  width: 100px;      /* smaller thumbnail width */
+  flex: 0 0 auto;         /* prevents shrinking */
+  width: 120px;           /* thumbnail size */
   cursor: pointer;
   text-align: center;
+  scroll-snap-align: start;  /* snap to start */
 }
 
 .gallery-item img {
@@ -894,8 +897,8 @@ iframe {
 
 .heart-icon svg:hover {
   transform: scale(1.2);
-  fill: red;
-  stroke: red;
+  fill: #ED4956;
+  stroke: #ED4956;
   transform: scale(1.2);
 }
 
