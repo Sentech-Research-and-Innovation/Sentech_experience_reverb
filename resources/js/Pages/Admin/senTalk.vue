@@ -905,49 +905,60 @@ iframe {
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
+  /* Top bar: split into two lines */
   .top-bar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 10px;
   }
 
+  /* Search row stays on top */
   .search-container {
-    width: 100%;
+    display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    gap: 6px;
   }
 
   .search-input {
     flex: 1;
-    width: 100%;
+    min-width: 150px;
   }
 
-  .btn {
-    width: 100%;          /* buttons stretch full width on small screens */
-    margin-top: 6px;
-  }
-
+  /* Buttons under search bar */
   .top-actions {
-    flex-wrap: wrap;
+    display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
     width: 100%;
-    gap: 8px;
   }
 
+  .top-actions > * {
+    flex: 1 1 auto;   /* allow feedback, like, download to share space */
+  }
+
+  /* Title section stacked */
   .title-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
   }
 
-  .gallery {
-    gap: 6px;
+  .pdf-title {
+    font-size: 20px;
   }
 
-  iframe {
-    width: 100%;   /* make PDF viewer fit screen */
-    height: 400px; /* smaller height for mobile */
+  .pdf-meta {
+    font-size: 12px;
+  }
+
+  .stats {
+    font-size: 12px;
+    color: #666;
   }
 }
+
 
     
 </style>
