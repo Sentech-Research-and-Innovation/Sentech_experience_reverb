@@ -956,7 +956,17 @@ iframe {
     font-size: 12px;
     color: #666;
   }
+
+    iframe {
+    width: 100%;        /* take full width */
+    height: 400px;      /* smaller height for small screens */
+  }
 }
 
-
+@media (max-width: 500px) {
+  iframe {
+    width: 100%;        /* full width */
+    height: 300px;      /* even smaller for very small devices */
+  }
+}
 </style>
