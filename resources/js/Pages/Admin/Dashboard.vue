@@ -237,7 +237,7 @@ onMounted(() => {
   justify-content: center;
   text-decoration: none;
   /* background: #f9f9f9; */
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 20px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
