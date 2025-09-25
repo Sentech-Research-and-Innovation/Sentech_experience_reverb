@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 class SenTalkController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
         Log::info('SenTalkController@index accessed', [
             'ip'       => $request->ip(),
@@ -22,8 +22,8 @@ class SenTalkController extends Controller
     
         $query = SenTalk::query();
     
-        // Search functionality
-        if ($request->has('search') && !empty($request->search)) {
+        // Search filter
+        if ($request->filled('search')) {
             Log::info('Applying search filter', ['search_term' => $request->search]);
     
             $query->where(function ($q) use ($request) {
@@ -32,28 +32,34 @@ class SenTalkController extends Controller
             });
         }
     
-        // Get all editions ordered by newest
         $editions = $query->orderBy('created_at', 'desc')->get();
     
         $user = auth()->user();
     
-        // Add liked flag for each edition
         if ($user) {
+            // Get all edition IDs the user has liked
+            $likedIds = \DB::table('sentalk_likes')
+                ->where('user_id', $user->id)
+                ->pluck('edition_id')
+                ->toArray();
+    
+            // Get all edition IDs the user has seen
+            $seenIds = \DB::table('sentalk_views')
+                ->where('user_id', $user->id)
+                ->pluck('edition_id')
+                ->toArray();
+    
             foreach ($editions as $edition) {
-                $edition->liked = \DB::table('sentalk_likes')
-                    ->where('edition_id', $edition->id)
-                    ->where('user_id', $user->id)
-                    ->exists();
+                $edition->liked = in_array($edition->id, $likedIds);
+                $edition->seen  = in_array($edition->id, $seenIds);
             }
         } else {
             foreach ($editions as $edition) {
                 $edition->liked = false;
+                $edition->seen  = false;
             }
         }
     
-        Log::info('SenTalk fetched results', [
-            'total' => $editions->count(),
-        ]);
         return response()->json([
             'latest'   => $editions->first(),
             'editions' => $editions->values(),
