@@ -46,3 +46,10 @@ Route::middleware('auth:sanctum')->group(function () {
     require __DIR__ . '/admin/company.php';
     require __DIR__ . '/admin/profile.php';
 });
+
+
+use App\Http\Controllers\CallController;
+
+Route::post('/call/offer', [CallController::class, 'sendOffer']);
+Route::post('/call/answer', [CallController::class, 'sendAnswer']);
+Route::post('/call/candidate', [CallController::class, 'sendCandidate']);
