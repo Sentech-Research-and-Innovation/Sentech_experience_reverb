@@ -35,6 +35,10 @@
           <el-button type="primary" @click="startCall(user.id)">📞 Call</el-button>
           <el-button type="info" @click="openLogs">📑 View Call Logs</el-button>
         </div>
+
+        <!-- Audio elements for streaming -->
+        <audio id="localAudio" autoplay muted></audio>
+        <audio id="remoteAudio" autoplay></audio>
       </div>
     </div>
   </div>
@@ -63,7 +67,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, onBeforeUnmount } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import echo from "@/bootstrap/echo";
@@ -100,6 +104,23 @@ export default defineComponent({
     const peerRef = ref(null);
 
     let channel = null;
+
+    // Attach streams to audio elements
+    watch(localStream, async (stream) => {
+      await nextTick();
+      const localAudio = document.getElementById("localAudio");
+      if (localAudio && stream) {
+        localAudio.srcObject = stream;
+      }
+    });
+
+    watch(remoteStream, async (stream) => {
+      await nextTick();
+      const remoteAudio = document.getElementById("remoteAudio");
+      if (remoteAudio && stream) {
+        remoteAudio.srcObject = stream;
+      }
+    });
 
     onMounted(() => {
       // Subscribe to signaling events
@@ -181,7 +202,8 @@ export default defineComponent({
 
     async function startCall(targetUserId) {
       try {
-        localStream.value = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        // Audio only here!
+        localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (err) {
         console.error("Could not access media", err);
         return;
@@ -203,7 +225,8 @@ export default defineComponent({
       const { from: callerId, offer } = incomingCall.value;
 
       try {
-        localStream.value = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        // Audio only here!
+        localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (err) {
         console.error("Could not access media", err);
         return;
