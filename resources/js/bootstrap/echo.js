@@ -1,58 +1,60 @@
-import Peer from "simple-peer";
-import Echo from "laravel-echo";
-import Pusher from "pusher-js";
-import BaseApi from "@/api/axios";
+import Peer from 'simple-peer';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+import BaseApi from '@/api/axios';
 
 window.Pusher = Pusher;
 
 const echo = new Echo({
-  broadcaster: "pusher",
-  key: "app-key",   // from your .env PUSHER_APP_KEY
-  wsHost: "13.247.190.223", // or domain
-  wsPort: 6001,
+  broadcaster: 'pusher',
+  key: import.meta.env.VITE_PUSHER_APP_KEY,
+  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+  wsHost: import.meta.env.VITE_PUSHER_HOST ?? window.location.hostname,
+  wsPort: import.meta.env.VITE_PUSHER_PORT ?? 6001,
+  wssPort: import.meta.env.VITE_PUSHER_PORT ?? 6001,
   forceTLS: false,
   disableStats: true,
+  enabledTransports: ['ws', 'wss'],
 });
 
-// Assume we know current userId & targetUserId
 let peer;
 
-async function startCall(isInitiator, targetUserId) {
+async function startCall(isInitiator, targetUserId, onRemoteStream) {
   peer = new Peer({
     initiator: isInitiator,
     trickle: true,
     config: {
       iceServers: [
-        { urls: "stun:13.247.190.223:3478" },
-        { 
-          urls: "turn:13.247.190.223:3478", 
-          username: "user",
-          credential: "yourSuperSecretKey"
+        { urls: 'stun:13.247.190.223:3478' },
+        {
+          urls: 'turn:13.247.190.223:3478',
+          username: 'user',
+          credential: 'yourSuperSecretKey',
         },
       ],
     },
   });
 
-  // local stream
-  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-  peer.addStream(stream);
+  // Local audio only
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  stream.getTracks().forEach((track) => peer.addTrack(track, stream));
 
-  peer.on("signal", async (data) => {
-    if (data.type === "offer") {
-      await BaseApi.post("/api/call/offer", {
+  // Emit signal to server
+  peer.on('signal', async (data) => {
+    if (data.type === 'offer') {
+      await BaseApi.post('/api/call/offer', {
         from: window.userId,
         to: targetUserId,
         offer: data,
       });
-    } else if (data.type === "answer") {
-      await BaseApi.post("/api/call/answer", {
+    } else if (data.type === 'answer') {
+      await BaseApi.post('/api/call/answer', {
         from: window.userId,
         to: targetUserId,
         answer: data,
       });
     } else {
-      // ICE candidate
-      await BaseApi.post("/api/call/candidate", {
+      await BaseApi.post('/api/call/candidate', {
         from: window.userId,
         to: targetUserId,
         candidate: data,
@@ -60,19 +62,27 @@ async function startCall(isInitiator, targetUserId) {
     }
   });
 
-  peer.on("stream", (remoteStream) => {
-    document.querySelector("#remoteVideo").srcObject = remoteStream;
+  peer.on('stream', (remoteStream) => {
+    if (onRemoteStream) {
+      onRemoteStream(remoteStream);
+    }
   });
 
-  // listen for signals from Laravel Echo
+  peer.on('error', console.error);
+
+  // Listen to incoming signals
   echo.private(`calls.${window.userId}`)
-    .listen("CallOfferEvent", (e) => {
-      peer.signal(e.data.offer);
+    .listen('CallOfferEvent', (e) => {
+      peer.signal(e.offer);
     })
-    .listen("CallAnswerEvent", (e) => {
-      peer.signal(e.data.answer);
+    .listen('CallAnswerEvent', (e) => {
+      peer.signal(e.answer);
     })
-    .listen("CallCandidateEvent", (e) => {
-      peer.signal(e.data.candidate);
+    .listen('CallCandidateEvent', (e) => {
+      peer.signal(e.candidate);
     });
+
+  return peer;
 }
+
+export { startCall, echo };
