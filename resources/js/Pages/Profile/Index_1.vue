@@ -4,7 +4,10 @@
   <div class="page-wrapper">
     <div class="col-12 px-0 mx-0 profile-container">
       <!-- Background Cover Image -->
-      <div class="cover-image" :style="{ backgroundImage: `url('${user.cover_photo_url || defaultCover}')` }"></div>
+      <div
+        class="cover-image"
+        :style="{ backgroundImage: `url('${user.cover_photo_url || defaultCover}')` }"
+      ></div>
 
       <div class="profile-content px-4">
         <!-- Profile Picture -->
@@ -36,7 +39,7 @@
           <el-button type="info" @click="openLogs">📑 View Call Logs</el-button>
         </div>
 
-        <!-- Audio elements for streaming -->
+        <!-- Audio streams -->
         <audio id="localAudio" autoplay muted></audio>
         <audio id="remoteAudio" autoplay></audio>
       </div>
@@ -58,7 +61,7 @@
 
   <!-- Incoming Call Dialog -->
   <el-dialog v-model="incomingVisible" title="Incoming Call" width="300px" align-center>
-    <p>User {{ incomingCall?.from }} is calling you...</p>
+    <p>User {{ incomingCall?.from_name }} is calling you...</p>
     <div class="incoming-actions">
       <el-button type="success" @click="acceptCall">✅ Accept</el-button>
       <el-button type="danger" @click="declineCall">❌ Decline</el-button>
@@ -71,19 +74,12 @@ import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick } fro
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import echo from "@/bootstrap/echo";
-import axios from 'axios'
 import Peer from "simple-peer";
 
 export default defineComponent({
   name: "ProfileView",
-  components: {
-    Head,
-  },
   props: {
-    user: {
-      type: Object,
-      required: true,
-    },
+    user: { type: Object, required: true },
   },
   setup(props) {
     const defaultCover =
@@ -91,9 +87,9 @@ export default defineComponent({
     const defaultProfile =
       "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop";
 
-    const currentUserId = Number(window.userId || 1); // Authenticated user ID
+    // Assume Laravel passes authenticated user ID into window.userId
+    const currentUserId = Number(window.userId || 1);
 
-    // UI & call states
     const logsVisible = ref(false);
     const callLogs = ref([]);
     const incomingVisible = ref(false);
@@ -105,28 +101,24 @@ export default defineComponent({
 
     let channel = null;
 
-    // Attach streams to audio elements
+    // Attach audio
     watch(localStream, async (stream) => {
       await nextTick();
-      const localAudio = document.getElementById("localAudio");
-      if (localAudio && stream) {
-        localAudio.srcObject = stream;
-      }
+      const el = document.getElementById("localAudio");
+      if (el && stream) el.srcObject = stream;
     });
-
     watch(remoteStream, async (stream) => {
       await nextTick();
-      const remoteAudio = document.getElementById("remoteAudio");
-      if (remoteAudio && stream) {
-        remoteAudio.srcObject = stream;
-      }
+      const el = document.getElementById("remoteAudio");
+      if (el && stream) el.srcObject = stream;
     });
 
     onMounted(() => {
-      // Subscribe to signaling events
-      channel = echo.private(`calls.${currentUserId}`)
+      // Subscribe to signaling channel
+      channel = echo
+        .private(`calls.${currentUserId}`)
         .listen("CallOfferEvent", (e) => {
-          console.log("Incoming offer", e);
+          console.log("📥 Incoming offer:", e);
           incomingCall.value = e;
           incomingVisible.value = true;
         })
@@ -134,84 +126,57 @@ export default defineComponent({
           if (peerRef.value) peerRef.value.signal(e.answer);
         })
         .listen("CallCandidateEvent", (e) => {
-          if (peerRef.value && e.candidate) {
-            peerRef.value.signal(e.candidate);
-          }
+          if (peerRef.value && e.candidate) peerRef.value.signal(e.candidate);
         });
     });
 
     onBeforeUnmount(() => {
-      try {
-        channel?.stopListening();
-      } catch (err) {}
+      channel?.stopListening();
     });
 
     function openLogs() {
       logsVisible.value = true;
     }
 
-    // Build peer with signaling handlers
     function makePeer(initiator, targetUserId) {
-      const config = {
-        initiator,
-        trickle: true,
-        config: {
-          iceServers: [
-            { urls: "stun:stun.l.google.com:19302" },
-            {
-              urls: "turn:13.247.190.223:3478", // your TURN server
-              username: "TURN_USERNAME",
-              credential: "TURN_CREDENTIAL",
-            },
-          ],
-        },
-      };
+      const peer = new Peer({ initiator, trickle: true });
 
-      const peer = new Peer(config);
-
-      peer.on("signal", async (data) => {
+      peer.on("signal", (data) => {
         if (data.type === "offer") {
-          await BaseApi.post("/api/call/offer", {
-            from: currentUserId,
+          window.axios.post("/call/offer", {
             to: targetUserId,
             offer: data,
           });
         } else if (data.type === "answer") {
-          await BaseApi.post("/api/call/answer", {
-            from: currentUserId,
+          window.axios.post("/call/answer", {
             to: targetUserId,
             answer: data,
           });
         } else if (data.candidate) {
-          await BaseApi.post("/api/call/candidate", {
-            from: currentUserId,
+          window.axios.post("/call/candidate", {
             to: targetUserId,
             candidate: data,
           });
         }
       });
 
-      peer.on("stream", (remote) => {
-        remoteStream.value = remote;
+      peer.on("stream", (stream) => {
+        remoteStream.value = stream;
       });
 
-      peer.on("error", (err) => console.error("Peer error", err));
       peerRef.value = peer;
       return peer;
     }
 
     async function startCall(targetUserId) {
       try {
-        // Audio only here!
         localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (err) {
-        console.error("Could not access media", err);
+        console.error("Mic error:", err);
         return;
       }
-
       const peer = makePeer(true, targetUserId);
-      localStream.value.getTracks().forEach((track) => peer.addTrack(track, localStream.value));
-
+      localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
       callLogs.value.push({
         type: "Outgoing",
         name: props.user.first_name,
@@ -220,25 +185,20 @@ export default defineComponent({
     }
 
     async function acceptCall() {
-      if (!incomingCall.value) return;
-
-      const { from: callerId, offer } = incomingCall.value;
-
+      const { from, offer, from_name } = incomingCall.value;
       try {
-        // Audio only here!
         localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (err) {
-        console.error("Could not access media", err);
+        console.error("Mic error:", err);
         return;
       }
-
-      const peer = makePeer(false, callerId);
-      localStream.value.getTracks().forEach((track) => peer.addTrack(track, localStream.value));
+      const peer = makePeer(false, from);
+      localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
       peer.signal(offer);
 
       callLogs.value.push({
         type: "Incoming-Accepted",
-        name: `User ${callerId}`,
+        name: from_name,
         time: new Date().toLocaleString(),
       });
 
@@ -246,10 +206,10 @@ export default defineComponent({
       incomingCall.value = null;
     }
 
-    async function declineCall() {
+    function declineCall() {
       callLogs.value.push({
         type: "Incoming-Declined",
-        name: `User ${incomingCall.value?.from}`,
+        name: incomingCall.value?.from_name,
         time: new Date().toLocaleString(),
       });
       incomingVisible.value = false;
@@ -274,75 +234,59 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* (Styles same as before — retained from your original code) */
 .page-wrapper {
   display: flex;
   justify-content: center;
   padding: 20px;
 }
-
 .profile-container {
   position: relative;
-  background-color: #ffffff;
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2);
   width: 85%;
   max-width: 1000px;
 }
-
 .cover-image {
   height: 200px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.85) sepia(0.3) hue-rotate(180deg) saturate(1.5);
 }
-
 .profile-picture-container {
   position: absolute;
   top: -75px;
   left: 20px;
   border-radius: 50%;
-  background-color: #144f9f;
 }
-
 .blue-profile-image {
   width: 150px;
   height: 150px;
-  font-size: 60px;
-  background-color: #144f9f !important;
-  color: #fff;
-  border: 4px solid #ffffff;
+  border: 4px solid #fff;
 }
-
 .profile-info {
   padding-top: 90px;
 }
-
 .profile-actions {
   margin-top: 20px;
   display: flex;
   gap: 10px;
 }
-
 .call-logs {
   list-style: none;
   padding: 0;
 }
-
 .call-logs li {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
   border-bottom: 1px solid #eee;
+  padding: 8px 0;
 }
-
-.call-logs .time {
+.time {
   font-size: 12px;
   color: #888;
 }
-
 .incoming-actions {
   display: flex;
   justify-content: space-around;
