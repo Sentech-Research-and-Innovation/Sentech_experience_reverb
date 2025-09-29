@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SenTalkController;
-
+use App\Http\Controllers\CallController;
 
 
 Route::get('/admin/dashboard',  [DashboardController::class, 'index'])->middleware(['auth']);
@@ -25,3 +25,9 @@ Route::prefix('sentalk')->group(function () {
 
 
 });
+
+
+Route::post('/call/offer', [CallController::class, 'sendOffer']);
+Route::post('/call/answer', [CallController::class, 'sendAnswer']);
+Route::post('/call/candidate', [CallController::class, 'sendCandidate']);
+
