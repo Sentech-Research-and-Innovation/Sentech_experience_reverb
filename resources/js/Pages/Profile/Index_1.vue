@@ -71,7 +71,7 @@ import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick } fro
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import echo from "@/bootstrap/echo";
-import BaseApi from "@/api/axios";
+import axios from 'axios'
 import Peer from "simple-peer";
 
 export default defineComponent({
