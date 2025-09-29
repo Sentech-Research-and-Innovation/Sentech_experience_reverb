@@ -231,6 +231,7 @@ export default defineComponent({
       declineCall,
       incomingVisible,
       incomingCall,
+       user: props.user,
     };
   },
 });
