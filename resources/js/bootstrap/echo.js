@@ -1,7 +1,7 @@
 import Peer from 'simple-peer';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import BaseApi from '@/api/axios';
+import axios from 'axios'
 
 window.Pusher = Pusher;
 
