@@ -13,6 +13,7 @@ const echo = new Echo({
   forceTLS: false,
   encrypted: false,
   disableStats: true,
+    enabledTransports: ["ws", "wss"], // make sure websockets are used
   auth: {
     headers: {
       Authorization: window.axios.defaults.headers.common["Authorization"] || "",
