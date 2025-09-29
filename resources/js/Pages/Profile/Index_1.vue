@@ -144,16 +144,19 @@ export default defineComponent({
       peer.on("signal", (data) => {
         if (data.type === "offer") {
           window.axios.post("/call/offer", {
+            from: currentUserId.value,
             to: targetUserId,
             offer: data,
           });
         } else if (data.type === "answer") {
           window.axios.post("/call/answer", {
+            from: currentUserId.value,
             to: targetUserId,
             answer: data,
           });
         } else if (data.candidate) {
           window.axios.post("/call/candidate", {
+            from: currentUserId.value,
             to: targetUserId,
             candidate: data,
           });
