@@ -98,6 +98,7 @@ export default defineComponent({
     const localStream = ref(null);
     const remoteStream = ref(null);
     const peerRef = ref(null);
+    const isCallActive = ref(false);
 
     let channel = null;
 
@@ -115,31 +116,68 @@ export default defineComponent({
 
     onMounted(() => {
       // Subscribe to signaling channel
-      channel = echo
-        .private(`calls.${currentUserId}`)
-        .listen("CallOfferEvent", (e) => {
-          console.log("📥 Incoming offer:", e);
+      channel = echo.private(`calls.${currentUserId}`);
+      
+      channel.listen("CallOfferEvent", (e) => {
+        console.log("📥 Incoming offer:", e);
+        if (!isCallActive.value) {
           incomingCall.value = e;
           incomingVisible.value = true;
-        })
-        .listen("CallAnswerEvent", (e) => {
-          if (peerRef.value) peerRef.value.signal(e.answer);
-        })
-        .listen("CallCandidateEvent", (e) => {
-          if (peerRef.value && e.candidate) peerRef.value.signal(e.candidate);
-        });
+        }
+      });
+      
+      channel.listen("CallAnswerEvent", (e) => {
+        if (peerRef.value && !peerRef.value.destroyed) {
+          peerRef.value.signal(e.answer);
+        }
+      });
+      
+      channel.listen("CallCandidateEvent", (e) => {
+        if (peerRef.value && !peerRef.value.destroyed && e.candidate) {
+          peerRef.value.signal(e.candidate);
+        }
+      });
     });
 
     onBeforeUnmount(() => {
+      cleanupCall();
       channel?.stopListening();
     });
+
+    function cleanupCall() {
+      if (peerRef.value && !peerRef.value.destroyed) {
+        peerRef.value.destroy();
+      }
+      if (localStream.value) {
+        localStream.value.getTracks().forEach(track => track.stop());
+        localStream.value = null;
+      }
+      if (remoteStream.value) {
+        remoteStream.value = null;
+      }
+      isCallActive.value = false;
+    }
 
     function openLogs() {
       logsVisible.value = true;
     }
 
     function makePeer(initiator, targetUserId) {
-      const peer = new Peer({ initiator, trickle: true });
+      // Clean up any existing peer connection
+      if (peerRef.value && !peerRef.value.destroyed) {
+        peerRef.value.destroy();
+      }
+
+      const peer = new Peer({ 
+        initiator, 
+        trickle: true,
+        config: {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:global.stun.twilio.com:3478' }
+          ]
+        }
+      });
 
       peer.on("signal", (data) => {
         if (data.type === "offer") {
@@ -167,46 +205,86 @@ export default defineComponent({
         remoteStream.value = stream;
       });
 
+      peer.on("connect", () => {
+        console.log("Peer connected");
+        isCallActive.value = true;
+      });
+
+      peer.on("close", () => {
+        console.log("Peer connection closed");
+        cleanupCall();
+      });
+
+      peer.on("error", (err) => {
+        console.error("Peer error:", err);
+        cleanupCall();
+      });
+
       peerRef.value = peer;
       return peer;
     }
 
     async function startCall(targetUserId) {
       try {
-        localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Clean up any existing call
+        cleanupCall();
+        
+        localStream.value = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          } 
+        });
+        
+        const peer = makePeer(true, targetUserId);
+        localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
+        
+        callLogs.value.push({
+          type: "Outgoing",
+          name: props.user.first_name,
+          time: new Date().toLocaleString(),
+        });
       } catch (err) {
         console.error("Mic error:", err);
-        return;
+        alert("Failed to access microphone. Please check permissions.");
+        cleanupCall();
       }
-      const peer = makePeer(true, targetUserId);
-      localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
-      callLogs.value.push({
-        type: "Outgoing",
-        name: props.user.first_name,
-        time: new Date().toLocaleString(),
-      });
     }
 
     async function acceptCall() {
       const { from, offer, from_name } = incomingCall.value;
       try {
-        localStream.value = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Clean up any existing call
+        cleanupCall();
+        
+        localStream.value = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          } 
+        });
+        
+        const peer = makePeer(false, from);
+        localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
+        peer.signal(offer);
+
+        callLogs.value.push({
+          type: "Incoming-Accepted",
+          name: from_name,
+          time: new Date().toLocaleString(),
+        });
+
+        incomingVisible.value = false;
+        incomingCall.value = null;
       } catch (err) {
         console.error("Mic error:", err);
-        return;
+        alert("Failed to access microphone. Please check permissions.");
+        cleanupCall();
+        incomingVisible.value = false;
+        incomingCall.value = null;
       }
-      const peer = makePeer(false, from);
-      localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
-      peer.signal(offer);
-
-      callLogs.value.push({
-        type: "Incoming-Accepted",
-        name: from_name,
-        time: new Date().toLocaleString(),
-      });
-
-      incomingVisible.value = false;
-      incomingCall.value = null;
     }
 
     function declineCall() {
@@ -231,7 +309,7 @@ export default defineComponent({
       declineCall,
       incomingVisible,
       incomingCall,
-       user: props.user,
+      user: props.user,
     };
   },
 });
