@@ -1,26 +1,18 @@
-// echo.js
-import Echo from "laravel-echo";
-import Pusher from "pusher-js";
-import axios from "axios";
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 
 const echo = new Echo({
-  broadcaster: "pusher",
-  key: process.env.VUE_APP_PUSHER_KEY || "somekey", // must match your websockets.php config
-  wsHost: "13.247.190.223",  // your EC2 public IP or domain
-  wsPort: 6001,
-  wssPort: 6001,
-  forceTLS: false,            // true only if you set up SSL certs on :6001
-  disableStats: true,
-  enabledTransports: ["ws", "wss"], // don’t let it try xhr/polling
-  cluster: "mt1",             // 👈 ADD this dummy cluster so Pusher stops complaining
-  authEndpoint: "/broadcasting/auth", // Laravel default
-  auth: {
-    headers: {
-      Authorization: window.axios.defaults.headers.common["Authorization"] || "",
-    },
-  },
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY || process.env.MIX_PUSHER_APP_KEY,
+    wsHost: window.location.hostname, // This will now be 'www.sentechxperience.co.za'
+    wsPort: 6001,
+    wssPort: 6001,
+    forceTLS: true, // Changed to true since you're using HTTPS
+    enabledTransports: ['ws', 'wss'],
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1',
+    disableStats: true,
 });
 
 export default echo;
