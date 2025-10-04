@@ -35,8 +35,15 @@
 
         <!-- Action Buttons -->
         <div class="profile-actions mt-4">
-          <el-button type="primary" @click="startCall(user.id)">📞 Call</el-button>
+          <el-button type="primary" @click="startCall(user.id)" :disabled="isCallInProgress">
+            📞 {{ isCallInProgress ? 'Calling...' : 'Call' }}
+          </el-button>
           <el-button type="info" @click="openLogs">📑 View Call Logs</el-button>
+        </div>
+
+        <!-- Call Status -->
+        <div v-if="callStatus" class="call-status mt-2">
+          <el-alert :title="callStatus" type="info" :closable="false" />
         </div>
 
         <!-- Audio streams -->
@@ -74,7 +81,118 @@ import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick } fro
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import echo from "@/bootstrap/echo";
-import Peer from "simple-peer";
+
+// Simple WebRTC implementation without external dependencies
+class SimpleWebRTC {
+  constructor() {
+    this.peerConnection = null;
+    this.localStream = null;
+    this.remoteStream = null;
+    this.isInitiator = false;
+  }
+
+  async initialize(initiator = false, onSignal = () => {}) {
+    this.isInitiator = initiator;
+    this.onSignal = onSignal;
+
+    const configuration = {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' }
+      ]
+    };
+
+    this.peerConnection = new RTCPeerConnection(configuration);
+
+    // Handle incoming tracks
+    this.peerConnection.ontrack = (event) => {
+      this.remoteStream = event.streams[0];
+      if (this.onRemoteStream) {
+        this.onRemoteStream(this.remoteStream);
+      }
+    };
+
+    // Handle ICE candidates
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        this.onSignal({
+          type: 'candidate',
+          candidate: event.candidate
+        });
+      }
+    };
+
+    this.peerConnection.onconnectionstatechange = () => {
+      console.log('Connection state:', this.peerConnection.connectionState);
+    };
+
+    return this.peerConnection;
+  }
+
+  async addLocalStream(stream) {
+    this.localStream = stream;
+    stream.getTracks().forEach(track => {
+      this.peerConnection.addTrack(track, stream);
+    });
+  }
+
+  async createOffer() {
+    try {
+      const offer = await this.peerConnection.createOffer();
+      await this.peerConnection.setLocalDescription(offer);
+      this.onSignal({
+        type: 'offer',
+        offer: offer
+      });
+    } catch (error) {
+      console.error('Error creating offer:', error);
+      throw error;
+    }
+  }
+
+  async handleOffer(offer) {
+    try {
+      await this.peerConnection.setRemoteDescription(offer);
+      const answer = await this.peerConnection.createAnswer();
+      await this.peerConnection.setLocalDescription(answer);
+      this.onSignal({
+        type: 'answer',
+        answer: answer
+      });
+    } catch (error) {
+      console.error('Error handling offer:', error);
+      throw error;
+    }
+  }
+
+  async handleAnswer(answer) {
+    try {
+      await this.peerConnection.setRemoteDescription(answer);
+    } catch (error) {
+      console.error('Error handling answer:', error);
+      throw error;
+    }
+  }
+
+  async handleCandidate(candidate) {
+    try {
+      await this.peerConnection.addIceCandidate(candidate);
+    } catch (error) {
+      console.error('Error handling candidate:', error);
+    }
+  }
+
+  destroy() {
+    if (this.localStream) {
+      this.localStream.getTracks().forEach(track => track.stop());
+    }
+    if (this.peerConnection) {
+      this.peerConnection.close();
+    }
+    this.localStream = null;
+    this.remoteStream = null;
+    this.peerConnection = null;
+  }
+}
 
 export default defineComponent({
   name: "ProfileView",
@@ -87,27 +205,27 @@ export default defineComponent({
     const defaultProfile =
       "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop";
 
-    // Assume Laravel passes authenticated user ID into window.userId
     const currentUserId = Number(window.userId || 1);
-
     const logsVisible = ref(false);
     const callLogs = ref([]);
     const incomingVisible = ref(false);
     const incomingCall = ref(null);
+    const isCallInProgress = ref(false);
+    const callStatus = ref('');
 
     const localStream = ref(null);
     const remoteStream = ref(null);
-    const peerRef = ref(null);
-    const isCallActive = ref(false);
+    const webrtc = ref(new SimpleWebRTC());
 
     let channel = null;
 
-    // Attach audio
+    // Attach audio streams
     watch(localStream, async (stream) => {
       await nextTick();
       const el = document.getElementById("localAudio");
       if (el && stream) el.srcObject = stream;
     });
+
     watch(remoteStream, async (stream) => {
       await nextTick();
       const el = document.getElementById("remoteAudio");
@@ -115,28 +233,8 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      // Subscribe to signaling channel
-      channel = echo.private(`calls.${currentUserId}`);
-      
-      channel.listen("CallOfferEvent", (e) => {
-        console.log("📥 Incoming offer:", e);
-        if (!isCallActive.value) {
-          incomingCall.value = e;
-          incomingVisible.value = true;
-        }
-      });
-      
-      channel.listen("CallAnswerEvent", (e) => {
-        if (peerRef.value && !peerRef.value.destroyed) {
-          peerRef.value.signal(e.answer);
-        }
-      });
-      
-      channel.listen("CallCandidateEvent", (e) => {
-        if (peerRef.value && !peerRef.value.destroyed && e.candidate) {
-          peerRef.value.signal(e.candidate);
-        }
-      });
+      initializeWebRTC();
+      subscribeToChannels();
     });
 
     onBeforeUnmount(() => {
@@ -144,131 +242,132 @@ export default defineComponent({
       channel?.stopListening();
     });
 
+    function initializeWebRTC() {
+      webrtc.value.onRemoteStream = (stream) => {
+        remoteStream.value = stream;
+      };
+
+      webrtc.value.onSignal = (data) => {
+        handleWebRTCSignal(data);
+      };
+    }
+
+    function handleWebRTCSignal(data) {
+      const targetUserId = webrtc.value.isInitiator ? props.user.id : incomingCall.value?.from;
+
+      if (data.type === 'offer') {
+        window.axios.post("/call/offer", {
+          from: currentUserId,
+          to: targetUserId,
+          offer: data.offer,
+        });
+      } else if (data.type === 'answer') {
+        window.axios.post("/call/answer", {
+          from: currentUserId,
+          to: targetUserId,
+          answer: data.answer,
+        });
+      } else if (data.type === 'candidate') {
+        window.axios.post("/call/candidate", {
+          from: currentUserId,
+          to: targetUserId,
+          candidate: data.candidate,
+        });
+      }
+    }
+
+    function subscribeToChannels() {
+      channel = echo.private(`calls.${currentUserId}`);
+
+      channel.listen("CallOfferEvent", (e) => {
+        console.log("📥 Incoming offer:", e);
+        if (!isCallInProgress.value) {
+          incomingCall.value = e;
+          incomingVisible.value = true;
+        }
+      });
+
+      channel.listen("CallAnswerEvent", (e) => {
+        console.log("📥 Incoming answer:", e);
+        webrtc.value.handleAnswer(e.answer);
+        callStatus.value = 'Call connected';
+      });
+
+      channel.listen("CallCandidateEvent", (e) => {
+        console.log("📥 Incoming candidate:", e);
+        if (e.candidate) {
+          webrtc.value.handleCandidate(e.candidate);
+        }
+      });
+    }
+
     function cleanupCall() {
-      if (peerRef.value && !peerRef.value.destroyed) {
-        peerRef.value.destroy();
-      }
-      if (localStream.value) {
-        localStream.value.getTracks().forEach(track => track.stop());
-        localStream.value = null;
-      }
-      if (remoteStream.value) {
-        remoteStream.value = null;
-      }
-      isCallActive.value = false;
+      webrtc.value.destroy();
+      localStream.value = null;
+      remoteStream.value = null;
+      isCallInProgress.value = false;
+      callStatus.value = '';
     }
 
     function openLogs() {
       logsVisible.value = true;
     }
 
-    function makePeer(initiator, targetUserId) {
-      // Clean up any existing peer connection
-      if (peerRef.value && !peerRef.value.destroyed) {
-        peerRef.value.destroy();
-      }
-
-      const peer = new Peer({ 
-        initiator, 
-        trickle: true,
-        config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
-        }
-      });
-
-      peer.on("signal", (data) => {
-        if (data.type === "offer") {
-          window.axios.post("/call/offer", {
-            from: currentUserId,
-            to: targetUserId,
-            offer: data,
-          });
-        } else if (data.type === "answer") {
-          window.axios.post("/call/answer", {
-            from: currentUserId,
-            to: targetUserId,
-            answer: data,
-          });
-        } else if (data.candidate) {
-          window.axios.post("/call/candidate", {
-            from: currentUserId,
-            to: targetUserId,
-            candidate: data,
-          });
-        }
-      });
-
-      peer.on("stream", (stream) => {
-        remoteStream.value = stream;
-      });
-
-      peer.on("connect", () => {
-        console.log("Peer connected");
-        isCallActive.value = true;
-      });
-
-      peer.on("close", () => {
-        console.log("Peer connection closed");
-        cleanupCall();
-      });
-
-      peer.on("error", (err) => {
-        console.error("Peer error:", err);
-        cleanupCall();
-      });
-
-      peerRef.value = peer;
-      return peer;
-    }
-
     async function startCall(targetUserId) {
       try {
-        // Clean up any existing call
         cleanupCall();
-        
-        localStream.value = await navigator.mediaDevices.getUserMedia({ 
+        isCallInProgress.value = true;
+        callStatus.value = 'Starting call...';
+
+        // Get user media
+        localStream.value = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: true,
             noiseSuppression: true,
             autoGainControl: true
-          } 
+          }
         });
-        
-        const peer = makePeer(true, targetUserId);
-        localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
-        
+
+        // Initialize WebRTC
+        await webrtc.value.initialize(true);
+        await webrtc.value.addLocalStream(localStream.value);
+        await webrtc.value.createOffer();
+
         callLogs.value.push({
           type: "Outgoing",
           name: props.user.first_name,
           time: new Date().toLocaleString(),
         });
+
+        callStatus.value = 'Calling...';
+
       } catch (err) {
-        console.error("Mic error:", err);
-        alert("Failed to access microphone. Please check permissions.");
+        console.error("Call error:", err);
+        alert("Failed to start call: " + err.message);
         cleanupCall();
       }
     }
 
     async function acceptCall() {
       const { from, offer, from_name } = incomingCall.value;
+      
       try {
-        // Clean up any existing call
-        cleanupCall();
-        
-        localStream.value = await navigator.mediaDevices.getUserMedia({ 
+        isCallInProgress.value = true;
+        callStatus.value = 'Accepting call...';
+
+        // Get user media
+        localStream.value = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: true,
             noiseSuppression: true,
             autoGainControl: true
-          } 
+          }
         });
-        
-        const peer = makePeer(false, from);
-        localStream.value.getTracks().forEach((t) => peer.addTrack(t, localStream.value));
-        peer.signal(offer);
+
+        // Initialize WebRTC and handle offer
+        await webrtc.value.initialize(false);
+        await webrtc.value.addLocalStream(localStream.value);
+        await webrtc.value.handleOffer(offer);
 
         callLogs.value.push({
           type: "Incoming-Accepted",
@@ -278,9 +377,11 @@ export default defineComponent({
 
         incomingVisible.value = false;
         incomingCall.value = null;
+        callStatus.value = 'Call connected';
+
       } catch (err) {
-        console.error("Mic error:", err);
-        alert("Failed to access microphone. Please check permissions.");
+        console.error("Accept call error:", err);
+        alert("Failed to accept call: " + err.message);
         cleanupCall();
         incomingVisible.value = false;
         incomingCall.value = null;
@@ -309,6 +410,8 @@ export default defineComponent({
       declineCall,
       incomingVisible,
       incomingCall,
+      isCallInProgress,
+      callStatus,
       user: props.user,
     };
   },
@@ -316,6 +419,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Your existing styles remain the same */
 .page-wrapper {
   display: flex;
   justify-content: center;
@@ -373,5 +477,8 @@ export default defineComponent({
   display: flex;
   justify-content: space-around;
   margin-top: 15px;
+}
+.call-status {
+  margin-top: 10px;
 }
 </style>
