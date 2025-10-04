@@ -33,12 +33,28 @@
           </div>
         </div>
 
+        <!-- Connection Status -->
+        <div v-if="connectionStatus" class="connection-status mt-2">
+          <el-alert 
+            :title="connectionStatus" 
+            :type="isConnected ? 'success' : 'error'" 
+            :closable="false" 
+          />
+        </div>
+
         <!-- Action Buttons -->
         <div class="profile-actions mt-4">
-          <el-button type="primary" @click="startCall(user.id)" :disabled="isCallInProgress">
+          <el-button 
+            type="primary" 
+            @click="startCall(user.id)" 
+            :disabled="!isConnected || isCallInProgress"
+          >
             📞 {{ isCallInProgress ? 'Calling...' : 'Call' }}
           </el-button>
           <el-button type="info" @click="openLogs">📑 View Call Logs</el-button>
+          <el-button type="warning" @click="testConnection" :loading="testingConnection">
+            🔄 Test Connection
+          </el-button>
         </div>
 
         <!-- Call Status -->
@@ -74,15 +90,36 @@
       <el-button type="danger" @click="declineCall">❌ Decline</el-button>
     </div>
   </el-dialog>
+
+  <!-- Connection Error Dialog -->
+  <el-dialog v-model="connectionErrorVisible" title="Connection Error" width="400px">
+    <p>Unable to establish real-time connection. This is required for call functionality.</p>
+    <p><strong>Current Domain:</strong> {{ currentDomain }}</p>
+    <p><strong>WebSocket Target:</strong> {{ websocketTarget }}</p>
+    <div v-if="connectionDetails" class="connection-details">
+      <p><strong>Connection Details:</strong></p>
+      <pre>{{ connectionDetails }}</pre>
+    </div>
+    <p><strong>Possible solutions:</strong></p>
+    <ul>
+      <li>Check if Laravel Echo Server is running on port 6001</li>
+      <li>Verify SSL certificate covers WebSocket connections</li>
+      <li>Ensure port 6001 is open in firewall</li>
+      <li>Check browser console for detailed error messages</li>
+    </ul>
+    <template #footer>
+      <el-button @click="connectionErrorVisible = false">Close</el-button>
+      <el-button type="primary" @click="reconnectEcho">Reconnect</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick, computed } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import echo from "@/bootstrap/echo";
 
-// Simple WebRTC implementation without external dependencies
 class SimpleWebRTC {
   constructor() {
     this.peerConnection = null;
@@ -103,7 +140,6 @@ class SimpleWebRTC {
 
     this.peerConnection = new RTCPeerConnection(configuration);
 
-    // Handle incoming tracks
     this.peerConnection.ontrack = (event) => {
       this.remoteStream = event.streams[0];
       if (this.onRemoteStream) {
@@ -111,7 +147,6 @@ class SimpleWebRTC {
       }
     };
 
-    // Handle ICE candidates
     this.peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
         this.onSignal({
@@ -212,12 +247,242 @@ export default defineComponent({
     const incomingCall = ref(null);
     const isCallInProgress = ref(false);
     const callStatus = ref('');
+    const connectionStatus = ref('Connecting...');
+    const isConnected = ref(false);
+    const connectionErrorVisible = ref(false);
+    const testingConnection = ref(false);
+    const connectionDetails = ref('');
 
     const localStream = ref(null);
     const remoteStream = ref(null);
     const webrtc = ref(new SimpleWebRTC());
 
+    // Domain information
+    const currentDomain = computed(() => window.location.hostname);
+    const websocketTarget = computed(() => {
+      return `wss://${currentDomain.value}:6001`;
+    });
+
     let channel = null;
+    let connectionCheckInterval = null;
+
+    // Check Echo connection status
+    function checkEchoConnection() {
+      try {
+        const socket = echo.connector.socket;
+        const connected = socket && socket.id;
+        isConnected.value = !!connected;
+        
+        // Build connection details for debugging
+        connectionDetails.value = JSON.stringify({
+          socketId: socket?.id || 'No socket ID',
+          connected: !!connected,
+          hostname: currentDomain.value,
+          socketState: socket?.readyState || 'No socket',
+          transport: socket?.transport?.name || 'No transport'
+        }, null, 2);
+        
+        connectionStatus.value = connected 
+          ? `✅ Connected to ${currentDomain.value}` 
+          : `❌ Disconnected from ${currentDomain.value}`;
+        
+        if (!connected) {
+          connectionErrorVisible.value = true;
+        }
+        
+        return connected;
+      } catch (error) {
+        console.error('Error checking Echo connection:', error);
+        isConnected.value = false;
+        connectionStatus.value = 'Error checking connection';
+        connectionDetails.value = `Error: ${error.message}`;
+        return false;
+      }
+    }
+
+    function initializeEchoConnection() {
+      try {
+        console.log('🔄 Initializing Echo connection for domain:', currentDomain.value);
+        
+        const socket = echo.connector.socket;
+        if (socket) {
+          socket.on('connect', () => {
+            console.log('✅ Echo connected successfully to:', currentDomain.value);
+            isConnected.value = true;
+            connectionStatus.value = `✅ Connected to ${currentDomain.value}`;
+            connectionErrorVisible.value = false;
+            subscribeToChannels();
+          });
+
+          socket.on('disconnect', (reason) => {
+            console.log('❌ Echo disconnected from:', currentDomain.value, 'Reason:', reason);
+            isConnected.value = false;
+            connectionStatus.value = `❌ Disconnected from ${currentDomain.value}`;
+          });
+
+          socket.on('error', (error) => {
+            console.error('Echo connection error:', error);
+            isConnected.value = false;
+            connectionStatus.value = `❌ Connection error to ${currentDomain.value}`;
+            connectionErrorVisible.value = true;
+          });
+        } else {
+          console.error('No Echo socket available');
+          connectionStatus.value = 'No Echo socket available';
+        }
+
+        // Initial connection check
+        setTimeout(() => {
+          if (!checkEchoConnection()) {
+            console.warn('Echo not connected after initialization to', currentDomain.value);
+            connectionStatus.value = `⚠️ Failed to connect to ${currentDomain.value}`;
+          }
+        }, 3000);
+
+      } catch (error) {
+        console.error('Failed to initialize Echo connection:', error);
+        connectionStatus.value = `❌ Failed to initialize connection to ${currentDomain.value}`;
+        connectionErrorVisible.value = true;
+      }
+    }
+
+    function subscribeToChannels() {
+      try {
+        if (!echo.connector.socket || !echo.connector.socket.id) {
+          console.error('Echo socket not available for subscription');
+          return;
+        }
+
+        // Unsubscribe from previous channel if exists
+        if (channel) {
+          channel.stopListening();
+        }
+
+        channel = echo.private(`calls.${currentUserId}`);
+
+        channel.listen("CallOfferEvent", (e) => {
+          console.log("📥 Incoming offer:", e);
+          if (!isCallInProgress.value) {
+            incomingCall.value = e;
+            incomingVisible.value = true;
+          }
+        });
+
+        channel.listen("CallAnswerEvent", (e) => {
+          console.log("📥 Incoming answer:", e);
+          webrtc.value.handleAnswer(e.answer);
+          callStatus.value = 'Call connected';
+        });
+
+        channel.listen("CallCandidateEvent", (e) => {
+          console.log("📥 Incoming candidate:", e);
+          if (e.candidate) {
+            webrtc.value.handleCandidate(e.candidate);
+          }
+        });
+
+        console.log('✅ Successfully subscribed to call channels on', currentDomain.value);
+
+      } catch (error) {
+        console.error('❌ Failed to subscribe to channels:', error);
+        connectionStatus.value = `❌ Failed to subscribe to channels on ${currentDomain.value}`;
+      }
+    }
+
+    async function testConnection() {
+      testingConnection.value = true;
+      try {
+        // Test WebSocket connection
+        const isEchoConnected = checkEchoConnection();
+        
+        // Test API connection
+        await window.axios.get('/api/test-connection');
+        
+        if (isEchoConnected) {
+          connectionStatus.value = `✅ All connections working properly on ${currentDomain.value}`;
+        } else {
+          connectionStatus.value = `⚠️ API connected but WebSocket failed on ${currentDomain.value}`;
+        }
+      } catch (error) {
+        console.error('Connection test failed:', error);
+        connectionStatus.value = `❌ Connection test failed for ${currentDomain.value}`;
+      } finally {
+        testingConnection.value = false;
+      }
+    }
+
+    function reconnectEcho() {
+      try {
+        console.log('🔄 Attempting to reconnect Echo to', currentDomain.value);
+        
+        const socket = echo.connector.socket;
+        if (socket) {
+          socket.connect();
+        }
+        
+        setTimeout(() => {
+          const reconnected = checkEchoConnection();
+          if (!reconnected) {
+            connectionStatus.value = `❌ Reconnection to ${currentDomain.value} failed`;
+          } else {
+            connectionStatus.value = `✅ Reconnected to ${currentDomain.value}`;
+          }
+        }, 3000);
+      } catch (error) {
+        console.error('Reconnection failed:', error);
+        connectionStatus.value = `❌ Reconnection to ${currentDomain.value} failed`;
+      }
+    }
+
+    // ... rest of the WebRTC and component methods remain the same
+    // (initializeWebRTC, handleWebRTCSignal, cleanupCall, openLogs, startCall, acceptCall, declineCall)
+
+    // Initialize WebRTC
+    function initializeWebRTC() {
+      webrtc.value.onRemoteStream = (stream) => {
+        remoteStream.value = stream;
+      };
+
+      webrtc.value.onSignal = (data) => {
+        handleWebRTCSignal(data);
+      };
+    }
+
+    function handleWebRTCSignal(data) {
+      if (!isConnected.value) {
+        alert('Cannot send call signal: Not connected to server');
+        return;
+      }
+
+      const targetUserId = webrtc.value.isInitiator ? props.user.id : incomingCall.value?.from;
+
+      if (data.type === 'offer') {
+        window.axios.post("/call/offer", {
+          from: currentUserId,
+          to: targetUserId,
+          offer: data.offer,
+        }).catch(error => {
+          console.error('Failed to send offer:', error);
+          alert('Failed to send call offer');
+        });
+      } else if (data.type === 'answer') {
+        window.axios.post("/call/answer", {
+          from: currentUserId,
+          to: targetUserId,
+          answer: data.answer,
+        }).catch(error => {
+          console.error('Failed to send answer:', error);
+        });
+      } else if (data.type === 'candidate') {
+        window.axios.post("/call/candidate", {
+          from: currentUserId,
+          to: targetUserId,
+          candidate: data.candidate,
+        }).catch(error => {
+          console.error('Failed to send candidate:', error);
+        });
+      }
+    }
 
     // Attach audio streams
     watch(localStream, async (stream) => {
@@ -234,72 +499,23 @@ export default defineComponent({
 
     onMounted(() => {
       initializeWebRTC();
-      subscribeToChannels();
+      
+      // Wait a bit for Echo to initialize, then set up connection monitoring
+      setTimeout(() => {
+        initializeEchoConnection();
+        
+        // Set up periodic connection checking
+        connectionCheckInterval = setInterval(checkEchoConnection, 10000);
+      }, 1000);
     });
 
     onBeforeUnmount(() => {
       cleanupCall();
       channel?.stopListening();
-    });
-
-    function initializeWebRTC() {
-      webrtc.value.onRemoteStream = (stream) => {
-        remoteStream.value = stream;
-      };
-
-      webrtc.value.onSignal = (data) => {
-        handleWebRTCSignal(data);
-      };
-    }
-
-    function handleWebRTCSignal(data) {
-      const targetUserId = webrtc.value.isInitiator ? props.user.id : incomingCall.value?.from;
-
-      if (data.type === 'offer') {
-        window.axios.post("/call/offer", {
-          from: currentUserId,
-          to: targetUserId,
-          offer: data.offer,
-        });
-      } else if (data.type === 'answer') {
-        window.axios.post("/call/answer", {
-          from: currentUserId,
-          to: targetUserId,
-          answer: data.answer,
-        });
-      } else if (data.type === 'candidate') {
-        window.axios.post("/call/candidate", {
-          from: currentUserId,
-          to: targetUserId,
-          candidate: data.candidate,
-        });
+      if (connectionCheckInterval) {
+        clearInterval(connectionCheckInterval);
       }
-    }
-
-    function subscribeToChannels() {
-      channel = echo.private(`calls.${currentUserId}`);
-
-      channel.listen("CallOfferEvent", (e) => {
-        console.log("📥 Incoming offer:", e);
-        if (!isCallInProgress.value) {
-          incomingCall.value = e;
-          incomingVisible.value = true;
-        }
-      });
-
-      channel.listen("CallAnswerEvent", (e) => {
-        console.log("📥 Incoming answer:", e);
-        webrtc.value.handleAnswer(e.answer);
-        callStatus.value = 'Call connected';
-      });
-
-      channel.listen("CallCandidateEvent", (e) => {
-        console.log("📥 Incoming candidate:", e);
-        if (e.candidate) {
-          webrtc.value.handleCandidate(e.candidate);
-        }
-      });
-    }
+    });
 
     function cleanupCall() {
       webrtc.value.destroy();
@@ -314,6 +530,12 @@ export default defineComponent({
     }
 
     async function startCall(targetUserId) {
+      if (!isConnected.value) {
+        connectionErrorVisible.value = true;
+        alert('Cannot make call: Not connected to server. Please check connection and try again.');
+        return;
+      }
+
       try {
         cleanupCall();
         isCallInProgress.value = true;
@@ -412,6 +634,15 @@ export default defineComponent({
       incomingCall,
       isCallInProgress,
       callStatus,
+      connectionStatus,
+      isConnected,
+      connectionErrorVisible,
+      testingConnection,
+      testConnection,
+      reconnectEcho,
+      currentDomain,
+      websocketTarget,
+      connectionDetails,
       user: props.user,
     };
   },
@@ -458,6 +689,7 @@ export default defineComponent({
   margin-top: 20px;
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .call-logs {
   list-style: none;
@@ -478,7 +710,18 @@ export default defineComponent({
   justify-content: space-around;
   margin-top: 15px;
 }
-.call-status {
+.call-status, .connection-status {
   margin-top: 10px;
+}
+.connection-details {
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.connection-details pre {
+  margin: 0;
+  white-space: pre-wrap;
 }
 </style>
