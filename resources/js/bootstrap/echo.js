@@ -8,8 +8,8 @@ const echo = new Echo({
   broadcaster: "pusher",
   key: process.env.VUE_APP_PUSHER_KEY || "somekey",
   wsHost: window.location.hostname, // This will be 'www.sentechxperience.co.za'
-  wsPort: 6001,
-  wssPort: 6001,
+  wsPort: 443,
+  wssPort: 443,
   forceTLS: true, // Important: true for HTTPS domain
   disableStats: true,
   enabledTransports: ["ws", "wss"],
