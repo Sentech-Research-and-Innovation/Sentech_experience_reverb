@@ -40,17 +40,18 @@
             </div>
 
             <!-- Chat Section -->
-            <ChatBox v-if="authUser.id !== user.id" :receiver="user" />
+            <ChatBox v-if="authUser && authUser.id !== user.id" :receiver="user" />
         </div>
     </div>
 </template>
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { defineComponent } from "vue";
+import { defineComponent , computed} from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import ChatBox from "./ChatBox.vue";
+import { usePage } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     layout: AdminLayout,
