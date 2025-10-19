@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Echo from "@/echo"; // your echo.js config
+import Echo from "@/bootstrap/echo"; // your echo.js config
 
 export default {
   props: { receiver: Object },
