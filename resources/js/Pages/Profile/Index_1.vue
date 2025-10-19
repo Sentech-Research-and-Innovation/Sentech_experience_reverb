@@ -50,7 +50,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
-import ChatBox from "@/Components/ChatBox.vue";
+import ChatBox from "./ChatBox.vue";
 
 export default defineComponent({
     layout: AdminLayout,
