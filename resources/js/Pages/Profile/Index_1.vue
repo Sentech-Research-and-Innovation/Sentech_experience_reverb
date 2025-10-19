@@ -40,18 +40,17 @@
             </div>
 
             <!-- Chat Section -->
-            <ChatBox v-if="authUser && authUser.id !== user.id" :receiver="user" />
+            <ChatBox :receiver="user" />
         </div>
     </div>
 </template>
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { defineComponent , computed} from "vue";
+import { defineComponent } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import ChatBox from "./ChatBox.vue";
-import { usePage } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     layout: AdminLayout,
@@ -69,9 +68,6 @@ export default defineComponent({
     },
 
     setup(props) {
-        const page = usePage();
-        const authUser = computed(() => page.props.value.auth.user);
-
         const defaultCover =
             "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1920&fit=crop"; 
         // dark abstract background
@@ -83,7 +79,6 @@ export default defineComponent({
         return {
             UserFilled,
             user: props.user,
-            authUser,
             defaultCover,
             defaultProfile,
         };
