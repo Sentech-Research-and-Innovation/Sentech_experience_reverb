@@ -40,7 +40,7 @@
             </div>
 
             <!-- Chat Section -->
-            <ChatBox :receiver="user" />
+            <!-- <ChatBox :receiver="user" /> -->
         </div>
     </div>
 </template>
