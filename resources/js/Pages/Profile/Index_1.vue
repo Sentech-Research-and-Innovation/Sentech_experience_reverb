@@ -39,9 +39,9 @@
                     </div>
             </div>
         </div>
-        <!-- Chat Section -->
-        <ChatBox :receiver="user" /> 
     </div>
+    <!-- Chat Section -->
+        <ChatBox :receiver="user" /> 
 </template>
 
 <script>
