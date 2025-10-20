@@ -15,18 +15,7 @@ use Illuminate\Support\Facades\Log;
 class ProfileController extends Controller
 {
 
-    // public function index()
-    // {
-    //     $user = User::where('id', auth()->id())
-    //                 ->with('company', 'roles')
-    //                 ->first();
-    
-    //     return Inertia::render('Profile/Index', [
-    //         'user' => array_merge($user->toArray(), [
-    //             'cover_photo_url' => $user->cover_photo_url,
-    //         ]),
-    //     ]);
-    // }
+
 
     public function index()
     {
@@ -43,26 +32,35 @@ class ProfileController extends Controller
     }
 
 
-
-
     // public function show($id)
     // {
     //     $user = User::with('company', 'roles')->findOrFail($id);
-    //     return Inertia::render('Profile/Index_1', compact('user'));
-            
+    
+    //     return Inertia::render('Profile/Index_1', [
+    //         'user' => array_merge($user->toArray(), [
+    //             'profile_photo_url' => $user->profile_photo_url,
+    //             'cover_photo_url'   => $user->cover_photo_url,
+    //         ]),
+    //     ]);
     // }
 
     public function show($id)
     {
+        // Get the user and eager load relationships (company, roles)
         $user = User::with('company', 'roles')->findOrFail($id);
-    
+        
+        // Pass both the user and the authenticated user to the frontend
         return Inertia::render('Profile/Index_1', [
             'user' => array_merge($user->toArray(), [
                 'profile_photo_url' => $user->profile_photo_url,
                 'cover_photo_url'   => $user->cover_photo_url,
             ]),
+            'auth' => [
+                'user' => auth()->user(),  // Pass the logged-in authenticated user
+            ],
         ]);
     }
+
 
     public function update(Request $request)
     {
