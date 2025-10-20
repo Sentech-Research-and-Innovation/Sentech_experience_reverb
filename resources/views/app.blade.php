@@ -45,6 +45,7 @@
     window.Laravel = {
         csrfToken: "{{ csrf_token() }}",
         token: 1,
-        jsPermissions: {!! auth()->user()?->jsPermissions() !!}
+        jsPermissions: {!! auth()->user()?->jsPermissions() !!},
+        user: @json(auth()->user())
     }
 </script>
