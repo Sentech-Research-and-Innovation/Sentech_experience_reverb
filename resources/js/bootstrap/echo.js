@@ -12,7 +12,6 @@ const echo = new Echo({
   forceTLS: true,
   disableStats: true,
   enabledTransports: ["ws", "wss"],
-  cluster: "mt1",
   authEndpoint: "/broadcasting/auth",
   auth: {
     headers: {
