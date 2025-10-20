@@ -2,31 +2,30 @@ namespace App\Events;
 
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent implements ShouldBroadcast
+class MessageSent
 {
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-    public $sender_id;
-    public $receiver_id;
 
+    // Constructor to pass the message to the event
     public function __construct(Message $message)
     {
         $this->message = $message;
-        $this->sender_id = $message->user_id;     // Sender's ID
-        $this->receiver_id = $message->receiver_id; // Receiver's ID
     }
 
-    // Broadcasting on a dynamic channel for sender and receiver
+    // Define the channels to which the event will be broadcast
     public function broadcastOn()
     {
-        // Channel format: 'chat.{sender_id}-{receiver_id}' or 'chat.{receiver_id}-{sender_id}'
-        // Order doesn't matter, so we sort the user IDs to ensure the same channel every time
-        $channelId = implode('-', sorted([$this->sender_id, $this->receiver_id]));
+        $senderId = $this->message->user_id;
+        $receiverId = $this->message->receiver_id;
+        $channelName = "chat." . [$senderId, $receiverId]->sort()->join("-");  // Unique channel
 
-        return new Channel('chat.' . $channelId);  // Channel name will be chat.1-2 or chat.2-1
+        return new Channel($channelName);  // Broadcast on dynamic channel
     }
 }
