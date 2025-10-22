@@ -15,6 +15,6 @@ Route::post('/profile/upload-cover-image', [ProfileController::class, 'uploadCov
 Route::delete('/profile/delete-cover-image', [ProfileController::class, 'deleteCoverImage']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/chat/{receiverId}', [ChatController::class, 'getMessages'])->name('admin.chat.getMessages');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('admin.chat.sendMessage');
+    Route::get('/profile/chat/{receiverId}', [ChatController::class, 'getMessages'])->name('admin.chat.getMessages');
+    Route::post('/profile/chat/send', [ChatController::class, 'sendMessage'])->name('admin.chat.sendMessage');
 });
