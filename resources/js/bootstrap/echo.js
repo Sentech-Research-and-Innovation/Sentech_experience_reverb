@@ -13,6 +13,7 @@ const echo = new Echo({
   disableStats: true,
   enabledTransports: ["ws", "wss"],
   authEndpoint: "/broadcasting/auth",
+cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
   auth: {
     headers: {
       "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.getAttribute("content"),
