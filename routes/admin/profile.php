@@ -14,11 +14,10 @@ Route::delete('/profile/delete-profile-image', [ProfileController::class, 'delet
 Route::post('/profile/upload-cover-image', [ProfileController::class, 'uploadCoverImage']);
 Route::delete('/profile/delete-cover-image', [ProfileController::class, 'deleteCoverImage']);
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/profile/chat/{receiverId}', [ChatController::class, 'getMessages'])->name('admin.chat.getMessages');
-//     Route::post('/profile/chat/send', [ChatController::class, 'sendMessage'])->name('admin.chat.sendMessage');
-// });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/chat/{receiverId}', [ChatController::class, 'getMessages'])->name('admin.chat.getMessages');
+    Route::post('/profile/chat/send', [ChatController::class, 'sendMessage'])->name('admin.chat.sendMessage');
+});
 
 
-Route::get('/profile/chat/{receiverId}', [ChatController::class, 'getMessages'])->name('admin.chat.getMessages');
-Route::post('/profile/chat/send', [ChatController::class, 'sendMessage'])->name('admin.chat.sendMessage');
+
