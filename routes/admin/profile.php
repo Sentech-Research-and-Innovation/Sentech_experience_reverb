@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\Profile\ProfileController;
-use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Profile\ChatController;
 
 
 Route::get('/profile/index', [ProfileController::class, 'index']);
