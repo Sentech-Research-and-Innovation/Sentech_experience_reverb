@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Profile;
 
+use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
