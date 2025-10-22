@@ -54,7 +54,7 @@
       });
   
       // Load existing messages (from your Laravel controller route)
-      axios.get(`/admin/profile/chat/${receiverId}`).then((res) => {
+      axios.get(`/profile/chat/${receiverId}`).then((res) => {
         this.messages = res.data;
       });
     },
@@ -63,7 +63,7 @@
         if (!this.newMessage.trim()) return;
   
         axios
-          .post("/admin/profile//chat/send", {
+          .post("/profile/chat/send", {
             receiver_id: this.receiver.id,
             message: this.newMessage,
           })
