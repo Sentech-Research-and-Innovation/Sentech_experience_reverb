@@ -49,7 +49,7 @@ class ChatController extends Controller
         ]);
 
         // Broadcast the event (sending message to others on the chat channel)
-        broadcast(new MessageSent($message))->toOthers();
+        broadcast(new MessageSent($message));
 
         return response()->json(['status' => 'Message Sent!']);
     }
