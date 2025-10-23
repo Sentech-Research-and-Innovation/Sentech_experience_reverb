@@ -1,21 +1,9 @@
 <template>
   <div class="chat-box">
-      <!-- Header -->
-      <div class="chat-header">
-          <div class="chat-user-info">
-              <strong>{{ receiver.first_name }} {{ receiver.last_name }}</strong>
-              <small v-if="receiver.last_seen">
-              Last seen {{ formatLastSeen(receiver.last_seen) }}
-              </small>
-              <small v-else>Online</small>
-          </div>
-
-      </div>
-
-      <!-- Messages -->
+    <!-- Messages -->
     <div class="chat-messages" id="messages">
       <div
-        v-for="(group, date) in groupedMessages"
+        v-for="(group, date) in groupedMessagesOrdered"
         :key="date"
         class="date-group"
       >
@@ -26,26 +14,33 @@
           :key="index"
           :class="[
             'chat-message',
-            msg.sender_id === userId ? 'sent' : 'received',
+            isSender(msg) ? 'sent' : 'received',
           ]"
         >
-          {{ msg.message }}
+          <div class="bubble">
+            <div class="text">{{ msg.message }}</div>
+            <div class="meta">
+              <span class="time">{{ formatTime(msg.created_at) }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Input -->
-      <div class="chat-input">
+    <div class="chat-input">
       <input
-          v-model="newMessage"
-          placeholder="Type a message..."
-          @input="typing = newMessage.trim().length > 0"
-          @keyup.enter="sendMessage"
+        v-model="newMessage"
+        placeholder="Type a message..."
+        @input="typing = newMessage.trim().length > 0"
+        @keyup.enter="sendMessage"
       />
       <button v-if="typing" @click="sendMessage" class="send-btn">
-          <i class="fas fa-paper-plane"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M15.854.146a.5.5 0 0 0-.538-.086L.146 6.646a.5.5 0 0 0 .022.93l5.992 2.015 2.015 5.992a.5.5 0 0 0 .93.022L15.94.684a.5.5 0 0 0-.086-.538z"/>
+        </svg>
       </button>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -60,17 +55,48 @@ export default {
       userId: window.Laravel?.user?.id || null,
       messages: [],
       newMessage: "",
+      typing: false,
     };
   },
   computed: {
+    // groups object keyed by date string (YYYY-MM-DD)
     groupedMessages() {
       const groups = {};
-      this.messages.forEach((msg) => {
-        const date = msg.created_at.split("T")[0]; // assumes ISO timestamp
-        if (!groups[date]) groups[date] = [];
-        groups[date].push(msg);
+      (this.messages || []).forEach((msg) => {
+        // handle different timestamp formats gracefully
+        let created = msg.created_at || msg.createdAt || msg.time || null;
+        let dateKey;
+        if (created) {
+          // Normalize to YYYY-MM-DD
+          const d = new Date(created);
+          if (isNaN(d)) {
+            // fallback: if created is not a valid date, use today
+            const now = new Date();
+            dateKey = now.toISOString().split("T")[0];
+          } else {
+            dateKey = d.toISOString().split("T")[0];
+          }
+        } else {
+          dateKey = new Date().toISOString().split("T")[0];
+        }
+
+        if (!groups[dateKey]) groups[dateKey] = [];
+        groups[dateKey].push(msg);
       });
+
+      // Ensure each day's messages are sorted by time ascending
+      Object.keys(groups).forEach((k) => {
+        groups[k].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      });
+
       return groups;
+    },
+
+    // order groups by date ascending (so older first, newer last)
+    groupedMessagesOrdered() {
+      const entries = Object.entries(this.groupedMessages);
+      entries.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+      return Object.fromEntries(entries);
     },
   },
   mounted() {
@@ -83,52 +109,115 @@ export default {
     const receiverId = this.receiver.id;
     const channelName = "chat." + [senderId, receiverId].sort().join("-");
 
-    // Listen for new messages
+    // Listen for new messages (server broadcast)
     Echo.channel(channelName).listen("MessageSent", (event) => {
-      this.messages.push(event.message);
-      this.scrollToBottom();
+      // event.message expected from backend
+      if (event?.message) {
+        this.messages.push(event.message);
+        this.scrollToBottom();
+      }
     });
 
-    // Load previous chat
-    axios.get(`/profile/chat/${receiverId}`).then((res) => {
-      this.messages = res.data;
-      this.scrollToBottom();
-    });
+    // Initial load
+    axios
+      .get(`/profile/chat/${receiverId}`)
+      .then((res) => {
+        // Expect array of messages with fields: message, sender_id (or user_id), created_at
+        this.messages = Array.isArray(res.data) ? res.data : [];
+        this.scrollToBottom();
+      })
+      .catch((err) => {
+        console.error("Failed to load messages:", err);
+      });
   },
   methods: {
+    isSender(msg) {
+      // robust check for sender id field
+      const senderIdFields = ["sender_id", "user_id", "from_id", "from"];
+      for (const f of senderIdFields) {
+        if (msg[f] !== undefined) {
+          return Number(msg[f]) === Number(this.userId);
+        }
+      }
+      // fallback: if message has 'is_sender' boolean
+      if (typeof msg.is_sender === "boolean") return msg.is_sender;
+      return false;
+    },
+
     sendMessage() {
       if (!this.newMessage.trim()) return;
 
+      // local immediate push so user sees the message instantly
+      const nowIso = new Date().toISOString();
+      const tempMessage = {
+        id: "tmp-" + nowIso,
+        message: this.newMessage,
+        // choose sender field your backend expects; include few so UI checks succeed
+        sender_id: this.userId,
+        user_id: this.userId,
+        created_at: nowIso,
+      };
+
+      this.messages.push(tempMessage);
+      this.scrollToBottom();
+
+      const payload = {
+        receiver_id: this.receiver.id,
+        message: this.newMessage,
+      };
+
+      // clear input immediately (UX pattern)
+      const justSent = this.newMessage;
+      this.newMessage = "";
+      this.typing = false;
+
       axios
-        .post("/profile/chat/send", {
-          receiver_id: this.receiver.id,
-          message: this.newMessage,
+        .post("/profile/chat/send", payload)
+        .then((res) => {
+          // optionally replace the temp message id with the real id returned by server
+          if (res.data?.message && res.data.message.id) {
+            // find temp msg by matching text + sender + nearest timestamp
+            const idx = this.messages.findIndex(
+              (m) => m.id && String(m.id).startsWith("tmp-") && m.message === justSent
+            );
+            if (idx !== -1) {
+              this.messages.splice(idx, 1, res.data.message);
+            } else {
+              // if not found, ensure server message is present
+              this.messages.push(res.data.message);
+            }
+          }
+          this.scrollToBottom();
         })
-        .then(() => {
-          this.newMessage = "";
-          this.typing = false;
+        .catch((err) => {
+          console.error("Failed to send message:", err);
+          // Optionally mark the last message failed (add property) or show toast
         });
     },
-    formatDateHeader(date) {
+
+    formatTime(datetime) {
+      if (!datetime) return "";
+      const d = new Date(datetime);
+      if (isNaN(d)) return "";
+      return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    },
+
+    formatDateHeader(dateStr) {
+      const date = new Date(dateStr + "T00:00:00");
       const today = new Date();
-      const messageDate = new Date(date);
       const yesterday = new Date();
       yesterday.setDate(today.getDate() - 1);
 
-      if (messageDate.toDateString() === today.toDateString()) return "Today";
-      if (messageDate.toDateString() === yesterday.toDateString())
-        return "Yesterday";
+      if (date.toDateString() === today.toDateString()) return "Today";
+      if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
 
-      return messageDate.toLocaleDateString(undefined, {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-      });
+      return date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
     },
+
     scrollToBottom() {
       this.$nextTick(() => {
         const container = document.getElementById("messages");
-        if (container) container.scrollTop = container.scrollHeight;
+        if (container) container.scrollTop = container.scrollHeight + 100;
       });
     },
   },
@@ -136,123 +225,168 @@ export default {
 </script>
 
 <style scoped>
+/* container */
 .chat-box {
-  width: 340px;
+  width: 380px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin: 30px auto;
+  margin: 20px auto;
   display: flex;
   flex-direction: column;
-  background: #ece5dd;
-  font-family: Arial, sans-serif;
+  background: #e5ddd5; /* slight WhatsApp-ish bg */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-.chat-header {
-display: flex;
-align-items: center;
-background: #075e54;
-color: white;
-padding: 10px;
-border-top-left-radius: 10px;
-border-top-right-radius: 10px;
-}
-
-.chat-user-info strong {
-display: block;
-font-size: 14px;
-}
-
-.chat-user-info small {
-font-size: 12px;
-opacity: 0.8;
-}
-
-
+/* messages area */
 .chat-messages {
-  max-height: 400px;
+  max-height: 520px;
   overflow-y: auto;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
+
+/* date header group */
 .date-group {
-  margin-bottom: 15px;
+  margin-bottom: 6px;
 }
+
 .date-header {
   text-align: center;
-  color: #777;
+  color: #666;
   font-size: 12px;
   margin: 10px 0;
-}
-.chat-message {
-  padding: 10px 14px;
-  border-radius: 18px;
-  margin: 5px 0;
-  max-width: 75%;
-  word-wrap: break-word;
+  background: rgba(255,255,255,0.6);
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
 }
 
+/* message bubble container */
+.chat-message {
+  display: flex;
+  width: 100%;
+}
+
+/* bubble */
+.bubble {
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* text and meta layout inside bubble */
+.text {
+  font-size: 14px;
+  line-height: 1.35;
+  color: #111;
+}
+.meta {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+.time {
+  font-size: 11px;
+  color: rgba(0,0,0,0.45);
+}
+
+/* Sender (you) -> LEFT and green bubble */
 .sent {
-  background: #1877f2;
-  color: white;
-  align-self: flex-start; /* sender's message on left */
+  justify-content: flex-start; /* left */
 }
+.sent .bubble {
+  background: #dcf8c6; /* light green */
+  color: #000;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 14px;
+}
+
+/* tail for sent (left) */
+.sent .bubble::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #dcf8c6;
+  border-right: 8px solid transparent;
+  transform: translateY(-2px);
+}
+
+/* Receiver -> RIGHT and white bubble */
 .received {
-  background: #fff;
-  color: black;
-  align-self: flex-end;
+  justify-content: flex-end; /* right */
 }
+.received .bubble {
+  background: #ffffff;
+  color: #000;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 14px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+}
+
+/* tail for received (right) */
+.received .bubble::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #ffffff;
+  border-left: 8px solid transparent;
+  transform: translateY(-2px);
+}
+
+/* input area */
 .chat-input {
   display: flex;
-  border-top: 1px solid #ccc;
+  align-items: center;
+  padding: 10px;
+  background: transparent;
+  border-top: 1px solid rgba(0,0,0,0.06);
 }
+
+/* text input */
 .chat-input input {
   flex: 1;
   border: none;
-  padding: 10px;
+  outline: none;
+  background: #fff;
+  border-radius: 25px;
+  padding: 10px 14px;
+  font-size: 14px;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
 }
-.chat-input button {
-  background: #1877f2;
-  color: white;
+
+/* send button round */
+.send-btn {
+  background: #128c7e;
   border: none;
-  padding: 0 15px;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
-.chat-input {
-display: flex;
-align-items: center;
-padding: 8px;
-background: #fff;
-border-top: 1px solid #ddd;
+.send-btn svg {
+  transform: rotate(40deg); /* paper plane angle */
 }
+.send-btn:active { transform: scale(0.98); }
 
-.chat-input input {
-flex: 1;
-border: none;
-outline: none;
-background: #f0f0f0;
-border-radius: 20px;
-padding: 10px 15px;
-font-size: 14px;
-}
-
-
-.send-btn {
-background: #075e54;
-border: none;
-color: white;
-font-size: 18px;
-border-radius: 50%;
-width: 36px;
-height: 36px;
-margin-left: 8px;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-}
-
-.send-btn:hover {
-background: #128c7e;
+/* small screens tweak */
+@media (max-width: 420px) {
+  .chat-box { width: 95%; }
+  .bubble { max-width: 80%; }
 }
 </style>
