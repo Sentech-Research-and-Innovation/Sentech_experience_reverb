@@ -1,50 +1,33 @@
 <template>
   <div class="chat-box">
-    <!-- Header -->
-    <div class="chat-header">
-      <img
-        :src="receiver.profile_picture || '/images/default-avatar.png'"
-        alt="User avatar"
-        class="chat-avatar"
-      />
-      <div class="chat-user-info">
-        <strong>{{ receiver.first_name }} {{ receiver.last_name }}</strong>
-        <small v-if="receiver.last_seen">
-          Last seen {{ formatLastSeen(receiver.last_seen) }}
-        </small>
-        <small v-else>Online</small>
-      </div>
-    </div>
-
-    <!-- Messages -->
     <div class="chat-messages" id="messages">
-      <div v-for="(group, date) in groupedMessages" :key="date" class="date-group">
-        <div class="date-label">{{ formatDateLabel(date) }}</div>
+      <div
+        v-for="(group, date) in groupedMessages"
+        :key="date"
+        class="date-group"
+      >
+        <div class="date-header">{{ formatDateHeader(date) }}</div>
 
         <div
           v-for="(msg, index) in group"
           :key="index"
-          :class="['chat-message', msg.sender_id === userId ? 'sent' : 'received']"
+          :class="[
+            'chat-message',
+            msg.sender_id === userId ? 'sent' : 'received',
+          ]"
         >
-          <div class="bubble">
-            <p>{{ msg.message }}</p>
-            <small class="timestamp">{{ formatTime(msg.created_at) }}</small>
-          </div>
+          {{ msg.message }}
         </div>
       </div>
     </div>
 
-    <!-- Input -->
     <div class="chat-input">
       <input
         v-model="newMessage"
-        placeholder="Type a message..."
-        @input="typing = newMessage.trim().length > 0"
         @keyup.enter="sendMessage"
+        placeholder="Type a message..."
       />
-      <button v-if="typing" @click="sendMessage" class="send-btn">
-        <i class="fas fa-paper-plane"></i>
-      </button>
+      <button @click="sendMessage">Send</button>
     </div>
   </div>
 </template>
@@ -60,14 +43,13 @@ export default {
       userId: window.Laravel?.user?.id || null,
       messages: [],
       newMessage: "",
-      typing: false,
     };
   },
   computed: {
     groupedMessages() {
       const groups = {};
       this.messages.forEach((msg) => {
-        const date = msg.created_at?.split(" ")[0];
+        const date = msg.created_at.split("T")[0]; // assumes ISO timestamp
         if (!groups[date]) groups[date] = [];
         groups[date].push(msg);
       });
@@ -84,11 +66,13 @@ export default {
     const receiverId = this.receiver.id;
     const channelName = "chat." + [senderId, receiverId].sort().join("-");
 
+    // Listen for new messages
     Echo.channel(channelName).listen("MessageSent", (event) => {
       this.messages.push(event.message);
       this.scrollToBottom();
     });
 
+    // Load previous chat
     axios.get(`/profile/chat/${receiverId}`).then((res) => {
       this.messages = res.data;
       this.scrollToBottom();
@@ -97,6 +81,7 @@ export default {
   methods: {
     sendMessage() {
       if (!this.newMessage.trim()) return;
+
       axios
         .post("/profile/chat/send", {
           receiver_id: this.receiver.id,
@@ -104,34 +89,28 @@ export default {
         })
         .then(() => {
           this.newMessage = "";
-          this.typing = false;
         });
+    },
+    formatDateHeader(date) {
+      const today = new Date();
+      const messageDate = new Date(date);
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+
+      if (messageDate.toDateString() === today.toDateString()) return "Today";
+      if (messageDate.toDateString() === yesterday.toDateString())
+        return "Yesterday";
+
+      return messageDate.toLocaleDateString(undefined, {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      });
     },
     scrollToBottom() {
       this.$nextTick(() => {
         const container = document.getElementById("messages");
         if (container) container.scrollTop = container.scrollHeight;
-      });
-    },
-    formatTime(datetime) {
-      const date = new Date(datetime);
-      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    },
-    formatDateLabel(dateStr) {
-      const date = new Date(dateStr);
-      const today = new Date();
-      const diffDays = Math.floor((today - date) / (1000 * 60 * 60 * 24));
-
-      if (diffDays === 0) return "Today";
-      if (diffDays === 1) return "Yesterday";
-      return date.toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" });
-    },
-    formatLastSeen(datetime) {
-      const date = new Date(datetime);
-      return date.toLocaleString([], {
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
       });
     },
   },
@@ -140,131 +119,60 @@ export default {
 
 <style scoped>
 .chat-box {
-  width: 380px;
-  border: 1px solid #ddd;
+  width: 340px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  margin: 20px auto;
+  margin: 30px auto;
   display: flex;
   flex-direction: column;
-  background: #ece5dd;
-  font-family: Arial, sans-serif;
+  background: #fff;
 }
-
-.chat-header {
-  display: flex;
-  align-items: center;
-  background: #075e54;
-  color: white;
-  padding: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.chat-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.chat-user-info strong {
-  display: block;
-  font-size: 14px;
-}
-
-.chat-user-info small {
-  font-size: 12px;
-  opacity: 0.8;
-}
-
 .chat-messages {
-  flex: 1;
+  max-height: 400px;
   overflow-y: auto;
   padding: 10px;
-  background: #ece5dd;
-}
-
-.date-group {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.date-label {
-  background: #d4d4d4;
-  color: #333;
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  margin-bottom: 8px;
-}
-
-.chat-message {
   display: flex;
-  margin-bottom: 6px;
+  flex-direction: column;
 }
-
-.bubble {
-  position: relative;
+.date-group {
+  margin-bottom: 15px;
+}
+.date-header {
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+  margin: 10px 0;
+}
+.chat-message {
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 15px;
+  margin-bottom: 8px;
   max-width: 75%;
-  font-size: 14px;
-  line-height: 1.4;
 }
-
-.sent .bubble {
-  background: #dcf8c6;
-  margin-left: auto;
+.sent {
+  background: #1877f2;
+  color: white;
+  align-self: flex-start; /* sender's message on left */
 }
-
-.received .bubble {
-  background: #fff;
-  margin-right: auto;
+.received {
+  background: #f1f0f0;
+  color: black;
+  align-self: flex-end;
 }
-
-.timestamp {
-  display: block;
-  font-size: 10px;
-  color: gray;
-  text-align: right;
-  margin-top: 3px;
-}
-
 .chat-input {
   display: flex;
-  align-items: center;
-  padding: 8px;
-  background: #fff;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #ccc;
 }
-
 .chat-input input {
   flex: 1;
   border: none;
-  outline: none;
-  background: #f0f0f0;
-  border-radius: 20px;
-  padding: 10px 15px;
-  font-size: 14px;
+  padding: 10px;
 }
-
-.send-btn {
-  background: #075e54;
-  border: none;
+.chat-input button {
+  background: #1877f2;
   color: white;
-  font-size: 18px;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  margin-left: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: none;
+  padding: 0 15px;
   cursor: pointer;
-}
-
-.send-btn:hover {
-  background: #128c7e;
 }
 </style>
