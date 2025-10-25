@@ -4,7 +4,7 @@
       <div class="chat-header" @click="toggleMinimize" role="button" aria-expanded="showChat">
         <div class="header-left">
           <img
-            :src="receiver.profile_picture || defaultAvatar"
+            :src="receiver.profile_photo_url  || defaultProfile"
             alt="Profile"
             class="profile-img"
           />
@@ -85,7 +85,7 @@
         newMessage: "",
         typing: false,
         showChat: true, // controls minimized/expanded state
-        defaultAvatar: "/images/default-avatar.png", // change path if needed
+        defaultProfile: "https://images.unsplash.com/photo-1603415526960-f8f0a2b52f75?q=80&w=200&fit=crop",
       };
     },
     computed: {
