@@ -233,7 +233,7 @@
   };
   </script>
   
- <style scoped>
+<style scoped>
 .chat-box {
   width: 380px;
   border: 1px solid #ddd;
@@ -265,13 +265,14 @@
   opacity: 0.8;
 }
 
+/* message list area */
 .chat-messages {
   max-height: 400px;
   overflow-y: auto;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .date-header {
@@ -279,23 +280,22 @@
   color: #777;
   font-size: 12px;
   margin: 10px 0;
+  font-weight: 500;
 }
 
-/* message container */
+/* each message */
 .chat-message {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
-/* receiver message (left side) */
+/* receiver (left side) */
 .received {
   align-items: flex-start;
 }
 .received .bubble {
   background: #e4e6eb;
   color: #050505;
-  align-self: flex-start;
   border-radius: 18px;
   padding: 10px 14px;
   max-width: 70%;
@@ -303,14 +303,13 @@
   font-size: 14px;
 }
 
-/* sender message (right side) */
+/* sender (right side) */
 .sent {
   align-items: flex-end;
 }
 .sent .bubble {
   background: #0084ff;
   color: #fff;
-  align-self: flex-end;
   border-radius: 18px;
   padding: 10px 14px;
   max-width: 70%;
@@ -318,16 +317,20 @@
   font-size: 14px;
 }
 
-/* timestamp below the bubble */
+/* timestamp below bubble */
 .meta {
   margin-top: 4px;
+}
+.sent .meta,
+.received .meta {
+  align-self: flex-end;
 }
 .time {
   font-size: 11px;
   color: #65676b;
 }
 
-/* input area */
+/* input section */
 .chat-input {
   display: flex;
   align-items: center;
@@ -368,4 +371,5 @@
   .bubble { max-width: 80%; }
 }
 </style>
+
 
