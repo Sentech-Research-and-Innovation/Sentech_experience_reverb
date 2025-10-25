@@ -301,7 +301,14 @@ padding: 10px 14px;
 max-width: 70%;
 word-wrap: break-word;
 font-size: 14px;
+position: relative;
 }
+
+.received .meta {
+    align-self: flex-start; 
+    margin-top: 2px;
+    margin-left: 10px;
+  }
 
 /* sender (right side) */
 .sent {
@@ -315,11 +322,20 @@ padding: 10px 14px;
 max-width: 70%;
 word-wrap: break-word;
 font-size: 14px;
+position: relative;
 }
+
+.sent .meta {
+    align-self: flex-end; 
+    margin-top: 2px;
+    margin-right: 10px;
+  }
 
 /* timestamp below bubble */
 .meta {
-margin-top: 4px;
+/* margin-top: 4px; */
+font-size: 11px;
+color: #65676b;
 }
 .sent .meta,
 .received .meta {
