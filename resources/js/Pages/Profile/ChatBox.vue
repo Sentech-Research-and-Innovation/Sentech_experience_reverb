@@ -327,20 +327,22 @@ position: relative;
 
 .sent .meta {
     align-self: flex-end; 
-    margin-top: 2px;
     margin-right: 10px;
   }
 
 /* timestamp below bubble */
 .meta {
-/* margin-top: 4px; */
+margin-top: 2px;
 font-size: 11px;
 color: #65676b;
 }
-.sent .meta,
+
 .received .meta {
-align-self: flex-end;
+align-self: flex-start;
+margin-left: 10px;
+
 }
+
 .time {
 font-size: 11px;
 color: #65676b;
@@ -387,4 +389,3 @@ background: #0073e6;
 .bubble { max-width: 80%; }
 }
 </style>
-
