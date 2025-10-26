@@ -41,7 +41,7 @@ class ChatController extends Controller
             'receiver_id' => 'required|exists:users,id',  // Ensure receiver is valid
         ]);
 
-         $user = $request->user();
+         $sender = auth()->user();
         $userId = auth()->id();
 
         // Create the new message
@@ -57,7 +57,7 @@ class ChatController extends Controller
         // Log notification
         $receiverCompanyId = optional($message->receiver)->company_id ?? null;
         if ($receiverCompanyId) {
-            $this->StoreNotification($user->company_id, 2,$receiverCompanyId, $user);
+            $this->StoreNotification($sender->company_id ?? 0, 2, $sender);
         }
 
 
