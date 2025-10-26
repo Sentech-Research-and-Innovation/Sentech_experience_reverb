@@ -88,24 +88,21 @@ export default defineComponent({
         const fetchNotifications = async () => {
             try {
                 const response = await axios.get("/admin/notifications");
+                console.log("Notifications:", response.data);
+
                 notifications.value = response.data;
-        
-                const activeNotifications = response.data.filter(
-                    (notification) => notification.active === 1
-                );
-                notificationsCount.value = activeNotifications.length;
+                notificationsCount.value = notifications.value.length;
             } catch (error) {
                 console.error("Failed to fetch notifications", error);
             }
         };
 
-
         onMounted(() => {
             fetchNotifications();
 
-            // Optional: Refresh count every 60 seconds
+            // Optional: refresh every 60 seconds
             setInterval(() => {
-                 fetchNotifications();
+                fetchNotifications();
             }, 60000);
         });
 
@@ -119,6 +116,7 @@ export default defineComponent({
     },
 });
 </script>
+
 
 <style scoped>
 .notificationBell {
