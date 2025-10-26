@@ -19,7 +19,7 @@ trait StoreNotificationTrait
 
                 "from_compay_id" => $from_company_id,
                 "to_compay_id" => 1,
-                "user_id" => 0
+                "user_id" =>  $sender?->id ?? 0,
 
             ],
             "notification_type_id" => $notificationTypeId,
@@ -29,14 +29,18 @@ trait StoreNotificationTrait
     }
 
 
-    private function getMessage($notificationTypeId)
+    private function getMessage($notificationTypeId, $sender = null)
     {
         $message = "";
         $link = "";
         if ($notificationTypeId == 1) {
             $message = "A new account has been requested";
             $link = "/organizantions/request";
-        }
+        }elseif ($notificationTypeId == 2) {
+        $senderName = $sender ? trim($sender->first_name . ' ' . $sender->last_name) : 'Someone';
+        $message = "{$senderName} sent you a message.";
+        $link = "/profile/" . ($sender?->id ?? '#');
+    }
         return ["message" => $message, "link" => $link];
     }
 }
