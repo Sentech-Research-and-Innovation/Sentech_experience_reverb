@@ -52,7 +52,7 @@ class ChatController extends Controller
         ]);
 
         // Broadcast the event (sending message to others on the chat channel)
-        broadcast(new MessageSent($message));
+        // broadcast(new MessageSent($message));
 
         // Log notification
         $receiverCompanyId = optional($message->receiver)->company_id ?? null;
