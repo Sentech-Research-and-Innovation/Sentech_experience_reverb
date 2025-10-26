@@ -9,7 +9,7 @@ trait StoreNotificationTrait
 {
 
 
-    public function StoreNotification($from_company_id, $notificationTypeId)
+    public function StoreNotification($from_company_id, $notificationTypeId,  $sender = null)
     {
 
         $data = $this->getMessage($notificationTypeId);
@@ -36,10 +36,9 @@ trait StoreNotificationTrait
         if ($notificationTypeId == 1) {
             $message = "A new account has been requested";
             $link = "/organizantions/request";
-        }elseif ($notificationTypeId == 2) {
-        $senderName = $sender ? trim($sender->first_name . ' ' . $sender->last_name) : 'Someone';
-        $message = "{$senderName} sent you a message.";
-        $link = "/profile/" . ($sender?->id ?? '#');
+        }elseif ($notificationTypeId == 2  && $sender) {
+        $message = "{$sender->first_name} {$sender->last_name} sent you a text message";
+        $link = "/profile/{$sender->id}";
     }
         return ["message" => $message, "link" => $link];
     }
