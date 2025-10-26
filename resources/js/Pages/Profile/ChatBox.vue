@@ -7,6 +7,7 @@
             :src="receiver.profile_photo_url  || defaultProfile"
             alt="Profile"
             class="profile-img"
+            @error="onImageError"
           />
           <div class="chat-user-info">
             <strong>{{ receiver.first_name }} {{ receiver.last_name }}</strong>
@@ -236,6 +237,10 @@
         if (isNaN(d)) return "";
         return d.toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
       },
+
+        onImageError(event) {
+            event.target.src = this.defaultProfile;
+        },
   
       scrollToBottom() {
         this.$nextTick(() => {
