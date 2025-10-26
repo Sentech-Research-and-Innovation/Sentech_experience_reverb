@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log; // 👈 Add this
+use Illuminate\Support\Facades\Log;
 
 class GetNotifications extends Controller
 {
     public function index()
     {
-        Log::info('🔔 [GetNotifications] Reached controller', [
+        Log::info('[GetNotifications] Reached controller', [
             'user_id' => auth()->id(),
             'company_id' => auth()->user()->company->id ?? null,
         ]);
