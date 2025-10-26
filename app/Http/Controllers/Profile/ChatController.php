@@ -5,9 +5,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
+use App\Traits\StoreNotificationTrait;
 
 class ChatController extends Controller
 {
+     use StoreNotificationTrait;
+    
     // Fetch messages between the logged-in user and the receiver
     public function getMessages($receiverId)
     {
@@ -38,7 +41,7 @@ class ChatController extends Controller
             'receiver_id' => 'required|exists:users,id',  // Ensure receiver is valid
         ]);
 
-        // Get the sender ID (logged-in user)
+         $user = $request->user();
         $userId = auth()->id();
 
         // Create the new message
@@ -50,6 +53,13 @@ class ChatController extends Controller
 
         // Broadcast the event (sending message to others on the chat channel)
         broadcast(new MessageSent($message));
+
+        // Log notification
+        $receiverCompanyId = optional($message->receiver)->company_id ?? null;
+        if ($receiverCompanyId) {
+            $this->StoreNotification($user->company_id, 2,$receiverCompanyId, $user);
+        }
+
 
         return response()->json(['status' => 'Message Sent!']);
     }
