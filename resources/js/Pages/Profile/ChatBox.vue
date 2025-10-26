@@ -237,10 +237,6 @@
         if (isNaN(d)) return "";
         return d.toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
       },
-
-        onImageError(event) {
-            event.target.src = this.defaultProfile;
-        },
   
       scrollToBottom() {
         this.$nextTick(() => {
@@ -358,7 +354,7 @@
   .received .bubble {
     background: #e4e6eb;
     color: #050505;
-    border-radius: 10px;
+    border-radius: 18px;
     padding: 10px 14px;
     max-width: 70%;
     word-wrap: break-word;
