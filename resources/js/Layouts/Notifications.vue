@@ -105,7 +105,7 @@ export default defineComponent({
 
             // Optional: Refresh count every 60 seconds
             setInterval(() => {
-                fetchUnreadCount();
+                 fetchNotifications();
             }, 60000);
         });
 
