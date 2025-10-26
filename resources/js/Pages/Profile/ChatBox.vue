@@ -358,7 +358,7 @@
   .received .bubble {
     background: #e4e6eb;
     color: #050505;
-    border-radius: 18px;
+    border-radius: 10px;
     padding: 10px 14px;
     max-width: 70%;
     word-wrap: break-word;
