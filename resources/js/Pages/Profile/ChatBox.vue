@@ -276,7 +276,8 @@
   .chat-header {
     display: flex;
     align-items: center;
-    background: #075e54;
+    /* background: #075e54; */
+    background: #0f3e7d;
     color: white;
     padding: 8px 12px;
     border-top-left-radius: 10px;
@@ -354,10 +355,10 @@
   .chat-messages {
     max-height: 400px;
     overflow-y: auto;
-    padding: 12px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
   }
   
   /* Date header */
@@ -373,36 +374,43 @@
   .chat-message {
     display: flex;
     flex-direction: column;
+    margin-bottom: 4px;
   }
   .received {
     align-items: flex-start;
   }
   .received .bubble {
-    background: #e4e6eb;
-    color: #050505;
-    border-radius: 10px;
-    padding: 10px 14px;
-    max-width: 70%;
+    background: #f1f1f1;
+    color: #000;
+    border-radius: 20px;
+    padding: 12px 16px;
+    max-width: 75%;
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500; /* boldish text */
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
   .sent {
     align-items: flex-end;
   }
   .sent .bubble {
-    background: #0084ff;
+    background: #144f9f; /* Blue like in the image */
     color: #fff;
-    border-radius: 18px;
-    padding: 10px 14px;
-    max-width: 70%;
+    border-radius: 20px;
+    padding: 12px 16px;
+    max-width: 75%;
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500; /* makes text bold */
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   }
   
   /* Timestamp below bubbles */
   .meta {
     font-size: 11px;
-    color: #65676b;
+    color: #777;
     margin-top: 4px;
   }
   .received .meta {
@@ -426,13 +434,13 @@
     flex: 1;
     border: none;
     outline: none;
-    background: #f0f0f0;
+    background: #f7f7f7;
     border-radius: 20px;
     padding: 10px 15px;
     font-size: 14px;
   }
   .send-btn {
-    background: #0084ff;
+    background: #144f9f;
     border: none;
     color: white;
     border-radius: 50%;
@@ -445,7 +453,7 @@
     cursor: pointer;
   }
   .send-btn:hover {
-    background: #0073e6;
+    background: #0f3e7d;
   }
   
   @media (max-width: 420px) {
