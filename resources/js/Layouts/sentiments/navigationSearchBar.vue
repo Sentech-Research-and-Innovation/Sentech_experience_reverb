@@ -347,7 +347,7 @@ import { Link } from "@inertiajs/vue3";
 
 import { defineComponent, onMounted, ref } from "vue";
 
-import VueDatePicker from "@vuepic/vue-datepicker";
+import {VueDatePicker} from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
 import { useFilterStore } from "../../stores/filter";

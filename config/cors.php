@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*', '*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*','pdf/*','*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://www.sentechxperience.co.za','*'],
 
     'allowed_origins_patterns' => [],
 

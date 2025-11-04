@@ -1,0 +1,1 @@
+import{P as t}from"./app-DFJ527Xl.js";const i=t("filterPredictions",{state:()=>({siteNames:null,date:null}),getters:{searchFilter:e=>({siteNames:e.siteNames,date:e.date})},actions:{},persist:!0});export{i as p};

@@ -1,0 +1,26 @@
+{
+  "authHost": "https://www.sentechxperience.co.za",
+  "authEndpoint": "/broadcasting/auth",
+  "clients": [
+    {
+      "appId": "some-id",
+      "key": "somekey"
+    }
+  ],
+  "database": "sqlite",
+  "databaseConfig": {
+    "sqlite": {
+      "databasePath": "/database/laravel-echo-server.sqlite"
+    }
+  },
+  "devMode": false,
+  "host": "0.0.0.0",
+  "port": 6001,
+  "protocol": "https",
+  "socketio": {},
+  "sslCertPath": "/etc/letsencrypt/live/www.sentechxperience.co.za/fullchain.pem",
+  "sslKeyPath": "/etc/letsencrypt/live/www.sentechxperience.co.za/privkey.pem",
+  "sslCertChainPath": "",
+  "sslPassphrase": ""
+}
+

@@ -1,0 +1,38 @@
+#import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
+import path from 'path'; // Already imported
+import { fileURLToPath } from 'url'; // Required for resolving __dirname correctly
+
+// Get __dirname equivalent for proper path resolution in ESM context
+const __dirname = path.dirname(fileURLToPath(import.meta.url)); 
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ["resources/sass/app.scss", "resources/js/app.js"],
+            ssr: 'resources/js/ssr.js',
+            refresh: true,
+        }),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+    ],
+    resolve: {
+        alias: {
+            '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            '~sweetalert2': path.resolve(__dirname, 'node_modules/sweetalert2'),
+            // 🛑 FIX FOR VUEVECTORYMAP ERROR 🛑
+            'vuevectormap/src/scss/vuevectormap.scss': path.resolve(__dirname, 'node_modules/vuevectormap/src/vuevectormap.scss'),
+            // '~rapidq': path.resolve(__dirname, 'public/assets'),
+        }
+    },
+    ssr: {
+        noExternal: ['@inertiajs/server'],
+    }
+});

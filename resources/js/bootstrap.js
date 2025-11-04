@@ -4,17 +4,17 @@
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-import Echo from 'laravel-echo';
-import io from 'socket.io-client';
+import axios from 'axios';
+window.axios = axios;
+import * as Popper from '@popperjs/core'
+window.Popper = Popper
+import 'bootstrap'
 
-window.io = io;
 
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: 'https://www.sentechxperience.co.za:6001', // important
-    transports: ['websocket', 'polling'], // fallback options
-});
 
+
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
