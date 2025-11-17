@@ -12,9 +12,9 @@
           class="search-input"
           @keyup.enter="searchPdf"
         />
-        <button class="btn btn-search" @click="searchPdf">Search</button>
+        <button class="btn btn-search" @click="searchPdf">Zuma</button>
         <button v-if="searchQuery" class="btn btn-clear" @click="clearSearch">
-          Clear
+          Sula
         </button>
       </div>
 
@@ -44,7 +44,7 @@
           :href="`/sentalk/download/${latest.id}`"
           class="btn btn-download"
         >
-          Download
+          Yehisa
         </a>
       </div>
     </div>
