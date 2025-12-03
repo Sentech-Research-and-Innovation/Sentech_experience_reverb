@@ -195,6 +195,27 @@ export default defineComponent({
             } catch (error) {
                 console.error("Error generating or downloading report:", error);
                 loading.value = false;
+
+            // Extract the actual error message from the Blob
+                if (error.response && error.response.data instanceof Blob) {
+                    try {
+                        const errorText = await error.response.data.text();
+                        console.error("Server error details:", errorText);
+
+                        // Try to parse as JSON
+                        try {
+                            const errorJson = JSON.parse(errorText);
+                            console.error("Parsed error JSON:", errorJson);
+                            //alert(`Server Error: ${errorJson.message || JSON.stringify(errorJson)}`);
+                        } catch (e) {
+                            // If not JSON, just show the text
+                            console.error("Error is plain text:", errorText);
+                            //alert(`Server Error: ${errorText}`);
+                        }
+                    } catch (blobError) {
+                        console.error("Could not read error blob:", blobError);
+                    }
+                }
             }
         };
 

@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="sentalk-card">
 
     <!-- Header Row with Search + Download -->
@@ -25,14 +25,14 @@
         </div>
 
         <!-- thumbs up -->
-        <div class="heart-icon" @click="toggleLike(latest.id)">
-          <svg xmlns="http://www.w3.org/2000/svg" 
-              width="20" height="20" 
-              viewBox="0 0 24 24" 
-              :fill="latest.liked ? 'red' : 'none'" 
-              :stroke="latest.liked ? 'red' : 'red'" 
-              stroke-width="2" 
-              stroke-linecap="round" 
+        <div class="heart-icon" v-if="latest" @click="toggleLike(latest.id)">
+          <svg xmlns="http://www.w3.org/2000/svg"
+              width="20" height="20"
+              viewBox="0 0 24 24"
+              :fill="latest.liked ? 'red' : 'none'"
+              :stroke="latest.liked ? 'red' : 'red'"
+              stroke-width="2"
+              stroke-linecap="round"
               stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
@@ -55,7 +55,7 @@
       <div class="title-row">
         <div class="title-info">
           <h2 class="pdf-title">{{ latest.title.replace('.pdf', '') }}</h2>
-          <p class="pdf-meta">By 
+          <p class="pdf-meta">By
             <span class="pdf-creator">{{ latest.creator }}</span>
              on {{ latest.created_date }} {{ latest.created_time }}</p>
         </div>
@@ -202,7 +202,7 @@
       <!-- Body -->
       <div class="modal-body">
         <p>
-          Your feedback will go directly to the creators and auditors of this edition. 
+          Your feedback will go directly to the creators and auditors of this edition.
           Please share your thoughts, suggestions, or issues to help us improve.
         </p>
 
@@ -290,7 +290,7 @@ export default {
         message: "",
         edition_id: null
       }
-      
+
     };
   },
 
@@ -382,13 +382,13 @@ export default {
         if (!this.latest) {
           this.showNotFoundDialog = true;
         }
-          
+
       } catch (err) {
         console.error("Failed to fetch editions:", err);
       }
     },
 
-    
+
     searchPdf() {
       if (!this.searchQuery.trim()) {
         this.fetchData(); // reload all if search empty
@@ -429,7 +429,7 @@ export default {
       const user = this.$page?.props?.auth?.user || null; // Example if using Inertia/Laravel Breeze
 
       if (user) {
-        this.feedbackForm.name = `${user.first_name} ${user.last_name}`; 
+        this.feedbackForm.name = `${user.first_name} ${user.last_name}`;
         this.feedbackForm.email = user.email; // or construct surnameN@sentech.co.za if that’s your rule
       } else {
         // fallback demo values
@@ -496,7 +496,7 @@ export default {
         } catch (err) {
           console.error("Feedback failed:", err);
           this.showFeedbackDialog = false;
-          this.showFeedbackError = true; 
+          this.showFeedbackError = true;
         }
       },
 
@@ -556,13 +556,13 @@ export default {
 
 
 /* .btn {
-  padding: 8px 20px;         
+  padding: 8px 20px;
   font-size: 14px;
-  font-weight: bold;         
+  font-weight: bold;
   cursor: pointer;
   border: none;
   height: 40px;
-  border-radius: 8px; 
+  border-radius: 8px;
 } */
 
 .btn {
@@ -677,7 +677,7 @@ iframe {
   width: 100%;
   height: 100px;
   object-fit: cover;
-  object-position: top center; 
+  object-position: top center;
   border: 1px solid #ccc;
   border-radius: 6px;
 
@@ -883,8 +883,8 @@ iframe {
   border-radius: 6px;
   margin-bottom: 10px;
   font-size: 14px;
-  font-family: inherit; 
-  resize: vertical;     
+  font-family: inherit;
+  resize: vertical;
 }
 
 

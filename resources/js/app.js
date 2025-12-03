@@ -23,11 +23,10 @@ import VueApexCharts from "vue3-apexcharts";
 import {VueDatePicker} from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import VueVectorMap from "vuevectormap";
+
 import "vuevectormap/src/scss/vuevectormap.scss";
-//import jsVectorMap from "jsvectormap";
-import "jsvectormap/dist/jsvectormap.css";
-//window.jsVectorMap = jsVectorMap;
-window.jsVectorMap = require('jsvectormap/dist/jsvectormap.js');
+import jsVectorMap from "jsvectormap";
+window.jsVectorMap = jsVectorMap;
 
 import "./assets/world-merc";
 

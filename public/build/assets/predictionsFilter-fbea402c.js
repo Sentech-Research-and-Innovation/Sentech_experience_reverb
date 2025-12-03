@@ -1,1 +1,0 @@
-import{P as t}from"./app-23dc5c6f.js";const i=t("filterPredictions",{state:()=>({siteNames:null,date:null}),getters:{searchFilter:e=>({siteNames:e.siteNames,date:e.date})},actions:{},persist:!0});export{i as p};

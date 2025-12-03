@@ -394,69 +394,90 @@ export default defineComponent({
         const loading = ref(false);
 
         const printReport = async () => {
-            centerDialogVisible.value = false;
-            loading.value = true;
+        centerDialogVisible.value = false;
+        loading.value = true;
 
-            try {
-                const response = await axios.post(
-                    "/admin/reports/sentiments",
-                    {
-                        searchFilter: {
-                            date: inputdate.value,
-                            keywords: keywords.value,
-                            sentimentTypes: sentimentType.value,
-                        },
-                        reportType: activeType.value,
+        try {
+            const response = await axios.post(
+                "/admin/reports/sentiments",
+                {
+                    searchFilter: {
+                        date: inputdate.value,
+                        keywords: keywords.value,
+                        sentimentTypes: sentimentType.value,
                     },
-                    {
-                        responseType: "blob",
-                    }
-                );
-
-                loading.value = false;
-
-                console.log("Response received:", response);
-
-                const contentDisposition =
-                    response.headers["content-disposition"];
-                console.log("Content-Disposition header:", contentDisposition);
-
-                if (contentDisposition) {
-                    const filenameRegex =
-                        /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                    const matches = filenameRegex.exec(contentDisposition);
-                    let filename = `Sentiment analysis report.${
-                        activeType.value === "pdf" ? "pdf" : "csv"
-                    }`;
-                    if (matches != null && matches[1]) {
-                        filename = matches[1].replace(/['"]/g, "");
-                    }
-
-                    console.log("Filename determined:", filename);
-
-                    const mimeType =
-                        activeType.value === "pdf"
-                            ? "application/pdf"
-                            : "text/csv";
-                    const blob = new Blob([response.data], { type: mimeType });
-                    console.log("Blob created with MIME type:", mimeType);
-
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                } else {
-                    console.error("Content-Disposition header is missing");
+                    reportType: activeType.value,
+                },
+                {
+                    responseType: "blob",
                 }
-            } catch (error) {
-                loading.value = false;
-                console.error("Error occurred while printing report:", error);
+            );
+
+            loading.value = false;
+
+            console.log("Response received:", response);
+
+            const contentDisposition =
+                response.headers["content-disposition"];
+            console.log("Content-Disposition header:", contentDisposition);
+
+            if (contentDisposition) {
+                const filenameRegex =
+                    /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                const matches = filenameRegex.exec(contentDisposition);
+                let filename = `Sentiment analysis report.${
+                    activeType.value === "pdf" ? "pdf" : "csv"
+                }`;
+                if (matches != null && matches[1]) {
+                    filename = matches[1].replace(/['"]/g, "");
+                }
+
+                console.log("Filename determined:", filename);
+
+                const mimeType =
+                    activeType.value === "pdf"
+                        ? "application/pdf"
+                        : "text/csv";
+                const blob = new Blob([response.data], { type: mimeType });
+                console.log("Blob created with MIME type:", mimeType);
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } else {
+                console.error("Content-Disposition header is missing");
             }
-        };
+        } catch (error) {
+            loading.value = false;
+            console.error("Error occurred while printing report:", error);
+
+            // Extract the actual error message from the Blob
+            if (error.response && error.response.data instanceof Blob) {
+                try {
+                    const errorText = await error.response.data.text();
+                    console.error("Server error details:", errorText);
+
+                    // Try to parse as JSON
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        console.error("Parsed error JSON:", errorJson);
+                        //alert(`Server Error: ${errorJson.message || JSON.stringify(errorJson)}`);
+                    } catch (e) {
+                        // If not JSON, just show the text
+                        console.error("Error is plain text:", errorText);
+                        //alert(`Server Error: ${errorText}`);
+                    }
+                } catch (blobError) {
+                    console.error("Could not read error blob:", blobError);
+                }
+            }
+        }
+    };
 
         const changePropValue = () => {
             filterStore.date = inputdate.value;
