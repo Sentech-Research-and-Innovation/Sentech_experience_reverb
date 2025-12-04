@@ -116,7 +116,7 @@
                         <el-input
                             v-model="keywords"
                             class="w-100 search-input"
-                            placeholder="Serach by name"
+                            placeholder="Search by name"
                             :prefix-icon="Search"
                         />
                     </div>
@@ -325,7 +325,7 @@
                 <el-input
                     v-model="keywords"
                     class="w-100 search-input"
-                    placeholder="Serach by name"
+                    placeholder="Search by name"
                     :prefix-icon="Search"
                 />
             </div>

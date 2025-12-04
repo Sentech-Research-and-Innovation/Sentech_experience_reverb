@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 px-lg-0 py-lg-0 px-4 py-4 mx-0">
         <div class="networkHeading pb-lg-3 pb-2 pt-1">
-            Broadcast frequency finder
+            Broadcast Frequency Finder
         </div>
         <p class="networkHeadingText">
             Use our Broadcast Frequency Finder to explore radio and TV station
