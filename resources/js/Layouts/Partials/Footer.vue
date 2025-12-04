@@ -94,7 +94,7 @@
                                 </a>
 
                                 <a
-                                    href="https://twitter.com/sentechltd"
+                                    href="https://x.com/SentechLtd"
                                     class="nav-link pt-3 social mr-3"
                                     target="_blank"
                                 >
@@ -114,7 +114,7 @@
                                 </a>
 
                                 <a
-                                    href="https://www.linkedin.com/company/sentech-soc-limited"
+                                    href="https://www.linkedin.com/company/sentech"
                                     class="nav-link pt-0 social"
                                     target="_blank"
                                 >
