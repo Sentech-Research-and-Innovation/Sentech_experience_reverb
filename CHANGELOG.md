@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - CHANGELOG.md to keep track of changes learn more here [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
+- added a new favicon
 
 ### Changed
 
@@ -20,9 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -  Downgraded jsvectormap from "^1.7.0" to "1.5.3"
 -  Downgraded vuevectormap from "^2.1.1" to "2.0.1"
 -  Downgraded @vuepic/vue-datepicker "^12.0.0" to "^6.0.2"
--  undid vite.config.js fixes for vuevectormap:2.1.1 and jsvectormap:1.7.0 errors
--  added conditional render for senTalk like icon for null values
--  improved error handling and messages for the printReport function in sentiments and predictive dashboards
+-  Undid vite.config.js fixes for vuevectormap:2.1.1 and jsvectormap:1.7.0 errors
+-  Added conditional render for senTalk like icon for null values
+-  Improved error handling and messages for the printReport function in sentiments and predictive dashboards
+-  Corrected spelling mistakes on the sentiment dashboard, capitilisation and social links on the landing page 
+-  Downgraded puppeteer from "24.28.0" to "^17.1.3" to fix the "could not find Chrome error" when generating pdf report in production
 
 ### Removed
 
