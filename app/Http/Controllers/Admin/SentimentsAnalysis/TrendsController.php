@@ -23,7 +23,9 @@ class TrendsController extends Controller
     public function __construct(TrendsService $sentimentService)
     {
         $this->sentimentService = $sentimentService;
-        $this->tweets = Tweet::all();
+        // $this->tweets = Tweet::select('*')
+        //     ->groupBy('text')
+        //     ->get();
         $this->searchFilter = request()->searchFilter;
     }
 
@@ -37,7 +39,7 @@ class TrendsController extends Controller
     public function tweetsContent()
     {
 
-        $tweets = Tweet::orderBy('date', 'desc')->limit(100)->get();
+        //$tweets = Tweet::orderBy('date', 'desc')->limit(100)->get();
 
 
         $response = $this->sentimentService->tweetsContent($this->searchFilter);

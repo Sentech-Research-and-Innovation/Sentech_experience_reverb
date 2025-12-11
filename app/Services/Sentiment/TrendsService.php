@@ -31,6 +31,9 @@ class TrendsService
         // Initialize the query builder
         $tweets = Tweet::query();
 
+        $tweets->select('*')
+            ->groupBy('text');
+
         // Apply keyword filter
         if (!empty($keyword)) {
             $tweets->where(function ($q) use ($keyword) {
@@ -57,7 +60,8 @@ class TrendsService
         $tweets = $tweets->orderBy('date', 'desc')->limit(100)->get();
 
         // Process tweets
-        foreach ($tweets as $tweet) {
+        if(!empty($sentimentTypes)){
+             foreach ($tweets as $tweet) {
             // Update sentiment counts
             if ($tweet->sentiment === 'POSITIVE') {
                 $positiveTweets++;
@@ -74,6 +78,8 @@ class TrendsService
                 "date" => $tweet->date,
                 "user" => $tweet->user
             ];
+        }
+
         }
 
         // Return response

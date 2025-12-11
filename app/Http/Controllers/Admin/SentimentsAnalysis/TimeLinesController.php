@@ -23,11 +23,11 @@ class TimeLinesController extends Controller
     public function tweetsByHour()
     {
 
+        $tweets = Tweet::select('*')
+            ->groupBy('text')
+            ->get();
 
-
-        $tweets = Tweet::all();
-
-        $hourGroups = [];
+        //$hourGroups = [];
         $filterDate = request()->searchFilter['date'];
         $keyword = trim(request()->searchFilter['keywords']);
         $sentimentTypes = request()->searchFilter['sentimentTypes'];
