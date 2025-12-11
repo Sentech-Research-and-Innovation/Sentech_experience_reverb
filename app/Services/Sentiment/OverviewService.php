@@ -14,8 +14,20 @@ class OverviewService
 
         $total = count($tweets);
 
-        $startDate = new DateTime($searchFilter['date'][0]);
-        $endDate = new DateTime($searchFilter['date'][1]);
+        // $startDate = new DateTime($searchFilter['date'][0]);
+        // $endDate = new DateTime($searchFilter['date'][1]);
+
+        // If date filter empty → use earliest & latest tweet dates
+        if (empty($searchFilter['date'][0]) || empty($searchFilter['date'][1])) {
+
+            $dates = $tweets->map(fn($t) => new DateTime($t->date))->all();
+
+            $startDate = min($dates);
+            $endDate = max($dates);
+        } else {
+            $startDate = new DateTime($searchFilter['date'][0]);
+            $endDate = new DateTime($searchFilter['date'][1]);
+        }
 
         $keyword = $searchFilter['keywords'];
         $sentimentTypes = $searchFilter['sentimentTypes'];
@@ -49,8 +61,23 @@ class OverviewService
     public function sentimentsTimeline($tweets, $searchFilter)
     {
         $dateMonthGroups = [];
-        $startDate = new DateTime($searchFilter['date'][0]);
-        $endDate = new DateTime($searchFilter['date'][1]);
+
+
+        // $startDate = new DateTime($searchFilter['date'][0]);
+        // $endDate = new DateTime($searchFilter['date'][1]);
+        // If date filter empty → use earliest & latest tweet dates
+        if (empty($searchFilter['date'][0]) || empty($searchFilter['date'][1])) {
+
+            $dates = $tweets->map(fn($t) => new DateTime($t->date))->all();
+
+            $startDate = min($dates);
+            $endDate = max($dates);
+        } else {
+            $startDate = new DateTime($searchFilter['date'][0]);
+            $endDate = new DateTime($searchFilter['date'][1]);
+        }
+
+
         $keywords = $searchFilter['keywords'];
         $sentimentTypes = $searchFilter['sentimentTypes'];
 
@@ -88,8 +115,22 @@ class OverviewService
     public function tweetsByLocation($tweets, $searchFilter)
     {
         $placeTweetCounts = [];
-        $startDate = new DateTime($searchFilter['date'][0]);
-        $endDate = new DateTime($searchFilter['date'][1]);
+
+        // $startDate = new DateTime($searchFilter['date'][0]);
+        // $endDate = new DateTime($searchFilter['date'][1]);
+
+        // If date filter empty → use earliest & latest tweet dates
+        if (empty($searchFilter['date'][0]) || empty($searchFilter['date'][1])) {
+
+            $dates = $tweets->map(fn($t) => new DateTime($t->date))->all();
+
+            $startDate = min($dates);
+            $endDate = max($dates);
+        } else {
+            $startDate = new DateTime($searchFilter['date'][0]);
+            $endDate = new DateTime($searchFilter['date'][1]);
+        }
+
         $keyword = $searchFilter['keywords'];
         $sentimentTypes = $searchFilter['sentimentTypes'];
 

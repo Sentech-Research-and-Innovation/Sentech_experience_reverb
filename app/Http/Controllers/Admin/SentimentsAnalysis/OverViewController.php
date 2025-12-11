@@ -18,7 +18,9 @@ class OverViewController extends Controller
     public function __construct(OverviewService $sentimentService)
     {
         $this->sentimentService = $sentimentService;
-        $this->tweets = Tweet::all();
+        $this->tweets = Tweet::select('*')
+            ->groupBy('text')
+            ->get();
         $this->searchFilter = request()->searchFilter;
     }
 
