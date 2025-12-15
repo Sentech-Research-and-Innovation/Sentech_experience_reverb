@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
--  
+-  landing page navigation renders link to dashboard instead of Login link if user is logged in
+-  formatted some pages as per vue standard
 
 ### Removed
 
