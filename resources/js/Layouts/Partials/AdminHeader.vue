@@ -6,98 +6,64 @@
             </div>
         </div>
         <ul class="nav list-group text-start mx-lg-0">
-            <li
-                class="nav-item"
-                :class="{ active: $page.url === '/admin/dashboard' }"
-            >
+            <li class="nav-item" :class="{ active: $page.url === '/admin/dashboard' }">
                 <a class="nav-link" href="/admin/dashboard">
                     <span class="menu-title">Home </span>
                 </a>
             </li>
-            <li
-                v-if="can('sentiment_Analysis-read_overview')"
-                class="nav-item"
-                :class="{
-                    active:
-                        $page.url === '/admin/sentiments/all' ||
-                        $page.url === '/admin/sentiments/overview' ||
-                        $page.url === '/admin/sentiments/timelines' ||
-                        $page.url === '/admin/sentiments/trends' ||
-                        $page.url === '/admin/sentiments/others',
-                }"
-            >
+            <li v-if="can('sentiment_Analysis-read_overview')" class="nav-item" :class="{
+                active:
+                    $page.url === '/admin/sentiments/all' ||
+                    $page.url === '/admin/sentiments/overview' ||
+                    $page.url === '/admin/sentiments/timelines' ||
+                    $page.url === '/admin/sentiments/trends' ||
+                    $page.url === '/admin/sentiments/others',
+            }">
                 <a class="nav-link" href="/admin/sentiments/all">
                     <span class="menu-title">Sentiment Analysis </span>
                 </a>
             </li>
 
-            <li
-                v-if="can('predictive_maintenance-read_master_view')"
-                class="nav-item"
-                :class="{
-                    active:
-                        $page.url === '/admin/predictive-maintenance/index' ||
-                        $page.url ===
-                            '/admin/predictive-maintenance/predictions/detailed-view',
-                }"
-            >
+            <li v-if="can('predictive_maintenance-read_master_view')" class="nav-item" :class="{
+                active:
+                    $page.url === '/admin/predictive-maintenance/index' ||
+                    $page.url ===
+                    '/admin/predictive-maintenance/predictions/detailed-view',
+            }">
                 <a class="nav-link" href="/admin/predictive-maintenance/index">
                     <span class="menu-title">Predictive Maintenance </span>
                 </a>
             </li>
 
-            <li
-                v-if="can('roles-read')"
-                class="nav-item pt-0"
-                :class="{ active: $page.url === '/admin/roles' }"
-            >
+            <li v-if="can('roles-read')" class="nav-item pt-0" :class="{ active: $page.url === '/admin/roles' }">
                 <a class="nav-link" href="/admin/roles">
                     <span class="menu-title">Roles and permissions</span>
                 </a>
             </li>
-            <li
-                v-if="can('users-read')"
-                class="nav-item"
-                :class="{ active: $page.url === '/admin/getActiveUsers' }"
-            >
-                <a
-                    class="nav-link"
-                    href="/admin/getActiveUsers"
-                >
+            <li v-if="can('users-read')" class="nav-item" :class="{ active: $page.url === '/admin/getActiveUsers' }">
+                <a class="nav-link" href="/admin/getActiveUsers">
                     <span class="menu-title">Users </span>
                 </a>
             </li>
 
-            <li
-                v-if="can('companies-read_approved')"
-                class="nav-item"
-                :class="{ active: $page.url === '/organizantions/approved' }"
-            >
+            <li v-if="can('companies-read_approved')" class="nav-item"
+                :class="{ active: $page.url === '/organizantions/approved' }">
                 <!-- v-if="company_type == 'super_company'" -->
                 <a class="nav-link" href="/organizantions/approved">
                     <span class="menu-title">Companies </span>
                 </a>
             </li>
 
-            <li
-                v-if="can('companies-read_approved')"
-                class="nav-item"
-                :class="{ active: $page.url === '/organizantions/ActivityLog' }"
-            >
+            <li v-if="can('companies-read_approved')" class="nav-item"
+                :class="{ active: $page.url === '/organizantions/ActivityLog' }">
                 <!-- v-if="company_type == 'super_company'" -->
                 <a class="nav-link" href="/organizantions/ActivityLog">
                     <span class="menu-title">Activity Log </span>
                 </a>
             </li>
 
-            <li
-                class="nav-item my-lg-5"
-                style="text-decoration: none !important"
-            >
-                <a
-                    href="/web/weather/forcast"
-                    style="text-decoration: none !important"
-                >
+            <li class="nav-item my-lg-5" style="text-decoration: none !important">
+                <a href="/web/weather/forcast" style="text-decoration: none !important">
                     <Weather />
                 </a>
             </li>

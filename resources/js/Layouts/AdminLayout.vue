@@ -12,59 +12,27 @@
                 <div class="col-12 py-4">
                     <div class="row">
                         <el-backtop :right="100" :bottom="100" />
-                        <div
-                            class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-block"
-                        >
-                            <el-button
-                                type="primary"
-                                style="margin-left: 16px"
-                                @click="drawer = true"
-                                class="py-0"
-                            >
+                        <div class="col-4 mx-0 px-0 d-xl-none d-xxl-block d-lg-block">
+                            <el-button type="primary" style="margin-left: 16px" @click="drawer = true" class="py-0">
                                 <i class="fa-solid fa-bars"></i>
                             </el-button>
 
-                            <el-drawer
-                                v-model="drawer"
-                                :direction="direction"
-                                size="80%"
-                                :with-header="false"
-                                style="overflow: hidden !important"
-                            >
-                                <nav
-                                    class="sidebar"
-                                    style="overflow: hidden !important"
-                                >
+                            <el-drawer v-model="drawer" :direction="direction" size="80%" :with-header="false"
+                                style="overflow: hidden !important">
+                                <nav class="sidebar" style="overflow: hidden !important">
                                     <AdminHeaderVue />
                                 </nav>
                             </el-drawer>
                         </div>
 
                         <div class="col-lg-12 col-8 pt-0 text-end px-0">
-                            <el-popover
-                                ref="popoverRef"
-                                :virtual-ref="buttonRef"
-                                trigger="click"
-                                virtual-triggering
-                            >
+                            <el-popover ref="popoverRef" :virtual-ref="buttonRef" trigger="click" virtual-triggering>
                                 <div>
-                                    <a
-                                        href="/admin/dashboard"
-                                        method="get"
-                                        as="link"
-                                        style="cursor: pointer"
-                                        class="nav-link px-3"
-                                        >Dashboard</a
-                                    >
+                                    <a href="/admin/dashboard" method="get" as="link" style="cursor: pointer"
+                                        class="nav-link px-3">Dashboard</a>
 
-                                    <a
-                                        href="/profile/index"
-                                        method="get"
-                                        as="link"
-                                        style="cursor: pointer"
-                                        class="nav-link px-3"
-                                        >Profile</a
-                                    >
+                                    <a href="/profile/index" method="get" as="link" style="cursor: pointer"
+                                        class="nav-link px-3">Profile</a>
                                     <!-- <Link
                                         href="/help"
                                         method="get"
@@ -73,52 +41,17 @@
                                         class="nav-link px-3"
                                         >Help</Link
                                     > -->
-                                    <Link
-                                        style="cursor: pointer"
-                                        href="/logout"
-                                        method="post"
-                                        as="link"
-                                        class="nav-link px-3"
-                                        >Logout</Link
-                                    >
+                                    <Link style="cursor: pointer" href="/logout" method="post" as="link"
+                                        class="nav-link px-3">Logout</Link>
                                 </div>
                             </el-popover>
                             <div class="d-flex justify-content-end col-12 mx-0">
-                                <el-switch
-                                    v-model="isDark"
-                                    class="fs-1 mt-1"
-                                    :active-icon="Moon"
-                                    :inactive-icon="Sunny"
-                                    @click="toggleMode"
-                                    style="--el-switch-on-color: #144f9f"
-                                />
-                                <!-- <div v-if="colorMode === 'dark'">
-                            
-                                    <el-button
-                                        @click="toggleMode"
-                                        type="primary"
-                                        :icon="Sunny"
-                                        class="fs-5"
-                                        circle
-                                    />
-                                </div>
-                                <div v-else>
-                                 
-                                    <el-button
-                                        @click="toggleMode"
-                                        type="primary"
-                                        :icon="Moon"
-                                        class="fs-5"
-                                        circle
-                                    />
-                                </div> -->
+                                <el-switch v-model="isDark" class="fs-1 mt-1" :active-icon="Moon" :inactive-icon="Sunny"
+                                    @click="toggleMode" style="--el-switch-on-color: #144f9f" />
                                 <Notifications />
                                 <div class="col-lg-0 col-xl-0 col-2">
-                                    <div
-                                        class="initials-background"
-                                        ref="buttonRef"
-                                        style="padding: 0px; cursor: pointer"
-                                    >
+                                    <div class="initials-background" ref="buttonRef"
+                                        style="padding: 0px; cursor: pointer">
                                         {{
                                             $page.props.auth.user.first_name
                                                 .charAt(0)
@@ -236,6 +169,7 @@ export default defineComponent({
 .nav-link:focus {
     color: #144f9f;
 }
+
 .dropdown-toggle {
     cursor: pointer;
 }
