@@ -1,20 +1,16 @@
 <template>
-    <Head :title="'Login'"><title>Login</title></Head>
+
+    <Head :title="'Login'">
+        <title>Login</title>
+    </Head>
     <!-- <button type="button" class="button button-dark" @click="showing = true">
         Create {{ showing }}
     </button> -->
-    <a
-        class="nav-link mr-0 text-lg-end text-start pr-0 pt-lg-2 pt-4"
-        @click="showing = true"
-        style="cursor: pointer !important"
-    >
+    <a class="nav-link mr-0 text-lg-end text-start pr-0 pt-lg-2 pt-4" @click="showing = true"
+        style="cursor: pointer !important">
         <i class="fa-regular fa-user pr-2 ml-3"> </i> Login
     </a>
-    <SideModal
-        :content="content"
-        :showing="showing"
-        @hideModal="showing = false"
-    >
+    <SideModal :content="content" :showing="showing" @hideModal="showing = false">
         <div class="col-12 px-0 mx-2">
             <div class="d-flex justify-content-center">
                 <div class="col-lg-6 col-md-8 col-12 mt-lg-5 pt-lg-5">
@@ -22,45 +18,29 @@
                     <form @submit.prevent="submit">
                         <div class="row pt-4 px-1">
                             <div class="mb-3">
-                                <label for="email" class="form-label"
-                                    >Email address</label
-                                >
-                                <input
-                                    type="email"
-                                    class="form-control login-form-inputs"
-                                    v-model="form.email"
-                                    id="email"
-                                />
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control login-form-inputs" v-model="form.email"
+                                    id="email" />
 
                                 <div class="text-danger pt-2">
                                     {{ errors.email }}
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label for="email" class="form-label"
-                                    >Password</label
-                                >
-                                <input
-                                    class="form-control login-form-inputs"
-                                    type="password"
-                                    v-model="form.password"
-                                />
+                                <label for="email" class="form-label">Password</label>
+                                <input class="form-control login-form-inputs" type="password" v-model="form.password" />
 
                                 <div class="text-danger pt-2">
                                     {{ errors.password }}
                                 </div>
                             </div>
-                            <Link
-                                href="/forgot-password"
-                                class="m-2 mt-0 text-primary float-end forgot-password-text px-1"
-                            >
-                                Forgot your password?
+                            <Link href="/forgot-password"
+                                class="m-2 mt-0 text-primary float-end forgot-password-text px-1">
+                            Forgot your password?
                             </Link>
                             <div class="mb-3 mt-0">
-                                <div
-                                    @click="login"
-                                    class="btn advert-section-div-button mt-2 py-4 px-4 btn-block d-flex justify-content-between"
-                                >
+                                <div @click="login"
+                                    class="btn advert-section-div-button mt-2 py-4 px-4 btn-block d-flex justify-content-between">
                                     <span class="pr-4">Login</span>
 
                                     <i class="fas fa-arrow-right"></i>
@@ -114,6 +94,7 @@ export default {
             try {
                 const response = await axios.post("/login", this.form);
                 if (response.data.success) {
+                    this.$inertia.reload({ only: ['auth'] })
                     this.$inertia.visit("/admin/dashboard", {
                         method: "get",
                     });
@@ -129,6 +110,7 @@ export default {
     },
 
     created() {
+
         const filterStore = useFilterStore();
         filterStore.date = [
             "2025-01-01T08:54:00.000Z",
@@ -186,6 +168,7 @@ label {
     width: 100%;
     height: 100vh;
     background: #144f9f;
+
     // NEST
     .login-container {
         width: 650px;
@@ -202,18 +185,22 @@ label {
 
     .cm-logo {
         text-align: center;
+
         // NEST
         img {
             width: 350px;
         }
     }
 }
+
 .nav-link {
     color: #fff !important;
+
     .fa.fa-user {
         padding-right: 10px !important;
     }
 }
+
 .form-label {
     font-size: 16.5px !important;
 }
@@ -223,6 +210,7 @@ label {
     border-radius: 15px;
     height: 65px;
 }
+
 .forgot-password-text {
     font-size: 15px !important;
     font-weight: 300 !important;

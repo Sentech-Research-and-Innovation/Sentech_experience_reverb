@@ -3,10 +3,7 @@
         <nav class="navbar navbar-expand mx-0">
             <div class="container pl-1">
                 <a class="navbar-brand" href="/">
-                    <img
-                        src="../../assets/sentech-white-logo.png"
-                        class="logo"
-                    />
+                    <img src="../../assets/sentech-white-logo.png" class="logo" />
                 </a>
 
                 <div class="nav-lg" id="sentech-nav">
@@ -30,68 +27,47 @@
                             href="/aboutus"
                             ><span>About us</span>
                         </Link> -->
-                        <Link
-                            class="nav-link nav-link-text mr-2"
-                            aria-current="page"
-                            href="/"
-                            ><span>Home</span>
+                        <Link class="nav-link nav-link-text mr-2" aria-current="page" href="/"><span>Home</span>
                         </Link>
-                        <a
-                            class="nav-link nav-link-text mr-5"
-                            aria-current="page"
-                            target="_blank"
-                            href="https://www.sentech.co.za/about-us"
-                            ><span>About us</span>
+                        <a class="nav-link nav-link-text mr-5" aria-current="page" target="_blank"
+                            href="https://www.sentech.co.za/about-us"><span>About us</span>
                         </a>
 
-                        <Login />
+                        <template v-if="isLoggedIn">
+                            <Link class="nav-link nav-link-text mr-2" aria-current="page" href="/admin/dashboard">
+                                <span>Dashboard</span>
+                            </Link>
+                        </template>
+                        <template v-else>
+                            <Login />
+                        </template>
                     </div>
                 </div>
                 <div class="mobile-nav1">
-                    <i
-                        class="fa-solid fa-bars"
-                        @click="drawer = true"
-                        style="
+                    <i class="fa-solid fa-bars" @click="drawer = true" style="
                             cursor: pointer;
                             color: #ffff;
 
                             padding: 0px;
                             font-size: 20px;
-                        "
-                    ></i>
-                    <el-drawer
-                        v-model="drawer"
-                        :direction="direction"
-                        size="60%"
-                        :with-header="false"
-                        style="
+                        "></i>
+                    <el-drawer v-model="drawer" :direction="direction" size="60%" :with-header="false" style="
                             overflow: hidden !important;
                             background-color: #144f9f;
-                        "
-                    >
+                        ">
                         <div class="col-12 px-0 mx-0">
                             <div class="row">
                                 <a class="navbar-brand pt-3" href="/">
-                                    <img
-                                        src="../../assets/sentech-white-logo.png"
-                                        class="logo"
-                                    />
+                                    <img src="../../assets/sentech-white-logo.png" class="logo" />
                                 </a>
 
                                 <div class="col-12 px-3 mx-0 pt-3">
-                                    <Link
-                                        class="register nav-link nav-link-text"
-                                        aria-current="page"
-                                        href="/"
-                                        ><span class="">Home</span>
+                                    <Link class="register nav-link nav-link-text" aria-current="page" href="/"><span
+                                        class="">Home</span>
                                     </Link>
 
-                                    <a
-                                        class="nav-link nav-link-text mr-5"
-                                        aria-current="page"
-                                        target="_blank"
-                                        href="https://www.sentech.co.za/about-us/who-we-are"
-                                        ><span>About us</span>
+                                    <a class="nav-link nav-link-text mr-5" aria-current="page" target="_blank"
+                                        href="https://www.sentech.co.za/about-us/who-we-are"><span>About us</span>
                                     </a>
                                 </div>
                                 <!-- <div class="col-12 pc-0 mx-0 pt-3">
@@ -128,7 +104,14 @@
                                 </div> -->
 
                                 <div class="col-12 px-0 mx-0">
-                                    <Login />
+                                    <template v-if="isLoggedIn">
+                                        <Link class="nav-link nav-link-text mr-2" aria-current="page" href="/admin/dashboard">
+                                            <span>Dashboard</span>
+                                        </Link>
+                                    </template>
+                                    <template v-else>
+                                        <Login />
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +127,8 @@ import { Link } from "@inertiajs/vue3";
 import Login from "../../Pages/Auth/Login.vue";
 import Register from "../../Pages/Auth/Register.vue";
 import { Collection } from "@element-plus/icons-vue";
-import { defineComponent, onMounted, ref, unref } from "vue";
+import { defineComponent, onMounted, ref, unref, computed } from "vue";
+import { usePage } from "@inertiajs/vue3";
 
 export default defineComponent({
     props: ["showing"],
@@ -155,8 +139,12 @@ export default defineComponent({
     },
 
     setup() {
+        const page = usePage();
         const drawer = ref(false);
         const direction = ref("ltr");
+
+        const user = computed(() => page.props.auth?.user);
+        const isLoggedIn = computed(() => !!user.value);
 
         const showingModal = (value) => {
             showing.value = value;
@@ -168,6 +156,8 @@ export default defineComponent({
             direction,
             showingModal,
             Collection,
+            user,
+            isLoggedIn,
         };
     },
 });
@@ -177,6 +167,7 @@ export default defineComponent({
     background: #144f9f;
     height: 100px;
     border-bottom: solid 1px #fff;
+
     .nav-link {
         color: #fff;
 
@@ -185,6 +176,7 @@ export default defineComponent({
         }
     }
 }
+
 .nav-link:hover svg path {
     fill: #4b84d3 !important;
 }
@@ -193,6 +185,7 @@ export default defineComponent({
 .logo {
     width: 200px;
 }
+
 .mobile-nav1 {
     display: none;
 }
@@ -215,16 +208,20 @@ export default defineComponent({
     .navbar .social {
         visibility: hidden;
     }
+
     .logo {
         width: 120px;
     }
+
     .navbar {
         height: 50px !important;
     }
 }
+
 .social {
     padding: 0px !important;
 }
+
 .nav-link-text:hover {
     /* font-size: 17px; */
     background-color: #0c368b !important;
