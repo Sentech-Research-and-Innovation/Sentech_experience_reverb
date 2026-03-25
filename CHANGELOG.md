@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- icon for the dashboard link in the landing page when logged in
+
+### Changed
+
+-  
+
+### Removed
+
+- 
+
+
+## [1.1.2] - 2025-12-15
+
+### Added
+
 - 
 
 ### Changed
@@ -20,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 
 
-## [0.0.2] - 2025-12-11
+## [1.0.2] - 2025-12-11
 
 ### Added
 
@@ -41,8 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -  
 
-
-## [0.0.1] - 2025-12-04
+## [1.0.1] - 2025-12-04
 
 ### Added
 

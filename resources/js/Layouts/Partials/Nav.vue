@@ -35,7 +35,7 @@
 
                         <template v-if="isLoggedIn">
                             <Link class="nav-link nav-link-text mr-2" aria-current="page" href="/admin/dashboard">
-                                <span>Dashboard</span>
+                                <span><i class="fa-solid fa-table-columns"></i> Dashboard</span>
                             </Link>
                         </template>
                         <template v-else>
