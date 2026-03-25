@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - icon for the dashboard link in the landing page when logged in
+- rasa chat widget
 
 ### Changed
 
