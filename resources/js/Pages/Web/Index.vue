@@ -173,6 +173,63 @@ export default {
             Edit,
         };
     },
+    mounted() {
+        // Initialize Rasa chat widget
+        this.initRasaChat();
+    },
+    methods: {
+        initRasaChat() {
+            // Check if script already loaded (in case component re-mounts)
+            if (window.WebChat) {
+                window.WebChat.default({
+                    socketUrl: "http://localhost:5005",
+                    title: "Sentech Chatbot",
+                    subtitle: "How can I help you?",
+                }, null);
+                return;
+            }
+
+            // Load the Rasa Webchat widget script
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js";
+
+            script.onload = () => {
+                window.WebChat.default({
+                    initPayload: "/session_start",
+                    socketUrl: "http://localhost:5005",
+                    socketPath: "/socket.io/",
+                    title: "360 Engage Bot",
+                    subtitle: "How can I help you?",
+                    inputTextFieldHint: "Type a message...",
+                    connectingText: "Connecting...",
+                    profileAvatar: "360engage-logo.png",
+                    hideWhenNotConnected: false,
+                    fullScreenMode: false,
+                    showFullScreenButton: false,
+                    showMessageDate: true,
+                    showFullScreenButton: true,
+                    displayUnreadCount: true,
+                    params: {
+                        storage: "session"
+                    }
+                }, null);
+            };
+
+            script.onerror = () => {
+                console.error('Failed to load Rasa Webchat script');
+            };
+
+            document.body.appendChild(script);
+        }
+    },
+    beforeUnmount() {
+        // Optional: Clean up the widget when component is destroyed
+        // This helps if you navigate to other pages
+        const chatWidget = document.querySelector('.rw-widget-container');
+        if (chatWidget) {
+            chatWidget.remove();
+        }
+    }
 };
 </script>
 
