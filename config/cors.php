@@ -15,13 +15,18 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*', 'pdf/*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*', 'pdf/*', 'login', 'register'],
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => array_filter([
         'https://www.sentechxperience.co.za',
         env('FRONTEND_URL'),
+        // tx-platform-mobile (Capacitor/Ionic app) - default WebView origins for its
+        // appId (co.za.sentechxperience); no custom server.hostname is configured in
+        // its capacitor.config.ts, so these are Capacitor's built-in defaults.
+        'https://localhost', // Android (server.androidScheme: 'https')
+        'capacitor://localhost', // iOS
     ]),
 
     'allowed_origins_patterns' => [],
