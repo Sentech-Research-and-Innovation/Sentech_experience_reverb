@@ -75,12 +75,14 @@ summarized here:
 
 - **[`fix.md`](fix.md)** — root-cause fix for the live-chat feature (WebSocket
   broadcasting was fully disabled)
-- **[`report.md`](report.md)** — a multi-part security/dependency audit and fix
-  campaign: a full code review (CSRF, IDOR, auth gaps, and more), Trivy/npm
-  audit/OWASP ZAP scans, dependency vulnerability patching, migration off two
-  abandoned packages (`laravel-websockets` → Reverb, `inertia-vue3` → `vue3`), and the
-  Laravel 10 → 13 major-version upgrade (including a mobile-app compatibility fix
+- **[`report.md`](report.md)** — current-state summary of the security/dependency
+  audit and fix campaign: a full code review (CSRF, IDOR, auth gaps, and more),
+  Trivy/npm audit/OWASP ZAP scans, dependency vulnerability patching, migration off
+  two abandoned packages (`laravel-websockets` → Reverb, `inertia-vue3` → `vue3`), and
+  the Laravel 10 → 13 major-version upgrade (including a mobile-app compatibility fix
   verified against the real `tx-platform-mobile` client)
+- **[`report_old.md`](report_old.md)** — the full chronological working log behind
+  `report.md`, with raw before/after evidence for every individual step
 
 ## License
 
