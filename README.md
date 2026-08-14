@@ -1,67 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Total User Experience
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sentech's sentiment-analysis and predictive-maintenance reporting platform: a
+multi-tenant Laravel + Vue admin dashboard with live chat, notifications, PDF/Excel
+report generation, and a companion mobile app.
 
-## About Laravel
+## Tech stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 13 (PHP 8.4), MySQL 8
+- **Frontend:** Vue 3 + Inertia.js, Vite, Tailwind CSS, Element Plus
+- **Realtime:** Laravel Reverb (WebSockets) for live chat
+- **Auth:** Laravel Jetstream (web sessions) + Laravel Sanctum (bearer tokens for the
+  mobile app) + Laravel Passport (OAuth2)
+- **Permissions:** Spatie `laravel-permission`, company-scoped roles
+- **Reporting:** PhpSpreadsheet / Maatwebsite Excel (spreadsheets), Spatie Browsershot
+  and Snappy/wkhtmltopdf (PDF generation)
+- **Dev environment:** Docker via Laravel Sail
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Key features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Sentiment dashboards** ("senTalk") — social sentiment analysis, trends, and
+  predictive maintenance reporting for network infrastructure
+- **Live chat** between users, broadcast over WebSockets (Reverb)
+- **Notifications** with per-company read/unread tracking
+- **Company/user management** — multi-tenant company registration, role & permission
+  administration, activity logs
+- **Report export** — PDF and CSV/Excel exports for sentiment and predictive
+  maintenance data
+- **Mobile companion app** — [tx-platform-mobile](https://github.com/Sentech-Research-and-Innovation/tx-platform-mobile)
+  (Ionic/Vue + Capacitor) authenticates against this backend via Sanctum bearer tokens
 
-## Learning Laravel
+## Local development
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Requires Docker Desktop.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+cp .env.example .env
+composer install
+php artisan key:generate
+docker compose up -d
+docker compose exec laravel.test php artisan migrate
+npm install
+npm run build   # or `npm run dev` for the Vite dev server
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The app serves on the port set by `APP_PORT` (default `80`); the Reverb WebSocket
+server runs as its own `reverb` service (`REVERB_SERVER_PORT`, default `6001`) via
+`php artisan reverb:start`.
 
-## Laravel Sponsors
+### Key environment variables
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+| Variable | Purpose |
+|---|---|
+| `DB_*` | MySQL connection |
+| `BROADCAST_DRIVER=reverb`, `REVERB_*` / `VITE_REVERB_*` | Live chat WebSocket config |
+| `FRONTEND_URL`, `SANCTUM_STATEFUL_DOMAINS` | CORS/CSRF origin allowlist for the web SPA |
+| `MAIL_*` | Outbound email (password resets, notifications) |
 
-### Premium Partners
+See `.env.example` for the full list.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Testing
 
-## Contributing
+```bash
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+CI (Bitbucket Pipelines) runs `devops/build-server.sh`, `devops/build-project.sh`, and
+`devops/run-tests.sh` on every push — build/test only, no deploy step.
 
-## Code of Conduct
+## Project history & audit trail
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+This is a backup mirror of the team's Bitbucket repository. Recent work done against
+this backup is documented in full, with before/after evidence, rather than just
+summarized here:
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **[`fix.md`](fix.md)** — root-cause fix for the live-chat feature (WebSocket
+  broadcasting was fully disabled)
+- **[`report.md`](report.md)** — a multi-part security/dependency audit and fix
+  campaign: a full code review (CSRF, IDOR, auth gaps, and more), Trivy/npm
+  audit/OWASP ZAP scans, dependency vulnerability patching, migration off two
+  abandoned packages (`laravel-websockets` → Reverb, `inertia-vue3` → `vue3`), and the
+  Laravel 10 → 13 major-version upgrade (including a mobile-app compatibility fix
+  verified against the real `tx-platform-mobile` client)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-Backup updated by Siyabonga on Mon Jul 28 11:18:23 UTC 2025
+Proprietary — Sentech Research and Innovation. Not licensed for external use or
+redistribution.
