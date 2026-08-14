@@ -21,6 +21,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
+            '@': path.resolve(__dirname, 'resources/js'),
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~sweetalert2': path.resolve(__dirname, 'node_modules/sweetalert2'),
             // '~rapidq': path.resolve(__dirname, 'public/assets'),

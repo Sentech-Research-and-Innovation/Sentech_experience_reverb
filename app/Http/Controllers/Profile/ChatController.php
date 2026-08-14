@@ -52,7 +52,7 @@ class ChatController extends Controller
         ]);
 
         // Broadcast the event (sending message to others on the chat channel)
-        // broadcast(new MessageSent($message));
+        broadcast(new MessageSent($message))->toOthers();
 
         // Log notification
         $receiverCompanyId = optional($message->receiver)->company_id ?? null;
@@ -61,6 +61,6 @@ class ChatController extends Controller
         }
 
 
-        return response()->json(['status' => 'Message Sent!']);
+        return response()->json(['status' => 'Message Sent!', 'message' => $message]);
     }
 }

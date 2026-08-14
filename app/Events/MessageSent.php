@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Message;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -28,18 +27,21 @@ class MessageSent implements ShouldBroadcast
 
         $channelName = 'chat.' . collect([$senderId, $receiverId])->sort()->join('-');
 
-        return new Channel($channelName);
+        return new PrivateChannel($channelName);
     }
 
     public function broadcastWith()
     {
-        // Customize what gets sent to the frontend
+        // Nested under "message" to match the shape ChatBox.vue expects from its listener
         return [
-            'id' => $this->message->id,
-            'sender_id' => $this->message->user_id,
-            'receiver_id' => $this->message->receiver_id,
-            'content' => $this->message->content,
-            'created_at' => $this->message->created_at->toDateTimeString(),
+            'message' => [
+                'id' => $this->message->id,
+                'user_id' => $this->message->user_id,
+                'sender_id' => $this->message->user_id,
+                'receiver_id' => $this->message->receiver_id,
+                'message' => $this->message->message,
+                'created_at' => $this->message->created_at->toDateTimeString(),
+            ],
         ];
     }
 }

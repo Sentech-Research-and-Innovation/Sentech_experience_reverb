@@ -24,6 +24,27 @@ services:
             - sail
         depends_on:
             - mysql
+    websockets:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.2
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.2/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${LARAVEL_WEBSOCKETS_PORT:-6001}:6001'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+        command: php artisan websockets:serve
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:

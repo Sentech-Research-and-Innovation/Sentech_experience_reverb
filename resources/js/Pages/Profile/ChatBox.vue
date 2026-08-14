@@ -137,10 +137,23 @@
       const receiverId = this.receiver.id;
       const channelName = "chat." + [senderId, receiverId].sort().join("-");
   
-      // Listen for new messages
-      Echo.channel(channelName).listen("MessageSent", (event) => {
+      // Listen for new messages (private channel: only the two participants can subscribe)
+      Echo.private(channelName).listen("MessageSent", (event) => {
         if (event?.message) {
-          this.messages.push(event.message);
+          const incoming = event.message;
+          const alreadyHave = this.messages.some(
+            (m) => m.id === incoming.id && !String(m.id).startsWith("tmp-")
+          );
+          if (alreadyHave) return;
+
+          const tempIdx = this.messages.findIndex(
+            (m) => String(m.id).startsWith("tmp-") && m.message === incoming.message
+          );
+          if (tempIdx !== -1) {
+            this.messages.splice(tempIdx, 1, incoming);
+          } else {
+            this.messages.push(incoming);
+          }
           this.scrollToBottom();
         }
       });
