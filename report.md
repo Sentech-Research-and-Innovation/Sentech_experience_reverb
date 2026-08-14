@@ -607,6 +607,77 @@ itself is filtered), and put it behind `auth:sanctum`.
 - Rotating the leaked AWS/DB/mail credentials still sitting in `.env.example` and
   `config/filesystems.php` — needs the actual credentials rotated on the AWS/DB side,
   which isn't something fixable from this repo alone.
-- Migrating off the abandoned `beyondcode/laravel-websockets` to Laravel Reverb
-  (discussed, not yet done).
+---
+
+# Part 5 — Migrated off the abandoned laravel-websockets to Laravel Reverb
+
+`beyondcode/laravel-websockets` (the package the live-chat fix in `fix.md` depends on)
+is abandoned upstream with no suggested replacement (confirmed by Composer itself on
+every install). Replaced it with **Laravel Reverb** — the framework's own first-party,
+actively-maintained WebSocket server, also Pusher-protocol compatible, so no changes
+were needed to `MessageSent`, `ChatController`, or `routes/channels.php`; only the
+transport layer changed.
+
+## What changed
+
+- **`composer.json`/`composer.lock`**: `composer remove beyondcode/laravel-websockets`,
+  `composer require laravel/reverb` (landed on `^1.11`).
+- **`config/websockets.php`** deleted — fully superseded by the newly-published
+  **`config/reverb.php`**.
+- **`config/broadcasting.php`**: added a `reverb` connection block alongside the
+  existing `pusher` one (kept for reference/rollback, no longer the active driver).
+- **`resources/js/bootstrap/echo.js`**: `broadcaster: "pusher"` → `broadcaster: "reverb"`,
+  env vars switched from `VITE_PUSHER_*` to `VITE_REVERB_*`. Laravel Echo's built-in
+  `reverb` broadcaster is Pusher-protocol compatible under the hood, so this is a
+  same-shape config swap, not a rewrite.
+- **`docker-compose.yml`**: `websockets` service renamed to `reverb`, command changed
+  from `php artisan websockets:serve` to `php artisan reverb:start`, port variable
+  renamed `LARAVEL_WEBSOCKETS_PORT` → `REVERB_SERVER_PORT`. Also dropped the obsolete
+  `version: '3'` key Docker Compose has been warning about all session.
+- **`.env.example`**: `PUSHER_*`/`LARAVEL_WEBSOCKETS_PORT` block replaced with
+  `REVERB_*`/`VITE_REVERB_*`, `BROADCAST_DRIVER` changed from `pusher` to `reverb`.
+
+## A real bug caught by live testing, not just review
+
+`config/reverb.php`'s `allowed_origins` was first written the same way `config/cors.php`
+was fixed in Part 4 — full origin URLs (`https://www.sentechxperience.co.za`,
+`env('FRONTEND_URL')`). Reverb rejected every connection, including from the app's own
+real origin, with `{"code":4009,"message":"Origin not allowed"}`.
+
+Reading `vendor/laravel/reverb/src/Protocols/Pusher/Server.php::verifyOrigin()` showed
+why: Reverb extracts only the **host** from the connecting request's `Origin` header
+(`parse_url($connection->origin(), PHP_URL_HOST)`, scheme and port both stripped) and
+compares that against `allowed_origins` — so it expects bare hostnames
+(`www.sentechxperience.co.za`), not full URLs. Fixed to
+`parse_url(env('FRONTEND_URL'), PHP_URL_HOST)` plus the bare production hostname.
+
+**Verified live**, using a raw WebSocket client (Node + `ws`, since this needed an
+actual protocol-level handshake, not just an HTTP request):
+- Connecting with no `Origin` header, or the wrong one → rejected with the 4009 error
+  above (confirms the allowlist is actually enforced, not just present).
+- Connecting with `Origin: http://localhost:8099` (the local `FRONTEND_URL`) → Reverb
+  responds with `{"event":"pusher:connection_established", "data": {"socket_id": ...}}`
+  — the correct Pusher-protocol handshake, proving the full chain works: Reverb server
+  → Pusher protocol → Echo/pusher-js-compatible client.
+- `php artisan config:show broadcasting.default` → `reverb`;
+  `broadcasting.connections.reverb` resolves with all real values, no nulls.
+- App still boots normally (`/` → 200) with Reverb running alongside it.
+
+This also means the websocket layer now has a properly enforced origin allowlist for
+the first time — the previous `beyondcode/laravel-websockets` setup was never actually
+reached far enough to have this checked (the broadcast call was commented out, per
+`fix.md`), and Reverb's own default is `allowed_origins => ['*']`, which would have
+been just as open as the CORS/paths wildcards fixed in Part 4 if left alone.
+
+## What's still open
+
+- The Laravel 10→13 major upgrade, the `spatie/browsershot`/`axios`/puppeteer-chain
+  dependency gaps, and the 35-file `@inertiajs/inertia-vue3` → `@inertiajs/vue3`
+  migration remain exactly as documented in Parts 2–3.
+- Rotating the leaked AWS/DB/mail credentials still sitting in `.env.example` and
+  `config/filesystems.php` — needs the actual credentials rotated on the AWS/DB side,
+  which isn't something fixable from this repo alone.
+- Production still needs a real process supervisor (systemd/supervisor) running
+  `php artisan reverb:start` persistently, same caveat as `websockets:serve` had in
+  `fix.md` — this repo has no deploy step to wire that up from.
 
