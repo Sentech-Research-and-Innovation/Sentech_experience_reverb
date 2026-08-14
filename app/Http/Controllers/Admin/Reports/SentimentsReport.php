@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sentiment as Tweet;
-use VerumConsilium\Browsershot\Facades\PDF;
+use App\Support\Browsershot\Pdf as PDF;
 use App\Services\Sentiment\OverviewService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
