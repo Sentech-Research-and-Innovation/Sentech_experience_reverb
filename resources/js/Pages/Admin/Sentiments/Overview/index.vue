@@ -24,7 +24,7 @@ import timelineChart from "./sentimentsTimeline.vue";
 import tweetsLocation from "./tweetsByLocation.vue";
 import OverallSentiments from "./overallSentiments.vue";
 
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import navigationSearchBar from "../../../../Layouts/sentiments/navigationSearchBar.vue";
 
 export default defineComponent({

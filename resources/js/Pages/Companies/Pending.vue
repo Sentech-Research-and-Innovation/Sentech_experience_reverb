@@ -90,7 +90,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import { defineComponent, ref } from "vue";
 import CreateCompany from "./CreateCompany.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import LoadingGif from "../../assets/loading.gif";
 import NaviigationVue from "../../Layouts/Partials/companies/Naviigation.vue";
 

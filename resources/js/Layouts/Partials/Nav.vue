@@ -123,12 +123,11 @@
 </template>
 
 <script>
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 import Login from "../../Pages/Auth/Login.vue";
 import Register from "../../Pages/Auth/Register.vue";
 import { Collection } from "@element-plus/icons-vue";
 import { defineComponent, onMounted, ref, unref, computed } from "vue";
-import { usePage } from "@inertiajs/vue3";
 
 export default defineComponent({
     props: ["showing"],

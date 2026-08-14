@@ -300,7 +300,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, ref } from "vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { UserFilled, Camera } from "@element-plus/icons-vue";
 import { Delete, UploadFilled, Edit } from "@element-plus/icons-vue";
 import axios from "axios";

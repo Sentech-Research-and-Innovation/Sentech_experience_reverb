@@ -200,7 +200,7 @@
 </template>
 
 <script>
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import WebLayout from "@/Layouts/WebLayout.vue";
 import { defineComponent, ref, onMounted, watch } from "vue";
 

@@ -103,7 +103,7 @@
 
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head } from "@inertiajs/vue3";
 import senTalk from "./senTalk.vue";
 import { Home, Smile, Wrench, Lock, Users, Radio } from "lucide-vue-next";
 import { ref, onMounted } from "vue";

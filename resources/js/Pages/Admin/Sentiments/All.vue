@@ -50,7 +50,7 @@ import tweetContent from "../Sentiments/Trends/tweetAnalysisTable.vue";
 
 import vectorMap from "../Sentiments/Others/vectorMap.vue";
 
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import navigationSearchBar from "../../../Layouts/sentiments/navigationSearchBar.vue";
 
 export default defineComponent({

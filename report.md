@@ -681,3 +681,29 @@ been just as open as the CORS/paths wildcards fixed in Part 4 if left alone.
   `php artisan reverb:start` persistently, same caveat as `websockets:serve` had in
   `fix.md` — this repo has no deploy step to wire that up from.
 
+---
+
+# Part 6 — Migrated off the deprecated `@inertiajs/inertia-vue3`
+
+npm audit's remaining `@inertiajs/inertia` / `@inertiajs/inertia-vue3` findings (Part 3)
+had no fix because the package is abandoned — the only real fix was migrating the 35
+files still importing from it over to `@inertiajs/vue3`, the actively-maintained
+package `app.js`'s own `createInertiaApp()` already uses.
+
+Turned out simpler than expected: every one of the 35 files imported only `Head`
+and/or `Link` — nothing that changed shape between the old adapter and the modern
+package. Ran a mechanical find/replace (`@inertiajs/inertia-vue3` → `@inertiajs/vue3`)
+across all 35, verified zero references to the old package name remained, then merged
+one file (`Layouts/Partials/Nav.vue`) that ended up with two separate import
+statements from the same module into one. Removed `@inertiajs/inertia-vue3` from
+`package.json` and regenerated the lockfile (6 packages dropped).
+
+**Verified live**, not just build-checked: `npm run build` succeeded cleanly, then
+hit `/`, `/login`, `/register`, and `/contactus` (pages spanning the migrated files)
+against the app running in Docker — all `200`, correct HTML structure, no new entries
+in `storage/logs/laravel.log`.
+
+This closes out the last of the npm-side findings from Part 2/3 that had an actual
+fix available; `axios` and the puppeteer-forcing chain remain open for the reasons
+already documented there.
+

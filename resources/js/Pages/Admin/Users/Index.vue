@@ -129,7 +129,7 @@ import { defineComponent, ref } from "vue";
 import EditRole from "./EditRole.vue";
 import CreateUser from "./CreateUser.vue";
 import DeleteUser from "./DeleteUser.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { UserFilled, Edit } from "@element-plus/icons-vue";
 
 import NaviigationUsers from "../../../Layouts/Partials/companies/Naviigation_users.vue";

@@ -21,7 +21,7 @@ import navigationTabsVue from "../../../../Layouts/predictions/navigationTabs.vu
 
 import TableViewVue from "./TableView.vue";
 
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 export default defineComponent({
     props: {

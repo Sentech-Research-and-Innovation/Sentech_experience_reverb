@@ -49,7 +49,7 @@ import DeleteRole from "./DeleteRole.vue";
 import ViewRole from "./ViewRole.vue";
 
 import { defineComponent } from "vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 export default defineComponent({
     name: "list-roles",

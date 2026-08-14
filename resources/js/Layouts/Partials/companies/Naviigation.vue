@@ -52,7 +52,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { Search } from "@element-plus/icons-vue";
 
 export default defineComponent({

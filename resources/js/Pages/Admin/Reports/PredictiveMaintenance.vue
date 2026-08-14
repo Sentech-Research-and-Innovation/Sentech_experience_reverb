@@ -163,7 +163,7 @@
 <script>
 import filtersVue from "../../../Layouts/predictions/filter.vue";
 import { defineComponent, ref, onMounted } from "vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import {
     MagicStick,
     Calendar,

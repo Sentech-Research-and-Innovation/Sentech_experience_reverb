@@ -47,7 +47,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent } from "vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head } from "@inertiajs/vue3";
 import { UserFilled } from "@element-plus/icons-vue";
 import ChatBox from "./ChatBox.vue";
 

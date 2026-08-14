@@ -74,7 +74,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent } from "vue";
 import CreateUser from "./CreateUser.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import NaviigationUsers from "../../../Layouts/Partials/companies/Naviigation_users.vue";
 import { InfoFilled } from "@element-plus/icons-vue";
 import axios from "axios";

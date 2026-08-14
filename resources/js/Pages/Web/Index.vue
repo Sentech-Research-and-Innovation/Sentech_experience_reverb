@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import WebLayout from "@/Layouts/WebLayout.vue";
 import SideModal from "../../Layouts/SideModal.vue";
 import WeatherWidgetVue from "./WeatherWidget.vue";

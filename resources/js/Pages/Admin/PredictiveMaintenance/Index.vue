@@ -26,7 +26,7 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import navigationTabsVue from "../../../Layouts/predictions/navigationTabs.vue";
 

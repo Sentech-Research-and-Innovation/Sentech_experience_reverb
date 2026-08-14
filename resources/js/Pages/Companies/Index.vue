@@ -47,7 +47,7 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 import { defineComponent } from "vue";
 import CreateCompany from "./CreateCompany.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 export default defineComponent({
     name: "company-list",

@@ -17,7 +17,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { defineComponent, onMounted, ref } from "vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head } from "@inertiajs/vue3";
 import ActivityLog from "./ActivityLog.vue";
 
 export default defineComponent({

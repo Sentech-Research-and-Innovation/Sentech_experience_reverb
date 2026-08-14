@@ -31,7 +31,7 @@ import TweetsByDate from "./tweetsByDate.vue";
 
 import navigationSearchBar from "../../../../Layouts/sentiments/navigationSearchBar.vue";
 
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
 export default defineComponent({
     name: "sentiment-analysis-timelines-index",
