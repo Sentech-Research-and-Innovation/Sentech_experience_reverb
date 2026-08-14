@@ -574,12 +574,39 @@ ran the already-fixed `sentalks` migration (from Part 2 §E) live for the first 
 confirmed it now runs clean on a fresh database, along with every other migration in
 the app.
 
-## What's still open from Part 1 (not in this pass)
+## 7. `/import` and `/notifications/unread-count` (the rest of the Part 1 list)
 
-- **Unauthenticated `/import` endpoint** (`routes/web.php:44`) and the **fatal
-  `/notifications/unread-count` route** (`routes/api.php:28-32`) — not yet fixed; both
-  still need attention.
+**`/import`** (`routes/web.php`) — moved inside the existing `Route::middleware('auth')`
+group, so it's no longer publicly reachable. Also fixed the duplication bug noted
+alongside it in Part 1: `ImportController::index()` was using `FrequencyFinder::create()`
+or every row on every run (each hit re-inserts the whole file as new rows); changed to
+`FrequencyFinder::updateOrCreate(['map_num' => ...], [...])`, matching the pattern its
+own sibling method `index2()` in the same file already uses correctly.
+
+**`/notifications/unread-count`** (`routes/api.php`) — was fatal on every hit (missing
+`use App\Models\Notification;`), hardcoded to company ID `1` for every caller regardless
+of who was asking, ignored the `active` flag, and had no auth. Rewrote it to match the
+already-correct pattern in `app/Http/Controllers/Admin/GetNotifications.php`: added the
+missing import, scoped to `auth()->user()->company->id`, filtered on `active = 1`
+(matching what "unread count" should mean, consistent with how the notification list
+itself is filtered), and put it behind `auth:sanctum`.
+
+**Verified live:**
+- `GET /import` unauthenticated → `302` (redirected to login, no longer processes the
+  file for anonymous requests).
+- `GET /api/notifications/unread-count` unauthenticated with `Accept: application/json`
+  → clean `401 {"message":"Unauthenticated."}` instead of the previous fatal error.
+- No new entries in `storage/logs/laravel.log` from any of this traffic.
+- App still boots normally (`/` → 200) after both changes.
+
+## What's still open
+
 - The Laravel 10→13 major upgrade, the `spatie/browsershot`/`axios`/puppeteer-chain
   dependency gaps, and the 35-file `@inertiajs/inertia-vue3` → `@inertiajs/vue3`
   migration remain exactly as documented in Parts 2–3.
+- Rotating the leaked AWS/DB/mail credentials still sitting in `.env.example` and
+  `config/filesystems.php` — needs the actual credentials rotated on the AWS/DB side,
+  which isn't something fixable from this repo alone.
+- Migrating off the abandoned `beyondcode/laravel-websockets` to Laravel Reverb
+  (discussed, not yet done).
 

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Models\Notification;
 
 
 
@@ -25,9 +26,17 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'logoutMobile'])-
 
 ///adding the clocking system
 
-Route::get('/notifications/unread-count', function () {
+Route::middleware('auth:sanctum')->get('/notifications/unread-count', function () {
+    $companyId = auth()->user()->company->id ?? null;
+
+    if (!$companyId) {
+        return response()->json(['count' => 0]);
+    }
+
     return response()->json([
-        'count' => Notification::whereJsonContains('model_ids->to_company_id', 1)->count()
+        'count' => Notification::whereJsonContains('model_ids', ['to_company_id' => $companyId])
+            ->where('active', 1)
+            ->count(),
     ]);
 });
 

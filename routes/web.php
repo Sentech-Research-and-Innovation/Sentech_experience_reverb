@@ -41,7 +41,6 @@ Route::get('/web/network/index', [NetworkController::class, 'index']);
 
 Route::get('/web/network/province/cities/{province}', [NetworkController::class, 'provinceCities']);
 Route::get('/web/network/alarms/{province}', [NetworkController::class, 'getAlarmsDataByProvince']);
-Route::get('/import', [ImportController::class, 'index']);
 
 
 require __DIR__ . '/auth.php';
@@ -54,4 +53,6 @@ Route::middleware('auth')->group(function () {
     require __DIR__ . '/admin/reports.php';
     require __DIR__ . '/admin/profile.php';
     require __DIR__ . '/admin/dashboard.php';
+
+    Route::get('/import', [ImportController::class, 'index']);
 });

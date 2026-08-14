@@ -109,24 +109,24 @@ class ImportController extends Controller
             foreach ($data as $row) {
                 $dataRow = array_combine($header, $row);
 
-                FrequencyFinder::create([
-
-                    'province_code' => $dataRow['PROV_CODE'],
-                    'station_name' => $dataRow['STATION_NAME'],
-                    'lat_deg' => $dataRow['LAT_DEG'],
-                    'lat_min' => $dataRow['LAT_MIN'],
-                    'lat_sec' => $dataRow['LAT_SEC'],
-                    'long_deg' => $dataRow['LONG_DEG'],
-                    'long_min' => $dataRow['LONG_MIN'],
-                    'long_sec' => $dataRow['LONG_SEC'],
-                    'map_num' => $dataRow['MAP_NUM'],
-                    'serv_code' => $dataRow['SERV_CODE'],
-                    'serv_name' => $dataRow['SERV_NAME'],
-                    'serv_description' => $dataRow['SERV_DESCRIPTION'],
-                    'tx_freq' => $dataRow['TX_FREQ'],
-                    'tx_channel' => $dataRow['TX_CHANNEL'],
-
-                ]);
+                FrequencyFinder::updateOrCreate(
+                    ['map_num' => $dataRow['MAP_NUM']],
+                    [
+                        'province_code' => $dataRow['PROV_CODE'],
+                        'station_name' => $dataRow['STATION_NAME'],
+                        'lat_deg' => $dataRow['LAT_DEG'],
+                        'lat_min' => $dataRow['LAT_MIN'],
+                        'lat_sec' => $dataRow['LAT_SEC'],
+                        'long_deg' => $dataRow['LONG_DEG'],
+                        'long_min' => $dataRow['LONG_MIN'],
+                        'long_sec' => $dataRow['LONG_SEC'],
+                        'serv_code' => $dataRow['SERV_CODE'],
+                        'serv_name' => $dataRow['SERV_NAME'],
+                        'serv_description' => $dataRow['SERV_DESCRIPTION'],
+                        'tx_freq' => $dataRow['TX_FREQ'],
+                        'tx_channel' => $dataRow['TX_CHANNEL'],
+                    ]
+                );
             }
 
             return response()->json(['message' => 'File imported successfully.'], 200);
