@@ -1,31 +1,16 @@
 <?php return array (
+  'ahmedsaoud31/laravel-permission-to-vuejs' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LaravelAndVueJS\\LaravelAndVueJSServiceProvider',
+    ),
+  ),
   'inertiajs/inertia-laravel' => 
   array (
     'providers' => 
     array (
       0 => 'Inertia\\ServiceProvider',
-    ),
-  ),
-  'intervention/image' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Image' => 'Intervention\\Image\\Facades\\Image',
-    ),
-  ),
-  'jenssegers/agent' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Jenssegers\\Agent\\AgentServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Agent' => 'Jenssegers\\Agent\\Facades\\Agent',
     ),
   ),
   'jn-jairo/laravel-ngrok' => 
@@ -47,6 +32,13 @@
     'providers' => 
     array (
       0 => 'Laravel\\Jetstream\\JetstreamServiceProvider',
+    ),
+  ),
+  'laravel/passkeys' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Passkeys\\PasskeysServiceProvider',
     ),
   ),
   'laravel/passport' => 
@@ -87,13 +79,13 @@
   ),
   'maatwebsite/excel' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    ),
     'aliases' => 
     array (
       'Excel' => 'Maatwebsite\\Excel\\Facades\\Excel',
+    ),
+    'providers' => 
+    array (
+      0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
@@ -119,13 +111,13 @@
   ),
   'spatie/laravel-ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
   'spatie/laravel-permission' => 
@@ -139,30 +131,18 @@
   array (
     'providers' => 
     array (
-      0 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
+      0 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
     ),
   ),
   'torann/geoip' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Torann\\GeoIP\\GeoIPServiceProvider',
-    ),
     'aliases' => 
     array (
       'GeoIP' => 'Torann\\GeoIP\\Facades\\GeoIP',
     ),
-  ),
-  'verumconsilium/laravel-browsershot' => 
-  array (
     'providers' => 
     array (
-      0 => 'VerumConsilium\\Browsershot\\BrowsershotServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'PDF' => 'VerumConsilium\\Browsershot\\Facades\\PDF',
-      'Screenshot' => 'VerumConsilium\\Browsershot\\Facades\\Screenshot',
+      0 => 'Torann\\GeoIP\\GeoIPServiceProvider',
     ),
   ),
 );

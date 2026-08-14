@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use App\Models\Prediction;
 use Carbon\Carbon;
 use DateTime;
-use VerumConsilium\Browsershot\Facades\PDF;
+use App\Support\Browsershot\Pdf as PDF;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 

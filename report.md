@@ -707,3 +707,160 @@ This closes out the last of the npm-side findings from Part 2/3 that had an actu
 fix available; `axios` and the puppeteer-forcing chain remain open for the reasons
 already documented there.
 
+---
+
+# Part 7 — The Laravel 10 → 13 major upgrade
+
+Done as its own branch (`laravel-13-upgrade`), one major version at a time (10→11→12→13),
+each hop verified by actually booting the app in Docker before moving to the next -
+not just by getting `composer update` to resolve. Composer's advisory-aware resolver
+had already made the case for this in Part 3: it refused to install *any*
+`laravel/framework` 10.x release, including the latest, because Laravel 10 has open
+advisories with no fix short of 11+.
+
+## PHP version: ended up on 8.4, not 8.3
+
+Laravel 11 and 12 need PHP 8.2+; Laravel 13's own docs say PHP 8.3+. Started there -
+but the app failed to boot on PHP 8.3 once fully on Laravel 13, with a parse error in
+`vendor/symfony/http-foundation/Request.php` (PHP 8.4's property-hooks syntax). That
+resolved Symfony version's own `composer.json` requires `php >=8.4.1` — the wider
+ecosystem has moved past Laravel's stated floor since 13 shipped. Moved to PHP 8.4
+(supported, current, and `laravel/sail` — upgraded to v1.66.0 along the way — already
+ships an 8.4 runtime directory, so no custom Dockerfile work was needed).
+
+## Ecosystem packages that needed bumping alongside the framework
+
+None of these were guessed in advance beyond the well-known Laravel first-party ones -
+composer's own conflict output drove each one:
+
+| Package | Before | After | Why |
+|---|---|---|---|
+| `laravel/framework` | ^10.0 | ^13.0 | the upgrade itself |
+| `inertiajs/inertia-laravel` | ^0.6.8 | ^2.0 | no 0.6.x release supports Laravel 11+ |
+| `laravel/sanctum` | ^3.3 | ^4.0 | 3.3.x caps at `illuminate/console ^10.0` |
+| `laravel/jetstream` | ^3.1 | ^5.0 | needed for 11+ compatibility |
+| `laravel/passport` | ^11.8 | ^13.0 | 12.x caps at `illuminate/support ^12.0`, needed 13.x for the final hop |
+| `spatie/laravel-permission` | ^5.10 | ^6.0 | caps at `illuminate/database ^10.0` |
+| `nunomaduro/collision` | ^7.0 | ^8.0 | required for 11+ |
+| `tightenco/ziggy` | ^1.0 | ^2.0 | required for 11+ (see namespace/JS breakage below) |
+| `phpunit/phpunit` | ^10.1 | ^11.0 | a `collision` 8.6+ release needed it for the 12 hop |
+| `laravel/tinker` | ^2.8 | ^3.0 | 2.x tops out supporting Laravel 12 |
+
+## `verumconsilium/laravel-browsershot` had to be replaced, not bumped
+
+Already flagged in Part 2 as blocked: this wrapper's own `composer.json` pins
+`spatie/browsershot ^3.19`, which needs `symfony/process ^6.x` — a hard conflict with
+Laravel 11's `^7.0` requirement. Only two controllers used it
+(`SentimentsReport.php`, `PredictiveMaintenanceReportsController.php`), both through
+the exact same small `PDF::loadView($view, $data)->margins(...)->download($filename)`
+call shape. Wrote a ~40-line direct replacement
+(`app/Support/Browsershot/Pdf.php`) on `spatie/browsershot ^5.0` with the same API, so
+the two call sites only needed an import-line change
+(`use VerumConsilium\Browsershot\Facades\PDF` → `use App\Support\Browsershot\Pdf as PDF`).
+
+## Bugs live-testing caught that review alone wouldn't have
+
+1. **Stale file ownership** on `storage/`/`bootstrap/cache` from earlier containers
+   under the previous PHP image caused a 500 on every request after the first hop.
+   Environmental, not code - fixed with `chown`.
+2. **Ziggy 2.x renamed its PHP namespace** from `Tightenco\Ziggy` to `Tighten\Ziggy` -
+   `HandleInertiaRequests.php`'s import was still on the old one, causing a hard
+   `Class not found` 500 on every page.
+3. **Ziggy 2.x also changed its JS dist layout** - `vendor/tightenco/ziggy/dist/vue.m`
+   no longer exists; `ZiggyVue` is now exported from the package root via
+   `exports.module` in its `package.json`. Broke `npm run build` outright (both
+   `resources/js/app.js` and `resources/js/ssr.js` had the old path) - couldn't have
+   shipped without running the actual build.
+4. **The PHP 8.3→8.4 requirement**, described above - composer resolved fine with
+   `--ignore-platform-reqs`; only booting the container on the actual target PHP
+   version surfaced it.
+
+None of these four were visible from `composer.json`/`composer.lock` alone.
+
+## Verification per hop (all live against Docker, not just composer resolving)
+
+- **10→11**: `/`, `/login`, `/register` all 200; CSRF still enforced (419 without
+  token); protected routes redirect (302); migrations clean; no new log errors after
+  fixes landed.
+- **11→12**: composer audit already clean (0 advisories) at this point; same HTTP/CSRF/
+  migration checks, all passing.
+- **12→13**: booted on PHP 8.4.24 / Laravel 13.25.0 (confirmed via `php -v` and
+  `php artisan --version`, not assumed); same checks passing; every `ERROR` line in
+  `storage/logs/laravel.log` checked by timestamp - all predate the PHP 8.4 fix.
+- **Final regression pass**: `npm run build` clean (after the Ziggy JS fix), broader
+  route coverage re-checked.
+
+## Trivy / npm audit after the full upgrade
+
+| | Before this pass (Part 3) | After Laravel 13 |
+|---|---|---|
+| Composer findings | 8 (Trivy) / 10 advisories, 3 packages (composer audit) | **0 (Trivy) / 0 advisories** |
+| npm audit vulnerabilities | 7 | **4** |
+
+Composer is now fully clean - both `laravel/framework` (previously blocked, no fix
+short of 11+) and `spatie/browsershot` (previously blocked by the wrapper's `^3.19`
+cap, now on `^5.0` directly) are resolved. The remaining 4 npm findings are exactly
+the same puppeteer-forcing chain already documented as deliberately not forced
+(`extract-zip`, `puppeteer`, `tar-fs`, `ws` - the CHANGELOG-documented prior production
+regression). `axios`'s advisories cleared as a side effect of dependency resolution
+shifting during this pass. One inert finding appeared inside
+`vendor/mockery/mockery/docs/requirements.txt` - a Python requirements file for
+mockery's *own* documentation site, bundled inside the vendor package but never
+installed or executed by this app - same shape as the Ziggy nested-lockfile noise from
+Part 2, not actionable.
+
+## Real-world compatibility check: does anything else break?
+
+Asked and checked directly, rather than assumed: two other repos were named as
+possibly depending on this backend.
+
+- **`sentech-connect`** - checked and ruled out. It's a fully static React marketing
+  site (Home/About/Contact/Pricing/Services pages) with zero `fetch`/`axios`/
+  `XMLHttpRequest` calls anywhere in the repo and no reference to
+  `sentechxperience.co.za` at all. Unrelated to this backend.
+- **`tx-platform-mobile`** - confirmed as a real dependent. An Ionic/Vue + Capacitor
+  app with a hardcoded `baseURL: "https://www.sentechxperience.co.za/"`, calling
+  `POST /login`, `POST /register`, `GET /api/user`, `POST /api/logout` - matching
+  `AuthenticatedSessionController::store()`, which issues a Sanctum token explicitly
+  named `'MobileAppToken'`. Uses plain axios through its WebView (no native
+  `@capacitor/http` bridge), so it's genuinely subject to CORS/CSRF, not exempt as a
+  "native" client. Uses no websocket/broadcasting features, so the Reverb migration
+  doesn't affect it.
+
+Checking this surfaced a real, already-live regression: **two of the security fixes
+from Part 4 (CSRF re-enablement and the CORS wildcard lockdown), already merged to
+`master` before this branch existed, broke `tx-platform-mobile`'s login and
+registration.** `POST /login`/`POST /register` sit under the CSRF-enforcing `web`
+middleware group; the mobile app has no CSRF token mechanism (auth is a Sanctum
+bearer token from the login response, not a session cookie), so those calls started
+getting rejected with `419`. Separately, the CORS lockdown removed the wildcard path
+entry that used to cover `/login`/`/register`, and narrowed `allowed_origins` to just
+the two web origins - excluding the mobile WebView's actual origins
+(`https://localhost` on Android with `androidScheme: 'https'`, `capacitor://localhost`
+on iOS, both confirmed via `capacitor.config.ts` with no hostname/scheme overrides).
+
+**Fixed narrowly, not reverted**: only `login`/`register` are exempted from CSRF
+(every other `web` route stays protected - reconfirmed live, e.g.
+`/profile/chat/send` still 419s without a token) and only those same two paths plus
+the mobile app's two real origins were added back to CORS. This does reopen
+"login CSRF" specifically on those two routes (an attacker could still trick a
+victim's browser into logging into the attacker's account) - a known, much
+lower-severity variant than the state-changing CSRF the original fix closed
+everywhere else, and an accepted tradeoff given the mobile app has no CSRF mechanism
+to build against without a mobile-side release.
+
+**Verified live**, simulating the mobile app's exact request shape: CORS preflight
+grants both real mobile origins; the actual `POST /login` with no CSRF token reaches
+real login logic instead of being blocked (matching response body for bad credentials
+either way); `POST /register` returns a validation `422`, not `419`; a request from an
+untrusted origin (`https://evil.com`) gets no CORS grant at all.
+
+This fix was shipped to `master` immediately via cherry-pick, ahead of and independent
+of this branch, since it corrected an active production regression rather than
+something new introduced by the Laravel 13 work.
+
+## Status
+
+All three hops committed and verified on `laravel-13-upgrade`. Ready to merge to
+`master` once this write-up lands.
+
