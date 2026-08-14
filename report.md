@@ -461,6 +461,125 @@ it previously broke production, per your own CHANGELOG, or (d) requires the Lara
 findings are an entirely separate category (missing middleware) that no dependency
 upgrade will touch.
 
-This work lives on the `deps-security-upgrade` branch, verified working, not yet merged
-to `master`.
+This work was merged to `master` and pushed.
+
+---
+
+# Part 4 — Fixing the "top 5" from Part 1
+
+The five highest-priority findings from Part 1 are fixed, each verified with a live
+smoke test against the app running locally in Docker (not just read, actually exercised
+over HTTP) before committing.
+
+## 1. CSRF protection re-enabled
+
+`app/Http/Middleware/VerifyCsrfToken.php` — removed `protected $except = ['*'];`. This
+was the single line disabling CSRF verification for every route in the app.
+
+**Verified live**, since this is the one change most likely to break something if wrong:
+- `POST /login` with no CSRF token → **419** (correctly blocked).
+- `POST /login` with a valid `X-XSRF-TOKEN` header + cookie (the standard axios/Inertia
+  pattern this app already uses everywhere) → request passes CSRF and reaches real
+  application logic (`"These credentials do not match our records."` for a bogus
+  login — proof it got past CSRF into the actual auth check, not blocked).
+- No new entries appeared in `storage/logs/laravel.log` from any of the smoke-test
+  traffic.
+
+This works without any frontend changes because Laravel already sets the encrypted
+`XSRF-TOKEN` cookie on every response regardless of the CSRF exception list, and axios
+(used throughout `resources/js`, including inside Inertia's own `useForm()`) reads that
+cookie and attaches the matching header automatically by default — the standard
+Laravel+axios integration this app was already relying on for its cookie/session
+handling, just never actually enforced.
+
+## 2. Security-headers middleware
+
+New `app/Http/Middleware/SecurityHeaders.php`, registered globally in `app/Http/Kernel.php`.
+Sets `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
+`Cross-Origin-Embedder-Policy`, and a `Content-Security-Policy` scoped to what this app
+actually loads (`self`, the Google Fonts and cdnjs FontAwesome CDNs referenced in
+`resources/views/app.blade.php`, and `ws:`/`wss:` for the chat websocket connection).
+Verified live — all headers present on every response, login page still rendered fully
+(10.9KB, correct structure) with the new CSP in place.
+
+Two notes on what this doesn't fully close:
+- **CSP still allows `'unsafe-inline'` for scripts.** `app.blade.php` has an inline
+  `<script>` block (`window.Laravel = {...}`) that a strict CSP would block outright.
+  Doing this properly needs a nonce- or hash-based CSP wired through Blade, which is a
+  more involved follow-up; `'unsafe-inline'` is a real compromise, not a full fix, but
+  it still closes the "no CSP at all" gap and the `frame-ancestors`/`default-src`
+  restrictions are fully enforced.
+- **`X-Powered-By` couldn't be fully removed from the Laravel side.** It's added by PHP
+  itself (`expose_php` in `php.ini`), not by the app, so `$response->headers->remove()`
+  in the middleware doesn't reach it — confirmed live (still present after the
+  middleware ran). Added `Header unset X-Powered-By` + `ServerSignature Off` to
+  `public/.htaccess` instead, which is the correct fix for the actual Apache-served
+  production deployment (this repo already relies on `.htaccess`/`mod_rewrite`). Local
+  Sail/dev, which uses PHP's built-in server, will still show it — harmless, dev-only.
+
+`Cookie No HttpOnly Flag` [10010] from the ZAP scan is very likely the `XSRF-TOKEN`
+cookie specifically, not the session cookie (`config/session.php` already has
+`'http_only' => true`) — the XSRF cookie is *supposed* to be JS-readable so axios can
+read and forward it, so making it HttpOnly would break the CSRF flow just re-enabled
+above. Not "fixed" because it isn't a bug.
+
+## 3. IDOR on user profiles
+
+`app/Http/Controllers/Profile/ProfileController.php::show()` now checks
+`abort_unless($user->company_id === auth()->user()->company_id, 403)` before rendering
+another user's profile — matching the tenant-scoping pattern already used elsewhere in
+the app (e.g. `AsignRolesController`'s `User::where('company_id', ...)`).
+
+## 4. Unguarded/misguarded routes
+
+`routes/admin/roles.php`:
+- `GET /admin/user/role/{userId}` now requires `role_has_permission:users-read`
+  (previously public to any authenticated user).
+- `GET /admin/permissions` now requires `role_has_permission:roles-read`.
+- `POST /admin/user/delete/{user_id}` now requires a proper `users-delete` permission
+  instead of `users-create`.
+
+The last one needed care: `users-delete` didn't exist as a permission anywhere in the
+system yet (Spatie's permission checks throw, rather than just deny, for a permission
+that has never been created), and switching the route to require it outright would have
+locked every existing admin out of deleting users until someone manually created and
+assigned it. Added migration `2026_08_14_120100_add_users_delete_permission.php` that
+creates the permission and grants it to every role that currently holds
+`users-create`, so nobody loses access — going forward, the two can be assigned
+separately. Verified this migration runs cleanly.
+
+## 5. Super Admin `guard_name` bug
+
+`RegisteredUserController.php` and `OrganizationsController.php` now create the
+"Super Admin" role with `'guard_name' => 'web'` instead of
+`$company->company_name` — matching the correct pattern already used in
+`RolesController.php`. Also added migration `2026_08_14_120000_fix_super_admin_guard_name.php`
+to repair any companies that already got a broken role from the old code (updates
+`roles` where `name = 'Super Admin'` and `guard_name != 'web'`). Verified this migration
+runs cleanly.
+
+## 6. CORS locked down
+
+`config/cors.php` — removed the `'*'` wildcard from both `paths` and `allowed_origins`.
+`allowed_origins` is now just the real production origin plus `env('FRONTEND_URL')` (so
+local dev, which already sets `FRONTEND_URL` in `.env.example`, keeps working). Since
+`supports_credentials` is `true`, browsers already silently ignored the `'*'` origin
+entry for any credentialed request anyway — removing it doesn't change legitimate
+behavior, it just stops non-listed origins from being allowed at all.
+
+## Bonus fix that came along for the ride
+
+While verifying migrations for the `users-delete`/guard-name repair migrations, also
+ran the already-fixed `sentalks` migration (from Part 2 §E) live for the first time —
+confirmed it now runs clean on a fresh database, along with every other migration in
+the app.
+
+## What's still open from Part 1 (not in this pass)
+
+- **Unauthenticated `/import` endpoint** (`routes/web.php:44`) and the **fatal
+  `/notifications/unread-count` route** (`routes/api.php:28-32`) — not yet fixed; both
+  still need attention.
+- The Laravel 10→13 major upgrade, the `spatie/browsershot`/`axios`/puppeteer-chain
+  dependency gaps, and the 35-file `@inertiajs/inertia-vue3` → `@inertiajs/vue3`
+  migration remain exactly as documented in Parts 2–3.
 

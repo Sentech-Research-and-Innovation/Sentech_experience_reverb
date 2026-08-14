@@ -14,7 +14,6 @@ return new class extends Migration
     		Schema::create('sentalks', function (Blueprint $table) {
         		$table->id();
         		$table->string('pdf_path');
-        		$table->string('created_at');
         		$table->string('creator');
         		$table->integer('number_views')->default(0);
         		$table->integer('number_likes')->default(0);

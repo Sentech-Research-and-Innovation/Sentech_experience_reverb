@@ -48,7 +48,10 @@ class ProfileController extends Controller
     {
         // Get the user and eager load relationships (company, roles)
         $user = User::with('company', 'roles')->findOrFail($id);
-        
+
+        // Only allow viewing profiles within the same company (multi-tenant boundary)
+        abort_unless($user->company_id === auth()->user()->company_id, 403);
+
         // Pass both the user and the authenticated user to the frontend
         return Inertia::render('Profile/Index_1', [
             'user' => array_merge($user->toArray(), [

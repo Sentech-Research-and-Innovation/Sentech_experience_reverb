@@ -187,7 +187,7 @@ class OrganizationsController extends Controller
         $company->save();
 
 
-        $role = Role::create(['guard_name' => $company->company_name, 'name' => "Super Admin", 'company_id' => $company->id]);
+        $role = Role::create(['guard_name' => 'web', 'name' => "Super Admin", 'company_id' => $company->id]);
         $user->assignRole("Super Admin");
 
         $message = "Created a company " . $company->company_name;

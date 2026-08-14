@@ -15,11 +15,14 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*','pdf/*','*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*', 'pdf/*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://www.sentechxperience.co.za','*'],
+    'allowed_origins' => array_filter([
+        'https://www.sentechxperience.co.za',
+        env('FRONTEND_URL'),
+    ]),
 
     'allowed_origins_patterns' => [],
 

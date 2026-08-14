@@ -22,18 +22,18 @@ Route::group(['prefix' => '/admin/user'], function () {
     // Route::get('/role/{userId}', [AsignRolesController::class, 'show']);
     // Route::post('/role/update/{userId}', [AsignRolesController::class, 'update']);
 
-    Route::get('/role/{userId}', [AsignRolesController::class, 'show']);
+    Route::get('/role/{userId}', [AsignRolesController::class, 'show'])->middleware('role_has_permission:users-read');
     Route::post('/role/update/{userId}', [AsignRolesController::class, 'update'])->middleware('role_has_permission:users-update');
 
     Route::post('/create', [UserController::class, 'create'])->middleware('role_has_permission:users-create');
 
-    Route::post('/delete/{user_id}', [UserController::class, 'delete'])->middleware('role_has_permission:users-create');
+    Route::post('/delete/{user_id}', [UserController::class, 'delete'])->middleware('role_has_permission:users-delete');
 
     Route::post('/resendEmail/{userId}', [UserController::class, 'resendEmail'])->middleware('role_has_permission:users-create');
 
 });
 
-Route::get('/admin/permissions', [PersmissionsController::class, 'index']);
+Route::get('/admin/permissions', [PersmissionsController::class, 'index'])->middleware('role_has_permission:roles-read');
 
 Route::get('/admin/getActiveUsers', [AsignRolesController::class, 'active_users'])->middleware('role_has_permission:users-read');
 Route::get('/admin/getInactiveUsers', [AsignRolesController::class, 'Inactive_users'])->middleware('role_has_permission:users-read');
